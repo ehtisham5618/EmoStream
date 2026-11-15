@@ -1,0 +1,89 @@
+{
+ "checkpoint": "outputs/local/reg_model.pt",
+ "pack": "outputs/local/M005.npz",
+ "clips": 39,
+ "half_window_frames": 5,
+ "by_fade": {
+  "5": {
+   "happy": {
+    "hard_switch": 2662.46,
+    "with_gate": 655.77,
+    "reduction": 0.754,
+    "jerk_away_from_switch": 321.72
+   },
+   "sad": {
+    "hard_switch": 2703.05,
+    "with_gate": 668.39,
+    "reduction": 0.753,
+    "jerk_away_from_switch": 321.72
+   },
+   "angry": {
+    "hard_switch": 2675.86,
+    "with_gate": 658.72,
+    "reduction": 0.754,
+    "jerk_away_from_switch": 321.72
+   },
+   "surprised": {
+    "hard_switch": 2672.62,
+    "with_gate": 656.8,
+    "reduction": 0.754,
+    "jerk_away_from_switch": 321.72
+   },
+   "mean_reduction": 0.754
+  },
+  "10": {
+   "happy": {
+    "hard_switch": 2662.46,
+    "with_gate": 424.17,
+    "reduction": 0.841,
+    "jerk_away_from_switch": 321.72
+   },
+   "sad": {
+    "hard_switch": 2703.05,
+    "with_gate": 421.01,
+    "reduction": 0.844,
+    "jerk_away_from_switch": 321.72
+   },
+   "angry": {
+    "hard_switch": 2675.86,
+    "with_gate": 422.63,
+    "reduction": 0.842,
+    "jerk_away_from_switch": 321.72
+   },
+   "surprised": {
+    "hard_switch": 2672.62,
+    "with_gate": 423.1,
+    "reduction": 0.842,
+    "jerk_away_from_switch": 321.72
+   },
+   "mean_reduction": 0.842
+  },
+  "15": {
+   "happy": {
+    "hard_switch": 2662.46,
+    "with_gate": 389.53,
+    "reduction": 0.854,
+    "jerk_away_from_switch": 321.72
+   },
+   "sad": {
+    "hard_switch": 2703.05,
+    "with_gate": 388.41,
+    "reduction": 0.856,
+    "jerk_away_from_switch": 321.72
+   },
+   "angry": {
+    "hard_switch": 2675.86,
+    "with_gate": 388.92,
+    "reduction": 0.855,
+    "jerk_away_from_switch": 321.72
+   },
+   "surprised": {
+    "hard_switch": 2672.62,
+    "with_gate": 389.05,
+    "reduction": 0.854,
+    "jerk_away_from_switch": 321.72
+   },
+   "mean_reduction": 0.855
+  }
+ }
+}
