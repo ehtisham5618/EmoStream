@@ -9,7 +9,7 @@ import numpy as np
 import torch
 
 from ..constants import EMOTIONS, EXP_DIM
-from ..models.behaviour_net import BehaviourConfig, BehaviourNet
+from ..models.behaviour_net import MOTION_DIM, BehaviourConfig, BehaviourNet
 
 
 @dataclass
@@ -24,6 +24,8 @@ class TrainConfig:
     separate_branches: bool = True  # train the emotion branch against a detached articulation branch
     w_ccc: float = 0.0             # weight of the concordance-correlation term (amplitude-preserving)
     lookahead: int = 0             # future feature frames given to the model
+    w_vel_ccc: float = 0.0         # concordance of lip *velocities* (timing of openings and closings)
+    w_closure: float = 0.0         # extra lip error weight on frames where the real mouth is closed
     eval_every: int = 1000
     seed: int = 0
     model: BehaviourConfig = field(default_factory=BehaviourConfig)
@@ -36,7 +38,7 @@ def masked_l1(pred, target, mask, weight):
     return (err * m).sum() / (m.sum() * weight.sum()).clamp_min(1e-8)
 
 
-def ccc_loss(pred, target, mask, weight, eps: float = 1e-4):
+def ccc_loss(pred, target, mask, weight, eps: float = 1e-4, min_var: float = 0.05):
     """1 - concordance correlation coefficient, per clip and output dimension.
 
     L1 regression predicts the average of what is plausible, so motion comes out with the
@@ -54,8 +56,29 @@ def ccc_loss(pred, target, mask, weight, eps: float = 1e-4):
     cov = (dp * dt).sum(1) / n
     ccc = 2 * cov / (vp + vt + (mp - mt) ** 2 + eps)
     # (B, D): keep dimensions that really move in this clip (targets are standardised)
-    active = ((vt > 0.05) & (mask.sum(1, keepdim=True) >= 20)).float() * weight
+    active = ((vt > min_var) & (mask.sum(1, keepdim=True) >= 20)).float() * weight
     return ((1.0 - ccc) * active).sum() / active.sum().clamp_min(1e-8)
+
+
+def lip_timing_terms(pred, target, mask, closed, weight, lip, w_vel_ccc: float, w_closure: float):
+    """Two optional lip terms.
+
+    * Velocity concordance: 1 - CCC of frame-to-frame lip changes. Position losses are
+      satisfied by a prediction that is right on average but smeared in time; this term is
+      only low when openings and closings happen at the same frames as in the real video.
+    * Closure weighting: extra L1 on lip coordinates in frames where the real mouth is among
+      the most closed of its clip (bilabial stops /p b m/, pauses), where a missed closure
+      is most visible.
+    """
+    loss = pred.new_zeros(())
+    lw = weight * lip
+    if w_vel_ccc > 0:
+        vm = mask[:, 1:] * mask[:, :-1]
+        loss = loss + w_vel_ccc * ccc_loss(pred[:, 1:] - pred[:, :-1], target[:, 1:] - target[:, :-1], vm, lw,
+                                           min_var=0.005)
+    if w_closure > 0:
+        loss = loss + w_closure * masked_l1(pred, target, mask * closed, lw)
+    return loss
 
 
 def motion_loss(pred, target, mask, weight, w_velocity, w_ccc: float = 0.0):
@@ -146,18 +169,21 @@ def train(train_set, val_set, cfg: TrainConfig, device: str = "cuda", log=print,
     # Dimensions that vary more get more weight, within a 10x range.
     weight = (std / std.median()).clamp(0.3, 3.0)
     weight[EXP_DIM:] = 1.0
+    net.lip_mask_full = torch.cat([net.lip_mask, torch.zeros(MOTION_DIM - EXP_DIM, device=device)])
     opt = torch.optim.AdamW(net.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay)
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=cfg.lr, total_steps=cfg.steps, pct_start=0.05)
     history, best, t0 = [], None, time.perf_counter()
     net.train()
     for step in range(1, cfg.steps + 1):
-        audio, emo, y, y_art, mask = (torch.from_numpy(x).to(device) for x in
-                                      train_set.batch(rng, cfg.batch_size, cfg.length))
+        audio, emo, y, y_art, mask, closed = (torch.from_numpy(x).to(device) for x in
+                                              train_set.batch(rng, cfg.batch_size, cfg.length))
         _, _, parts = net(audio, emo, return_parts=True)
         art, emo_part = parts["art"] / std, parts["emo"] / std
         if cfg.separate_branches:
             full = art.detach() + emo_part
             loss_art = motion_loss(art, y_art / std, mask, weight, cfg.w_velocity, cfg.w_ccc)
+            loss_art = loss_art + lip_timing_terms(art, y_art / std, mask, closed, weight, net.lip_mask_full,
+                                                   cfg.w_vel_ccc, cfg.w_closure)
         else:
             full = art + emo_part
             loss_art = torch.zeros((), device=device)

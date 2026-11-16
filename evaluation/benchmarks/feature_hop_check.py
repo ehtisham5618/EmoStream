@@ -33,6 +33,8 @@ def main():
     ap.add_argument("--checkpoints", nargs="+", required=True)
     ap.add_argument("--max-clips", type=int, default=24)
     ap.add_argument("--out", default="")
+    ap.add_argument("--positions", type=int, nargs="*", default=[4],
+                    help="read-out slots for per-frame streaming (0 = most look-ahead, 4 = least)")
     args = ap.parse_args()
 
     z = np.load(args.pack)
@@ -55,10 +57,15 @@ def main():
         audio, _ = sf.read(wav, dtype="float32")
         y = to_delta(mot[starts[i]:ends[i]].copy(), rest)
         n = min(len(y), -(-len(audio) // 640))
-        clips.append({"y": y[:n], "stored": z["hubert"][starts[i]:starts[i] + n].astype(np.float32),
-                      "hop5": hub.features(audio)[:n], "hop1": hub.features_per_frame(audio, 4)[:n]})
+        c = {"y": y[:n], "stored": z["hubert"][starts[i]:starts[i] + n].astype(np.float32),
+             "hop5": hub.features(audio)[:n]}
+        for pos in args.positions:
+            c[f"hop1_p{pos}"] = hub.features_per_frame(audio, pos)[:n]
+        clips.append(c)
+        print(f"clip {len(clips)} features done", flush=True)
     res = {"clips": len(clips), "feature_agreement": {}, "models": {}}
-    for kind in ("hop5", "hop1"):
+    kinds = ["hop5"] + [f"hop1_p{p}" for p in args.positions]
+    for kind in kinds:
         c = [np.corrcoef(cl[kind].ravel(), cl["stored"].ravel())[0, 1] for cl in clips]
         res["feature_agreement"][f"{kind}_vs_stored_corr"] = round(float(np.mean(c)), 4)
 
@@ -67,7 +74,7 @@ def main():
         net = BehaviourNet.load(torch.load(path, map_location="cpu", weights_only=False))
         L = int(getattr(net.cfg, "lookahead", 0))
         row = {"lookahead": L}
-        for kind in ("stored", "hop5", "hop1"):
+        for kind in ["stored"] + kinds:
             corr, amp_p, amp_g = [], [], []
             for cl in clips:
                 x = shift_features(cl[kind], L)

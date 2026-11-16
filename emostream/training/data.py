@@ -23,7 +23,7 @@ from collections import defaultdict
 
 import numpy as np
 
-from ..constants import EMOTION_TO_ID, EMOTIONS, EXP_DIM
+from ..constants import EMOTION_TO_ID, EMOTIONS, EXP_DIM, LIP_KEYPOINTS
 from ..models.behaviour_net import MOTION_DIM
 
 MAX_LEVEL = 3
@@ -81,10 +81,31 @@ def shift_features(audio: np.ndarray, lookahead: int) -> np.ndarray:
     return np.concatenate([audio[lookahead:], np.repeat(audio[-1:], min(lookahead, len(audio)), 0)], 0)
 
 
+def lip_columns() -> np.ndarray:
+    m = np.zeros((21, 3), bool)
+    m[list(LIP_KEYPOINTS)] = True
+    return np.where(m.reshape(-1))[0]
+
+
+def opening_axis(clips: list[dict]) -> np.ndarray:
+    """First principal component of lip-keypoint motion in the articulation targets: in MEAD
+    this is the mouth-opening direction (jaw drop and lip separation)."""
+    cols = lip_columns()
+    y = np.concatenate([c["y_art"][:, cols] for c in clips], 0)[::3]
+    y = y - y.mean(0)
+    ax = np.linalg.svd(y, full_matrices=False)[2][0]
+    # orient it so that larger means more open: speech frames open more than the clip start
+    probe = np.concatenate([c["y_art"][:, cols] @ ax for c in clips[:200]])
+    return ax if np.percentile(probe, 90) - np.median(probe) > np.median(probe) - np.percentile(probe, 10) else -ax
+
+
+CLOSED_FRACTION = 0.2
+
+
 class ClipSet:
     """All clips of one split in memory, with deltas and articulation targets."""
 
-    def __init__(self, index: list[dict], loader=np.load, lookahead: int = 0):
+    def __init__(self, index: list[dict], loader=np.load, lookahead: int = 0, axis: np.ndarray | None = None):
         self.clips = []
         self.lookahead = lookahead
         for r in index:
@@ -104,6 +125,13 @@ class ClipSet:
             c["emo"] = emotion_vector(c["emotion"], c["level"])
             kept.append(c)
         self.clips = kept
+        # Frames where the real mouth is among the most closed of its clip (bilabial
+        # closures, pauses). Used to weight the loss where articulation errors are most visible.
+        self.axis = opening_axis(self.clips) if axis is None and self.clips else axis
+        cols = lip_columns()
+        for c in self.clips:
+            o = c["y_art"][:, cols] @ self.axis
+            c["closed"] = (o <= np.quantile(o, CLOSED_FRACTION)).astype(np.float32)
 
     def __len__(self):
         return len(self.clips)
@@ -119,7 +147,8 @@ class ClipSet:
         return np.maximum(std, 1e-6).astype(np.float32)  # a constant coordinate must not divide by zero
 
     def batch(self, rng: np.random.Generator, batch_size: int, length: int):
-        """Random crops. Returns audio (B, L, D), emo (B, L, 5), y, y_art (B, L, 69), mask (B, L)."""
+        """Random crops. Returns audio (B, L, D), emo (B, L, 5), y, y_art (B, L, 69), mask (B, L),
+        closed (B, L)."""
         idx = rng.integers(0, len(self.clips), batch_size)
         D = self.clips[0]["audio"].shape[1]
         audio = np.zeros((batch_size, length, D), np.float32)
@@ -127,6 +156,7 @@ class ClipSet:
         y = np.zeros((batch_size, length, MOTION_DIM), np.float32)
         y_art = np.zeros_like(y)
         mask = np.zeros((batch_size, length), np.float32)
+        closed = np.zeros((batch_size, length), np.float32)
         for b, i in enumerate(idx):
             c = self.clips[i]
             T = len(c["y"])
@@ -136,7 +166,8 @@ class ClipSet:
             audio[b, :n] = c["audio"][s:s + n]
             y[b, :n] = c["y"][s:s + n]
             y_art[b, :n] = c["y_art"][s:s + n]
+            closed[b, :n] = c["closed"][s:s + n]
             emo[b, :n] = c["emo"]
             emo[b, n:, 0] = 1.0
             mask[b, :n] = 1.0
-        return audio, emo, y, y_art, mask
+        return audio, emo, y, y_art, mask, closed

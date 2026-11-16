@@ -98,7 +98,8 @@ def client():
     return c
 
 
-START = {"type": "start", "consent": {"portrait": True, "audio": True}, "sample_rate": 16000, "size": 256}
+START = {"type": "start", "consent": {"portrait": True, "audio": True}, "sample_rate": 16000, "size": 256,
+         "video": "jpeg"}
 
 
 def first_message(ws) -> dict:
@@ -327,3 +328,11 @@ def test_audio_queue_is_bounded(client, monkeypatch):
         while msg["type"] != "error":
             msg = first_message(ws)
     assert msg["code"] == "overloaded"
+
+
+def test_outdated_page_is_told_to_reload():
+    old = {k: v for k, v in START.items() if k != "video"}
+    with pytest.raises(P.ProtocolError) as e:
+        P.check_live_client(old)
+    assert e.value.code == "client_outdated" and "Ctrl+Shift+R" in e.value.message
+    P.check_live_client(START)

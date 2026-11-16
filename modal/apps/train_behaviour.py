@@ -23,7 +23,7 @@ RUNS = f"{C.MODELS}/emostream"
 def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = True, lip_cap: float = 0.35,
               hidden: int = 256, w_velocity: float = 1.0, seed: int = 0, max_train_clips: int = 0,
               dropout: float = 0.1, lr: float = 1e-3, eval_every: int = 500, weight_decay: float = 1e-4,
-              w_ccc: float = 0.0, lookahead: int = 0) -> dict:
+              w_ccc: float = 0.0, lookahead: int = 0, w_vel_ccc: float = 0.0, w_closure: float = 0.0) -> dict:
     import os
     import numpy as np
     import torch
@@ -62,6 +62,7 @@ def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = T
     print(f"train clips {len(train_set)}  val clips {len(val_set)}  gpu {torch.cuda.get_device_name(0)}")
     cfg = TrainConfig(steps=steps, separate_branches=separate_branches, w_velocity=w_velocity, seed=seed, lr=lr,
                       eval_every=eval_every, weight_decay=weight_decay, w_ccc=w_ccc, lookahead=lookahead,
+                      w_vel_ccc=w_vel_ccc, w_closure=w_closure,
                       model=BehaviourConfig(hidden=hidden, lip_cap=lip_cap, dropout=dropout))
     out_dir = f"{RUNS}/{run}"
     os.makedirs(out_dir, exist_ok=True)
@@ -80,8 +81,8 @@ def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = T
 def main(run: str = "base", steps: int = 12000, separate_branches: bool = True, lip_cap: float = 0.35,
          hidden: int = 256, w_velocity: float = 1.0, seed: int = 0, max_train_clips: int = 0,
          dropout: float = 0.1, lr: float = 1e-3, eval_every: int = 500, weight_decay: float = 1e-4,
-         w_ccc: float = 0.0, lookahead: int = 0):
-    res = train_run.remote(run=run, steps=steps, separate_branches=separate_branches, lip_cap=lip_cap,
+         w_ccc: float = 0.0, lookahead: int = 0, w_vel_ccc: float = 0.0, w_closure: float = 0.0):
+    res = train_run.remote(w_vel_ccc=w_vel_ccc, w_closure=w_closure, run=run, steps=steps, separate_branches=separate_branches, lip_cap=lip_cap,
                            hidden=hidden, w_velocity=w_velocity, seed=seed, max_train_clips=max_train_clips,
                            dropout=dropout, lr=lr, eval_every=eval_every, weight_decay=weight_decay,
                            w_ccc=w_ccc, lookahead=lookahead)

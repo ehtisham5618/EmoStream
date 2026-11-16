@@ -30,7 +30,7 @@ def test_start_rejects_bad_video_options(bad, code):
 
 def test_start_defaults_to_jpeg():
     req = P.parse_start(START, ("neutral",))
-    assert (req.video, req.bitrate_kbps) == ("jpeg", 900)
+    assert (req.video, req.bitrate_kbps) == ("jpeg", 900)          # START names jpeg explicitly
 
 
 @needs_h264

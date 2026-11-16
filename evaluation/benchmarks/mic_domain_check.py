@@ -65,8 +65,13 @@ def high_band_ratio(a: np.ndarray) -> float:
     return float(hi[loud].sum() / max(mid[loud].sum(), 1e-12))
 
 
+FEATURES = "hop5"
+
+
 def predict(net, hub, audio, lookahead):
-    feats = hub.features_per_frame(audio, 4)
+    # hop5 (one encoder pass per five frames) is what the model was trained on and is five
+    # times cheaper on CPU; the live per-frame mode differs only slightly (feature_hop_check).
+    feats = hub.features(audio) if FEATURES == "hop5" else hub.features_per_frame(audio, 4)
     x = torch.from_numpy(shift_features(feats, lookahead)[None]).float()
     emo = torch.from_numpy(np.repeat(emotion_vector("neutral", 1.0)[None, None], x.shape[1], 1)).float()
     with torch.no_grad():
@@ -115,19 +120,21 @@ def main():
     la = int(getattr(net.cfg, "lookahead", 0))
     hub = StreamingHubert(a.onnx)
     rows = []
+    def emit(r):
+        rows.append(r)
+        print(json.dumps(r), flush=True)
+
     for w in sorted(glob.glob(os.path.join(a.mead_dir, "*.wav")))[: a.max_mead]:
-        rows.append(describe("MEAD " + os.path.basename(w), load_audio(w), net, hub, la))
+        emit(describe("MEAD " + os.path.basename(w), load_audio(w), net, hub, la))
     for s in a.sessions:
         audio = load_audio(s)
-        rows.append(describe("browser " + os.path.basename(s), audio, net, hub, la))
+        emit(describe("browser " + os.path.basename(s), audio, net, hub, la))
         if a.normalise_db is not None:
             rms = frame_rms(audio)
             mask = speech_mask(rms)
             gain = 10 ** ((a.normalise_db - 20 * np.log10(np.median(rms[mask]))) / 20)
-            rows.append(describe(f"browser {os.path.basename(s)} at {a.normalise_db} dBFS",
-                                 np.clip(audio * gain, -1, 1), net, hub, la))
-    for r in rows:
-        print(json.dumps(r))
+            emit(describe(f"browser {os.path.basename(s)} at {a.normalise_db} dBFS",
+                          np.clip(audio * gain, -1, 1), net, hub, la))
     mead = [r["lip_std_speech"] for r in rows if r["source"].startswith("MEAD") and r["lip_std_speech"]]
     print("MEAD mean lip std during speech:", round(float(np.mean(mead)), 5) if mead else None)
     if a.out:

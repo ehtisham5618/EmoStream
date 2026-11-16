@@ -84,7 +84,9 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
         session = None
         worker: asyncio.Task | None = None
         try:
-            req = P.parse_start(P.parse_text(await ws.receive_text()), EMOTIONS)
+            start = P.parse_text(await ws.receive_text())
+            P.check_live_client(start)
+            req = P.parse_start(start, EMOTIONS)
             first = await ws.receive()
             if first.get("bytes") is None:
                 raise P.ProtocolError("expected_portrait", "send the portrait image after the start message")

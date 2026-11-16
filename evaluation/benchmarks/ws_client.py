@@ -52,7 +52,7 @@ async def run(args) -> dict:
     saved = 0
 
     async with websockets.connect(base.replace("http", "ws", 1) + "/ws/session", max_size=None) as ws:
-        await ws.send(json.dumps({"type": "start", "consent": {"portrait": True, "audio": True},
+        await ws.send(json.dumps({"type": "start", "video": "jpeg", "consent": {"portrait": True, "audio": True},
                                   "sample_rate": SR, "emotion": "neutral", "intensity": 1.0,
                                   "model": args.model, "size": args.size}))
         await ws.send(bytes([0x10]) + portrait)

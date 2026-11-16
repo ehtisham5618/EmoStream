@@ -169,3 +169,12 @@ def decode_video(data: bytes) -> tuple[int, int, bool, bytes]:
     if tag != TAG_VIDEO:
         raise ProtocolError("bad_frame", "not a video message")
     return index, latency, bool(flags & 1), data[VIDEO_HEADER.size:]
+
+
+def check_live_client(msg: dict) -> None:
+    """Live sessions only. Pages from before 16 Nov 2026 never sent "video". Browsers kept
+    serving such a page from cache, so the user unknowingly tested an outdated client twice;
+    it is now refused with an instruction that the old page can display."""
+    if msg.get("type") == "start" and "video" not in msg:
+        raise ProtocolError("client_outdated", "This page is out of date. Press Ctrl+Shift+R (Cmd+Shift+R on a Mac) "
+                                               "to reload it, then start again.")
