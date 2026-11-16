@@ -28,7 +28,8 @@ HOOK = """
   window.__rafs = 0;
   const orig = CanvasRenderingContext2D.prototype.drawImage;
   CanvasRenderingContext2D.prototype.drawImage = function (...a) {
-    window.__draws.push(performance.now());
+    // a canvas drawn onto itself is the player keeping a held picture alive, not a new frame
+    if (!(a[0] instanceof HTMLCanvasElement)) window.__draws.push(performance.now());
     return orig.apply(this, a);
   };
   const tick = () => { window.__rafs++; requestAnimationFrame(tick); };
@@ -59,7 +60,7 @@ def summarise(draws: list[float], seconds: float, rafs: int) -> dict:
 
 
 def run(url: str, portrait: str | None, mic_wav: str | None, seconds: float, emotion: str | None, headed: bool,
-        shots: str = "") -> dict:
+        shots: str = "", record: str = "") -> dict:
     from PIL import Image
     from playwright.sync_api import sync_playwright
 
@@ -74,7 +75,7 @@ def run(url: str, portrait: str | None, mic_wav: str | None, seconds: float, emo
         args.append(f"--use-file-for-fake-audio-capture={mic_wav}")
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=not headed, args=args)
-        ctx = browser.new_context(permissions=["microphone"])
+        ctx = browser.new_context(permissions=["microphone"], accept_downloads=True)
         page = ctx.new_page()
         page.add_init_script(HOOK)
         logs = []
@@ -108,10 +109,43 @@ def run(url: str, portrait: str | None, mic_wav: str | None, seconds: float, emo
             page.locator("details.diag summary").click()
             app_stats = page.locator("details.diag dl").inner_text()
         numbers = page.locator("dl.numbers").inner_text() if page.locator("dl.numbers").count() else None
+        logs_js = page.evaluate("""() => {
+          const e = window.__emostream; if (!e) return null;
+          const v = e.voice();
+          return { shown: e.player.shownLog, played: v ? v.playedLog : [], scheduled: v ? v.scheduled : 0, missed: v ? v.missed : 0 };
+        }""")
+        if record:
+            page.wait_for_timeout(300)
         page.get_by_role("button", name="Stop").click()
-        page.wait_for_timeout(1500)
+        page.wait_for_timeout(2500)
+        if record and page.locator("a[download='emostream-session.webm']").count():
+            # the session recording the user would save: picture plus the avatar's voice
+            with page.expect_download() as dl:
+                page.locator("a[download='emostream-session.webm']").click()
+            dl.value.save_as(record)
         browser.close()
     out = summarise(draws, elapsed, rafs)
+    if logs_js and logs_js["played"] and logs_js["shown"]:
+        # Picture minus sound, per drawn frame: when frame k was drawn vs when sample 640 k was played.
+        import bisect
+
+        played = sorted(logs_js["played"])
+        firsts = [p[0] for p in played]
+        diffs = []
+        for k, t_draw in logs_js["shown"]:
+            i = bisect.bisect_right(firsts, k * 640) - 1
+            if i < 0:
+                continue
+            first, at = played[i]
+            if k * 640 - first > 16000 * 0.3:
+                continue                                  # that audio was not played (missed chunk)
+            diffs.append(t_draw - (at + (k * 640 - first) / 16))
+        if diffs:
+            d = np.asarray(diffs)
+            out["picture_minus_sound_ms"] = {"p5": round(float(np.percentile(d, 5)), 1), "p50": round(float(np.median(d)), 1),
+                                             "p95": round(float(np.percentile(d, 95)), 1), "n": int(len(d)),
+                                             "within_80_ms": round(float((np.abs(d) <= 80).mean()), 3)}
+        out["voice_chunks"] = {"scheduled": logs_js["scheduled"], "missed": logs_js["missed"]}
     out["app_diagnostics"] = app_stats
     out["app_numbers"] = numbers
     out["console_errors"] = logs[:10]
@@ -128,8 +162,9 @@ if __name__ == "__main__":
     ap.add_argument("--headed", action="store_true")
     ap.add_argument("--out", default="")
     ap.add_argument("--shots", default="", help="folder for canvas screenshots every ~3 s")
+    ap.add_argument("--record", default="", help="save the app's own session recording (.webm) here")
     a = ap.parse_args()
-    res = run(a.url, a.portrait, a.mic_wav, a.seconds, a.emotion, a.headed, a.shots)
+    res = run(a.url, a.portrait, a.mic_wav, a.seconds, a.emotion, a.headed, a.shots, a.record)
     print(json.dumps(res, indent=1))
     if a.out:
         with open(a.out, "w") as f:

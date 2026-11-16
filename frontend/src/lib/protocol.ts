@@ -2,8 +2,11 @@
 
 export const TAG_AUDIO = 0x01;
 export const TAG_FRAME = 0x02;
+export const TAG_VIDEO = 0x03;
 export const TAG_PORTRAIT = 0x10;
 export const FRAME_HEADER_BYTES = 9; // tag u8 | frame index u32 LE | latency ms u32 LE
+export const VIDEO_HEADER_BYTES = 10; // ... | flags u8 (bit 0: key frame)
+export type VideoCodec = "jpeg" | "h264";
 
 export const FPS = 25;
 export const SAMPLE_RATE = 16000;
@@ -20,6 +23,8 @@ export interface StartOptions {
   intensity: number;
   model: ModelName;
   size: 256 | 384 | 512;
+  video: VideoCodec;
+  bitrateKbps?: number;
 }
 
 export function startMessage(o: StartOptions): string {
@@ -32,6 +37,8 @@ export function startMessage(o: StartOptions): string {
     model: o.model,
     size: o.size,
     jpeg_quality: 80,
+    video: o.video,
+    bitrate_kbps: o.bitrateKbps ?? 900,
   });
 }
 
@@ -58,21 +65,28 @@ export function audioMessage(samples: Float32Array): Uint8Array {
   return out;
 }
 
-export interface VideoFrame {
+/** One encoded picture from the server: a JPEG image or an H.264 access unit. */
+export interface AvatarFrame {
   index: number;
   latencyMs: number;
-  jpeg: Uint8Array;
+  codec: VideoCodec;
+  key: boolean;
+  data: Uint8Array;
 }
 
-export function parseFrame(data: ArrayBuffer): VideoFrame | null {
+export function parseFrame(data: ArrayBuffer): AvatarFrame | null {
   if (data.byteLength < FRAME_HEADER_BYTES) return null;
   const view = new DataView(data);
-  if (view.getUint8(0) !== TAG_FRAME) return null;
-  return {
-    index: view.getUint32(1, true),
-    latencyMs: view.getUint32(5, true),
-    jpeg: new Uint8Array(data, FRAME_HEADER_BYTES),
-  };
+  const tag = view.getUint8(0);
+  if (tag === TAG_FRAME) {
+    return { index: view.getUint32(1, true), latencyMs: view.getUint32(5, true), codec: "jpeg", key: true,
+      data: new Uint8Array(data, FRAME_HEADER_BYTES) };
+  }
+  if (tag === TAG_VIDEO && data.byteLength >= VIDEO_HEADER_BYTES) {
+    return { index: view.getUint32(1, true), latencyMs: view.getUint32(5, true), codec: "h264",
+      key: (view.getUint8(9) & 1) === 1, data: new Uint8Array(data, VIDEO_HEADER_BYTES) };
+  }
+  return null;
 }
 
 export interface ServerStats {
@@ -84,6 +98,9 @@ export interface ServerStats {
   stages_ms?: Record<string, number>;
   gpu?: { torch_alloc_gib?: number; torch_reserved_gib?: number };
   queued_chunks?: number;
+  video?: { codec: VideoCodec; target_kbps: number | null; sent_kbps: number; frames_sent: number;
+    frames_skipped_for_network: number; in_flight_frames: number; backlog_ms: number; congestion_events: number };
+  uplink?: { lag_p95_ms: number | null; lag_max_ms: number | null };
 }
 
 /** Splits a stream of float samples into fixed-size chunks, keeping the remainder. */

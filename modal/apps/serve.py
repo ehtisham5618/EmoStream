@@ -32,7 +32,7 @@ TENSORRT = os.environ.get("EMOSTREAM_TENSORRT", "1") == "1"   # needs an Ampere-
 
 app = modal.App("emostream-v2-live")
 image = C.engine_image(
-    extra_pip=("fastapi==0.115.6", "python-multipart==0.0.20"), tensorrt=TENSORRT,
+    extra_pip=("fastapi==0.115.6", "python-multipart==0.0.20", "av==13.1.0"), tensorrt=TENSORRT,
     env={"EMOSTREAM_RUN": RUN, "EMOSTREAM_TENSORRT": "1" if TENSORRT else "0",
          "EMOSTREAM_EMOTION_GAIN": EMOTION_GAIN, "EMOSTREAM_HOP": HOP},
     local_dirs=((str(C.ROOT / "backend"), "/root/backend"),
@@ -55,5 +55,9 @@ def web():
         emostream_checkpoint=f"{C.MODELS}/emostream/{os.environ.get('EMOSTREAM_RUN', 'it_ccc_la2')}/model.pt",
         tensorrt=trt, emotion_gain=float(os.environ.get("EMOSTREAM_EMOTION_GAIN", "1.5")),
         hop=int(os.environ.get("EMOSTREAM_HOP", "1")),
+        # Frames are skipped only when the engine is this far behind. The browser now buffers
+        # adaptively and plays the voice with the picture, so a late frame is better than a
+        # missing one; 450 ms skipped 4 % of frames when microphone audio arrived in bursts.
+        max_latency_ms=float(os.environ.get("EMOSTREAM_MAX_LATENCY_MS", "700")),
     )
     return create_app(provider, static_dir="/root/frontend_dist")

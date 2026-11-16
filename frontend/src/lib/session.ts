@@ -10,17 +10,19 @@ import {
   ServerStats,
   startMessage,
   StartOptions,
-  VideoFrame,
+  AvatarFrame,
+  VideoCodec,
 } from "./protocol";
 
 export interface ReadyInfo {
   portrait?: { mouth_open?: boolean; lip_open_ratio?: number; mouth_closed_automatically?: boolean };
   algorithmic_delay_ms?: [number, number] | null;
+  video?: { codec: VideoCodec; bitrate_kbps: number | null };
 }
 
 export interface SessionEvents {
   onReady: (info: ReadyInfo) => void;
-  onFrame: (frame: VideoFrame, roundTripMs: number | null) => void;
+  onFrame: (frame: AvatarFrame, roundTripMs: number | null) => void;
   onStats: (stats: ServerStats) => void;
   onDone: (stats: ServerStats) => void;
   onError: (message: string, code?: string) => void;
@@ -42,6 +44,12 @@ export class LiveSession {
   private ready = false;
   /** Samples captured before the server was ready; they are discarded, not queued. */
   discardedSamples = 0;
+  private framesReceived = 0;
+  private bytesIn: [number, number][] = [];
+  private timer: number | null = null;
+  /** Network round trip of a small message, ms (median of the last few). */
+  pingMs: number | null = null;
+  private pings: number[] = [];
 
   constructor(private readonly events: SessionEvents) {}
 
@@ -60,11 +68,15 @@ export class LiveSession {
       }
       const frame = parseFrame(ev.data as ArrayBuffer);
       if (!frame) return;
+      this.framesReceived++;
+      this.bytesIn.push([performance.now(), (ev.data as ArrayBuffer).byteLength]);
       const sent = this.sentAt[frame.index];
       this.events.onFrame(frame, sent === undefined ? null : performance.now() - sent);
     };
     ws.onerror = () => this.events.onError("The connection to the server failed.");
     ws.onclose = () => {
+      if (this.timer !== null) window.clearInterval(this.timer);
+      this.timer = null;
       this.ws = null;
       this.events.onClose();
     };
@@ -79,7 +91,21 @@ export class LiveSession {
     }
     if (msg.type === "ready") {
       this.ready = true;
+      // Tell the server five times a second how many frames have arrived (it paces the
+      // video on that), and measure the round trip of a small message once a second.
+      let n = 0;
+      this.timer = window.setInterval(() => {
+        if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
+        this.ws.send(JSON.stringify({ type: "ack", frames: this.framesReceived }));
+        if (n++ % 5 === 0) this.ws.send(JSON.stringify({ type: "ping", t: performance.now() }));
+      }, 200);
       this.events.onReady((msg.session ?? {}) as ReadyInfo);
+    } else if (msg.type === "pong") {
+      if (typeof msg.t === "number") {
+        this.pings.push(performance.now() - msg.t);
+        if (this.pings.length > 5) this.pings.shift();
+        this.pingMs = [...this.pings].sort((a, b) => a - b)[Math.floor(this.pings.length / 2)];
+      }
     } else if (msg.type === "stats") {
       this.events.onStats(msg as unknown as ServerStats);
     } else if (msg.type === "done") {
@@ -93,19 +119,34 @@ export class LiveSession {
    * Sends 16 kHz mono samples. Audio captured before the server is ready is dropped:
    * queueing it would hand the server several seconds of backlog at once, and a live
    * avatar would start seconds behind the speaker and stay there.
+   * Returns the index of the first sample within the session, or -1 if it was not sent.
    */
-  sendAudio(samples: Float32Array): void {
-    if (!this.ws) return;
+  sendAudio(samples: Float32Array): number {
+    if (!this.ws) return -1;
     if (!this.ready) {
       this.discardedSamples += samples.length;
-      return;
+      return -1;
     }
+    const first = this.samplesSent;
     const before = Math.floor(this.samplesSent / SAMPLES_PER_FRAME);
     this.samplesSent += samples.length;
     const after = Math.floor(this.samplesSent / SAMPLES_PER_FRAME);
     const now = performance.now();
     for (let k = before; k < after; k++) this.sentAt[k] = now;
     this.ws.send(audioMessage(samples));
+    return first;
+  }
+
+  /** The H.264 decoder lost its place: ask for a key frame. */
+  requestKeyFrame(): void {
+    if (this.ws && this.ready) this.ws.send(JSON.stringify({ type: "keyframe" }));
+  }
+
+  /** Video bitrate actually received over the last two seconds, kbit/s. */
+  receivedKbps(): number {
+    const now = performance.now();
+    this.bytesIn = this.bytesIn.filter(([t]) => now - t < 2000);
+    return (this.bytesIn.reduce((a, [, n]) => a + n, 0) * 8) / 2000;
   }
 
   setEmotion(emotion: Emotion, intensity: number): void {

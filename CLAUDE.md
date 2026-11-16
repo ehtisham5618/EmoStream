@@ -17,6 +17,7 @@ EmoStream turns **one static portrait + voice audio** into a continuously animat
 ## Current state (16 Nov 2026)
 
 - Branch `iteration/animation-quality`; `master` holds the first build. Baseline checkpoint `reg` is frozen at `emostream/_frozen/reg_2026-11-15/` (do not overwrite). Current default checkpoint: `it_ccc_la2` (concordance loss, 2 frames look-ahead), emotion strength 1.5, per-frame streaming (hop 1) live, block streaming (hop 5) for exports.
+- Live transport (16 Nov, after the user's failed browser sessions): H.264 over the WebSocket with ack-based pacing (`backend/streaming/video.py`), WebCodecs decoding and an adaptive jitter buffer in the client, and the avatar's voice played and recorded on the picture's timeline (`SyncedVoice`). JPEG frames remain as a fallback (`?video=jpeg` forces them). See `docs/iterations/current_iteration/transport_fix.md`. Local link emulation: `evaluation/benchmarks/throttle_proxy.py` + `fake_server.py --video`.
 - Reports: `docs/iterations/current_iteration/`. Integration contract: `docs/integration/frontend_backend_contract.md` (keep it in step with `backend/`).
 - The product UI will be supplied by the user from Lovable after the model is approved. Do not build or redesign the product frontend; `frontend/` is a test and diagnostics client.
 - Future iterations (TTS/LLM input, dashboard modules, RTX 4050 optimisation, integrations, final test-split evaluation) are out of scope until the user starts them.

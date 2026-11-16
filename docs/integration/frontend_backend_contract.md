@@ -31,7 +31,7 @@ Reference client: `frontend/src/lib/` (`protocol.ts`, `session.ts`, `audio.ts`, 
   "busy": false,
   "max_session_seconds": 900,
   "emostream_parameters": 1361385,
-  "protocol": {"audio": "pcm_s16le mono", "frame": "jpeg", "frame_period_ms": 40}
+  "protocol": {"audio": "pcm_s16le mono", "frame": "jpeg", "video": ["jpeg", "h264"], "frame_period_ms": 40}
 }
 ```
 `models` lists what the worker can actually run; `emostream` is absent if no trained checkpoint is loaded.
@@ -85,11 +85,13 @@ Audio sent before `ready` is not accepted by the server; the reference client qu
  "consent": {"portrait": true, "audio": true},
  "sample_rate": 16000,
  "emotion": "neutral", "intensity": 1.0,
- "model": "emostream", "size": 512, "jpeg_quality": 80}
+ "model": "emostream", "size": 512, "jpeg_quality": 80,
+ "video": "h264", "bitrate_kbps": 900}
 ```
 - `consent.portrait` and `consent.audio` must both be the JSON value `true`. Anything else → `consent_required`, and no engine work is done.
 - `sample_rate`: 16000, 22050, 24000, 32000, 44100 or 48000. **Send 16000.** Other rates are resampled per chunk on the server, which is lower quality.
 - `size`: 256, 384 or 512 (square). `jpeg_quality`: 40–95.
+- `video`: `"h264"` or `"jpeg"` (default `"jpeg"`, for older clients). **Send `"h264"`** when the browser has WebCodecs (`VideoDecoder`); it needs about a tenth of the bandwidth. `bitrate_kbps`: 200–4000, default 900; the server lowers it by itself on a poor link. `ready.session.video.codec` says what the server will actually send (it falls back to `"jpeg"` if H.264 is not available on the worker).
 
 **Portrait** (second message, binary): byte `0x10` followed by the image file bytes (PNG, JPEG or WebP, ≤ 12 MB). One clearly visible face, looking at the camera. A closed mouth and neutral expression give the best result.
 
@@ -102,7 +104,13 @@ Audio sent before `ready` is not accepted by the server; the reference client qu
 ```json
 {"type": "emotion", "emotion": "happy", "intensity": 0.7, "at_seconds": 3.2}
 ```
-`at_seconds` is optional: the position in the audio stream at which the change starts. Without it the change starts at the end of the audio received so far. The change is cross-faded over 10 frames (400 ms). Frames already generated are not altered. Sending the same emotion with a new `intensity` is how intensity is updated.
+`at_seconds` is optional: the position in the audio stream at which the change starts. Without it the change starts at the end of the audio received so far (emotion messages are applied in order with the audio messages, even when audio is still waiting to be rendered). The change is cross-faded over 10 frames (400 ms). Frames already generated are not altered. Sending the same emotion with a new `intensity` is how intensity is updated.
+
+**`ack`** (text, about five times a second): `{"type": "ack", "frames": 412}` — the number of video messages received so far. The server uses it to tell whether frames are queueing in the connection; without it there is no network pacing. Not answered.
+
+**`ping`** (text, optional): `{"type": "ping", "t": 1234.5}` is answered at once with `{"type": "pong", "t": 1234.5}`; `t` is opaque to the server. Gives the client the network round trip.
+
+**`keyframe`** (text, H.264 only): the decoder reported an error; the next video message will be a key frame.
 
 **`end`** (text): no more audio. The server renders what remains (including a final partial frame) and replies `done`.
 
@@ -115,12 +123,25 @@ Audio sent before `ready` is not accepted by the server; the reference client qu
 {"type": "ready", "session": {
   "model": "emostream", "size": 512, "fps": 25, "emotion": "neutral", "intensity": 1.0,
   "portrait": {"mouth_open": true, "lip_open_ratio": 0.21, "mouth_closed_automatically": true},
-  "algorithmic_delay_ms": [120, 120]}}
+  "algorithmic_delay_ms": [200, 200],
+  "video": {"codec": "h264", "bitrate_kbps": 900}}}
 ```
 - `portrait.mouth_open`: the uploaded photo shows an open mouth. `mouth_closed_automatically`: the engine is closing it before animating. A UI should tell the user when `mouth_open` is true, because results are better with a closed-mouth photo.
 - `algorithmic_delay_ms`: `[min, max]` wait for future audio that the chosen model needs before a frame can be produced, excluding compute and network.
 
-**Video frame** (binary): 9-byte header, then a JPEG.
+**Video frame, `video: "h264"`** (binary): 10-byte header, then one H.264 access unit.
+
+| Offset | Type | Meaning |
+|---|---|---|
+| 0 | u8 | `0x03` |
+| 1 | u32 LE | frame index *k* |
+| 5 | u32 LE | server latency in ms |
+| 9 | u8 | flags; bit 0 set = key frame |
+| 10 | bytes | H.264 Annex B, constrained baseline, no B-frames, parameter sets repeated in every key frame |
+
+Decode with WebCodecs: `new VideoDecoder(...)`, `configure({codec: "avc1.42E01F", optimizeForLatency: true})` (no `description`, because the stream is Annex B), one `EncodedVideoChunk` per message with `timestamp = k × 40000` µs. Every message must be passed to the decoder in order, starting with a key frame; a key frame is sent at the start, every two seconds, after a bitrate change and on request. One picture comes out per message.
+
+**Video frame, `video: "jpeg"`** (binary): 9-byte header, then a JPEG.
 
 | Offset | Type | Meaning |
 |---|---|---|
@@ -129,7 +150,7 @@ Audio sent before `ready` is not accepted by the server; the reference client qu
 | 5 | u32 LE | server latency in ms: arrival of the frame's last audio sample → frame encoded |
 | 9 | bytes | JPEG image, `size`×`size`, with the "AI-generated" watermark |
 
-The presentation time of frame *k* is `k × 40 ms` on the audio timeline. Indices may have gaps: when the worker falls behind, it skips rendering some frames (never two in a row more than twice) and the client should keep showing the previous image. A client must present frames on a 40 ms timeline from a small buffer, not on arrival — see `frontend/src/lib/player.ts` and `docs/iterations/current_iteration/browser_playback_diagnostics.md`.
+The presentation time of frame *k* is `k × 40 ms` on the audio timeline. Indices may have gaps, for two reasons: the worker fell behind and skipped rendering (`frames_dropped`), or the connection was backing up and the server held frames back before encoding (`video.frames_skipped_for_network`). In both cases the client keeps showing the previous image. A client must present frames on a 40 ms timeline from a small buffer, not on arrival — see `frontend/src/lib/player.ts` and `docs/iterations/current_iteration/browser_playback_diagnostics.md`.
 
 **`stats`** (about once a second)
 ```json
@@ -139,7 +160,10 @@ The presentation time of frame *k* is `k × 40 ms` on the audio timeline. Indice
  "compute_fps": 45.1,
  "stages_ms": {"behaviour": 1.7, "stitch": 0.8, "render": 19.5, "post": 0.1},
  "gpu": {"torch_alloc_gib": 0.31, "torch_reserved_gib": 0.39},
- "queued_chunks": 0}
+ "queued_chunks": 0,
+ "video": {"codec": "h264", "target_kbps": 900, "sent_kbps": 865.0, "frames_sent": 244,
+           "frames_skipped_for_network": 6, "in_flight_frames": 9, "backlog_ms": 27, "congestion_events": 1},
+ "uplink": {"lag_p95_ms": 96.0, "lag_max_ms": 158.0}}
 ```
 | Field | Meaning |
 |---|---|
@@ -152,6 +176,11 @@ The presentation time of frame *k* is `k × 40 ms` on the audio timeline. Indice
 | `stages_ms` | Per-frame time: behaviour model (with speech encoder), stitching, rendering, post-processing |
 | `gpu` | PyTorch memory; TensorRT memory is not included |
 | `queued_chunks` | Audio chunks waiting on the server; a growing value means the worker is behind |
+| `video.target_kbps` / `sent_kbps` | H.264 target after adaptation / bitrate actually sent over the last two seconds |
+| `video.frames_skipped_for_network` | Frames held back because the client was falling behind |
+| `video.backlog_ms` | Estimated time frames are spending queued in the connection (from `ack`) |
+| `video.congestion_events` | Times the server started holding frames back and lowered the bitrate |
+| `uplink.lag_*` | How late audio reached the server relative to the best case in the last five seconds; large values mean the client's upload is bursty |
 
 **`emotion_ack`**: `{"type": "emotion_ack", "at_frame": 375, "emotion": "happy", "intensity": 0.7}` — the first frame the change applies to.
 
@@ -165,7 +194,7 @@ The presentation time of frame *k* is `k × 40 ms` on the audio timeline. Indice
 |---|---|---|
 | `expected_start` | First message is not `start` | Programming error |
 | `consent_required` | Either consent flag is not `true` | Ask the user to confirm; reconnect |
-| `bad_sample_rate`, `bad_emotion`, `bad_intensity`, `bad_model`, `bad_size`, `bad_quality` | Invalid option | Fix the value; reconnect |
+| `bad_sample_rate`, `bad_emotion`, `bad_intensity`, `bad_model`, `bad_size`, `bad_quality`, `bad_video`, `bad_bitrate` | Invalid option | Fix the value; reconnect |
 | `expected_portrait` | Second message is not the portrait | Programming error |
 | `bad_portrait`, `portrait_too_large` | Not an image, or over 12 MB | Ask for another file |
 | `no_face` | No usable face found | Ask for a clearer, frontal photo |
@@ -186,10 +215,11 @@ There is no resume: after any error or disconnect, open a new socket and send `s
 ## 5. Client responsibilities
 
 1. Capture microphone audio as 16 kHz mono (an `AudioContext` created with `sampleRate: 16000`), convert to PCM16.
-2. Decode JPEG frames off the main thread (`createImageBitmap`) and present them on a 40 ms timeline with a bounded buffer and an explicit late-frame policy.
-3. For an uploaded file, play the audio locally and lock the picture to the audio clock.
-4. For a microphone, do not play the audio back; show frames with the smallest buffer that keeps playback even.
-5. Recording/export of a live session is done in the browser (`MediaRecorder` on the canvas plus the audio); the server only exports uploaded recordings.
+2. Ask for `video: "h264"` when `VideoDecoder` supports `avc1.42E01F`, otherwise `"jpeg"`. Send `ack` five times a second.
+3. Present frames on a 40 ms timeline from an adaptive buffer (`frontend/src/lib/player.ts`, `PlayoutClock`): place the timeline behind the 95th percentile of recent arrival lateness, move it later at once when a frame arrives after its slot, give delay back slowly.
+4. **Play and record the voice on the picture's timeline.** Sample *n* of the audio that was sent belongs at `timeline base + n / 16000 s` (`frontend/src/lib/audio.ts`, `SyncedVoice`). A viewer, and any recording, must get the voice from there, never the live microphone, or the face will always appear to lag the voice by the whole round trip. Whether the speaker also hears it is a product choice (the test client offers a checkbox; headphones are needed).
+5. For an uploaded file, play the audio locally and lock the picture to the audio clock.
+6. Recording of a live session is done in the browser (`MediaRecorder` on the canvas plus the synced voice). Keep an inaudible source running on the recorded audio stream and repaint the canvas while a frame is held; otherwise Chrome's recorder loses step during pauses. The server only exports uploaded recordings.
 
 ## 6. What a future input method needs
 

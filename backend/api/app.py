@@ -18,6 +18,7 @@ from emostream.constants import EMOTIONS, FPS
 
 from ..services.live import encode_jpeg
 from ..streaming import protocol as P
+from ..streaming.video import ArrivalJitter, H264Encoder, SendPacer, h264_available
 
 STATS_INTERVAL_S = 1.0
 MAX_EXPORT_AUDIO_BYTES = 30 * 1024 * 1024
@@ -33,6 +34,7 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
     @app.get("/api/info")
     def info():
         return {**provider.info(), "protocol": {"audio": "pcm_s16le mono", "frame": "jpeg",
+                                                "video": ["jpeg"] + (["h264"] if h264_available() else []),
                                                 "frame_period_ms": 1000 // FPS}}
 
     @app.post("/api/export")
@@ -75,40 +77,92 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
             if tag != P.TAG_PORTRAIT:
                 raise P.ProtocolError("expected_portrait", "send the portrait image after the start message")
             session = await asyncio.to_thread(provider.open_session, P.check_portrait_payload(payload), req)
-            await ws.send_text(json.dumps({"type": "ready", "session": {
+            # Video: H.264 when asked for and available, otherwise independent JPEG frames.
+            codec = "h264" if req.video == "h264" and h264_available() else "jpeg"
+            encoder = H264Encoder(req.size, req.bitrate_kbps) if codec == "h264" else None
+            pacer = SendPacer(bitrate_kbps=req.bitrate_kbps, max_bitrate_kbps=req.bitrate_kbps)
+            uplink = ArrivalJitter()
+            send_lock = asyncio.Lock()   # frames, statistics and pongs come from different tasks
+
+            async def send_text(obj: dict) -> None:
+                async with send_lock:
+                    await ws.send_text(json.dumps(obj))
+
+            async def send_bytes(data: bytes) -> None:
+                async with send_lock:
+                    await ws.send_bytes(data)
+
+            await send_text({"type": "ready", "session": {
                 "model": req.model, "size": req.size, "fps": FPS, "emotion": req.emotion,
                 "intensity": req.intensity, "portrait": getattr(session, "portrait_info", {}),
-                "algorithmic_delay_ms": getattr(session, "algorithmic_delay_ms", None)}}))
+                "algorithmic_delay_ms": getattr(session, "algorithmic_delay_ms", None),
+                "video": {"codec": codec, "bitrate_kbps": req.bitrate_kbps if codec == "h264" else None}}})
 
             queue: asyncio.Queue = asyncio.Queue()
-            sent = {"frames": 0, "dropped": 0, "last_stats": time.perf_counter()}
+            sent = {"frames": 0, "dropped": 0, "last_stats": time.perf_counter(), "audio_s": 0.0,
+                    "bytes": [], "final": False}
+
+            def encode(rgb):
+                if encoder is None:
+                    return encode_jpeg(rgb, req.jpeg_quality), True
+                encoder.set_bitrate(pacer.bitrate_kbps)
+                return encoder.encode(rgb)
 
             async def emit(frames):
                 for fr in frames:
                     if fr.rgb is None:
                         sent["dropped"] += 1
                         continue
-                    jpeg = await asyncio.to_thread(encode_jpeg, fr.rgb, req.jpeg_quality)
-                    await ws.send_bytes(P.encode_frame(fr.index, fr.latency_ms, jpeg))
+                    now = time.perf_counter()
+                    # The tail of a finished session is always delivered; otherwise frames are
+                    # skipped (before encoding) while the client is falling behind.
+                    if sent["final"]:
+                        pacer.record_sent(now)
+                    elif not pacer.decide(now):
+                        continue
+                    data, key = await asyncio.to_thread(encode, fr.rgb)
+                    if not data:
+                        continue
+                    msg = (P.encode_video(fr.index, fr.latency_ms, key, data) if encoder is not None
+                           else P.encode_frame(fr.index, fr.latency_ms, data))
+                    await send_bytes(msg)
                     sent["frames"] += 1
+                    sent["bytes"].append((now, len(msg)))
                 now = time.perf_counter()
                 if now - sent["last_stats"] >= STATS_INTERVAL_S:
                     sent["last_stats"] = now
+                    sent["bytes"] = [(t, n) for t, n in sent["bytes"] if now - t <= 2.0]
+                    span = max(now - sent["bytes"][0][0], 0.5) if sent["bytes"] else 1.0
                     st = session.stats()
-                    await ws.send_text(json.dumps({
+                    await send_text({
                         "type": "stats", "frames": st["frames"], "frames_dropped": st.get("frames_dropped", 0),
                         "audio_s": st["audio_s"], "latency": st["latency"], "compute_fps": st["compute_fps"],
                         "stages_ms": {k: v["ms_per_frame"] for k, v in st["stages"].items()},
-                        "gpu": st.get("gpu"), "queued_chunks": queue.qsize()}))
+                        "gpu": st.get("gpu"), "queued_chunks": queue.qsize(),
+                        "video": {"codec": codec, "target_kbps": pacer.bitrate_kbps if encoder is not None else None,
+                                  "sent_kbps": round(sum(n for _, n in sent["bytes"]) * 8 / span / 1000, 1),
+                                  "frames_sent": pacer.sent, "frames_skipped_for_network": pacer.skipped,
+                                  "in_flight_frames": pacer.in_flight, "backlog_ms": round(pacer.backlog_ms(now)),
+                                  "congestion_events": pacer.congestion_events},
+                        "uplink": uplink.summary()})
 
             async def run():
                 while True:
                     item = await queue.get()
                     if item is None:
+                        sent["final"] = True
                         await emit(await asyncio.to_thread(session.end))
-                        await ws.send_text(json.dumps({"type": "done", "stats": session.stats()}))
+                        await send_text({"type": "done", "stats": session.stats()})
                         return
-                    pcm, captured = item
+                    if item[0] == "emotion":
+                        # Applied in order with the audio: the change starts after everything
+                        # received before it, even if that audio is still waiting to be rendered.
+                        _, emotion, intensity, at = item
+                        at_frame = session.set_emotion(emotion, intensity, at)
+                        await send_text({"type": "emotion_ack", "at_frame": at_frame,
+                                         "emotion": emotion, "intensity": intensity})
+                        continue
+                    _, pcm, captured = item
                     await emit(await asyncio.to_thread(session.push_pcm, pcm, captured))
 
             worker = asyncio.create_task(run())
@@ -128,15 +182,26 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
                     tag, payload = P.split_binary(msg["bytes"])
                     if tag != P.TAG_AUDIO:
                         raise P.ProtocolError("unexpected_binary", "only audio is accepted after the portrait")
-                    await queue.put((P.check_audio_payload(payload), time.perf_counter()))
+                    pcm = P.check_audio_payload(payload)
+                    arrived = time.perf_counter()
+                    sent["audio_s"] += len(pcm) / 2 / req.sample_rate
+                    uplink.add(arrived, sent["audio_s"])
+                    await queue.put(("audio", pcm, arrived))
                 elif msg.get("text") is not None:
                     m = P.parse_text(msg["text"])
-                    if m["type"] == "emotion":
+                    if m["type"] == "ack":
+                        n = m.get("frames")
+                        if isinstance(n, int) and not isinstance(n, bool) and n >= 0:
+                            pacer.on_ack(n, time.perf_counter())
+                    elif m["type"] == "ping":
+                        await send_text({"type": "pong", "t": m.get("t")})
+                    elif m["type"] == "keyframe":
+                        if encoder is not None:
+                            encoder.request_key_frame()
+                    elif m["type"] == "emotion":
                         emotion, intensity = P.parse_emotion_fields(m, EMOTIONS)
                         at = m.get("at_seconds")
-                        at_frame = session.set_emotion(emotion, intensity, at if isinstance(at, (int, float)) else None)
-                        await ws.send_text(json.dumps({"type": "emotion_ack", "at_frame": at_frame,
-                                                       "emotion": emotion, "intensity": intensity}))
+                        await queue.put(("emotion", emotion, intensity, at if isinstance(at, (int, float)) else None))
                     elif m["type"] == "end":
                         await queue.put(None)
                     elif m["type"] == "stop":

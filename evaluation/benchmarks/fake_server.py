@@ -27,8 +27,11 @@ from emostream.safety import Watermark
 
 
 class BurstSession:
-    def __init__(self, req, on_close, block: int, lookahead_frames: int, render_ms: float, jitter_ms: float):
+    def __init__(self, req, on_close, block: int, lookahead_frames: int, render_ms: float, jitter_ms: float,
+                 clip=None):
         self.req, self.on_close = req, on_close
+        self.clip = clip
+        self.pcm = bytearray()
         self.block, self.la, self.render_ms, self.jitter_ms = block, lookahead_frames, render_ms, jitter_ms
         self.clock = SampleClock()
         self.timeline = EmotionTimeline(req.emotion, req.intensity)
@@ -44,6 +47,16 @@ class BurstSession:
         import cv2
 
         n = self.req.size
+        if self.clip is not None:
+            # real avatar frames (as heavy to compress as the real thing), index in the corner
+            img = cv2.resize(self.clip[k % len(self.clip)], (n, n)).copy()
+            cv2.putText(img, str(k), (12, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+            # Loudness of this frame's own 40 ms of audio as a white block (top right), so a
+            # recording can be checked for audio-video offset: block and sound must coincide.
+            a = np.frombuffer(bytes(self.pcm[k * 1280:(k + 1) * 1280]), "<i2").astype(np.float32) / 32768
+            level = float(np.sqrt((a ** 2).mean())) if len(a) else 0.0
+            img[8:72, n - 72:n - 8] = int(min(255, level * 2500))
+            return self.wm.apply(img)
         img = np.full((n, n, 3), 40, np.uint8)
         x = int((k % 50) / 50 * (n - 40))
         img[:, x:x + 40] = (60, 140, 220)                       # a bar that sweeps once every 2 s
@@ -63,6 +76,7 @@ class BurstSession:
         return frames
 
     def push_pcm(self, pcm16: bytes, captured_at=None):
+        self.pcm += pcm16
         self.clock.push(len(pcm16) // 2, captured_at)
         # a block is released once its last frame plus the look-ahead has arrived
         ready = ((self.clock.complete_frames - self.la) // self.block) * self.block
@@ -90,18 +104,31 @@ class BurstSession:
 
 
 class BurstProvider:
-    def __init__(self, block=5, lookahead_frames=3, render_ms=20.0, jitter_ms=0.0):
+    def __init__(self, block=5, lookahead_frames=3, render_ms=20.0, jitter_ms=0.0, video=""):
         self.kw = dict(block=block, lookahead_frames=lookahead_frames, render_ms=render_ms, jitter_ms=jitter_ms)
+        self.clip = None
+        if video:
+            import cv2
+
+            cap, frames = cv2.VideoCapture(video), []
+            while len(frames) < 250:
+                ok, f = cap.read()
+                if not ok:
+                    break
+                h, w = f.shape[:2]
+                frames.append(cv2.cvtColor(f[:, w - h:], cv2.COLOR_BGR2RGB))     # right-most square panel
+            self.clip = frames + frames[::-1]                                     # loop without a jump
         self.lock = threading.Lock()
 
     def info(self):
         return {"gpu": "none (timing stand-in)", "renderer": "synthetic", "models": ["emostream"],
                 "emotions": list(EMOTIONS), "fps": 25, "sample_rate": 16000, "busy": self.lock.locked(), **self.kw}
 
+
     def open_session(self, portrait, req):
         if not self.lock.acquire(blocking=False):
             raise P.ProtocolError("busy", "another session is running")
-        return BurstSession(req, self.lock.release, **self.kw)
+        return BurstSession(req, self.lock.release, clip=self.clip, **self.kw)
 
     def render_file(self, portrait, audio, req):
         raise P.ProtocolError("model_unavailable", "the timing stand-in cannot export")
@@ -117,8 +144,9 @@ def main():
     ap.add_argument("--lookahead-frames", type=int, default=3)
     ap.add_argument("--render-ms", type=float, default=20.0)
     ap.add_argument("--jitter-ms", type=float, default=0.0)
+    ap.add_argument("--video", default="", help="a generated clip to use as frames (realistic bitrate)")
     a = ap.parse_args()
-    app = create_app(BurstProvider(a.block, a.lookahead_frames, a.render_ms, a.jitter_ms), static_dir=a.dist)
+    app = create_app(BurstProvider(a.block, a.lookahead_frames, a.render_ms, a.jitter_ms, a.video), static_dir=a.dist)
     uvicorn.run(app, host="127.0.0.1", port=a.port, log_level="warning")
 
 

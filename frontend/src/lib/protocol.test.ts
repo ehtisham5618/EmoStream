@@ -11,7 +11,7 @@ describe("protocol", () => {
 
   it("tags the portrait and always declares consent in the start message", () => {
     expect(portraitMessage(new Uint8Array([9, 8]).buffer)).toEqual(new Uint8Array([TAG_PORTRAIT, 9, 8]));
-    const s = JSON.parse(startMessage({ sampleRate: 16000, emotion: "sad", intensity: 0.4, model: "emostream", size: 512 }));
+    const s = JSON.parse(startMessage({ sampleRate: 16000, emotion: "sad", intensity: 0.4, model: "emostream", size: 512, video: "h264" }));
     expect(s).toMatchObject({ type: "start", consent: { portrait: true, audio: true }, emotion: "sad", intensity: 0.4, sample_rate: 16000 });
   });
 
@@ -23,7 +23,7 @@ describe("protocol", () => {
     v.setUint32(5, 123, true);
     buf.set([1, 2, 3], 9);
     const f = parseFrame(buf.buffer)!;
-    expect([f.index, f.latencyMs, Array.from(f.jpeg)]).toEqual([70000, 123, [1, 2, 3]]);
+    expect([f.index, f.latencyMs, Array.from(f.data)]).toEqual([70000, 123, [1, 2, 3]]);
     expect(parseFrame(new Uint8Array([TAG_AUDIO, 0, 0, 0, 0, 0, 0, 0, 0]).buffer)).toBeNull();
     expect(parseFrame(new Uint8Array(4).buffer)).toBeNull();
   });

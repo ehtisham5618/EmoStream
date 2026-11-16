@@ -82,3 +82,103 @@ export async function decodeAudioFile(file: File): Promise<{ samples: Float32Arr
   const rendered = await offline.startRendering();
   return { samples: rendered.getChannelData(0).slice(0), buffer: rendered };
 }
+
+/**
+ * Plays the voice that drives the avatar on the avatar's own timeline.
+ *
+ * The picture for a moment of speech appears some hundreds of milliseconds after it was
+ * spoken (network, model, buffering). Heard live, the voice is therefore always ahead of
+ * the face. Here every chunk of sent audio is scheduled at the time its video frames are
+ * presented (sample n plays at  timeline base + n / 16000 s), so sound and picture stay
+ * together whatever the delay is, which is what a viewer of the avatar gets.
+ *
+ * The result always goes to `recordStream` (for the session recording); it reaches the
+ * speakers only when monitoring is switched on.
+ */
+export class SyncedVoice {
+  readonly ctx: AudioContext;
+  readonly recordStream: MediaStream;
+  private readonly dest: MediaStreamAudioDestinationNode;
+  private readonly monitor: GainNode;
+  private queue: { first: number; samples: Float32Array }[] = [];
+  private timer: number;
+  scheduled = 0;
+  /** Chunks whose slot had already passed when the timeline became known. */
+  missed = 0;
+  /** [first sample, time it reaches the output] of recent chunks, for measuring offset. */
+  readonly playedLog: [number, number][] = [];
+
+  constructor(private readonly timelineBase: () => number | null) {
+    this.ctx = new AudioContext({ latencyHint: "interactive" });
+    this.dest = this.ctx.createMediaStreamDestination();
+    this.recordStream = this.dest.stream;
+    this.monitor = this.ctx.createGain();
+    this.monitor.gain.value = 0;
+    this.monitor.connect(this.ctx.destination);
+    // The recording stream must never go idle: while no chunk is playing (a pause in the
+    // schedule after the timeline moved) Chrome delivers no audio at all to a recorder,
+    // and everything after the pause ends up early in the file (measured: 0.5-0.7 s).
+    // An inaudible tone (-100 dB) keeps it running.
+    const keepAlive = this.ctx.createOscillator();
+    const quiet = this.ctx.createGain();
+    quiet.gain.value = 0.00001;
+    keepAlive.connect(quiet).connect(this.dest);
+    keepAlive.start();
+    this.timer = window.setInterval(() => this.pump(), 40);
+  }
+
+  setMonitor(on: boolean): void {
+    this.monitor.gain.value = on ? 1 : 0;
+  }
+
+  /** `first` is the index of the chunk's first sample within the session. */
+  push(first: number, samples: Float32Array): void {
+    this.queue.push({ first, samples: samples.slice() });
+    if (this.queue.length > 400) this.queue.shift();
+  }
+
+  private pump(): void {
+    const base = this.timelineBase();
+    if (base === null) return;
+    const now = performance.now();
+    while (this.queue.length) {
+      const c = this.queue[0];
+      const at = base + (c.first / SAMPLE_RATE) * 1000;
+      if (at - now > 200) break; // scheduled close to its time, so timeline moves are followed
+      this.queue.shift();
+      const duration = (c.samples.length / SAMPLE_RATE) * 1000;
+      if (at + duration <= now) {
+        this.missed++;
+        continue;
+      }
+      const buf = this.ctx.createBuffer(1, c.samples.length, SAMPLE_RATE);
+      buf.copyToChannel(c.samples as Float32Array<ArrayBuffer>, 0);
+      const src = this.ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(this.dest);
+      src.connect(this.monitor);
+      // Map the performance clock onto the audio clock with the pair the browser reports
+      // for "the sample being output now"; currentTime alone runs ahead by the output latency.
+      const stamp = this.ctx.getOutputTimestamp();
+      const when = stamp.contextTime !== undefined && stamp.performanceTime
+        ? stamp.contextTime + (at - stamp.performanceTime) / 1000
+        : this.ctx.currentTime + (at - now) / 1000;
+      const late = this.ctx.currentTime - when;
+      if (late <= 0) src.start(when);
+      else if (late * 1000 < duration) src.start(this.ctx.currentTime, late);
+      else {
+        this.missed++;
+        continue;
+      }
+      this.scheduled++;
+      this.playedLog.push([c.first, at]);
+      if (this.playedLog.length > 2000) this.playedLog.shift();
+    }
+  }
+
+  async close(): Promise<void> {
+    window.clearInterval(this.timer);
+    this.queue = [];
+    await this.ctx.close().catch(() => undefined);
+  }
+}

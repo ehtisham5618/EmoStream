@@ -8,6 +8,10 @@ The avatar now opens its mouth and moves its jaw about twice as much as before, 
 
 **The first iteration is not complete.** By the agreed conditions it still needs: your own browser test with a real microphone, your approval of the animation quality, and the Lovable UI and its integration.
 
+## Addendum, 16 November (evening): the user's browser test and the transport fix
+
+The user's own sessions did not play well: frames arrived in bursts and the face fell up to 6.8 s behind the voice, while the server stayed at about 260 ms. The cause was delivery (independent JPEG frames over one TCP connection, and recordings that paired the live microphone with the delayed picture), not the model. Video is now H.264 with network pacing, the browser buffers adaptively, and the voice is played and recorded on the picture's timeline. Findings, the comparison with Keyframe Labs, and measurements are in `transport_fix.md`. The browser figures in the table above (23.9 frames per second, 0.55 s) describe the earlier JPEG client on a good link and are superseded by that document. A person at a real microphone has not yet tested the new build.
+
 ## Results on validation actors (unseen in training)
 
 | Measure | Before (`reg`) | Now (`it_ccc_la2`) | Real video | Target | Met? |

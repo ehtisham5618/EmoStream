@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { decodeAudioFile, MicCapture, startMicrophone } from "./lib/audio";
+import { decodeAudioFile, MicCapture, startMicrophone, SyncedVoice } from "./lib/audio";
 import { Chunker, CHUNK_SAMPLES, Emotion, EMOTIONS, FPS, ModelName, SAMPLE_RATE, ServerStats } from "./lib/protocol";
-import { FramePlayer, PlayerStats } from "./lib/player";
+import { FramePlayer, h264Supported, PlayerStats } from "./lib/player";
 import { LiveSession } from "./lib/session";
 
 type Phase = "idle" | "connecting" | "live" | "finishing";
@@ -42,6 +42,10 @@ export default function App() {
   const [recordingUrl, setRecordingUrl] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [monitor, setMonitor] = useState(false);
+  const [net, setNet] = useState<{ pingMs: number | null; kbps: number } | null>(null);
+  const voiceRef = useRef<SyncedVoice | null>(null);
+  const monitorRef = useRef(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sessionRef = useRef<LiveSession | null>(null);
@@ -86,10 +90,15 @@ export default function App() {
     const id = window.setInterval(() => {
       const p = playerRef.current?.stats() ?? null;
       const trip = median(trips.current.slice(-50));
+      const sess = sessionRef.current;
+      const network = sess ? { pingMs: sess.pingMs, kbps: Math.round(sess.receivedKbps()) } : null;
+      if (network) setNet(network);
       if (p) {
         setPlay(p);
         // One row per half second, for the downloadable diagnostics file.
-        diagLog.current.push({ t: Math.round(performance.now()), client: p, roundTripMs: trip, server: statsRef.current });
+        diagLog.current.push({ t: Math.round(performance.now()), client: p, roundTripMs: trip, network,
+          voice: voiceRef.current ? { scheduled: voiceRef.current.scheduled, missed: voiceRef.current.missed } : null,
+          server: statsRef.current });
       }
       setRoundTrip(trip);
     }, 500);
@@ -107,6 +116,8 @@ export default function App() {
     recorderRef.current = null;
     playerRef.current?.stop();
     playerRef.current = null;
+    if (voiceRef.current) await voiceRef.current.close();
+    voiceRef.current = null;
     if (playbackRef.current) await playbackRef.current.ctx.close().catch(() => undefined);
     playbackRef.current = null;
     sessionRef.current = null;
@@ -185,7 +196,7 @@ export default function App() {
       },
       onFrame: (frame, trip) => {
         if (trip !== null) trips.current.push(trip);
-        void playerRef.current?.push(frame.index, frame.jpeg);
+        void playerRef.current?.push(frame);
       },
       onStats: (st) => {
         statsRef.current = st;
@@ -193,7 +204,7 @@ export default function App() {
       },
       onDone: (final) => {
         setStats(final);
-        const tail = 700; // let buffered frames play out
+        const tail = (playerRef.current?.stats().playoutDelayMs ?? 0) + 600; // let buffered frames play out
         window.setTimeout(() => sessionRef.current?.stop(), tail);
       },
       onError: (message) => setError(message),
@@ -204,9 +215,12 @@ export default function App() {
     // Frames are presented on a 40 ms timeline from a small buffer, not when they arrive.
     const pb = playbackRef.current;
     const player = new FramePlayer(canvasRef.current!, {
-      targetDelayMs: pb ? 350 : 120,
-      maxDelayMs: 600,
+      // Live: a small margin on top of the measured network jitter, growing to 1.2 s on a
+      // bad link. The voice is played on the same timeline, so delay does not cost sync.
+      targetDelayMs: pb ? 350 : 80,
+      maxDelayMs: pb ? 600 : 1200,
       synced: !!pb,
+      onNeedKeyFrame: () => sessionRef.current?.requestKeyFrame(),
       onTimeline: (frameZeroTime) => {
         if (!pb) return;
         // Uploaded audio: start the sound exactly when frame 0 is shown, and keep the
@@ -223,16 +237,28 @@ export default function App() {
     });
     playerRef.current = player;
     player.start();
+    // Handles for the measurement scripts in evaluation/benchmarks (read-only use).
+    (window as unknown as Record<string, unknown>).__emostream = { player, voice: () => voiceRef.current };
 
     try {
       if (source === "mic") {
+        // The avatar's voice: the same audio, played and recorded in step with the picture.
+        const voice = new SyncedVoice(() => playerRef.current?.timelineBase ?? null);
+        voice.setMonitor(monitorRef.current);
+        voiceRef.current = voice;
         micRef.current = await startMicrophone(
-          (block) => chunkerRef.current.push(block).forEach((c) => session.sendAudio(c)),
+          (block) => chunkerRef.current.push(block).forEach((c) => {
+            const first = session.sendAudio(c);
+            if (first >= 0) voice.push(first, c);
+          }),
           setLevel,
         );
-        startRecording(micRef.current.stream);
+        startRecording(voice.recordStream);
       }
-      session.open(await portrait.arrayBuffer(), { sampleRate: SAMPLE_RATE, emotion, intensity, model, size: 512 });
+      // "?video=jpeg" forces the old picture-per-frame transport, for comparisons.
+      const forced = new URLSearchParams(location.search).get("video");
+      const video = forced !== "jpeg" && (await h264Supported()) ? "h264" : "jpeg";
+      session.open(await portrait.arrayBuffer(), { sampleRate: SAMPLE_RATE, emotion, intensity, model, size: 512, video, bitrateKbps: 900 });
     } catch (e) {
       const denied = e instanceof DOMException && (e.name === "NotAllowedError" || e.name === "SecurityError");
       setError(denied ? "Microphone access was blocked. Allow it in the browser's site settings and start again."
@@ -250,7 +276,10 @@ export default function App() {
       void micRef.current?.stop();
       micRef.current = null;
       const rest = chunkerRef.current.flush();
-      if (rest) session.sendAudio(rest);
+      if (rest) {
+        const first = session.sendAudio(rest);
+        if (first >= 0) voiceRef.current?.push(first, rest);
+      }
       setPhase("finishing");
       session.end();
     } else {
@@ -296,6 +325,12 @@ export default function App() {
     } finally {
       setExporting(false);
     }
+  };
+
+  const chooseMonitor = (on: boolean) => {
+    setMonitor(on);
+    monitorRef.current = on;
+    voiceRef.current?.setMonitor(on);
   };
 
   const downloadDiagnostics = () => {
@@ -376,6 +411,10 @@ export default function App() {
                 </button>
               </>
             )}
+            {source === "mic" && (
+              <label className="check"><input type="checkbox" checked={monitor} onChange={(e) => chooseMonitor(e.target.checked)} />
+                Hear the avatar's voice, in step with its lips (use headphones).</label>
+            )}
             {models.length > 1 && (
               <label className="select">Motion model
                 <select value={model} onChange={(e) => setModel(e.target.value as ModelName)}>
@@ -407,7 +446,9 @@ export default function App() {
             <legend>Performance</legend>
             <dl className="numbers">
               <div><dt>Frames shown</dt><dd>{fmt(play?.presentedFps, 1)}<small> per second, on screen</small></dd></div>
-              <div><dt>Voice to face</dt><dd>{fmt(roundTrip)}<small> ms, in this browser</small></dd></div>
+              <div><dt>Avatar behind you</dt><dd>{fmt(roundTrip === null ? null : roundTrip + (play?.playoutDelayMs ?? 0))}<small> ms; its voice and lips stay together</small></dd></div>
+              <div><dt>Network round trip</dt><dd>{fmt(net?.pingMs)}<small> ms</small></dd></div>
+              <div><dt>Video stream</dt><dd>{net ? net.kbps : "–"}<small> kbit/s {play?.codec === "h264" ? "H.264" : play?.codec === "jpeg" ? "JPEG" : ""}</small></dd></div>
               <div><dt>Server delay</dt><dd>{fmt(stats?.latency?.p50_ms)}<small> ms median</small></dd></div>
               <div><dt>Slowest 5%</dt><dd>{fmt(stats?.latency?.p95_ms)}<small> ms</small></dd></div>
               <div><dt>Frames skipped</dt><dd>{stats ? stats.frames_dropped : "–"}<small> of {stats ? stats.frames : "–"}</small></dd></div>
@@ -421,6 +462,12 @@ export default function App() {
                   <div><dt>Time between shown frames, median / 95% / longest</dt><dd>{fmt(play.intervalP50Ms)} / {fmt(play.intervalP95Ms)} / {fmt(play.intervalMaxMs)} ms</dd></div>
                   <div><dt>Frame age when shown, median / 95%</dt><dd>{fmt(play.ageP50Ms)} / {fmt(play.ageP95Ms)} ms</dd></div>
                   <div><dt>Buffer</dt><dd>{play.bufferDepth} frames, {fmt(play.playoutDelayMs)} ms delay, moved {play.timelineShifts}×</dd></div>
+                  <div><dt>Arrival jitter (95%)</dt><dd>{fmt(play.jitterP95Ms)} ms</dd></div>
+                  <div><dt>Voice to frame arrival</dt><dd>{fmt(roundTrip)} ms</dd></div>
+                  <div><dt>Server: sent / target bitrate</dt><dd>{fmt(stats?.video?.sent_kbps)} / {fmt(stats?.video?.target_kbps)} kbit/s</dd></div>
+                  <div><dt>Server: frames held back for the network</dt><dd>{stats?.video?.frames_skipped_for_network ?? "–"}, backlog {stats?.video?.backlog_ms ?? "–"} ms, {stats?.video?.congestion_events ?? "–"} slow-downs</dd></div>
+                  <div><dt>Your audio reaching the server late (95% / worst)</dt><dd>{fmt(stats?.uplink?.lag_p95_ms)} / {fmt(stats?.uplink?.lag_max_ms)} ms</dd></div>
+                  <div><dt>Decoder errors</dt><dd>{play.decodeErrors}</dd></div>
                   <div><dt>Late / skipped / overflow / held</dt><dd>{play.droppedLate} / {play.skipped} / {play.droppedOverflow} / {play.holds}</dd></div>
                   <div><dt>Out of order / duplicate</dt><dd>{play.outOfOrder} / {play.duplicates}</dd></div>
                   <div><dt>Decode time, median</dt><dd>{fmt(play.decodeP50Ms, 1)} ms</dd></div>

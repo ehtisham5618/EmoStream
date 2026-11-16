@@ -1,0 +1,96 @@
+{
+ "buttons_seen": [
+  "",
+  "Resources",
+  "CHANGE AVATAR\nCOSMO",
+  "START CALL",
+  "",
+  "01\nHuman realism\nPhotorealism with accur",
+  "02\nUltra-low latency",
+  "03\nEmotion control",
+  "04\nImage-to-avatar",
+  "JavaScript\nCLIENT",
+  "LiveKit\nSERVER",
+  "Cookie preferences",
+  "OPT OUT",
+  "OK"
+ ],
+ "snapshots": 45,
+ "video_snapshots": 0,
+ "last_snapshot": [],
+ "page_state": {
+  "pcs": [
+   {
+    "state": "closed",
+    "ice": "closed",
+    "receivers": [
+     "audio:ended",
+     "audio:ended",
+     "audio:ended",
+     "video:ended",
+     "video:ended",
+     "video:ended"
+    ]
+   }
+  ],
+  "videos": [
+   {
+    "w": 0,
+    "h": 0,
+    "live": false,
+    "paused": true,
+    "t": 0
+   },
+   {
+    "w": 700,
+    "h": 700,
+    "live": false,
+    "paused": false,
+    "t": 7.697741
+   },
+   {
+    "w": 512,
+    "h": 512,
+    "live": false,
+    "paused": false,
+    "t": 37.441705
+   },
+   {
+    "w": 960,
+    "h": 960,
+    "live": false,
+    "paused": false,
+    "t": 4.323564
+   },
+   {
+    "w": 700,
+    "h": 700,
+    "live": false,
+    "paused": false,
+    "t": 3.584723
+   },
+   {
+    "w": 960,
+    "h": 960,
+    "live": false,
+    "paused": false,
+    "t": 3.185961
+   }
+  ],
+  "buttons": [
+   "Resources",
+   "BACK",
+   "COSMO",
+   "START CONVERSATION",
+   "neutral",
+   "happy",
+   "excited",
+   "surprised",
+   "concerned",
+   "sad",
+   "confused",
+   "skeptical"
+  ]
+ },
+ "rtt_ms_median": 159.0
+}
