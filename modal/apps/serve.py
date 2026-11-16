@@ -60,4 +60,10 @@ def web():
         # missing one; 450 ms skipped 4 % of frames when microphone audio arrived in bursts.
         max_latency_ms=float(os.environ.get("EMOSTREAM_MAX_LATENCY_MS", "700")),
     )
+    # One throw-away session before the first request is served; a real session then
+    # starts on a warm engine. Uses the example portrait that ships with the Ditto repository.
+    import glob
+
+    examples = sorted(glob.glob(f"{C.REPO}/example/*.png") + glob.glob(f"{C.REPO}/example/*.jpg"))
+    print("warm-up:", provider.warm_up(examples[0]) if examples else "no example portrait found", flush=True)
     return create_app(provider, static_dir="/root/frontend_dist")

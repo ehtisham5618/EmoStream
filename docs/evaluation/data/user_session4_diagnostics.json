@@ -1,0 +1,5958 @@
+{
+ "source": "mic",
+ "model": "emostream",
+ "emotion": "neutral",
+ "intensity": 0.7,
+ "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+ "rows": [
+  {
+   "t": 68738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 69238,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 69736,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 70234,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 70734,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 71234,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 71734,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 72235,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 72738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 73235,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 73738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 74238,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 74738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 75765,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 76766,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 77766,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 78759,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 79766,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 80764,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 81764,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 82764,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 83692,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 83734,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 84235,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 84734,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 85238,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 85738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 86238,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 86738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 87238,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 87738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 88235,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 88738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 89235,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 89738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 90236,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 90734,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 91234,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 91734,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 92238,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 92735,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 93235,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 93735,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 94235,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 94735,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 95235,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 95734,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 96238,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 96735,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 97235,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 97738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 98238,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 98738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 99238,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 99738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 100238,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 100738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 101238,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 101738,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 102415,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 102918,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 103418,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "server": null
+  },
+  {
+   "t": 103918,
+   "client": {
+    "presented": 0,
+    "received": 2,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0,
+    "receivedFps": 1,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 2,
+    "playoutDelayMs": 158.5,
+    "timelineShifts": 0,
+    "decodeP50Ms": 3.9000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 1913.5,
+   "server": null
+  },
+  {
+   "t": 104418,
+   "client": {
+    "presented": 2,
+    "received": 2,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 21,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 1,
+    "receivedFps": 1,
+    "intervalP50Ms": 33.39999999999418,
+    "intervalP95Ms": 33.39999999999418,
+    "intervalMaxMs": 33.39999999999418,
+    "ageP50Ms": 159.60000002384186,
+    "ageP95Ms": 159.60000002384186,
+    "bufferDepth": 0,
+    "playoutDelayMs": 158.5,
+    "timelineShifts": 0,
+    "decodeP50Ms": 3.9000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 1913.5,
+   "server": null
+  },
+  {
+   "t": 104917,
+   "client": {
+    "presented": 4,
+    "received": 12,
+    "droppedLate": 6,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 44,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 2,
+    "receivedFps": 6,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 533.3000000000029,
+    "intervalMaxMs": 533.3000000000029,
+    "ageP50Ms": 127.70000002384768,
+    "ageP95Ms": 159.60000002384186,
+    "bufferDepth": 2,
+    "playoutDelayMs": 147.69999998807907,
+    "timelineShifts": 2,
+    "decodeP50Ms": 3,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 2565.5,
+   "server": {
+    "type": "stats",
+    "frames": 11,
+    "frames_dropped": 0,
+    "audio_s": 0.64,
+    "latency": {
+     "n": 11,
+     "p50_ms": 403.5,
+     "p95_ms": 462.5,
+     "max_ms": 472.1,
+     "mean_ms": 399.5,
+     "output_fps": 29.41,
+     "max_frame_gap_ms": 68.6
+    },
+    "compute_fps": 17.48,
+    "stages_ms": {
+     "behaviour": 33.657,
+     "stitch": 0.843,
+     "render": 22.552,
+     "post": 0.146
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 2,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3347.6,
+     "frames_sent": 11,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.8,
+     "lag_max_ms": 23.8
+    }
+   }
+  },
+  {
+   "t": 105418,
+   "client": {
+    "presented": 9,
+    "received": 19,
+    "droppedLate": 10,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 61,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 4.5,
+    "receivedFps": 9.5,
+    "intervalP50Ms": 83.30000000000291,
+    "intervalP95Ms": 533.3000000000029,
+    "intervalMaxMs": 533.3000000000029,
+    "ageP50Ms": 83.40000001787848,
+    "ageP95Ms": 159.60000002384186,
+    "bufferDepth": 0,
+    "playoutDelayMs": 31.899999976158142,
+    "timelineShifts": 2,
+    "decodeP50Ms": 2.5,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 2614.4000000059605,
+   "server": {
+    "type": "stats",
+    "frames": 11,
+    "frames_dropped": 0,
+    "audio_s": 0.64,
+    "latency": {
+     "n": 11,
+     "p50_ms": 403.5,
+     "p95_ms": 462.5,
+     "max_ms": 472.1,
+     "mean_ms": 399.5,
+     "output_fps": 29.41,
+     "max_frame_gap_ms": 68.6
+    },
+    "compute_fps": 17.48,
+    "stages_ms": {
+     "behaviour": 33.657,
+     "stitch": 0.843,
+     "render": 22.552,
+     "post": 0.146
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 2,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3347.6,
+     "frames_sent": 11,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.8,
+     "lag_max_ms": 23.8
+    }
+   }
+  },
+  {
+   "t": 105917,
+   "client": {
+    "presented": 9,
+    "received": 19,
+    "droppedLate": 10,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 91,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 4.5,
+    "receivedFps": 8.5,
+    "intervalP50Ms": 83.30000000000291,
+    "intervalP95Ms": 533.3000000000029,
+    "intervalMaxMs": 533.3000000000029,
+    "ageP50Ms": 83.40000001787848,
+    "ageP95Ms": 159.60000002384186,
+    "bufferDepth": 0,
+    "playoutDelayMs": 31.899999976158142,
+    "timelineShifts": 2,
+    "decodeP50Ms": 2.5,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 2614.4000000059605,
+   "server": {
+    "type": "stats",
+    "frames": 11,
+    "frames_dropped": 0,
+    "audio_s": 0.64,
+    "latency": {
+     "n": 11,
+     "p50_ms": 403.5,
+     "p95_ms": 462.5,
+     "max_ms": 472.1,
+     "mean_ms": 399.5,
+     "output_fps": 29.41,
+     "max_frame_gap_ms": 68.6
+    },
+    "compute_fps": 17.48,
+    "stages_ms": {
+     "behaviour": 33.657,
+     "stitch": 0.843,
+     "render": 22.552,
+     "post": 0.146
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 2,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3347.6,
+     "frames_sent": 11,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.8,
+     "lag_max_ms": 23.8
+    }
+   }
+  },
+  {
+   "t": 106418,
+   "client": {
+    "presented": 9,
+    "received": 21,
+    "droppedLate": 12,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 121,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 3.5,
+    "receivedFps": 9.5,
+    "intervalP50Ms": 83.30000000000291,
+    "intervalP95Ms": 533.3000000000029,
+    "intervalMaxMs": 533.3000000000029,
+    "ageP50Ms": 83.40000001787848,
+    "ageP95Ms": 159.60000002384186,
+    "bufferDepth": 0,
+    "playoutDelayMs": 31.899999976158142,
+    "timelineShifts": 2,
+    "decodeP50Ms": 2.5,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 2632.800000011921,
+   "server": {
+    "type": "stats",
+    "frames": 11,
+    "frames_dropped": 0,
+    "audio_s": 0.64,
+    "latency": {
+     "n": 11,
+     "p50_ms": 403.5,
+     "p95_ms": 462.5,
+     "max_ms": 472.1,
+     "mean_ms": 399.5,
+     "output_fps": 29.41,
+     "max_frame_gap_ms": 68.6
+    },
+    "compute_fps": 17.48,
+    "stages_ms": {
+     "behaviour": 33.657,
+     "stitch": 0.843,
+     "render": 22.552,
+     "post": 0.146
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 2,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3347.6,
+     "frames_sent": 11,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.8,
+     "lag_max_ms": 23.8
+    }
+   }
+  },
+  {
+   "t": 106918,
+   "client": {
+    "presented": 10,
+    "received": 24,
+    "droppedLate": 14,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 148,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 3,
+    "receivedFps": 6,
+    "intervalP50Ms": 83.30000000000291,
+    "intervalP95Ms": 1533.199999999997,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 120.00000002383604,
+    "ageP95Ms": 159.60000002384186,
+    "bufferDepth": 0,
+    "playoutDelayMs": 120,
+    "timelineShifts": 3,
+    "decodeP50Ms": 2.5,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 2681,
+   "server": {
+    "type": "stats",
+    "frames": 11,
+    "frames_dropped": 0,
+    "audio_s": 0.64,
+    "latency": {
+     "n": 11,
+     "p50_ms": 403.5,
+     "p95_ms": 462.5,
+     "max_ms": 472.1,
+     "mean_ms": 399.5,
+     "output_fps": 29.41,
+     "max_frame_gap_ms": 68.6
+    },
+    "compute_fps": 17.48,
+    "stages_ms": {
+     "behaviour": 33.657,
+     "stitch": 0.843,
+     "render": 22.552,
+     "post": 0.146
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 2,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3347.6,
+     "frames_sent": 11,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.8,
+     "lag_max_ms": 23.8
+    }
+   }
+  },
+  {
+   "t": 107418,
+   "client": {
+    "presented": 14,
+    "received": 34,
+    "droppedLate": 19,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 167,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 2.5,
+    "receivedFps": 7.5,
+    "intervalP50Ms": 50.10000000000582,
+    "intervalP95Ms": 1533.199999999997,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 122.70000000596337,
+    "ageP95Ms": 184.20000002384768,
+    "bufferDepth": 1,
+    "playoutDelayMs": 153.19999998807907,
+    "timelineShifts": 4,
+    "decodeP50Ms": 2.5,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 2735.7999999821186,
+   "server": {
+    "type": "stats",
+    "frames": 11,
+    "frames_dropped": 0,
+    "audio_s": 0.64,
+    "latency": {
+     "n": 11,
+     "p50_ms": 403.5,
+     "p95_ms": 462.5,
+     "max_ms": 472.1,
+     "mean_ms": 399.5,
+     "output_fps": 29.41,
+     "max_frame_gap_ms": 68.6
+    },
+    "compute_fps": 17.48,
+    "stages_ms": {
+     "behaviour": 33.657,
+     "stitch": 0.843,
+     "render": 22.552,
+     "post": 0.146
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 2,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3347.6,
+     "frames_sent": 11,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.8,
+     "lag_max_ms": 23.8
+    }
+   }
+  },
+  {
+   "t": 107918,
+   "client": {
+    "presented": 15,
+    "received": 39,
+    "droppedLate": 24,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 195,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 3,
+    "receivedFps": 10,
+    "intervalP50Ms": 50.10000000000582,
+    "intervalP95Ms": 1533.199999999997,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 122.70000000596337,
+    "ageP95Ms": 184.20000002384768,
+    "bufferDepth": 0,
+    "playoutDelayMs": 153.19999998807907,
+    "timelineShifts": 4,
+    "decodeP50Ms": 2.5,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 3385.399999976158,
+   "server": {
+    "type": "stats",
+    "frames": 11,
+    "frames_dropped": 0,
+    "audio_s": 0.64,
+    "latency": {
+     "n": 11,
+     "p50_ms": 403.5,
+     "p95_ms": 462.5,
+     "max_ms": 472.1,
+     "mean_ms": 399.5,
+     "output_fps": 29.41,
+     "max_frame_gap_ms": 68.6
+    },
+    "compute_fps": 17.48,
+    "stages_ms": {
+     "behaviour": 33.657,
+     "stitch": 0.843,
+     "render": 22.552,
+     "post": 0.146
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 2,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3347.6,
+     "frames_sent": 11,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.8,
+     "lag_max_ms": 23.8
+    }
+   }
+  },
+  {
+   "t": 108418,
+   "client": {
+    "presented": 19,
+    "received": 59,
+    "droppedLate": 28,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 215,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 5,
+    "receivedFps": 19,
+    "intervalP50Ms": 50.10000000000582,
+    "intervalP95Ms": 1533.199999999997,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 122.70000000596337,
+    "ageP95Ms": 184.20000002384768,
+    "bufferDepth": 12,
+    "playoutDelayMs": 483.7999999821186,
+    "timelineShifts": 5,
+    "decodeP50Ms": 3.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4129.0999999940395,
+   "server": {
+    "type": "stats",
+    "frames": 41,
+    "frames_dropped": 0,
+    "audio_s": 1.84,
+    "latency": {
+     "n": 41,
+     "p50_ms": 307.9,
+     "p95_ms": 415.8,
+     "max_ms": 472.1,
+     "mean_ms": 309.4,
+     "output_fps": 27.8,
+     "max_frame_gap_ms": 104.1
+    },
+    "compute_fps": 28.24,
+    "stages_ms": {
+     "behaviour": 14.339,
+     "stitch": 0.759,
+     "render": 20.17,
+     "post": 0.139
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4316,
+     "frames_sent": 41,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 41,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 74.4,
+     "lag_max_ms": 87.9
+    }
+   }
+  },
+  {
+   "t": 108918,
+   "client": {
+    "presented": 32,
+    "received": 75,
+    "droppedLate": 28,
+    "droppedOverflow": 0,
+    "skipped": 12,
+    "holds": 215,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 11,
+    "receivedFps": 25.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 683.3000000000029,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 120.00000002383604,
+    "ageP95Ms": 184.20000002384768,
+    "bufferDepth": 3,
+    "playoutDelayMs": 117.40000000596046,
+    "timelineShifts": 6,
+    "decodeP50Ms": 3.199999988079071,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4141.199999988079,
+   "server": {
+    "type": "stats",
+    "frames": 67,
+    "frames_dropped": 0,
+    "audio_s": 2.88,
+    "latency": {
+     "n": 67,
+     "p50_ms": 274.2,
+     "p95_ms": 412.4,
+     "max_ms": 472.1,
+     "mean_ms": 284,
+     "output_fps": 26.87,
+     "max_frame_gap_ms": 104.1
+    },
+    "compute_fps": 31.33,
+    "stages_ms": {
+     "behaviour": 11.376,
+     "stitch": 0.722,
+     "render": 19.687,
+     "post": 0.134
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4103.7,
+     "frames_sent": 67,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 67,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 74.9,
+     "lag_max_ms": 88.4
+    }
+   }
+  },
+  {
+   "t": 109418,
+   "client": {
+    "presented": 38,
+    "received": 78,
+    "droppedLate": 28,
+    "droppedOverflow": 0,
+    "skipped": 12,
+    "holds": 230,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 11.5,
+    "receivedFps": 22,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 683.3000000000029,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 122.50000000596629,
+    "ageP95Ms": 184.20000002384768,
+    "bufferDepth": 0,
+    "playoutDelayMs": 142.90000000596046,
+    "timelineShifts": 6,
+    "decodeP50Ms": 3.199999988079071,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4128.0999999940395,
+   "server": {
+    "type": "stats",
+    "frames": 67,
+    "frames_dropped": 0,
+    "audio_s": 2.88,
+    "latency": {
+     "n": 67,
+     "p50_ms": 274.2,
+     "p95_ms": 412.4,
+     "max_ms": 472.1,
+     "mean_ms": 284,
+     "output_fps": 26.87,
+     "max_frame_gap_ms": 104.1
+    },
+    "compute_fps": 31.33,
+    "stages_ms": {
+     "behaviour": 11.376,
+     "stitch": 0.722,
+     "render": 19.687,
+     "post": 0.134
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4103.7,
+     "frames_sent": 67,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 67,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 74.9,
+     "lag_max_ms": 88.4
+    }
+   }
+  },
+  {
+   "t": 109918,
+   "client": {
+    "presented": 42,
+    "received": 92,
+    "droppedLate": 32,
+    "droppedOverflow": 0,
+    "skipped": 12,
+    "holds": 251,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 13.5,
+    "receivedFps": 26.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 650.0999999999913,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 122.50000000596629,
+    "ageP95Ms": 174.50000000596629,
+    "bufferDepth": 6,
+    "playoutDelayMs": 475.69999998807907,
+    "timelineShifts": 7,
+    "decodeP50Ms": 4,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4207.100000023842,
+   "server": {
+    "type": "stats",
+    "frames": 93,
+    "frames_dropped": 2,
+    "audio_s": 3.92,
+    "latency": {
+     "n": 91,
+     "p50_ms": 273.5,
+     "p95_ms": 407.3,
+     "max_ms": 472.1,
+     "mean_ms": 277.1,
+     "output_fps": 26.27,
+     "max_frame_gap_ms": 153.7
+    },
+    "compute_fps": 33.16,
+    "stages_ms": {
+     "behaviour": 10.233,
+     "stitch": 0.704,
+     "render": 19.089,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 8,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 155.3,
+     "frames_sent": 91,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 91,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1762.2,
+     "lag_max_ms": 1920.6
+    }
+   }
+  },
+  {
+   "t": 110415,
+   "client": {
+    "presented": 50,
+    "received": 96,
+    "droppedLate": 32,
+    "droppedOverflow": 0,
+    "skipped": 12,
+    "holds": 261,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 15,
+    "receivedFps": 18.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 650.0999999999913,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 125.40000002384477,
+    "ageP95Ms": 372.1000000000058,
+    "bufferDepth": 2,
+    "playoutDelayMs": 163.09999999403954,
+    "timelineShifts": 7,
+    "decodeP50Ms": 3.9000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4206.800000011921,
+   "server": {
+    "type": "stats",
+    "frames": 93,
+    "frames_dropped": 2,
+    "audio_s": 3.92,
+    "latency": {
+     "n": 91,
+     "p50_ms": 273.5,
+     "p95_ms": 407.3,
+     "max_ms": 472.1,
+     "mean_ms": 277.1,
+     "output_fps": 26.27,
+     "max_frame_gap_ms": 153.7
+    },
+    "compute_fps": 33.16,
+    "stages_ms": {
+     "behaviour": 10.233,
+     "stitch": 0.704,
+     "render": 19.089,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 8,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 155.3,
+     "frames_sent": 91,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 91,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1762.2,
+     "lag_max_ms": 1920.6
+    }
+   }
+  },
+  {
+   "t": 110915,
+   "client": {
+    "presented": 57,
+    "received": 108,
+    "droppedLate": 38,
+    "droppedOverflow": 0,
+    "skipped": 12,
+    "holds": 274,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 12.5,
+    "receivedFps": 16.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 650.0999999999913,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 125.40000002384477,
+    "ageP95Ms": 372.1000000000058,
+    "bufferDepth": 1,
+    "playoutDelayMs": 37.69999998807907,
+    "timelineShifts": 7,
+    "decodeP50Ms": 3.4000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4357.200000017881,
+   "server": {
+    "type": "stats",
+    "frames": 93,
+    "frames_dropped": 2,
+    "audio_s": 3.92,
+    "latency": {
+     "n": 91,
+     "p50_ms": 273.5,
+     "p95_ms": 407.3,
+     "max_ms": 472.1,
+     "mean_ms": 277.1,
+     "output_fps": 26.27,
+     "max_frame_gap_ms": 153.7
+    },
+    "compute_fps": 33.16,
+    "stages_ms": {
+     "behaviour": 10.233,
+     "stitch": 0.704,
+     "render": 19.089,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 8,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 155.3,
+     "frames_sent": 91,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 91,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1762.2,
+     "lag_max_ms": 1920.6
+    }
+   }
+  },
+  {
+   "t": 111416,
+   "client": {
+    "presented": 58,
+    "received": 111,
+    "droppedLate": 41,
+    "droppedOverflow": 0,
+    "skipped": 12,
+    "holds": 302,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 10,
+    "receivedFps": 16.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 650.0999999999913,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 125.40000002384477,
+    "ageP95Ms": 372.1000000000058,
+    "bufferDepth": 0,
+    "playoutDelayMs": 37.69999998807907,
+    "timelineShifts": 7,
+    "decodeP50Ms": 3.4000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4431.5,
+   "server": {
+    "type": "stats",
+    "frames": 93,
+    "frames_dropped": 2,
+    "audio_s": 3.92,
+    "latency": {
+     "n": 91,
+     "p50_ms": 273.5,
+     "p95_ms": 407.3,
+     "max_ms": 472.1,
+     "mean_ms": 277.1,
+     "output_fps": 26.27,
+     "max_frame_gap_ms": 153.7
+    },
+    "compute_fps": 33.16,
+    "stages_ms": {
+     "behaviour": 10.233,
+     "stitch": 0.704,
+     "render": 19.089,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 8,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 155.3,
+     "frames_sent": 91,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 91,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1762.2,
+     "lag_max_ms": 1920.6
+    }
+   }
+  },
+  {
+   "t": 111916,
+   "client": {
+    "presented": 59,
+    "received": 114,
+    "droppedLate": 43,
+    "droppedOverflow": 0,
+    "skipped": 12,
+    "holds": 329,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 8.5,
+    "receivedFps": 11,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 683.3000000000029,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 124.90000001192675,
+    "ageP95Ms": 372.1000000000058,
+    "bufferDepth": 0,
+    "playoutDelayMs": 120,
+    "timelineShifts": 8,
+    "decodeP50Ms": 3.300000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4436.800000011921,
+   "server": {
+    "type": "stats",
+    "frames": 93,
+    "frames_dropped": 2,
+    "audio_s": 3.92,
+    "latency": {
+     "n": 91,
+     "p50_ms": 273.5,
+     "p95_ms": 407.3,
+     "max_ms": 472.1,
+     "mean_ms": 277.1,
+     "output_fps": 26.27,
+     "max_frame_gap_ms": 153.7
+    },
+    "compute_fps": 33.16,
+    "stages_ms": {
+     "behaviour": 10.233,
+     "stitch": 0.704,
+     "render": 19.089,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 8,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 155.3,
+     "frames_sent": 91,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 91,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1762.2,
+     "lag_max_ms": 1920.6
+    }
+   }
+  },
+  {
+   "t": 112418,
+   "client": {
+    "presented": 61,
+    "received": 128,
+    "droppedLate": 48,
+    "droppedOverflow": 0,
+    "skipped": 16,
+    "holds": 354,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 5.5,
+    "receivedFps": 16,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 683.3000000000029,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 124.30000001192093,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 3,
+    "playoutDelayMs": 429.30000001192093,
+    "timelineShifts": 9,
+    "decodeP50Ms": 3.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4585,
+   "server": {
+    "type": "stats",
+    "frames": 133,
+    "frames_dropped": 12,
+    "audio_s": 5.52,
+    "latency": {
+     "n": 121,
+     "p50_ms": 278.8,
+     "p95_ms": 663.3,
+     "max_ms": 2122.2,
+     "mean_ms": 341.4,
+     "output_fps": 18.77,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 35.81,
+    "stages_ms": {
+     "behaviour": 9.413,
+     "stitch": 0.659,
+     "render": 17.732,
+     "post": 0.118
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 16,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4591.5,
+     "frames_sent": 121,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 121,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 112917,
+   "client": {
+    "presented": 66,
+    "received": 134,
+    "droppedLate": 48,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 369,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 4.5,
+    "receivedFps": 13,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 650.0999999999913,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 125.40000002384477,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 187.30000001192093,
+    "timelineShifts": 10,
+    "decodeP50Ms": 3.699999988079071,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4554.300000011921,
+   "server": {
+    "type": "stats",
+    "frames": 133,
+    "frames_dropped": 12,
+    "audio_s": 5.52,
+    "latency": {
+     "n": 121,
+     "p50_ms": 278.8,
+     "p95_ms": 663.3,
+     "max_ms": 2122.2,
+     "mean_ms": 341.4,
+     "output_fps": 18.77,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 35.81,
+    "stages_ms": {
+     "behaviour": 9.413,
+     "stitch": 0.659,
+     "render": 17.732,
+     "post": 0.118
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 16,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4591.5,
+     "frames_sent": 121,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 121,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 113417,
+   "client": {
+    "presented": 69,
+    "received": 145,
+    "droppedLate": 50,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 394,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 5.5,
+    "receivedFps": 17,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 650.0999999999913,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 124.90000001192675,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 6,
+    "playoutDelayMs": 294.19999998807907,
+    "timelineShifts": 11,
+    "decodeP50Ms": 3.9000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4557.100000023842,
+   "server": {
+    "type": "stats",
+    "frames": 133,
+    "frames_dropped": 12,
+    "audio_s": 5.52,
+    "latency": {
+     "n": 121,
+     "p50_ms": 278.8,
+     "p95_ms": 663.3,
+     "max_ms": 2122.2,
+     "mean_ms": 341.4,
+     "output_fps": 18.77,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 35.81,
+    "stages_ms": {
+     "behaviour": 9.413,
+     "stitch": 0.659,
+     "render": 17.732,
+     "post": 0.118
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 16,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4591.5,
+     "frames_sent": 121,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 121,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 113916,
+   "client": {
+    "presented": 75,
+    "received": 145,
+    "droppedLate": 50,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 408,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 8,
+    "receivedFps": 15.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 650.0999999999913,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 127.19999999999709,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 294.19999998807907,
+    "timelineShifts": 11,
+    "decodeP50Ms": 3.9000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4557.100000023842,
+   "server": {
+    "type": "stats",
+    "frames": 133,
+    "frames_dropped": 12,
+    "audio_s": 5.52,
+    "latency": {
+     "n": 121,
+     "p50_ms": 278.8,
+     "p95_ms": 663.3,
+     "max_ms": 2122.2,
+     "mean_ms": 341.4,
+     "output_fps": 18.77,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 35.81,
+    "stages_ms": {
+     "behaviour": 9.413,
+     "stitch": 0.659,
+     "render": 17.732,
+     "post": 0.118
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 16,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4591.5,
+     "frames_sent": 121,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 121,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 114418,
+   "client": {
+    "presented": 77,
+    "received": 159,
+    "droppedLate": 55,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 433,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 8,
+    "receivedFps": 15.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 683.3000000000029,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 127.19999999999709,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 7,
+    "playoutDelayMs": 434.19999998807907,
+    "timelineShifts": 12,
+    "decodeP50Ms": 4.299999982118607,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4685.0999999940395,
+   "server": {
+    "type": "stats",
+    "frames": 183,
+    "frames_dropped": 35,
+    "audio_s": 7.52,
+    "latency": {
+     "n": 148,
+     "p50_ms": 307.3,
+     "p95_ms": 924.1,
+     "max_ms": 2122.2,
+     "mean_ms": 415.1,
+     "output_fps": 19.85,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 39.44,
+    "stages_ms": {
+     "behaviour": 8.89,
+     "stitch": 0.585,
+     "render": 15.771,
+     "post": 0.108
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 4,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4307.9,
+     "frames_sent": 148,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 148,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 114918,
+   "client": {
+    "presented": 84,
+    "received": 159,
+    "droppedLate": 55,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 446,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 9,
+    "receivedFps": 12.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 683.3000000000029,
+    "intervalMaxMs": 1533.199999999997,
+    "ageP50Ms": 130.90000001192675,
+    "ageP95Ms": 372.1000000000058,
+    "bufferDepth": 0,
+    "playoutDelayMs": 434.19999998807907,
+    "timelineShifts": 12,
+    "decodeP50Ms": 4.299999982118607,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4685.0999999940395,
+   "server": {
+    "type": "stats",
+    "frames": 183,
+    "frames_dropped": 35,
+    "audio_s": 7.52,
+    "latency": {
+     "n": 148,
+     "p50_ms": 307.3,
+     "p95_ms": 924.1,
+     "max_ms": 2122.2,
+     "mean_ms": 415.1,
+     "output_fps": 19.85,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 39.44,
+    "stages_ms": {
+     "behaviour": 8.89,
+     "stitch": 0.585,
+     "render": 15.771,
+     "post": 0.108
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 4,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4307.9,
+     "frames_sent": 148,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 148,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 115418,
+   "client": {
+    "presented": 84,
+    "received": 159,
+    "droppedLate": 55,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 476,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 7.5,
+    "receivedFps": 7,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 650.0999999999913,
+    "intervalMaxMs": 866.6000000000058,
+    "ageP50Ms": 130.90000001192675,
+    "ageP95Ms": 372.1000000000058,
+    "bufferDepth": 0,
+    "playoutDelayMs": 434.19999998807907,
+    "timelineShifts": 12,
+    "decodeP50Ms": 4.299999982118607,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4685.0999999940395,
+   "server": {
+    "type": "stats",
+    "frames": 183,
+    "frames_dropped": 35,
+    "audio_s": 7.52,
+    "latency": {
+     "n": 148,
+     "p50_ms": 307.3,
+     "p95_ms": 924.1,
+     "max_ms": 2122.2,
+     "mean_ms": 415.1,
+     "output_fps": 19.85,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 39.44,
+    "stages_ms": {
+     "behaviour": 8.89,
+     "stitch": 0.585,
+     "render": 15.771,
+     "post": 0.108
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 4,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4307.9,
+     "frames_sent": 148,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 148,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 115918,
+   "client": {
+    "presented": 86,
+    "received": 169,
+    "droppedLate": 63,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 500,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 5.5,
+    "receivedFps": 12,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 683.3000000000029,
+    "intervalMaxMs": 950,
+    "ageP50Ms": 130.90000001192675,
+    "ageP95Ms": 372.1000000000058,
+    "bufferDepth": 0,
+    "playoutDelayMs": 120,
+    "timelineShifts": 13,
+    "decodeP50Ms": 4.299999982118607,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4712.9000000059605,
+   "server": {
+    "type": "stats",
+    "frames": 183,
+    "frames_dropped": 35,
+    "audio_s": 7.52,
+    "latency": {
+     "n": 148,
+     "p50_ms": 307.3,
+     "p95_ms": 924.1,
+     "max_ms": 2122.2,
+     "mean_ms": 415.1,
+     "output_fps": 19.85,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 39.44,
+    "stages_ms": {
+     "behaviour": 8.89,
+     "stitch": 0.585,
+     "render": 15.771,
+     "post": 0.108
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 4,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4307.9,
+     "frames_sent": 148,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 148,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 116417,
+   "client": {
+    "presented": 89,
+    "received": 175,
+    "droppedLate": 65,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 523,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 6,
+    "receivedFps": 8,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 683.3000000000029,
+    "intervalMaxMs": 950,
+    "ageP50Ms": 130.8000000178872,
+    "ageP95Ms": 372.1000000000058,
+    "bufferDepth": 1,
+    "playoutDelayMs": 52.400000005960464,
+    "timelineShifts": 14,
+    "decodeP50Ms": 4.299999982118607,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 4763.0999999940395,
+   "server": {
+    "type": "stats",
+    "frames": 183,
+    "frames_dropped": 35,
+    "audio_s": 7.52,
+    "latency": {
+     "n": 148,
+     "p50_ms": 307.3,
+     "p95_ms": 924.1,
+     "max_ms": 2122.2,
+     "mean_ms": 415.1,
+     "output_fps": 19.85,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 39.44,
+    "stages_ms": {
+     "behaviour": 8.89,
+     "stitch": 0.585,
+     "render": 15.771,
+     "post": 0.108
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 4,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4307.9,
+     "frames_sent": 148,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 148,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 116918,
+   "client": {
+    "presented": 93,
+    "received": 184,
+    "droppedLate": 70,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 542,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 4.5,
+    "receivedFps": 12.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 650.0999999999913,
+    "intervalMaxMs": 950,
+    "ageP50Ms": 130.00000001191802,
+    "ageP95Ms": 372.1000000000058,
+    "bufferDepth": 1,
+    "playoutDelayMs": 120,
+    "timelineShifts": 15,
+    "decodeP50Ms": 4.299999982118607,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 5547.4000000059605,
+   "server": {
+    "type": "stats",
+    "frames": 217,
+    "frames_dropped": 35,
+    "audio_s": 8.88,
+    "latency": {
+     "n": 182,
+     "p50_ms": 326.9,
+     "p95_ms": 898.1,
+     "max_ms": 2122.2,
+     "mean_ms": 409.5,
+     "output_fps": 21.4,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.86,
+    "stages_ms": {
+     "behaviour": 8.683,
+     "stitch": 0.613,
+     "render": 16.316,
+     "post": 0.119
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4608.8,
+     "frames_sent": 182,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 182,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 117417,
+   "client": {
+    "presented": 95,
+    "received": 192,
+    "droppedLate": 75,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 567,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 5.5,
+    "receivedFps": 16.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 650.0999999999913,
+    "intervalMaxMs": 950,
+    "ageP50Ms": 130.00000001191802,
+    "ageP95Ms": 372.1000000000058,
+    "bufferDepth": 2,
+    "playoutDelayMs": 100,
+    "timelineShifts": 16,
+    "decodeP50Ms": 4.299999982118607,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 5845,
+   "server": {
+    "type": "stats",
+    "frames": 217,
+    "frames_dropped": 35,
+    "audio_s": 8.88,
+    "latency": {
+     "n": 182,
+     "p50_ms": 326.9,
+     "p95_ms": 898.1,
+     "max_ms": 2122.2,
+     "mean_ms": 409.5,
+     "output_fps": 21.4,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.86,
+    "stages_ms": {
+     "behaviour": 8.683,
+     "stitch": 0.613,
+     "render": 16.316,
+     "post": 0.119
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4608.8,
+     "frames_sent": 182,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 182,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 117917,
+   "client": {
+    "presented": 102,
+    "received": 201,
+    "droppedLate": 79,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 579,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 8,
+    "receivedFps": 16,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 650,
+    "intervalMaxMs": 950,
+    "ageP50Ms": 127.70000002384768,
+    "ageP95Ms": 369.90000002384477,
+    "bufferDepth": 0,
+    "playoutDelayMs": 3.800000011920929,
+    "timelineShifts": 16,
+    "decodeP50Ms": 4,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 6106.5,
+   "server": {
+    "type": "stats",
+    "frames": 217,
+    "frames_dropped": 35,
+    "audio_s": 8.88,
+    "latency": {
+     "n": 182,
+     "p50_ms": 326.9,
+     "p95_ms": 898.1,
+     "max_ms": 2122.2,
+     "mean_ms": 409.5,
+     "output_fps": 21.4,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.86,
+    "stages_ms": {
+     "behaviour": 8.683,
+     "stitch": 0.613,
+     "render": 16.316,
+     "post": 0.119
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4608.8,
+     "frames_sent": 182,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 182,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 118417,
+   "client": {
+    "presented": 102,
+    "received": 211,
+    "droppedLate": 84,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 609,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 6.5,
+    "receivedFps": 18,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 650,
+    "intervalMaxMs": 950,
+    "ageP50Ms": 127.70000002384768,
+    "ageP95Ms": 369.90000002384477,
+    "bufferDepth": 5,
+    "playoutDelayMs": 253.09999999403954,
+    "timelineShifts": 17,
+    "decodeP50Ms": 3.699999988079071,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 6382.800000011921,
+   "server": {
+    "type": "stats",
+    "frames": 243,
+    "frames_dropped": 35,
+    "audio_s": 9.92,
+    "latency": {
+     "n": 208,
+     "p50_ms": 307.3,
+     "p95_ms": 854.8,
+     "max_ms": 2122.2,
+     "mean_ms": 390.3,
+     "output_fps": 21.78,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.72,
+    "stages_ms": {
+     "behaviour": 8.506,
+     "stitch": 0.616,
+     "render": 16.582,
+     "post": 0.125
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4426,
+     "frames_sent": 208,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 208,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 118918,
+   "client": {
+    "presented": 114,
+    "received": 219,
+    "droppedLate": 85,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 611,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 10.5,
+    "receivedFps": 17.5,
+    "intervalP50Ms": 49.90000000000873,
+    "intervalP95Ms": 650,
+    "intervalMaxMs": 950,
+    "ageP50Ms": 127.19999999999709,
+    "ageP95Ms": 369.90000002384477,
+    "bufferDepth": 0,
+    "playoutDelayMs": 60.400000005960464,
+    "timelineShifts": 17,
+    "decodeP50Ms": 3.300000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 6488.9000000059605,
+   "server": {
+    "type": "stats",
+    "frames": 243,
+    "frames_dropped": 35,
+    "audio_s": 9.92,
+    "latency": {
+     "n": 208,
+     "p50_ms": 307.3,
+     "p95_ms": 854.8,
+     "max_ms": 2122.2,
+     "mean_ms": 390.3,
+     "output_fps": 21.78,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.72,
+    "stages_ms": {
+     "behaviour": 8.506,
+     "stitch": 0.616,
+     "render": 16.582,
+     "post": 0.125
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4426,
+     "frames_sent": 208,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 208,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 119415,
+   "client": {
+    "presented": 115,
+    "received": 224,
+    "droppedLate": 89,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 636,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 10,
+    "receivedFps": 16,
+    "intervalP50Ms": 49.90000000000873,
+    "intervalP95Ms": 650,
+    "intervalMaxMs": 950,
+    "ageP50Ms": 125.80000001192093,
+    "ageP95Ms": 369.90000002384477,
+    "bufferDepth": 0,
+    "playoutDelayMs": 30.30000001192093,
+    "timelineShifts": 17,
+    "decodeP50Ms": 3.300000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 6600.5999999940395,
+   "server": {
+    "type": "stats",
+    "frames": 243,
+    "frames_dropped": 35,
+    "audio_s": 9.92,
+    "latency": {
+     "n": 208,
+     "p50_ms": 307.3,
+     "p95_ms": 854.8,
+     "max_ms": 2122.2,
+     "mean_ms": 390.3,
+     "output_fps": 21.78,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.72,
+    "stages_ms": {
+     "behaviour": 8.506,
+     "stitch": 0.616,
+     "render": 16.582,
+     "post": 0.125
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4426,
+     "frames_sent": 208,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 208,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 119916,
+   "client": {
+    "presented": 115,
+    "received": 224,
+    "droppedLate": 89,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 666,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 6.5,
+    "receivedFps": 11.5,
+    "intervalP50Ms": 49.90000000000873,
+    "intervalP95Ms": 650,
+    "intervalMaxMs": 950,
+    "ageP50Ms": 125.80000001192093,
+    "ageP95Ms": 369.90000002384477,
+    "bufferDepth": 0,
+    "playoutDelayMs": 30.30000001192093,
+    "timelineShifts": 17,
+    "decodeP50Ms": 3.300000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 6600.5999999940395,
+   "server": {
+    "type": "stats",
+    "frames": 243,
+    "frames_dropped": 35,
+    "audio_s": 9.92,
+    "latency": {
+     "n": 208,
+     "p50_ms": 307.3,
+     "p95_ms": 854.8,
+     "max_ms": 2122.2,
+     "mean_ms": 390.3,
+     "output_fps": 21.78,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.72,
+    "stages_ms": {
+     "behaviour": 8.506,
+     "stitch": 0.616,
+     "render": 16.582,
+     "post": 0.125
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4426,
+     "frames_sent": 208,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 208,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1683.1,
+     "lag_max_ms": 1920.9
+    }
+   }
+  },
+  {
+   "t": 120419,
+   "client": {
+    "presented": 117,
+    "received": 237,
+    "droppedLate": 94,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 691,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 7.5,
+    "receivedFps": 13,
+    "intervalP50Ms": 49.90000000000873,
+    "intervalP95Ms": 699.7999999999884,
+    "intervalMaxMs": 1233.300000000003,
+    "ageP50Ms": 125.80000001192093,
+    "ageP95Ms": 369.90000002384477,
+    "bufferDepth": 6,
+    "playoutDelayMs": 294.7999999821186,
+    "timelineShifts": 18,
+    "decodeP50Ms": 3.600000023841858,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 6766.5999999940395,
+   "server": {
+    "type": "stats",
+    "frames": 267,
+    "frames_dropped": 35,
+    "audio_s": 10.88,
+    "latency": {
+     "n": 232,
+     "p50_ms": 291.3,
+     "p95_ms": 803,
+     "max_ms": 2122.2,
+     "mean_ms": 376.8,
+     "output_fps": 21.99,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.63,
+    "stages_ms": {
+     "behaviour": 8.376,
+     "stitch": 0.619,
+     "render": 16.764,
+     "post": 0.128
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3812,
+     "frames_sent": 232,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 232,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1122.2,
+     "lag_max_ms": 1359
+    }
+   }
+  },
+  {
+   "t": 120915,
+   "client": {
+    "presented": 127,
+    "received": 241,
+    "droppedLate": 94,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 696,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 6.5,
+    "receivedFps": 11,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 699.7999999999884,
+    "intervalMaxMs": 1233.300000000003,
+    "ageP50Ms": 130.00000001191802,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 173.40000000596046,
+    "timelineShifts": 18,
+    "decodeP50Ms": 3.300000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 6816.5,
+   "server": {
+    "type": "stats",
+    "frames": 267,
+    "frames_dropped": 35,
+    "audio_s": 10.88,
+    "latency": {
+     "n": 232,
+     "p50_ms": 291.3,
+     "p95_ms": 803,
+     "max_ms": 2122.2,
+     "mean_ms": 376.8,
+     "output_fps": 21.99,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.63,
+    "stages_ms": {
+     "behaviour": 8.376,
+     "stitch": 0.619,
+     "render": 16.764,
+     "post": 0.128
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3812,
+     "frames_sent": 232,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 232,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1122.2,
+     "lag_max_ms": 1359
+    }
+   }
+  },
+  {
+   "t": 121418,
+   "client": {
+    "presented": 130,
+    "received": 250,
+    "droppedLate": 99,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 719,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 7.5,
+    "receivedFps": 13,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 650,
+    "intervalMaxMs": 1233.300000000003,
+    "ageP50Ms": 130.80000000595464,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 1,
+    "playoutDelayMs": 32.599999994039536,
+    "timelineShifts": 19,
+    "decodeP50Ms": 3.2000000178813934,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 7566,
+   "server": {
+    "type": "stats",
+    "frames": 267,
+    "frames_dropped": 35,
+    "audio_s": 10.88,
+    "latency": {
+     "n": 232,
+     "p50_ms": 291.3,
+     "p95_ms": 803,
+     "max_ms": 2122.2,
+     "mean_ms": 376.8,
+     "output_fps": 21.99,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.63,
+    "stages_ms": {
+     "behaviour": 8.376,
+     "stitch": 0.619,
+     "render": 16.764,
+     "post": 0.128
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3812,
+     "frames_sent": 232,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 232,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1122.2,
+     "lag_max_ms": 1359
+    }
+   }
+  },
+  {
+   "t": 121918,
+   "client": {
+    "presented": 133,
+    "received": 252,
+    "droppedLate": 99,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 740,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 9,
+    "receivedFps": 14,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 650,
+    "intervalMaxMs": 1233.300000000003,
+    "ageP50Ms": 128.70000000596337,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 61.5,
+    "timelineShifts": 19,
+    "decodeP50Ms": 3.100000023841858,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 7589.100000023842,
+   "server": {
+    "type": "stats",
+    "frames": 267,
+    "frames_dropped": 35,
+    "audio_s": 10.88,
+    "latency": {
+     "n": 232,
+     "p50_ms": 291.3,
+     "p95_ms": 803,
+     "max_ms": 2122.2,
+     "mean_ms": 376.8,
+     "output_fps": 21.99,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.63,
+    "stages_ms": {
+     "behaviour": 8.376,
+     "stitch": 0.619,
+     "render": 16.764,
+     "post": 0.128
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3812,
+     "frames_sent": 232,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 232,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1122.2,
+     "lag_max_ms": 1359
+    }
+   }
+  },
+  {
+   "t": 122416,
+   "client": {
+    "presented": 133,
+    "received": 252,
+    "droppedLate": 99,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 769,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 8,
+    "receivedFps": 7.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 650,
+    "intervalMaxMs": 1233.300000000003,
+    "ageP50Ms": 128.70000000596337,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 61.5,
+    "timelineShifts": 19,
+    "decodeP50Ms": 3.100000023841858,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 7589.100000023842,
+   "server": {
+    "type": "stats",
+    "frames": 267,
+    "frames_dropped": 35,
+    "audio_s": 10.88,
+    "latency": {
+     "n": 232,
+     "p50_ms": 291.3,
+     "p95_ms": 803,
+     "max_ms": 2122.2,
+     "mean_ms": 376.8,
+     "output_fps": 21.99,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.63,
+    "stages_ms": {
+     "behaviour": 8.376,
+     "stitch": 0.619,
+     "render": 16.764,
+     "post": 0.128
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3812,
+     "frames_sent": 232,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 232,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1122.2,
+     "lag_max_ms": 1359
+    }
+   }
+  },
+  {
+   "t": 122918,
+   "client": {
+    "presented": 133,
+    "received": 252,
+    "droppedLate": 99,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 800,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 3,
+    "receivedFps": 5.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 650,
+    "intervalMaxMs": 1233.300000000003,
+    "ageP50Ms": 128.70000000596337,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 61.5,
+    "timelineShifts": 19,
+    "decodeP50Ms": 3.100000023841858,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 7589.100000023842,
+   "server": {
+    "type": "stats",
+    "frames": 267,
+    "frames_dropped": 35,
+    "audio_s": 10.88,
+    "latency": {
+     "n": 232,
+     "p50_ms": 291.3,
+     "p95_ms": 803,
+     "max_ms": 2122.2,
+     "mean_ms": 376.8,
+     "output_fps": 21.99,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.63,
+    "stages_ms": {
+     "behaviour": 8.376,
+     "stitch": 0.619,
+     "render": 16.764,
+     "post": 0.128
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3812,
+     "frames_sent": 232,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 232,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 1122.2,
+     "lag_max_ms": 1359
+    }
+   }
+  },
+  {
+   "t": 123416,
+   "client": {
+    "presented": 136,
+    "received": 260,
+    "droppedLate": 104,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 820,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 3,
+    "receivedFps": 5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 699.7999999999884,
+    "intervalMaxMs": 1733.199999999997,
+    "ageP50Ms": 130.00000001191802,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 159.59999999403954,
+    "timelineShifts": 20,
+    "decodeP50Ms": 3.0999999940395355,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 7740.199999988079,
+   "server": {
+    "type": "stats",
+    "frames": 293,
+    "frames_dropped": 35,
+    "audio_s": 11.92,
+    "latency": {
+     "n": 258,
+     "p50_ms": 281.9,
+     "p95_ms": 773.2,
+     "max_ms": 2122.2,
+     "mean_ms": 363,
+     "output_fps": 22.32,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.49,
+    "stages_ms": {
+     "behaviour": 8.252,
+     "stitch": 0.622,
+     "render": 16.979,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 1,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3907.1,
+     "frames_sent": 258,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 258,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 51.8,
+     "lag_max_ms": 100.5
+    }
+   }
+  },
+  {
+   "t": 123916,
+   "client": {
+    "presented": 137,
+    "received": 263,
+    "droppedLate": 106,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 848,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 2,
+    "receivedFps": 5.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 650,
+    "intervalMaxMs": 1733.199999999997,
+    "ageP50Ms": 128.70000000596337,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 18.19999998807907,
+    "timelineShifts": 20,
+    "decodeP50Ms": 3,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 7882.5,
+   "server": {
+    "type": "stats",
+    "frames": 293,
+    "frames_dropped": 35,
+    "audio_s": 11.92,
+    "latency": {
+     "n": 258,
+     "p50_ms": 281.9,
+     "p95_ms": 773.2,
+     "max_ms": 2122.2,
+     "mean_ms": 363,
+     "output_fps": 22.32,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.49,
+    "stages_ms": {
+     "behaviour": 8.252,
+     "stitch": 0.622,
+     "render": 16.979,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 1,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3907.1,
+     "frames_sent": 258,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 258,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 51.8,
+     "lag_max_ms": 100.5
+    }
+   }
+  },
+  {
+   "t": 124418,
+   "client": {
+    "presented": 137,
+    "received": 265,
+    "droppedLate": 108,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 878,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 2,
+    "receivedFps": 6.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 950,
+    "intervalMaxMs": 1733.199999999997,
+    "ageP50Ms": 128.70000000596337,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 18.19999998807907,
+    "timelineShifts": 20,
+    "decodeP50Ms": 3,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 7887.399999976158,
+   "server": {
+    "type": "stats",
+    "frames": 293,
+    "frames_dropped": 35,
+    "audio_s": 11.92,
+    "latency": {
+     "n": 258,
+     "p50_ms": 281.9,
+     "p95_ms": 773.2,
+     "max_ms": 2122.2,
+     "mean_ms": 363,
+     "output_fps": 22.32,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.49,
+    "stages_ms": {
+     "behaviour": 8.252,
+     "stitch": 0.622,
+     "render": 16.979,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 1,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3907.1,
+     "frames_sent": 258,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 258,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 51.8,
+     "lag_max_ms": 100.5
+    }
+   }
+  },
+  {
+   "t": 124916,
+   "client": {
+    "presented": 137,
+    "received": 265,
+    "droppedLate": 108,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 908,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 2,
+    "receivedFps": 6.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 650,
+    "intervalMaxMs": 1733.199999999997,
+    "ageP50Ms": 128.70000000596337,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 18.19999998807907,
+    "timelineShifts": 20,
+    "decodeP50Ms": 3,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 7887.399999976158,
+   "server": {
+    "type": "stats",
+    "frames": 293,
+    "frames_dropped": 35,
+    "audio_s": 11.92,
+    "latency": {
+     "n": 258,
+     "p50_ms": 281.9,
+     "p95_ms": 773.2,
+     "max_ms": 2122.2,
+     "mean_ms": 363,
+     "output_fps": 22.32,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.49,
+    "stages_ms": {
+     "behaviour": 8.252,
+     "stitch": 0.622,
+     "render": 16.979,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 1,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3907.1,
+     "frames_sent": 258,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 258,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 51.8,
+     "lag_max_ms": 100.5
+    }
+   }
+  },
+  {
+   "t": 125418,
+   "client": {
+    "presented": 138,
+    "received": 271,
+    "droppedLate": 113,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 935,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 1,
+    "receivedFps": 5.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 1233.300000000003,
+    "intervalMaxMs": 1766.5,
+    "ageP50Ms": 128.70000000596337,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 120,
+    "timelineShifts": 21,
+    "decodeP50Ms": 3,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 8037,
+   "server": {
+    "type": "stats",
+    "frames": 293,
+    "frames_dropped": 35,
+    "audio_s": 11.92,
+    "latency": {
+     "n": 258,
+     "p50_ms": 281.9,
+     "p95_ms": 773.2,
+     "max_ms": 2122.2,
+     "mean_ms": 363,
+     "output_fps": 22.32,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.49,
+    "stages_ms": {
+     "behaviour": 8.252,
+     "stitch": 0.622,
+     "render": 16.979,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 1,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3907.1,
+     "frames_sent": 258,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 258,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 51.8,
+     "lag_max_ms": 100.5
+    }
+   }
+  },
+  {
+   "t": 125917,
+   "client": {
+    "presented": 138,
+    "received": 271,
+    "droppedLate": 113,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 962,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0.5,
+    "receivedFps": 4,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 1233.300000000003,
+    "intervalMaxMs": 1766.5,
+    "ageP50Ms": 128.70000000596337,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 120,
+    "timelineShifts": 21,
+    "decodeP50Ms": 3,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 8037,
+   "server": {
+    "type": "stats",
+    "frames": 293,
+    "frames_dropped": 35,
+    "audio_s": 11.92,
+    "latency": {
+     "n": 258,
+     "p50_ms": 281.9,
+     "p95_ms": 773.2,
+     "max_ms": 2122.2,
+     "mean_ms": 363,
+     "output_fps": 22.32,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.49,
+    "stages_ms": {
+     "behaviour": 8.252,
+     "stitch": 0.622,
+     "render": 16.979,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 1,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3907.1,
+     "frames_sent": 258,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 258,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 51.8,
+     "lag_max_ms": 100.5
+    }
+   }
+  },
+  {
+   "t": 126416,
+   "client": {
+    "presented": 139,
+    "received": 275,
+    "droppedLate": 116,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 989,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 1,
+    "receivedFps": 5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 1233.300000000003,
+    "intervalMaxMs": 1766.5,
+    "ageP50Ms": 127.70000002384768,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 120,
+    "timelineShifts": 22,
+    "decodeP50Ms": 3,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 8133.5,
+   "server": {
+    "type": "stats",
+    "frames": 293,
+    "frames_dropped": 35,
+    "audio_s": 11.92,
+    "latency": {
+     "n": 258,
+     "p50_ms": 281.9,
+     "p95_ms": 773.2,
+     "max_ms": 2122.2,
+     "mean_ms": 363,
+     "output_fps": 22.32,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.49,
+    "stages_ms": {
+     "behaviour": 8.252,
+     "stitch": 0.622,
+     "render": 16.979,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 1,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3907.1,
+     "frames_sent": 258,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 258,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 51.8,
+     "lag_max_ms": 100.5
+    }
+   }
+  },
+  {
+   "t": 126918,
+   "client": {
+    "presented": 139,
+    "received": 276,
+    "droppedLate": 117,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 1019,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 1,
+    "receivedFps": 5.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 1233.300000000003,
+    "intervalMaxMs": 1766.5,
+    "ageP50Ms": 127.70000002384768,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 120,
+    "timelineShifts": 22,
+    "decodeP50Ms": 3,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 8152.5,
+   "server": {
+    "type": "stats",
+    "frames": 293,
+    "frames_dropped": 35,
+    "audio_s": 11.92,
+    "latency": {
+     "n": 258,
+     "p50_ms": 281.9,
+     "p95_ms": 773.2,
+     "max_ms": 2122.2,
+     "mean_ms": 363,
+     "output_fps": 22.32,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.49,
+    "stages_ms": {
+     "behaviour": 8.252,
+     "stitch": 0.622,
+     "render": 16.979,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 1,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3907.1,
+     "frames_sent": 258,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 258,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 51.8,
+     "lag_max_ms": 100.5
+    }
+   }
+  },
+  {
+   "t": 127416,
+   "client": {
+    "presented": 139,
+    "received": 278,
+    "droppedLate": 119,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 1049,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0.5,
+    "receivedFps": 3.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 1233.300000000003,
+    "intervalMaxMs": 1766.5,
+    "ageP50Ms": 127.70000002384768,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 120,
+    "timelineShifts": 22,
+    "decodeP50Ms": 3,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 9503.199999988079,
+   "server": {
+    "type": "stats",
+    "frames": 313,
+    "frames_dropped": 35,
+    "audio_s": 12.72,
+    "latency": {
+     "n": 278,
+     "p50_ms": 280.1,
+     "p95_ms": 758.7,
+     "max_ms": 2122.2,
+     "mean_ms": 359.3,
+     "output_fps": 22.06,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.4,
+    "stages_ms": {
+     "behaviour": 8.183,
+     "stitch": 0.631,
+     "render": 17.098,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 2,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3488.1,
+     "frames_sent": 278,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 278,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 100.5,
+     "lag_max_ms": 296
+    }
+   }
+  },
+  {
+   "t": 127916,
+   "client": {
+    "presented": 139,
+    "received": 282,
+    "droppedLate": 121,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 1078,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 0.5,
+    "receivedFps": 5.5,
+    "intervalP50Ms": 49.90000000000873,
+    "intervalP95Ms": 1733.199999999997,
+    "intervalMaxMs": 1766.5,
+    "ageP50Ms": 127.70000002384768,
+    "ageP95Ms": 322.80000002383895,
+    "bufferDepth": 2,
+    "playoutDelayMs": 155.7999999821186,
+    "timelineShifts": 23,
+    "decodeP50Ms": 3,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 9644.5,
+   "server": {
+    "type": "stats",
+    "frames": 313,
+    "frames_dropped": 35,
+    "audio_s": 12.72,
+    "latency": {
+     "n": 278,
+     "p50_ms": 280.1,
+     "p95_ms": 758.7,
+     "max_ms": 2122.2,
+     "mean_ms": 359.3,
+     "output_fps": 22.06,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.4,
+    "stages_ms": {
+     "behaviour": 8.183,
+     "stitch": 0.631,
+     "render": 17.098,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 2,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3488.1,
+     "frames_sent": 278,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 278,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 100.5,
+     "lag_max_ms": 296
+    }
+   }
+  },
+  {
+   "t": 128415,
+   "client": {
+    "presented": 142,
+    "received": 288,
+    "droppedLate": 126,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 1102,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 1.5,
+    "receivedFps": 6.5,
+    "intervalP50Ms": 49.90000000000873,
+    "intervalP95Ms": 1766.5,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 128.70000000596337,
+    "ageP95Ms": 320.7000000119151,
+    "bufferDepth": 0,
+    "playoutDelayMs": 160.7999999821186,
+    "timelineShifts": 23,
+    "decodeP50Ms": 3,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 10526.399999976158,
+   "server": {
+    "type": "stats",
+    "frames": 313,
+    "frames_dropped": 35,
+    "audio_s": 12.72,
+    "latency": {
+     "n": 278,
+     "p50_ms": 280.1,
+     "p95_ms": 758.7,
+     "max_ms": 2122.2,
+     "mean_ms": 359.3,
+     "output_fps": 22.06,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.4,
+    "stages_ms": {
+     "behaviour": 8.183,
+     "stitch": 0.631,
+     "render": 17.098,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 2,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3488.1,
+     "frames_sent": 278,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 278,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 100.5,
+     "lag_max_ms": 296
+    }
+   }
+  },
+  {
+   "t": 128918,
+   "client": {
+    "presented": 144,
+    "received": 295,
+    "droppedLate": 126,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 1127,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 2.5,
+    "receivedFps": 9.5,
+    "intervalP50Ms": 49.90000000000873,
+    "intervalP95Ms": 1766.5,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 130.00000001191802,
+    "ageP95Ms": 320.7000000119151,
+    "bufferDepth": 5,
+    "playoutDelayMs": 253.69999998807907,
+    "timelineShifts": 24,
+    "decodeP50Ms": 2.9000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 11225.09999999404,
+   "server": {
+    "type": "stats",
+    "frames": 313,
+    "frames_dropped": 35,
+    "audio_s": 12.72,
+    "latency": {
+     "n": 278,
+     "p50_ms": 280.1,
+     "p95_ms": 758.7,
+     "max_ms": 2122.2,
+     "mean_ms": 359.3,
+     "output_fps": 22.06,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.4,
+    "stages_ms": {
+     "behaviour": 8.183,
+     "stitch": 0.631,
+     "render": 17.098,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 2,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3488.1,
+     "frames_sent": 278,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 278,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 100.5,
+     "lag_max_ms": 296
+    }
+   }
+  },
+  {
+   "t": 129418,
+   "client": {
+    "presented": 157,
+    "received": 308,
+    "droppedLate": 126,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 1127,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 9,
+    "receivedFps": 15,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 1733.199999999997,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 130.90000001192675,
+    "ageP95Ms": 320.7000000119151,
+    "bufferDepth": 5,
+    "playoutDelayMs": 180,
+    "timelineShifts": 24,
+    "decodeP50Ms": 2.5,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 13568.300000011921,
+   "server": {
+    "type": "stats",
+    "frames": 313,
+    "frames_dropped": 35,
+    "audio_s": 12.72,
+    "latency": {
+     "n": 278,
+     "p50_ms": 280.1,
+     "p95_ms": 758.7,
+     "max_ms": 2122.2,
+     "mean_ms": 359.3,
+     "output_fps": 22.06,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.4,
+    "stages_ms": {
+     "behaviour": 8.183,
+     "stitch": 0.631,
+     "render": 17.098,
+     "post": 0.129
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 2,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3488.1,
+     "frames_sent": 278,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 278,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 100.5,
+     "lag_max_ms": 296
+    }
+   }
+  },
+  {
+   "t": 129916,
+   "client": {
+    "presented": 168,
+    "received": 314,
+    "droppedLate": 126,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 1129,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 14.5,
+    "receivedFps": 16,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 1733.199999999997,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 138.10000000000582,
+    "ageP95Ms": 318.30000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 164.89999997615814,
+    "timelineShifts": 24,
+    "decodeP50Ms": 2.5,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 13723.59999999404,
+   "server": {
+    "type": "stats",
+    "frames": 345,
+    "frames_dropped": 35,
+    "audio_s": 14,
+    "latency": {
+     "n": 310,
+     "p50_ms": 283,
+     "p95_ms": 720.6,
+     "max_ms": 2122.2,
+     "mean_ms": 353.8,
+     "output_fps": 22.76,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.21,
+    "stages_ms": {
+     "behaviour": 8.117,
+     "stitch": 0.638,
+     "render": 17.284,
+     "post": 0.132
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3931.6,
+     "frames_sent": 310,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 310,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 100.5,
+     "lag_max_ms": 296
+    }
+   }
+  },
+  {
+   "t": 130415,
+   "client": {
+    "presented": 168,
+    "received": 318,
+    "droppedLate": 130,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 1158,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 13,
+    "receivedFps": 15,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 1733.199999999997,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 138.10000000000582,
+    "ageP95Ms": 318.30000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 164.89999997615814,
+    "timelineShifts": 24,
+    "decodeP50Ms": 2.5,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 13738.800000011921,
+   "server": {
+    "type": "stats",
+    "frames": 345,
+    "frames_dropped": 35,
+    "audio_s": 14,
+    "latency": {
+     "n": 310,
+     "p50_ms": 283,
+     "p95_ms": 720.6,
+     "max_ms": 2122.2,
+     "mean_ms": 353.8,
+     "output_fps": 22.76,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.21,
+    "stages_ms": {
+     "behaviour": 8.117,
+     "stitch": 0.638,
+     "render": 17.284,
+     "post": 0.132
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3931.6,
+     "frames_sent": 310,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 310,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 100.5,
+     "lag_max_ms": 296
+    }
+   }
+  },
+  {
+   "t": 130917,
+   "client": {
+    "presented": 172,
+    "received": 324,
+    "droppedLate": 132,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 1179,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 14,
+    "receivedFps": 14.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 1733.199999999997,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 138.10000000000582,
+    "ageP95Ms": 318.30000002383895,
+    "bufferDepth": 0,
+    "playoutDelayMs": 17.599999994039536,
+    "timelineShifts": 25,
+    "decodeP50Ms": 2.4000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 13800.40000000596,
+   "server": {
+    "type": "stats",
+    "frames": 345,
+    "frames_dropped": 35,
+    "audio_s": 14,
+    "latency": {
+     "n": 310,
+     "p50_ms": 283,
+     "p95_ms": 720.6,
+     "max_ms": 2122.2,
+     "mean_ms": 353.8,
+     "output_fps": 22.76,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.21,
+    "stages_ms": {
+     "behaviour": 8.117,
+     "stitch": 0.638,
+     "render": 17.284,
+     "post": 0.132
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3931.6,
+     "frames_sent": 310,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 310,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 100.5,
+     "lag_max_ms": 296
+    }
+   }
+  },
+  {
+   "t": 131417,
+   "client": {
+    "presented": 180,
+    "received": 340,
+    "droppedLate": 137,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 1192,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 11.5,
+    "receivedFps": 16,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 1733.199999999997,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 141.90000001192675,
+    "ageP95Ms": 320.7000000119151,
+    "bufferDepth": 3,
+    "playoutDelayMs": 120,
+    "timelineShifts": 26,
+    "decodeP50Ms": 2.2999999821186066,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 14333.09999999404,
+   "server": {
+    "type": "stats",
+    "frames": 371,
+    "frames_dropped": 35,
+    "audio_s": 15.04,
+    "latency": {
+     "n": 336,
+     "p50_ms": 279.6,
+     "p95_ms": 686.7,
+     "max_ms": 2122.2,
+     "mean_ms": 345.4,
+     "output_fps": 22.85,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.12,
+    "stages_ms": {
+     "behaviour": 8.031,
+     "stitch": 0.64,
+     "render": 17.428,
+     "post": 0.133
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 1,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4246,
+     "frames_sent": 336,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 336,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 100.5,
+     "lag_max_ms": 296
+    }
+   }
+  },
+  {
+   "t": 131918,
+   "client": {
+    "presented": 192,
+    "received": 354,
+    "droppedLate": 137,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 1192,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 12,
+    "receivedFps": 20,
+    "intervalP50Ms": 33.60000000000582,
+    "intervalP95Ms": 966.6000000000058,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 147.40000002384477,
+    "ageP95Ms": 318.30000002383895,
+    "bufferDepth": 5,
+    "playoutDelayMs": 180.40000000596046,
+    "timelineShifts": 26,
+    "decodeP50Ms": 2.300000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 14397.09999999404,
+   "server": {
+    "type": "stats",
+    "frames": 371,
+    "frames_dropped": 35,
+    "audio_s": 15.04,
+    "latency": {
+     "n": 336,
+     "p50_ms": 279.6,
+     "p95_ms": 686.7,
+     "max_ms": 2122.2,
+     "mean_ms": 345.4,
+     "output_fps": 22.85,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.12,
+    "stages_ms": {
+     "behaviour": 8.031,
+     "stitch": 0.64,
+     "render": 17.428,
+     "post": 0.133
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 1,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4246,
+     "frames_sent": 336,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 336,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 100.5,
+     "lag_max_ms": 296
+    }
+   }
+  },
+  {
+   "t": 132831,
+   "client": {
+    "presented": 215,
+    "received": 380,
+    "droppedLate": 137,
+    "droppedOverflow": 0,
+    "skipped": 20,
+    "holds": 1192,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 28,
+    "intervalP50Ms": 33.40000000000873,
+    "intervalP95Ms": 749.9000000000087,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 159.60000002384186,
+    "ageP95Ms": 402.8000000178872,
+    "bufferDepth": 8,
+    "playoutDelayMs": 401.90000000596046,
+    "timelineShifts": 26,
+    "decodeP50Ms": 2.2999999821186066,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 14350.699999988079,
+   "server": {
+    "type": "stats",
+    "frames": 399,
+    "frames_dropped": 35,
+    "audio_s": 16.16,
+    "latency": {
+     "n": 364,
+     "p50_ms": 276.8,
+     "p95_ms": 680.4,
+     "max_ms": 2122.2,
+     "mean_ms": 337.5,
+     "output_fps": 23.07,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.06,
+    "stages_ms": {
+     "behaviour": 7.957,
+     "stitch": 0.64,
+     "render": 17.539,
+     "post": 0.136
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3903.8,
+     "frames_sent": 364,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 364,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 89.4,
+     "lag_max_ms": 296
+    }
+   }
+  },
+  {
+   "t": 133330,
+   "client": {
+    "presented": 229,
+    "received": 408,
+    "droppedLate": 137,
+    "droppedOverflow": 0,
+    "skipped": 32,
+    "holds": 1192,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 26,
+    "receivedFps": 35.5,
+    "intervalP50Ms": 33.40000000000873,
+    "intervalP95Ms": 749.9000000000087,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 163.90000002384477,
+    "ageP95Ms": 402.8000000178872,
+    "bufferDepth": 10,
+    "playoutDelayMs": 385.7999999821186,
+    "timelineShifts": 28,
+    "decodeP50Ms": 2.5,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 14222,
+   "server": {
+    "type": "stats",
+    "frames": 425,
+    "frames_dropped": 35,
+    "audio_s": 17.2,
+    "latency": {
+     "n": 390,
+     "p50_ms": 275.4,
+     "p95_ms": 672.6,
+     "max_ms": 2122.2,
+     "mean_ms": 331.3,
+     "output_fps": 23.2,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.02,
+    "stages_ms": {
+     "behaviour": 7.893,
+     "stitch": 0.645,
+     "render": 17.626,
+     "post": 0.136
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3953.3,
+     "frames_sent": 390,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 390,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 89.4,
+     "lag_max_ms": 296
+    }
+   }
+  },
+  {
+   "t": 133830,
+   "client": {
+    "presented": 243,
+    "received": 463,
+    "droppedLate": 137,
+    "droppedOverflow": 0,
+    "skipped": 68,
+    "holds": 1192,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 26.5,
+    "receivedFps": 55,
+    "intervalP50Ms": 33.39999999999418,
+    "intervalP95Ms": 83.30000000000291,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 159.60000002384186,
+    "ageP95Ms": 400.50000001786975,
+    "bufferDepth": 14,
+    "playoutDelayMs": 548.2999999821186,
+    "timelineShifts": 31,
+    "decodeP50Ms": 2.7999999821186066,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 12785.699999988079,
+   "server": {
+    "type": "stats",
+    "frames": 475,
+    "frames_dropped": 35,
+    "audio_s": 19.2,
+    "latency": {
+     "n": 440,
+     "p50_ms": 274.8,
+     "p95_ms": 639.3,
+     "max_ms": 2122.2,
+     "mean_ms": 324.5,
+     "output_fps": 23.27,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 37.95,
+    "stages_ms": {
+     "behaviour": 7.806,
+     "stitch": 0.655,
+     "render": 17.753,
+     "post": 0.138
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 1,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3708.8,
+     "frames_sent": 440,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 440,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 45.9,
+     "lag_max_ms": 210.9
+    }
+   }
+  },
+  {
+   "t": 134330,
+   "client": {
+    "presented": 256,
+    "received": 505,
+    "droppedLate": 137,
+    "droppedOverflow": 0,
+    "skipped": 105,
+    "holds": 1192,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 27,
+    "receivedFps": 67,
+    "intervalP50Ms": 33.39999999999418,
+    "intervalP95Ms": 83.30000000000291,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 157.80000000595464,
+    "ageP95Ms": 400.50000001786975,
+    "bufferDepth": 7,
+    "playoutDelayMs": 416.30000001192093,
+    "timelineShifts": 34,
+    "decodeP50Ms": 2.9000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 11365.799999982119,
+   "server": {
+    "type": "stats",
+    "frames": 529,
+    "frames_dropped": 35,
+    "audio_s": 21.36,
+    "latency": {
+     "n": 494,
+     "p50_ms": 273.5,
+     "p95_ms": 626.8,
+     "max_ms": 2122.2,
+     "mean_ms": 317,
+     "output_fps": 23.55,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 37.9,
+    "stages_ms": {
+     "behaviour": 7.723,
+     "stitch": 0.661,
+     "render": 17.865,
+     "post": 0.137
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3997.3,
+     "frames_sent": 494,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 494,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 57.4,
+     "lag_max_ms": 210.9
+    }
+   }
+  },
+  {
+   "t": 134840,
+   "client": {
+    "presented": 270,
+    "received": 576,
+    "droppedLate": 140,
+    "droppedOverflow": 0,
+    "skipped": 162,
+    "holds": 1195,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 27.5,
+    "receivedFps": 97,
+    "intervalP50Ms": 33.39999999999418,
+    "intervalP95Ms": 83.30000000000291,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 163.90000002384477,
+    "ageP95Ms": 402.8000000178872,
+    "bufferDepth": 4,
+    "playoutDelayMs": 156.7000000178814,
+    "timelineShifts": 40,
+    "decodeP50Ms": 7.4000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 9412,
+   "server": {
+    "type": "stats",
+    "frames": 605,
+    "frames_dropped": 35,
+    "audio_s": 24.4,
+    "latency": {
+     "n": 570,
+     "p50_ms": 272.2,
+     "p95_ms": 600.2,
+     "max_ms": 2122.2,
+     "mean_ms": 308.4,
+     "output_fps": 23.69,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 37.83,
+    "stages_ms": {
+     "behaviour": 7.618,
+     "stitch": 0.673,
+     "render": 18.005,
+     "post": 0.137
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 1,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3821.8,
+     "frames_sent": 570,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 570,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 53.8,
+     "lag_max_ms": 118
+    }
+   }
+  },
+  {
+   "t": 135341,
+   "client": {
+    "presented": 284,
+    "received": 630,
+    "droppedLate": 140,
+    "droppedOverflow": 0,
+    "skipped": 198,
+    "holds": 1195,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 27.5,
+    "receivedFps": 109,
+    "intervalP50Ms": 33.39999999999418,
+    "intervalP95Ms": 50.10000000000582,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 162.80000002383895,
+    "ageP95Ms": 402.8000000178872,
+    "bufferDepth": 8,
+    "playoutDelayMs": 354.80000001192093,
+    "timelineShifts": 43,
+    "decodeP50Ms": 3.4000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 7560.300000011921,
+   "server": {
+    "type": "stats",
+    "frames": 659,
+    "frames_dropped": 35,
+    "audio_s": 26.56,
+    "latency": {
+     "n": 624,
+     "p50_ms": 271.2,
+     "p95_ms": 573,
+     "max_ms": 2122.2,
+     "mean_ms": 303.4,
+     "output_fps": 23.84,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 37.96,
+    "stages_ms": {
+     "behaviour": 7.55,
+     "stitch": 0.668,
+     "render": 17.99,
+     "post": 0.138
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 4170.6,
+     "frames_sent": 624,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 624,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 72.7,
+     "lag_max_ms": 142.1
+    }
+   }
+  },
+  {
+   "t": 135840,
+   "client": {
+    "presented": 298,
+    "received": 668,
+    "droppedLate": 140,
+    "droppedOverflow": 0,
+    "skipped": 222,
+    "holds": 1195,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 27.5,
+    "receivedFps": 100,
+    "intervalP50Ms": 33.39999999999418,
+    "intervalP95Ms": 50.10000000000582,
+    "intervalMaxMs": 1833.0999999999913,
+    "ageP50Ms": 158.70000000594882,
+    "ageP95Ms": 400.50000001786975,
+    "bufferDepth": 8,
+    "playoutDelayMs": 409.7000000178814,
+    "timelineShifts": 45,
+    "decodeP50Ms": 2.4000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 6458.5,
+   "server": {
+    "type": "stats",
+    "frames": 685,
+    "frames_dropped": 35,
+    "audio_s": 27.6,
+    "latency": {
+     "n": 650,
+     "p50_ms": 270.9,
+     "p95_ms": 572.9,
+     "max_ms": 2122.2,
+     "mean_ms": 301.5,
+     "output_fps": 23.89,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.04,
+    "stages_ms": {
+     "behaviour": 7.521,
+     "stitch": 0.666,
+     "render": 17.963,
+     "post": 0.138
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3966.1,
+     "frames_sent": 650,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 650,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 79.4,
+     "lag_max_ms": 142.1
+    }
+   }
+  },
+  {
+   "t": 136332,
+   "client": {
+    "presented": 306,
+    "received": 673,
+    "droppedLate": 141,
+    "droppedOverflow": 0,
+    "skipped": 222,
+    "holds": 1206,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "presentedFps": 25,
+    "receivedFps": 84,
+    "intervalP50Ms": 33.39999999999418,
+    "intervalP95Ms": 50.10000000000582,
+    "intervalMaxMs": 766.5,
+    "ageP50Ms": 164.7000000119151,
+    "ageP95Ms": 402.8000000178872,
+    "bufferDepth": 4,
+    "playoutDelayMs": 158.19999998807907,
+    "timelineShifts": 46,
+    "decodeP50Ms": 2.4000000059604645,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 6299.200000017881,
+   "server": {
+    "type": "stats",
+    "frames": 685,
+    "frames_dropped": 35,
+    "audio_s": 27.6,
+    "latency": {
+     "n": 650,
+     "p50_ms": 270.9,
+     "p95_ms": 572.9,
+     "max_ms": 2122.2,
+     "mean_ms": 301.5,
+     "output_fps": 23.89,
+     "max_frame_gap_ms": 1985.4
+    },
+    "compute_fps": 38.04,
+    "stages_ms": {
+     "behaviour": 7.521,
+     "stitch": 0.666,
+     "render": 17.963,
+     "post": 0.138
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.361,
+     "torch_reserved_gib": 0.389
+    },
+    "queued_chunks": 0,
+    "video": {
+     "codec": "jpeg",
+     "target_kbps": null,
+     "sent_kbps": 3966.1,
+     "frames_sent": 650,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 650,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 79.4,
+     "lag_max_ms": 142.1
+    }
+   }
+  }
+ ]
+}

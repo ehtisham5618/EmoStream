@@ -19,6 +19,7 @@ Client -> server
     text   {"type": "stop"}    -- discard queued audio and frames, close
 
 Server -> client
+    text   {"type": "status", "stage": "initializing_portrait"} -- progress before "ready"
     text   {"type": "ready", "session": {...}}                  -- portrait registered
     binary 0x02 | u32 frame_index | u32 latency_ms | JPEG bytes  -- one per video frame (video "jpeg")
     binary 0x03 | u32 frame_index | u32 latency_ms | u8 flags | H.264 Annex-B access unit
@@ -71,6 +72,7 @@ class StartRequest:
     jpeg_quality: int
     video: str = "jpeg"
     bitrate_kbps: int = 900
+    client_build: str = ""
 
 
 def parse_start(msg: dict, emotions) -> StartRequest:
@@ -99,7 +101,10 @@ def parse_start(msg: dict, emotions) -> StartRequest:
     kbps = msg.get("bitrate_kbps", 900)
     if isinstance(kbps, bool) or not isinstance(kbps, int) or not 200 <= kbps <= 4000:
         raise ProtocolError("bad_bitrate", "bitrate_kbps must be an integer from 200 to 4000")
-    return StartRequest(sr, emotion, intensity, model, size, q, video, kbps)
+    build = msg.get("client_build", "")
+    if not isinstance(build, str) or len(build) > 64:
+        raise ProtocolError("bad_client_build", "client_build must be a short string")
+    return StartRequest(sr, emotion, intensity, model, size, q, video, kbps, build)
 
 
 def parse_emotion_fields(msg: dict, emotions) -> tuple[str, float]:

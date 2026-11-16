@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import time
 from pathlib import Path
 
@@ -21,11 +22,24 @@ from ..streaming import protocol as P
 from ..streaming.video import ArrivalJitter, H264Encoder, SendPacer, h264_available
 
 STATS_INTERVAL_S = 1.0
+# Audio waiting to be processed is bounded: 1,500 messages is two minutes of 80 ms chunks.
+# A client that is that far ahead of the worker is told so instead of growing the queue.
+MAX_QUEUED_AUDIO_MESSAGES = 1500
+log = logging.getLogger("emostream.api")
+
+
+def frontend_build(static_dir: str | None) -> str | None:
+    """Identifier written by the frontend build (dist/build.json); None if not bundled."""
+    try:
+        return json.loads((Path(static_dir) / "build.json").read_text())["build"]
+    except Exception:  # noqa: BLE001
+        return None
 MAX_EXPORT_AUDIO_BYTES = 30 * 1024 * 1024
 
 
 def create_app(provider, static_dir: str | None = None) -> FastAPI:
-    app = FastAPI(title="EmoStream", version="0.2.0", docs_url="/api/docs", openapi_url="/api/openapi.json")
+    app = FastAPI(title="EmoStream", version="0.3.0", docs_url="/api/docs", openapi_url="/api/openapi.json")
+    build = frontend_build(static_dir)
 
     @app.get("/api/health")
     def health():
@@ -35,7 +49,8 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
     def info():
         return {**provider.info(), "protocol": {"audio": "pcm_s16le mono", "frame": "jpeg",
                                                 "video": ["jpeg"] + (["h264"] if h264_available() else []),
-                                                "frame_period_ms": 1000 // FPS}}
+                                                "frame_period_ms": 1000 // FPS},
+                "frontend_build": build}
 
     @app.post("/api/export")
     async def export(portrait: UploadFile = File(...), audio: UploadFile = File(...),
@@ -76,7 +91,9 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
             tag, payload = P.split_binary(first["bytes"])
             if tag != P.TAG_PORTRAIT:
                 raise P.ProtocolError("expected_portrait", "send the portrait image after the start message")
-            session = await asyncio.to_thread(provider.open_session, P.check_portrait_payload(payload), req)
+            portrait = P.check_portrait_payload(payload)
+            await ws.send_text(json.dumps({"type": "status", "stage": "initializing_portrait"}))
+            session = await asyncio.to_thread(provider.open_session, portrait, req)
             # Video: H.264 when asked for and available, otherwise independent JPEG frames.
             codec = "h264" if req.video == "h264" and h264_available() else "jpeg"
             encoder = H264Encoder(req.size, req.bitrate_kbps) if codec == "h264" else None
@@ -96,9 +113,10 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
                 "model": req.model, "size": req.size, "fps": FPS, "emotion": req.emotion,
                 "intensity": req.intensity, "portrait": getattr(session, "portrait_info", {}),
                 "algorithmic_delay_ms": getattr(session, "algorithmic_delay_ms", None),
-                "video": {"codec": codec, "bitrate_kbps": req.bitrate_kbps if codec == "h264" else None}}})
+                "video": {"codec": codec, "bitrate_kbps": req.bitrate_kbps if codec == "h264" else None},
+                "frontend_build": build, "client_build": req.client_build or None}})
 
-            queue: asyncio.Queue = asyncio.Queue()
+            queue: asyncio.Queue = asyncio.Queue(maxsize=MAX_QUEUED_AUDIO_MESSAGES)
             sent = {"frames": 0, "dropped": 0, "last_stats": time.perf_counter(), "audio_s": 0.0,
                     "bytes": [], "final": False}
 
@@ -137,7 +155,7 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
                     await send_text({
                         "type": "stats", "frames": st["frames"], "frames_dropped": st.get("frames_dropped", 0),
                         "audio_s": st["audio_s"], "latency": st["latency"], "compute_fps": st["compute_fps"],
-                        "stages_ms": {k: v["ms_per_frame"] for k, v in st["stages"].items()},
+                        "stages_ms": {k: v.get("ms_per_frame") for k, v in st["stages"].items()},
                         "gpu": st.get("gpu"), "queued_chunks": queue.qsize(),
                         "video": {"codec": codec, "target_kbps": pacer.bitrate_kbps if encoder is not None else None,
                                   "sent_kbps": round(sum(n for _, n in sent["bytes"]) * 8 / span / 1000, 1),
@@ -186,7 +204,11 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
                     arrived = time.perf_counter()
                     sent["audio_s"] += len(pcm) / 2 / req.sample_rate
                     uplink.add(arrived, sent["audio_s"])
-                    await queue.put(("audio", pcm, arrived))
+                    try:
+                        queue.put_nowait(("audio", pcm, arrived))
+                    except asyncio.QueueFull:
+                        raise P.ProtocolError(
+                            "overloaded", "audio is arriving faster than it can be animated; start a new session") from None
                 elif msg.get("text") is not None:
                     m = P.parse_text(msg["text"])
                     if m["type"] == "ack":
@@ -215,6 +237,15 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
                 pass
         except WebSocketDisconnect:
             pass
+        except Exception as e:  # noqa: BLE001
+            # An engine or server fault. It is logged in full and reported to the client as
+            # what it is, so the page can say so and offer a retry instead of a bare disconnect.
+            log.exception("live session failed")
+            try:
+                await ws.send_text(json.dumps({"type": "error", "code": "internal_error",
+                                               "message": f"the server hit an internal error ({type(e).__name__})"}))
+            except Exception:  # noqa: BLE001
+                pass
         finally:
             if worker is not None and not worker.done():
                 worker.cancel()
@@ -228,9 +259,18 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
     if static_dir and Path(static_dir).is_dir():
         index = Path(static_dir) / "index.html"
 
+        # The page itself must never come from a cache: its script names change with every
+        # build, and a cached page keeps running an old client against a new server
+        # (that happened in the user's session of 16 Nov 2026, 21:49).
+        no_store = {"Cache-Control": "no-store, max-age=0"}
+
         @app.get("/")
         def root():
-            return FileResponse(index)
+            return FileResponse(index, headers=no_store)
+
+        @app.get("/index.html")
+        def root_index():
+            return FileResponse(index, headers=no_store)
 
         app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
     else:

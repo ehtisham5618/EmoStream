@@ -18,9 +18,14 @@ export interface ReadyInfo {
   portrait?: { mouth_open?: boolean; lip_open_ratio?: number; mouth_closed_automatically?: boolean };
   algorithmic_delay_ms?: [number, number] | null;
   video?: { codec: VideoCodec; bitrate_kbps: number | null };
+  frontend_build?: string | null;
 }
 
+/** Startup stages, in order. The page shows each one; nothing is "live" before "ready". */
+export type StartupStage = "connecting" | "initializing_portrait";
+
 export interface SessionEvents {
+  onStage: (stage: StartupStage) => void;
   onReady: (info: ReadyInfo) => void;
   onFrame: (frame: AvatarFrame, roundTripMs: number | null) => void;
   onStats: (stats: ServerStats) => void;
@@ -57,6 +62,7 @@ export class LiveSession {
     const ws = new WebSocket(sessionUrl());
     ws.binaryType = "arraybuffer";
     this.ws = ws;
+    this.events.onStage("connecting");
     ws.onopen = () => {
       ws.send(startMessage(options));
       ws.send(portraitMessage(portrait));
@@ -73,7 +79,9 @@ export class LiveSession {
       const sent = this.sentAt[frame.index];
       this.events.onFrame(frame, sent === undefined ? null : performance.now() - sent);
     };
-    ws.onerror = () => this.events.onError("The connection to the server failed.");
+    ws.onerror = () => this.events.onError(this.ready
+      ? "The connection to the server was lost."
+      : "Could not reach the server. If it has been idle, it may still be starting; try again in a moment.", "connection");
     ws.onclose = () => {
       if (this.timer !== null) window.clearInterval(this.timer);
       this.timer = null;
@@ -100,6 +108,8 @@ export class LiveSession {
         if (n++ % 5 === 0) this.ws.send(JSON.stringify({ type: "ping", t: performance.now() }));
       }, 200);
       this.events.onReady((msg.session ?? {}) as ReadyInfo);
+    } else if (msg.type === "status") {
+      if (msg.stage === "initializing_portrait") this.events.onStage("initializing_portrait");
     } else if (msg.type === "pong") {
       if (typeof msg.t === "number") {
         this.pings.push(performance.now() - msg.t);

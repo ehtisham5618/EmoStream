@@ -40,8 +40,10 @@ class StageTimer:
         for k in self.total:
             row = {"total_s": round(self.total[k], 4), "calls": self.count[k],
                    "ms_per_call": round(1000 * self.total[k] / max(self.count[k], 1), 3)}
-            if n_frames:
-                row["ms_per_frame"] = round(1000 * self.total[k] / n_frames, 3)
+            if n_frames is not None:
+                # None until the first frame exists (a session can be asked for statistics
+                # before it has produced anything).
+                row["ms_per_frame"] = round(1000 * self.total[k] / n_frames, 3) if n_frames else None
             out[k] = row
         return out
 

@@ -86,8 +86,14 @@ def run(url: str, portrait: str | None, mic_wav: str | None, seconds: float, emo
             box.check()
         if emotion:
             page.get_by_role("radio", name=emotion, exact=True).click()
+        clicked = time.time()
         page.get_by_role("button", name="Start speaking").click()
-        page.wait_for_function("() => window.__draws.length > 5", timeout=240000)
+        page.wait_for_function("() => window.__draws.length > 5 || !!document.querySelector('p.error')", timeout=240000)
+        startup_error = page.locator("p.error").inner_text() if page.locator("p.error").count() else None
+        if startup_error:
+            browser.close()
+            return {"startup_error": startup_error, "seconds_to_error": round(time.time() - clicked, 1)}
+        seconds_to_first_frames = round(time.time() - clicked, 1)
         raf0 = page.evaluate("() => window.__rafs")
         t0 = time.time()
         if shots:
@@ -146,6 +152,8 @@ def run(url: str, portrait: str | None, mic_wav: str | None, seconds: float, emo
                                              "p95": round(float(np.percentile(d, 95)), 1), "n": int(len(d)),
                                              "within_80_ms": round(float((np.abs(d) <= 80).mean()), 3)}
         out["voice_chunks"] = {"scheduled": logs_js["scheduled"], "missed": logs_js["missed"]}
+    out["startup_error"] = None
+    out["seconds_to_first_frames"] = seconds_to_first_frames
     out["app_diagnostics"] = app_stats
     out["app_numbers"] = numbers
     out["console_errors"] = logs[:10]

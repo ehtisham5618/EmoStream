@@ -81,7 +81,8 @@ class FakeProvider:
             raise P.ProtocolError("busy", "another session is running")
         self.opened += 1
         self.portraits_seen.append(len(portrait))
-        return FakeSession(req, self.lock.release)
+        self.last_session = FakeSession(req, self.lock.release)
+        return self.last_session
 
     def render_file(self, portrait, audio, req):
         s = self.open_session(portrait, req)
@@ -98,6 +99,14 @@ def client():
 
 
 START = {"type": "start", "consent": {"portrait": True, "audio": True}, "sample_rate": 16000, "size": 256}
+
+
+def first_message(ws) -> dict:
+    """Next text message that is not a startup progress report."""
+    while True:
+        m = json.loads(ws.receive_text())
+        if m.get("type") != "status":
+            return m
 
 
 def pcm(n_samples):
@@ -177,7 +186,7 @@ def test_full_session_frame_count_and_order(client):
     with client.websocket_connect("/ws/session") as ws:
         ws.send_text(json.dumps(START))
         ws.send_bytes(bytes([P.TAG_PORTRAIT]) + png_bytes())
-        assert json.loads(ws.receive_text())["type"] == "ready"
+        assert first_message(ws)["type"] == "ready"
         for n in (3200, 1000, 5000, 700):       # 9900 samples = 15 full frames + a partial one
             ws.send_bytes(pcm(n))
         ws.send_text(json.dumps({"type": "end"}))
@@ -192,7 +201,7 @@ def test_emotion_change_applies_from_the_acknowledged_frame(client):
     with client.websocket_connect("/ws/session") as ws:
         ws.send_text(json.dumps(START))
         ws.send_bytes(bytes([P.TAG_PORTRAIT]) + png_bytes())
-        ws.receive_text()
+        first_message(ws)
         ws.send_bytes(pcm(10 * SAMPLES_PER_FRAME))
         ws.send_text(json.dumps({"type": "emotion", "emotion": "angry", "intensity": 0.8}))
         ws.send_bytes(pcm(10 * SAMPLES_PER_FRAME))
@@ -208,7 +217,7 @@ def test_frames_carry_the_watermark(client):
     with client.websocket_connect("/ws/session") as ws:
         ws.send_text(json.dumps(START))
         ws.send_bytes(bytes([P.TAG_PORTRAIT]) + png_bytes())
-        ws.receive_text()
+        first_message(ws)
         ws.send_bytes(pcm(SAMPLES_PER_FRAME))
         ws.send_text(json.dumps({"type": "end"}))
         frames, _ = collect(ws)
@@ -244,14 +253,77 @@ def test_second_session_is_refused_while_one_is_running_and_slot_frees_on_stop(c
     with client.websocket_connect("/ws/session") as a:
         a.send_text(json.dumps(START))
         a.send_bytes(bytes([P.TAG_PORTRAIT]) + png_bytes())
-        assert json.loads(a.receive_text())["type"] == "ready"
+        assert first_message(a)["type"] == "ready"
         with client.websocket_connect("/ws/session") as b:
             b.send_text(json.dumps(START))
             b.send_bytes(bytes([P.TAG_PORTRAIT]) + png_bytes())
-            assert json.loads(b.receive_text())["code"] == "busy"
+            assert first_message(b)["code"] == "busy"
         a.send_text(json.dumps({"type": "stop"}))
     assert not client.provider.lock.locked()
     with client.websocket_connect("/ws/session") as c:
         c.send_text(json.dumps(START))
         c.send_bytes(bytes([P.TAG_PORTRAIT]) + png_bytes())
-        assert json.loads(c.receive_text())["type"] == "ready"
+        assert first_message(c)["type"] == "ready"
+
+
+def test_progress_is_reported_before_ready(client):
+    with client.websocket_connect("/ws/session") as ws:
+        ws.send_text(json.dumps(START))
+        ws.send_bytes(bytes([P.TAG_PORTRAIT]) + png_bytes())
+        assert json.loads(ws.receive_text()) == {"type": "status", "stage": "initializing_portrait"}
+        assert json.loads(ws.receive_text())["type"] == "ready"
+
+
+def test_statistics_before_the_first_frame_do_not_crash():
+    """Regression: the live server crashed with KeyError 'ms_per_frame' when statistics were
+    requested before any frame existed (user session, 16 Nov 2026 21:47)."""
+    from emostream.telemetry import StageTimer
+
+    t = StageTimer()
+    with t.time("behaviour"):
+        pass
+    assert t.summary(0)["behaviour"]["ms_per_frame"] is None
+    assert t.summary(5)["behaviour"]["ms_per_frame"] >= 0
+
+
+def test_engine_fault_is_reported_to_the_client(client):
+    def boom(*a, **k):
+        raise RuntimeError("simulated engine fault")
+
+    with client.websocket_connect("/ws/session") as ws:
+        ws.send_text(json.dumps(START))
+        ws.send_bytes(bytes([P.TAG_PORTRAIT]) + png_bytes())
+        assert first_message(ws)["type"] == "ready"
+        client.provider.last_session.push_pcm = boom
+        ws.send_bytes(pcm(3200))
+        err = first_message(ws)
+    assert err["type"] == "error" and err["code"] == "internal_error"
+    assert not client.provider.lock.locked()          # the slot is released after a fault
+
+
+def test_audio_queue_is_bounded(client, monkeypatch):
+    import backend.api.app as A
+
+    monkeypatch.setattr(A, "MAX_QUEUED_AUDIO_MESSAGES", 3)
+    import time as _t
+
+    slow = []
+
+    with client.websocket_connect("/ws/session") as ws:
+        ws.send_text(json.dumps(START))
+        ws.send_bytes(bytes([P.TAG_PORTRAIT]) + png_bytes())
+        assert first_message(ws)["type"] == "ready"
+        orig = client.provider.last_session.push_pcm
+
+        def stalled(*a, **k):
+            _t.sleep(0.5)
+            slow.append(1)
+            return orig(*a, **k)
+
+        client.provider.last_session.push_pcm = stalled
+        for _ in range(20):
+            ws.send_bytes(pcm(1280))
+        msg = first_message(ws)
+        while msg["type"] != "error":
+            msg = first_message(ws)
+    assert msg["code"] == "overloaded"

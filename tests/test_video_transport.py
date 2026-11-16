@@ -8,7 +8,7 @@ import pytest
 
 from backend.streaming import protocol as P
 from backend.streaming.video import ArrivalJitter, H264Encoder, SendPacer, h264_available
-from test_backend import START, client, pcm, png_bytes  # noqa: F401  (client is a fixture)
+from test_backend import START, client, first_message, pcm, png_bytes  # noqa: F401  (client is a fixture)
 
 needs_h264 = pytest.mark.skipif(not h264_available(), reason="PyAV with libx264 is not installed")
 
@@ -136,7 +136,7 @@ def test_session_delivers_h264_and_answers_ping(client):  # noqa: F811
     with client.websocket_connect("/ws/session") as ws:
         ws.send_text(json.dumps(dict(START, video="h264", bitrate_kbps=500)))
         ws.send_bytes(bytes([P.TAG_PORTRAIT]) + png_bytes())
-        ready = json.loads(ws.receive_text())
+        ready = first_message(ws)
         assert ready["session"]["video"] == {"codec": "h264", "bitrate_kbps": 500}
         ws.send_text(json.dumps({"type": "ping", "t": 12.5}))
         ws.send_text(json.dumps({"type": "ack", "frames": 0}))

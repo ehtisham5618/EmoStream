@@ -96,8 +96,41 @@ class GpuEngineProvider:
         self._busy = threading.Lock()
         self.started = time.time()
 
+    def warm_up(self, portrait_path: str, seconds: float = 2.0) -> dict:
+        """Runs one short throw-away session so that the first real one does not pay for
+        lazy initialisation (face models, speech encoder, renderer, first CUDA calls).
+        Returns timings; never raises (a failed warm-up only means a slower first session)."""
+        t0 = time.perf_counter()
+        out = {"ok": False}
+        try:
+            with open(portrait_path, "rb") as f:
+                portrait = f.read()
+            adapter = self.open_session(portrait, StartRequest(SAMPLE_RATE, "neutral", 0.5,
+                                                               "emostream" if self.net is not None else "ditto",
+                                                               512, 80))
+            out["register_s"] = round(time.perf_counter() - t0, 2)
+            try:
+                rng = np.random.default_rng(0)
+                pcm = (rng.standard_normal(int(SAMPLE_RATE * 0.08)) * 800).astype("<i2").tobytes()
+                first, frames = None, 0
+                t1 = time.perf_counter()
+                for _ in range(int(seconds / 0.08)):
+                    got = adapter.push_pcm(pcm, time.perf_counter())
+                    frames += len(got)
+                    if got and first is None:
+                        first = round(time.perf_counter() - t1, 2)
+                out.update(ok=True, first_frame_s=first, frames=frames)
+            finally:
+                adapter.close()
+        except Exception as e:  # noqa: BLE001
+            out["error"] = f"{type(e).__name__}: {e}"
+        out["total_s"] = round(time.perf_counter() - t0, 2)
+        self.warm = out
+        return out
+
     def info(self) -> dict:
         return {
+            "warm_up": getattr(self, "warm", None),
             "gpu": self.torch.cuda.get_device_name(0), "renderer": self.renderer,
             "models": (["emostream"] if self.net is not None else []) + ["ditto"],
             "emotions": list(EMOTIONS), "fps": FPS, "sample_rate": SAMPLE_RATE,

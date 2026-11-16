@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { decodeAudioFile, MicCapture, startMicrophone, SyncedVoice } from "./lib/audio";
 import { Chunker, CHUNK_SAMPLES, Emotion, EMOTIONS, FPS, ModelName, SAMPLE_RATE, ServerStats } from "./lib/protocol";
 import { FramePlayer, h264Supported, PlayerStats } from "./lib/player";
-import { LiveSession } from "./lib/session";
+import { LiveSession, StartupStage } from "./lib/session";
 
 type Phase = "idle" | "connecting" | "live" | "finishing";
 type Source = "mic" | "file";
@@ -42,6 +42,9 @@ export default function App() {
   const [recordingUrl, setRecordingUrl] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [stage, setStage] = useState<StartupStage | null>(null);
+  const [stageSince, setStageSince] = useState(0);
+  const [waited, setWaited] = useState(0);
   const [monitor, setMonitor] = useState(false);
   const [net, setNet] = useState<{ pingMs: number | null; kbps: number } | null>(null);
   const voiceRef = useRef<SyncedVoice | null>(null);
@@ -61,10 +64,22 @@ export default function App() {
   const timers = useRef<number[]>([]);
 
   useEffect(() => {
-    fetch("/api/info")
+    fetch("/api/info", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then((info) => {
         if (!info) return;
+        // A page left open (or cached) from an earlier deployment must not talk to a newer
+        // server: reload once to pick up the current client.
+        if (info.frontend_build && info.frontend_build !== __BUILD__) {
+          let tried = false;
+          try { tried = sessionStorage.getItem("emostream-reloaded") === info.frontend_build; } catch { /* ignore */ }
+          if (!tried) {
+            try { sessionStorage.setItem("emostream-reloaded", info.frontend_build); } catch { /* ignore */ }
+            location.reload();
+            return;
+          }
+          setError("This page is out of date. Reload it (Ctrl+Shift+R) before starting a session.");
+        }
         setGpu(info.gpu ?? null);
         if (Array.isArray(info.models) && info.models.length) {
           setModels(info.models);
@@ -83,6 +98,13 @@ export default function App() {
     setPortraitUrl(url);
     return () => URL.revokeObjectURL(url);
   }, [portrait]);
+
+  // Time spent in the current startup stage, so a slow cold start is visibly progressing.
+  useEffect(() => {
+    if (phase !== "connecting") return;
+    const id = window.setInterval(() => setWaited(Math.round((performance.now() - stageSince) / 1000)), 500);
+    return () => window.clearInterval(id);
+  }, [phase, stageSince]);
 
   // Client-side numbers, refreshed twice a second while a session runs.
   useEffect(() => {
@@ -147,6 +169,9 @@ export default function App() {
     trips.current = [];
     diagLog.current = [];
     setPlay(null);
+    setStage(null);
+    setWaited(0);
+    setStageSince(performance.now());
     // Microphone audio is sent every 80 ms so the server is not kept waiting for a full block.
     chunkerRef.current = new Chunker(source === "mic" ? SAMPLE_RATE * 0.08 : CHUNK_SAMPLES);
     setPhase("connecting");
@@ -167,6 +192,11 @@ export default function App() {
     }
 
     const session = new LiveSession({
+      onStage: (s) => {
+        setStage(s);
+        setStageSince(performance.now());
+        setWaited(0);
+      },
       onReady: (info) => {
         setPhase("live");
         setNotice(info.portrait?.mouth_open
@@ -207,7 +237,11 @@ export default function App() {
         const tail = (playerRef.current?.stats().playoutDelayMs ?? 0) + 600; // let buffered frames play out
         window.setTimeout(() => sessionRef.current?.stop(), tail);
       },
-      onError: (message) => setError(message),
+      onError: (message, code) => setError(
+        code === "busy" ? "Another session is using the avatar server. Try again in a few seconds."
+          : code === "no_face" ? "No face was found in this photo. Choose a clear, front-facing portrait."
+          : code === "internal_error" ? `${message}. The session was stopped; you can start again.`
+          : message),
       onClose: () => void cleanup(),
     });
     sessionRef.current = session;
@@ -365,7 +399,14 @@ export default function App() {
             {!busy && !stats && (portraitUrl
               ? <img src={portraitUrl} alt="Your portrait" />
               : <div className="empty"><p>Your portrait appears here.</p></div>)}
-            {phase === "connecting" && <div className="veil">Preparing the avatar…</div>}
+            {phase === "connecting" && (
+              <div className="veil">
+                {stage === "initializing_portrait" ? "Preparing your portrait…"
+                  : waited >= 5 ? "Starting the avatar server. After a pause this takes up to a minute…"
+                  : "Connecting…"}
+                {waited >= 3 && <small> {waited} s</small>}
+              </div>
+            )}
             {phase === "finishing" && <div className="veil veil-quiet">Finishing the last frames…</div>}
           </div>
           <div className="meter" aria-hidden="true"><span style={{ width: `${Math.min(100, level * 400)}%` }} /></div>

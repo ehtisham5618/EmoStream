@@ -39,6 +39,7 @@ export function startMessage(o: StartOptions): string {
     jpeg_quality: 80,
     video: o.video,
     bitrate_kbps: o.bitrateKbps ?? 900,
+    client_build: typeof __BUILD__ === "string" ? __BUILD__ : "",
   });
 }
 
