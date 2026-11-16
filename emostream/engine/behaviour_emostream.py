@@ -59,6 +59,20 @@ def absolute_motion(x_s_info: dict, source_deg: np.ndarray, delta: np.ndarray, e
             "roll": pose[2:3].astype(np.float32), "t": t.astype(np.float32), "scale": scale.astype(np.float32)}
 
 
+_WAVLM_CACHE: dict = {}
+
+
+def wavlm_extractor(config: dict | None, device: str):
+    """One WavLM encoder per worker and configuration (loading takes about a second)."""
+    from ..audio.wavlm import WavLMFeatures
+
+    cfg = config or {}
+    key = (cfg.get("layer", 6), cfg.get("past_samples", 16000), cfg.get("future_frames", 2), str(device))
+    if key not in _WAVLM_CACHE:
+        _WAVLM_CACHE[key] = WavLMFeatures(layer=key[0], past_s=key[1] / 16000, future_frames=key[2], device=device)
+    return _WAVLM_CACHE[key]
+
+
 class EmoStreamBehaviour:
     """Streaming HuBERT features -> causal two-branch network (emostream.models.BehaviourNet).
 
@@ -66,9 +80,12 @@ class EmoStreamBehaviour:
 
     * ``hop=5`` (how the features were computed for training): one window yields five
       frames, so frames come out in groups of five every 200 ms and wait 85-245 ms.
-    * ``hop=1``: one window per frame, each frame taken from the last valid slot of its
-      own window. Frames come out one at a time, evenly, each after 85 ms of look-ahead.
-      Five times the encoder work (about 1.6 ms per window with TensorRT).
+    * ``hop=1``: one window per frame, each frame taken from slot ``slot`` (0-4) of the
+      five valid positions of its own window. Frames come out one at a time, evenly.
+      Slot 4 (default) waits least: 85 ms of encoder look-ahead. Training features were
+      cut in blocks, so a frame's feature came from any slot; lower slots give the encoder
+      more future audio (slot 0: 245 ms) and measured closer to training accuracy
+      (docs/evaluation/data/feature_position_check.json). Five times the encoder work.
 
     A model trained with ``lookahead`` L additionally waits for L more feature frames
     (L x 40 ms) before it emits a frame.
@@ -78,8 +95,10 @@ class EmoStreamBehaviour:
 
     def __init__(self, runtime, avatar, timeline: EmotionTimeline, net, chunk=(3, 5, 2), exp_gain: float = 1.0,
                  pose_gain: float = 1.0, blink: bool = True, seed: int = 0, fade_frames: int = 10, hop: int = 5,
-                 lip_close=None, emotion_gain: float = 1.0):
+                 lip_close=None, emotion_gain: float = 1.0, slot: int = 4):
         assert hop in (1, 5), "hop must be 1 (per frame) or 5 (per block)"
+        assert 0 <= slot <= 4, "slot must be 0..4"
+        self.slot = slot
         self.fade_frames = fade_frames  # emotion transition gate: 10 frames = 400 ms cross-fade
         self.rt, self.avatar, self.timeline = runtime, avatar, timeline
         self.torch = runtime.torch
@@ -87,10 +106,19 @@ class EmoStreamBehaviour:
         self.chunk = tuple(chunk)
         self.hop = hop
         self.lookahead = int(getattr(net.cfg, "lookahead", 0))
+        self.features = getattr(net.cfg, "features", "ditto_hubert")
+        self.wavlm = None
+        if self.features == "wavlm":
+            # Speech features from WavLM, one per frame, exactly as computed for training.
+            from ..audio.wavlm import WavLMStream
+
+            self.wavlm = WavLMStream(wavlm_extractor(getattr(net.cfg, "feature_config", None), runtime.device))
         self.wav2feat = runtime.sdk.wav2feat
         p, v, f = self.chunk
-        # hop 1: slide the same 10-frame window by one frame and keep its last valid slot
-        self.chunker = SlidingWindowChunker(p, v, f) if hop == 5 else SlidingWindowChunker(p + v - 1, 1, f)
+        # hop 1: slide the same 10-frame window by one frame; the frame sits at valid slot
+        # ``slot``, i.e. after p + slot frames of past and before (v - 1 - slot) + f frames of future
+        self.chunker = (SlidingWindowChunker(p, v, f) if hop == 5
+                        else SlidingWindowChunker(p + slot, 1, v - 1 - slot + f))
         self.state = None
         self.exp_gain, self.pose_gain = exp_gain, pose_gain
         # Scale of the emotion branch's contribution. 1.0 is what the model learned; the
@@ -110,7 +138,7 @@ class EmoStreamBehaviour:
         if self.hop == 5:
             new = [self.wav2feat(w, chunksize=self.chunk) for w in windows]
         else:
-            new = [self.wav2feat(w, chunksize=self.chunk)[-1:] for w in windows]
+            new = [self.wav2feat(w, chunksize=self.chunk)[self.slot:self.slot + 1] for w in windows]
         new = np.concatenate(new, 0).astype(np.float32)
         self.feats = new if self.feats is None else np.concatenate([self.feats, new], 0)
 
@@ -148,18 +176,32 @@ class EmoStreamBehaviour:
         self.frames_out += len(motions)
         return motions
 
+    def _add(self, new: np.ndarray) -> None:
+        if len(new):
+            new = new.astype(np.float32)
+            self.feats = new if self.feats is None else np.concatenate([self.feats, new], 0)
+
     def push(self, audio: np.ndarray) -> list[dict]:
-        self._features(self.chunker.push(audio))
+        if self.wavlm is not None:
+            self._add(self.wavlm.push(audio))
+        else:
+            self._features(self.chunker.push(audio))
         return self._emit()
 
     def flush(self, total_frames: int) -> list[dict]:
-        self._features(self.chunker.flush(total_frames))
+        if self.wavlm is not None:
+            self._add(self.wavlm.flush(total_frames))
+        else:
+            self._features(self.chunker.flush(total_frames))
         return self._emit(total_frames)
 
     @property
     def algorithmic_delay_frames(self) -> tuple[int, int]:
+        if self.wavlm is not None:
+            la = self.wavlm.delay_frames + 1 + self.lookahead
+            return (la, la)
         la = self.chunk[2] + 1 + self.lookahead
-        return (la, la) if self.hop == 1 else (la, la + self.chunk[1] - 1)
+        return (la + 4 - self.slot,) * 2 if self.hop == 1 else (la, la + self.chunk[1] - 1)
 
 
 class DittoFullFace(DittoBehaviour):

@@ -23,7 +23,8 @@ RUNS = f"{C.MODELS}/emostream"
 def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = True, lip_cap: float = 0.35,
               hidden: int = 256, w_velocity: float = 1.0, seed: int = 0, max_train_clips: int = 0,
               dropout: float = 0.1, lr: float = 1e-3, eval_every: int = 500, weight_decay: float = 1e-4,
-              w_ccc: float = 0.0, lookahead: int = 0, w_vel_ccc: float = 0.0, w_closure: float = 0.0) -> dict:
+              w_ccc: float = 0.0, lookahead: int = 0, w_vel_ccc: float = 0.0, w_closure: float = 0.0,
+              features: str = "ditto_hubert") -> dict:
     import os
     import numpy as np
     import torch
@@ -33,6 +34,7 @@ def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = T
     from emostream.training.trainer import TrainConfig, train
 
     packed = json.load(open(f"{C.DATA}/mead_v2/manifests/packed.json"))
+    feature_config: dict = {}
 
     def load_split(split, max_clips=0):
         """ClipSet from the per-actor packs of one split. Never called with 'test'."""
@@ -43,6 +45,11 @@ def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = T
                 continue
             z = np.load(info["pack"])
             arr = {k: z[k] for k in ("exp", "pose", "t", "scale", "hubert")}
+            if features == "wavlm":
+                w = np.load(f"{C.DATA}/mead_v2/wavlm/{actor}.npz")
+                assert (w["clip_ids"] == z["clip_ids"]).all() and (w["lengths"] == z["lengths"]).all(), actor
+                arr["hubert"] = w["wavlm"]          # ClipSet reads the speech features from this key
+                feature_config.update(json.loads(str(w["config"])))
             ends = np.cumsum(z["lengths"])
             for cid, emo, lv, s, e in zip(z["clip_ids"].tolist(), z["emotions"].tolist(), z["levels"].tolist(),
                                           ends - z["lengths"], ends):
@@ -63,7 +70,9 @@ def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = T
     cfg = TrainConfig(steps=steps, separate_branches=separate_branches, w_velocity=w_velocity, seed=seed, lr=lr,
                       eval_every=eval_every, weight_decay=weight_decay, w_ccc=w_ccc, lookahead=lookahead,
                       w_vel_ccc=w_vel_ccc, w_closure=w_closure,
-                      model=BehaviourConfig(hidden=hidden, lip_cap=lip_cap, dropout=dropout))
+                      model=BehaviourConfig(hidden=hidden, lip_cap=lip_cap, dropout=dropout,
+                                            audio_dim=int(train_set.clips[0]["audio"].shape[1]), features=features,
+                                            feature_config=feature_config or None))
     out_dir = f"{RUNS}/{run}"
     os.makedirs(out_dir, exist_ok=True)
     res = train(train_set, val_set, cfg, out_path=f"{out_dir}/model.pt")
@@ -81,8 +90,9 @@ def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = T
 def main(run: str = "base", steps: int = 12000, separate_branches: bool = True, lip_cap: float = 0.35,
          hidden: int = 256, w_velocity: float = 1.0, seed: int = 0, max_train_clips: int = 0,
          dropout: float = 0.1, lr: float = 1e-3, eval_every: int = 500, weight_decay: float = 1e-4,
-         w_ccc: float = 0.0, lookahead: int = 0, w_vel_ccc: float = 0.0, w_closure: float = 0.0):
-    res = train_run.remote(w_vel_ccc=w_vel_ccc, w_closure=w_closure, run=run, steps=steps, separate_branches=separate_branches, lip_cap=lip_cap,
+         w_ccc: float = 0.0, lookahead: int = 0, w_vel_ccc: float = 0.0, w_closure: float = 0.0,
+         features: str = "ditto_hubert"):
+    res = train_run.remote(w_vel_ccc=w_vel_ccc, w_closure=w_closure, features=features, run=run, steps=steps, separate_branches=separate_branches, lip_cap=lip_cap,
                            hidden=hidden, w_velocity=w_velocity, seed=seed, max_train_clips=max_train_clips,
                            dropout=dropout, lr=lr, eval_every=eval_every, weight_decay=weight_decay,
                            w_ccc=w_ccc, lookahead=lookahead)

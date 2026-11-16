@@ -74,7 +74,7 @@ class GpuEngineProvider:
     """Real engine. One live session at a time per GPU worker."""
 
     def __init__(self, checkpoints: str, emostream_checkpoint: str | None, max_latency_ms: float | None = 450.0,
-                 tensorrt: bool = False, emotion_gain: float = 1.0, hop: int = 1):
+                 tensorrt: bool = False, emotion_gain: float = 1.0, hop: int = 1, slot: int = 4):
         import torch
 
         from emostream.engine.runtime import Runtime
@@ -93,6 +93,7 @@ class GpuEngineProvider:
         # the lowest delay; hop 5 (as in training) is slightly more accurate and is used for
         # exports and on GPUs that cannot afford five encoder passes per block.
         self.hop = hop
+        self.slot = slot   # per-frame streaming: which of the encoder window's 5 positions is read
         self._busy = threading.Lock()
         self.started = time.time()
 
@@ -137,7 +138,7 @@ class GpuEngineProvider:
             "busy": self._busy.locked(), "max_session_seconds": MAX_SESSION_SECONDS,
             "emostream_parameters": self.net.n_parameters() if self.net is not None else None,
             "emostream_lookahead_frames": int(getattr(self.net.cfg, "lookahead", 0)) if self.net is not None else None,
-            "emotion_gain": self.emotion_gain, "live_hop": self.hop,
+            "emotion_gain": self.emotion_gain, "live_hop": self.hop, "live_slot": self.slot,
         }
 
     def open_session(self, portrait: bytes, req: StartRequest, hop: int | None = None) -> LiveSession:
@@ -166,7 +167,7 @@ class GpuEngineProvider:
                     from emostream.engine.behaviour_emostream import EmoStreamBehaviour
 
                     return EmoStreamBehaviour(runtime, av, timeline, self.net, hop=hop or self.hop,
-                                              emotion_gain=self.emotion_gain)
+                                              emotion_gain=self.emotion_gain, slot=self.slot)
                 return DittoBehaviour(runtime, av, timeline, sampling_timesteps=10, valid_frames=10)
 
             session = AvatarSession(self.rt, avatar, factory, emotion=req.emotion, intensity=req.intensity,

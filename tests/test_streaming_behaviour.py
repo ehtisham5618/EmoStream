@@ -44,10 +44,10 @@ class Avatar:
                 "t": np.zeros((1, 3), np.float32), "scale": np.ones((1, 1), np.float32)}
 
 
-def make(hop, lookahead=0, seed=0):
+def make(hop, lookahead=0, seed=0, slot=4):
     torch.manual_seed(seed)
     net = BehaviourNet(BehaviourConfig(audio_dim=D, hidden=24, emo_hidden=16, lookahead=lookahead))
-    return EmoStreamBehaviour(FakeRuntime(), Avatar(), EmotionTimeline("neutral"), net, hop=hop), net
+    return EmoStreamBehaviour(FakeRuntime(), Avatar(), EmotionTimeline("neutral"), net, hop=hop, slot=slot), net
 
 
 def audio_ramp(n_frames):
@@ -135,3 +135,31 @@ def test_ccc_loss_ignores_dimensions_that_do_not_move():
     pred = target.clone()
     pred[0, :, 1] = torch.randn(100)                       # noise on the still dimension
     assert ccc_loss(pred, target, torch.ones(1, 100), torch.ones(2)) < 1e-3
+
+
+@pytest.mark.parametrize("slot", [0, 2, 4])
+def test_per_frame_slot_reads_each_frames_own_audio_and_waits_longer_for_lower_slots(slot):
+    """Whatever slot is read, frame k must get the feature of frame k's own audio; a lower
+    slot only means waiting for more future audio before the frame is emitted."""
+    beh, _ = make(1, 0, slot=slot)
+    seen = []
+    orig = beh._emit
+
+    def spy(total_frames=None):
+        if beh.feats is not None:
+            seen.extend(beh.feats[:, 0].tolist())
+        return orig(total_frames)
+
+    beh._emit = spy
+    audio = audio_ramp(30)
+    emitted_after = []
+    for k in range(30):
+        beh.push(audio[k * 640:(k + 1) * 640])
+        emitted_after.append(beh.frames_out)
+    beh.flush(30)
+    assert beh.frames_out == 30
+    assert np.allclose(np.unique(np.round(seen, 3))[:30], np.arange(1, 31))
+    # frames available after k+1 frames of audio: k+1 - (future frames the window needs)
+    lag = (4 - slot) + 2 + 1
+    assert emitted_after[20] == 21 - lag
+    assert beh.algorithmic_delay_frames == (lag, lag)

@@ -1,0 +1,39 @@
+{
+ "clips": 12,
+ "feature_agreement": {
+  "hop5_vs_stored_corr": 0.9885,
+  "hop1_p0_vs_stored_corr": 0.9503,
+  "hop1_p2_vs_stored_corr": 0.9667,
+  "hop1_p3_vs_stored_corr": 0.9643,
+  "hop1_p4_vs_stored_corr": 0.9498
+ },
+ "models": {
+  "it_ccc_la2.pt": {
+   "lookahead": 2,
+   "stored": {
+    "lip_corr": 0.644,
+    "lip_amp": 0.996
+   },
+   "hop5": {
+    "lip_corr": 0.623,
+    "lip_amp": 0.992
+   },
+   "hop1_p0": {
+    "lip_corr": 0.631,
+    "lip_amp": 0.971
+   },
+   "hop1_p2": {
+    "lip_corr": 0.615,
+    "lip_amp": 1.014
+   },
+   "hop1_p3": {
+    "lip_corr": 0.607,
+    "lip_amp": 1.026
+   },
+   "hop1_p4": {
+    "lip_corr": 0.592,
+    "lip_amp": 1.036
+   }
+  }
+ }
+}

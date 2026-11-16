@@ -55,6 +55,10 @@ class BehaviourConfig:
     lip_cap: float = 0.35          # upper bound of the emotion gate on lip coordinates
     lookahead: int = 0             # extra future feature frames the model was trained to see (40 ms each)
     n_emotions: int = len(EMOTIONS)
+    # speech features the model was trained on: "ditto_hubert" (Ditto's streaming HuBERT,
+    # 1024-d) or "wavlm" (emostream.audio.wavlm, 768-d; settings in ``feature_config``)
+    features: str = "ditto_hubert"
+    feature_config: dict | None = None
 
 
 class BehaviourNet(nn.Module):

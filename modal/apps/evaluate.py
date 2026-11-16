@@ -28,7 +28,7 @@ import modal
 import _common as C
 
 app = modal.App("emostream-v2-evaluate")
-gen_image = C.engine_image()
+gen_image = C.engine_image(extra_pip=("transformers==4.46.3",), env={"HF_HOME": f"{C.MODELS}/hf"})
 
 SYNC = "/opt/syncnet_python"
 score_image = (
@@ -75,7 +75,8 @@ def eval_subset(split: str, per_cell: int, levels=(3,)) -> list[dict]:
 def generate(tag: str, behaviour: str = "ditto", run: str = "base", split: str = "val", per_cell: int = 4,
              steps: int = 10, valid_frames: int = 10, exp_gain: float = 1.0, pose_gain: float = 1.0,
              intensity: float = 1.0, size: int = 512, force_emotion: str = "", hop: int = 5,
-             emotions: str = "", levels: str = "3", emotion_gain: float = 1.0, force_emotions: str = "") -> dict:
+             emotions: str = "", levels: str = "3", emotion_gain: float = 1.0, force_emotions: str = "",
+             slot: int = 4) -> dict:
     import os
     import subprocess
     import time
@@ -105,7 +106,7 @@ def generate(tag: str, behaviour: str = "ditto", run: str = "base", split: str =
             from emostream.engine.behaviour_emostream import EmoStreamBehaviour
 
             return EmoStreamBehaviour(runtime, av, timeline, net, exp_gain=exp_gain, pose_gain=pose_gain, hop=hop,
-                                      emotion_gain=emotion_gain)
+                                      emotion_gain=emotion_gain, slot=slot)
         if behaviour == "ditto_full":
             from emostream.engine.behaviour_emostream import DittoFullFace
 
@@ -184,7 +185,7 @@ def generate(tag: str, behaviour: str = "ditto", run: str = "base", split: str =
       info = {"tag": tag, "behaviour": behaviour, "run": run if behaviour == "emostream" else None, "split": split,
               "gpu": torch.cuda.get_device_name(0), "clips": len(meta), "frames": n_frames,
               "minutes": round((time.perf_counter() - t0) / 60, 2), "exp_gain": exp_gain, "pose_gain": pose_gain,
-              "force_emotion": force_emotion, "hop": hop, "intensity": intensity, "emotion_gain": emotion_gain,
+              "force_emotion": force_emotion, "hop": hop, "slot": slot, "intensity": intensity, "emotion_gain": emotion_gain,
               "ms_per_frame": {k: round(1000 * v / max(n_frames, 1), 2) for k, v in stage_tot.items()}}
       with open(f"{out_dir}/meta.json", "w") as f:
           json.dump({"info": info, "clips": meta}, f, indent=1)
@@ -315,8 +316,8 @@ def score(tag: str, split: str = "val", per_cell: int = 4, do_sync: bool = True)
 def gen(tag: str, behaviour: str = "ditto", run: str = "base", split: str = "val", per_cell: int = 4,
         exp_gain: float = 1.0, pose_gain: float = 1.0, force_emotion: str = "", then_score: bool = True,
         hop: int = 5, intensity: float = 1.0, emotions: str = "", levels: str = "3", sync: bool = False,
-        mouth: bool = True, emotion_gain: float = 1.0, force_emotions: str = ""):
-    print(json.dumps(generate.remote(tag=tag, behaviour=behaviour, run=run, split=split, per_cell=per_cell,
+        mouth: bool = True, emotion_gain: float = 1.0, force_emotions: str = "", slot: int = 4):
+    print(json.dumps(generate.remote(slot=slot, tag=tag, behaviour=behaviour, run=run, split=split, per_cell=per_cell,
                                      exp_gain=exp_gain, pose_gain=pose_gain, force_emotion=force_emotion, hop=hop,
                                      intensity=intensity, emotions=emotions, levels=levels,
                                      emotion_gain=emotion_gain, force_emotions=force_emotions), indent=1))
