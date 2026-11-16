@@ -77,7 +77,8 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
             session = await asyncio.to_thread(provider.open_session, P.check_portrait_payload(payload), req)
             await ws.send_text(json.dumps({"type": "ready", "session": {
                 "model": req.model, "size": req.size, "fps": FPS, "emotion": req.emotion,
-                "intensity": req.intensity}}))
+                "intensity": req.intensity, "portrait": getattr(session, "portrait_info", {}),
+                "algorithmic_delay_ms": getattr(session, "algorithmic_delay_ms", None)}}))
 
             queue: asyncio.Queue = asyncio.Queue()
             sent = {"frames": 0, "dropped": 0, "last_stats": time.perf_counter()}

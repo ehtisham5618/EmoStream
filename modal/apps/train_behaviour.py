@@ -22,7 +22,8 @@ RUNS = f"{C.MODELS}/emostream"
               timeout=3 * 3600, cpu=8, memory=32768)
 def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = True, lip_cap: float = 0.35,
               hidden: int = 256, w_velocity: float = 1.0, seed: int = 0, max_train_clips: int = 0,
-              dropout: float = 0.1, lr: float = 1e-3, eval_every: int = 500, weight_decay: float = 1e-4) -> dict:
+              dropout: float = 0.1, lr: float = 1e-3, eval_every: int = 500, weight_decay: float = 1e-4,
+              w_ccc: float = 0.0, lookahead: int = 0) -> dict:
     import os
     import numpy as np
     import torch
@@ -55,12 +56,12 @@ def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = T
             arr, s, e = store[cid]
             return {k: v[s:e] for k, v in arr.items()}
 
-        return ClipSet(rows, loader=loader)
+        return ClipSet(rows, loader=loader, lookahead=lookahead)
 
     train_set, val_set = load_split("train", max_train_clips), load_split("val")
     print(f"train clips {len(train_set)}  val clips {len(val_set)}  gpu {torch.cuda.get_device_name(0)}")
     cfg = TrainConfig(steps=steps, separate_branches=separate_branches, w_velocity=w_velocity, seed=seed, lr=lr,
-                      eval_every=eval_every, weight_decay=weight_decay,
+                      eval_every=eval_every, weight_decay=weight_decay, w_ccc=w_ccc, lookahead=lookahead,
                       model=BehaviourConfig(hidden=hidden, lip_cap=lip_cap, dropout=dropout))
     out_dir = f"{RUNS}/{run}"
     os.makedirs(out_dir, exist_ok=True)
@@ -78,9 +79,11 @@ def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = T
 @app.local_entrypoint()
 def main(run: str = "base", steps: int = 12000, separate_branches: bool = True, lip_cap: float = 0.35,
          hidden: int = 256, w_velocity: float = 1.0, seed: int = 0, max_train_clips: int = 0,
-         dropout: float = 0.1, lr: float = 1e-3, eval_every: int = 500, weight_decay: float = 1e-4):
+         dropout: float = 0.1, lr: float = 1e-3, eval_every: int = 500, weight_decay: float = 1e-4,
+         w_ccc: float = 0.0, lookahead: int = 0):
     res = train_run.remote(run=run, steps=steps, separate_branches=separate_branches, lip_cap=lip_cap,
                            hidden=hidden, w_velocity=w_velocity, seed=seed, max_train_clips=max_train_clips,
-                           dropout=dropout, lr=lr, eval_every=eval_every, weight_decay=weight_decay)
+                           dropout=dropout, lr=lr, eval_every=eval_every, weight_decay=weight_decay,
+                           w_ccc=w_ccc, lookahead=lookahead)
     res.pop("history", None)
     print(json.dumps(res, indent=1))

@@ -22,7 +22,7 @@ VOLS = {C.MODELS: C.models_vol, C.DATA: C.data_vol}
 
 def _run(tensorrt: bool, behaviour: str, run: str, portrait: str, audio: str, seconds: float, size: int,
          chunk_ms: int, emotion: str, intensity: float, schedule: str, max_latency_ms: float, tag: str,
-         save_video: bool) -> dict:
+         save_video: bool, emotion_gain: float = 1.0, close_mouth: bool = True, hop: int = 5) -> dict:
     import os
     import subprocess
     import time
@@ -53,14 +53,14 @@ def _run(tensorrt: bool, behaviour: str, run: str, portrait: str, audio: str, se
         if behaviour == "emostream":
             from emostream.engine.behaviour_emostream import EmoStreamBehaviour
 
-            return EmoStreamBehaviour(runtime, av, timeline, net)
+            return EmoStreamBehaviour(runtime, av, timeline, net, emotion_gain=emotion_gain, hop=hop)
         return DittoBehaviour(runtime, av, timeline, sampling_timesteps=10, valid_frames=10)
 
     wav, _ = librosa.load(f"{C.DATA}/{audio}", sr=16000, mono=True)
     if seconds > 0:  # loop the recording to the requested length
         wav = np.tile(wav, int(np.ceil(seconds * 16000 / len(wav))))[: int(seconds * 16000)]
     t0 = time.perf_counter()
-    avatar = rt.register(f"{C.DATA}/{portrait}")
+    avatar = rt.register(f"{C.DATA}/{portrait}", close_open_mouth=close_mouth)
     register_s = time.perf_counter() - t0
 
     def new_session(limit):
@@ -105,6 +105,8 @@ def _run(tensorrt: bool, behaviour: str, run: str, portrait: str, audio: str, se
         "tag": tag, "gpu": meter.name, "renderer": "tensorrt_fp16" if tensorrt else "pytorch_fp16",
         "behaviour": behaviour, "run": run if behaviour == "emostream" else None, "portrait": portrait,
         "audio": audio, "size": size, "chunk_ms": chunk_ms, "paced": True, "max_latency_ms": max_latency_ms,
+        "portrait_lip_open_ratio": round(float(avatar.lip_ratio), 4), "portrait_mouth_open": bool(avatar.mouth_open),
+        "mouth_closed_automatically": avatar.lip_delta is not None, "emotion_gain": emotion_gain, "hop": hop,
         "model_load_s": round(load_s, 2), "portrait_register_s": round(register_s, 2), "wall_s": round(wall, 2),
         "delivered_fps": round(st["frames_rendered"] / wall, 2), "algorithmic_delay_ms": [lo * 40, hi * 40],
         "device_peak_used_gib": meter.stop(),
@@ -132,10 +134,12 @@ def bench_tensorrt(**kw) -> dict:
 def main(behaviour: str = "emostream", run: str = "base", tensorrt: bool = False, gpu: str = "A10G",
          portrait: str = "eval/val/M005/portrait.png", audio: str = "poc/inputs/audio.wav", seconds: float = 0,
          size: int = 512, chunk_ms: int = 200, emotion: str = "neutral", intensity: float = 1.0,
-         schedule: str = "", max_latency_ms: float = 0, tag: str = "", save_video: bool = True):
+         schedule: str = "", max_latency_ms: float = 0, tag: str = "", save_video: bool = True,
+         emotion_gain: float = 1.0, close_mouth: bool = True, hop: int = 5):
     tag = tag or f"live_{behaviour}_{'trt' if tensorrt else 'pt'}_{gpu}"
     fn = (bench_tensorrt if tensorrt else bench_pytorch).with_options(gpu=gpu)
     res = fn.remote(behaviour=behaviour, run=run, portrait=portrait, audio=audio, seconds=seconds, size=size,
                     chunk_ms=chunk_ms, emotion=emotion, intensity=intensity, schedule=schedule,
-                    max_latency_ms=max_latency_ms, tag=tag, save_video=save_video)
+                    max_latency_ms=max_latency_ms, tag=tag, save_video=save_video, emotion_gain=emotion_gain,
+                    close_mouth=close_mouth, hop=hop)
     print(json.dumps(res, indent=1))

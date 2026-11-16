@@ -88,6 +88,17 @@ def ensure_checkpoints(tensorrt: bool = False) -> str:
         snapshot_download("digital-avatar/ditto-talkinghead", local_dir=dst,
                           allow_patterns=["ditto_trt_Ampere_Plus/*"])
         models_vol.commit()
+    lp = f"{MODELS}/liveportrait/stitching_retargeting_module.pth"
+    if not os.path.exists(lp):  # LivePortrait lip-retargeting weights (MIT), 2 MB
+        from huggingface_hub import hf_hub_download
+
+        os.makedirs(os.path.dirname(lp), exist_ok=True)
+        src = hf_hub_download("KlingTeam/LivePortrait",
+                              "liveportrait/retargeting_models/stitching_retargeting_module.pth")
+        import shutil
+
+        shutil.copy(src, lp)
+        models_vol.commit()
     if not os.path.exists(f"{dst}/ditto_pytorch/models/lmdm_v0.4_hubert.pth"):
         snapshot_download("digital-avatar/ditto-talkinghead", local_dir=dst,
                           allow_patterns=["ditto_cfg/*", "ditto_pytorch/**"])

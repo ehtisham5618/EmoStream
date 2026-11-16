@@ -53,6 +53,7 @@ class BehaviourConfig:
     emo_embed: int = 32
     dropout: float = 0.1
     lip_cap: float = 0.35          # upper bound of the emotion gate on lip coordinates
+    lookahead: int = 0             # extra future feature frames the model was trained to see (40 ms each)
     n_emotions: int = len(EMOTIONS)
 
 

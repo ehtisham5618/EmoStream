@@ -22,6 +22,8 @@ class TrainConfig:
     w_velocity: float = 1.0        # weight of the frame-difference term
     w_articulation: float = 1.0    # weight of the articulation-branch term
     separate_branches: bool = True  # train the emotion branch against a detached articulation branch
+    w_ccc: float = 0.0             # weight of the concordance-correlation term (amplitude-preserving)
+    lookahead: int = 0             # future feature frames given to the model
     eval_every: int = 1000
     seed: int = 0
     model: BehaviourConfig = field(default_factory=BehaviourConfig)
@@ -34,8 +36,32 @@ def masked_l1(pred, target, mask, weight):
     return (err * m).sum() / (m.sum() * weight.sum()).clamp_min(1e-8)
 
 
-def motion_loss(pred, target, mask, weight, w_velocity):
+def ccc_loss(pred, target, mask, weight, eps: float = 1e-4):
+    """1 - concordance correlation coefficient, per clip and output dimension.
+
+    L1 regression predicts the average of what is plausible, so motion comes out with the
+    right timing but too little amplitude. The concordance coefficient
+    2 cov / (var_p + var_t + (mean_p - mean_t)^2) is 1 only when the prediction matches
+    the target in correlation, amplitude and offset, so maximising it keeps the amplitude
+    of real motion. Dimensions that barely move in a clip are left out, so the term
+    cannot amplify noise.
+    """
+    m = mask.unsqueeze(-1)
+    n = m.sum(1).clamp_min(1.0)
+    mp, mt = (pred * m).sum(1) / n, (target * m).sum(1) / n
+    dp, dt = (pred - mp.unsqueeze(1)) * m, (target - mt.unsqueeze(1)) * m
+    vp, vt = (dp ** 2).sum(1) / n, (dt ** 2).sum(1) / n
+    cov = (dp * dt).sum(1) / n
+    ccc = 2 * cov / (vp + vt + (mp - mt) ** 2 + eps)
+    # (B, D): keep dimensions that really move in this clip (targets are standardised)
+    active = ((vt > 0.05) & (mask.sum(1, keepdim=True) >= 20)).float() * weight
+    return ((1.0 - ccc) * active).sum() / active.sum().clamp_min(1e-8)
+
+
+def motion_loss(pred, target, mask, weight, w_velocity, w_ccc: float = 0.0):
     loss = masked_l1(pred, target, mask, weight)
+    if w_ccc > 0:
+        loss = loss + w_ccc * ccc_loss(pred, target, mask, weight)
     if w_velocity > 0:
         vm = mask[:, 1:] * mask[:, :-1]
         loss = loss + w_velocity * masked_l1(pred[:, 1:] - pred[:, :-1], target[:, 1:] - target[:, :-1], vm, weight)
@@ -58,6 +84,8 @@ def evaluate(net: BehaviourNet, clips: list[dict], device: str, chunk: int = 0) 
     net.eval()
     lip = net.lip_mask.bool().cpu().numpy()
     mae, corr, e_pred, e_gt, pose = [], [], [], [], []
+    amp_p, amp_g, pose_p, pose_g, upper_p, upper_g = [], [], [], [], [], []
+    upper = ~(net.lip_mask.bool().cpu().numpy())
     off_pred = {e: [] for e in EMOTIONS[1:]}
     off_gt = {e: [] for e in EMOTIONS[1:]}
     for c in clips:
@@ -79,6 +107,13 @@ def evaluate(net: BehaviourNet, clips: list[dict], device: str, chunk: int = 0) 
             cc = [np.corrcoef(pl[:, j], yl[:, j])[0, 1] for j in np.where(moving)[0] if pl[:, j].std() > 1e-8]
             if cc:
                 corr.append(float(np.mean(cc)))
+        if moving.any():
+            amp_p.append(pl[:, moving].std(0).mean())
+            amp_g.append(yl[:, moving].std(0).mean())
+        pose_p.append(p[:, EXP_DIM:EXP_DIM + 3].std(0))
+        pose_g.append(y[:, EXP_DIM:EXP_DIM + 3].std(0))
+        upper_p.append(p[:, :EXP_DIM][:, upper].std(0).mean())
+        upper_g.append(y[:, :EXP_DIM][:, upper].std(0).mean())
         e_pred.append(np.abs(np.diff(pl, axis=0)).mean())
         e_gt.append(np.abs(np.diff(yl, axis=0)).mean())
         pose.append(np.abs(p[:, EXP_DIM:EXP_DIM + 3] - y[:, EXP_DIM:EXP_DIM + 3]).mean())
@@ -87,6 +122,10 @@ def evaluate(net: BehaviourNet, clips: list[dict], device: str, chunk: int = 0) 
             off_gt[c["emotion"]].append(y[:, :EXP_DIM].mean(0))
     out = {"lip_mae": float(np.mean(mae)), "lip_corr": float(np.mean(corr)) if corr else float("nan"),
            "lip_energy": float(np.sum(e_pred) / max(np.sum(e_gt), 1e-12)), "pose_mae_deg": float(np.mean(pose)),
+           "lip_amp": float(np.sum(amp_p) / max(np.sum(amp_g), 1e-12)),
+           "upper_amp": float(np.sum(upper_p) / max(np.sum(upper_g), 1e-12)),
+           "pose_std_deg": [round(float(v), 3) for v in np.mean(pose_p, 0)],
+           "pose_std_deg_real": [round(float(v), 3) for v in np.mean(pose_g, 0)],
            "offset_cos": {}}
     for emo in off_pred:
         if off_pred[emo]:
@@ -99,6 +138,8 @@ def evaluate(net: BehaviourNet, clips: list[dict], device: str, chunk: int = 0) 
 def train(train_set, val_set, cfg: TrainConfig, device: str = "cuda", log=print, out_path: str | None = None) -> dict:
     torch.manual_seed(cfg.seed)
     rng = np.random.default_rng(cfg.seed)
+    cfg.model.lookahead = cfg.lookahead
+    assert train_set.lookahead == cfg.lookahead == val_set.lookahead, "datasets must share the look-ahead"
     net = BehaviourNet(cfg.model).to(device)
     std = torch.from_numpy(train_set.stats()).to(device)
     net.out_scale.copy_(std)
@@ -116,11 +157,11 @@ def train(train_set, val_set, cfg: TrainConfig, device: str = "cuda", log=print,
         art, emo_part = parts["art"] / std, parts["emo"] / std
         if cfg.separate_branches:
             full = art.detach() + emo_part
-            loss_art = motion_loss(art, y_art / std, mask, weight, cfg.w_velocity)
+            loss_art = motion_loss(art, y_art / std, mask, weight, cfg.w_velocity, cfg.w_ccc)
         else:
             full = art + emo_part
             loss_art = torch.zeros((), device=device)
-        loss_full = motion_loss(full, y / std, mask, weight, cfg.w_velocity)
+        loss_full = motion_loss(full, y / std, mask, weight, cfg.w_velocity, cfg.w_ccc)
         loss = loss_full + cfg.w_articulation * loss_art
         opt.zero_grad(set_to_none=True)
         loss.backward()
@@ -132,11 +173,11 @@ def train(train_set, val_set, cfg: TrainConfig, device: str = "cuda", log=print,
             m.update({"step": step, "loss_full": float(loss_full), "loss_art": float(loss_art),
                       "minutes": round((time.perf_counter() - t0) / 60, 2)})
             history.append(m)
-            log(json.dumps({k: (round(v, 5) if isinstance(v, float) else v) for k, v in m.items()}))
             # Selection score: lip-motion correlation plus emotion-offset agreement, both on
             # validation actors. (Lip MAE alone picks an early, emotion-poor checkpoint.)
             cos = list(m["offset_cos"].values())
             m["score"] = float(m["lip_corr"] + 0.5 * (sum(cos) / len(cos) if cos else 0.0))
+            log(json.dumps({k: (round(v, 5) if isinstance(v, float) else v) for k, v in m.items()}))
             if best is None or m["score"] > best["score"]:
                 best = m
                 if out_path:

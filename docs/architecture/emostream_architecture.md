@@ -125,3 +125,20 @@ Compute time is added on top and is measured per stage by `StageTimer`; the late
 ## What is deliberately not here
 
 No language model, speech recognition, text-to-speech or voice cloning. No per-identity training. No Keyframe code or API.
+
+## Changes in the animation-quality iteration (16 Nov 2026)
+
+Details and measurements: `docs/iterations/current_iteration/`.
+
+| Part | Change |
+|---|---|
+| Training loss | L1 plus a concordance-correlation term per clip and dimension (`ccc_loss`), which preserves the amplitude of real motion instead of regressing to its average |
+| Model input | Optional look-ahead: the model sees `lookahead` more feature frames (2 in the current checkpoint, 80 ms). Stored in the model config; the engine waits accordingly |
+| Speech features | `hop` option: block streaming (5 frames per encoder window, as in training) or per-frame streaming (1 window per frame, evenly spaced output, constant 85 ms encoder look-ahead, slightly lower accuracy) |
+| Emotion strength | The emotion branch's contribution can be scaled at inference (`emotion_gain`, default 1.5 in the served app); the articulation branch is never scaled |
+| Portrait | If the photo's mouth is open, LivePortrait's lip-retargeting network computes a closing offset once and it is added to the driving keypoints of every frame (`emostream/engine/retarget.py`) |
+| Client | Frames are presented on a 40 ms timeline from a bounded buffer with an explicit late-frame policy (`frontend/src/lib/player.ts`); microphone audio captured before the server is ready is discarded |
+
+Algorithmic delay of the current live configuration (look-ahead 2, per-frame streaming): 85 ms encoder look-ahead + 80 ms model look-ahead, rounded to frames = 200 ms for every frame. Measured server latency on an L40S: 270 ms median over five minutes.
+
+The 69 output values and what each group does are documented in `docs/iterations/current_iteration/facial_motion_evaluation.md`.

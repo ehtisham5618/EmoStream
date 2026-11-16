@@ -187,3 +187,14 @@ def test_transition_gate_handles_a_change_during_a_fade():
     seq = np.stack([t.blended(f, one_hot_with_intensity, 10) for f in range(18, 40)])
     assert np.abs(np.diff(seq, axis=0)).max() < 0.2      # no jump anywhere
     assert np.allclose(seq[-1], one_hot_with_intensity("sad", 1.0))
+
+
+def test_lip_open_ratio_and_threshold():
+    from emostream.engine.retarget import LIP_OPEN_THRESHOLD, lip_open_ratio
+
+    lmk = np.zeros((203, 2), np.float32)
+    lmk[48], lmk[66] = [0, 0], [100, 0]            # mouth corners
+    lmk[90], lmk[102] = [50, -1], [50, 1]          # inner lips 2 px apart: closed
+    assert lip_open_ratio(lmk) == pytest.approx(0.02, abs=1e-4) and lip_open_ratio(lmk) < LIP_OPEN_THRESHOLD
+    lmk[90], lmk[102] = [50, -15], [50, 15]        # 30 px apart: open
+    assert lip_open_ratio(lmk) == pytest.approx(0.30, abs=1e-4) and lip_open_ratio(lmk) >= LIP_OPEN_THRESHOLD

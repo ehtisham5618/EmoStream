@@ -8,7 +8,11 @@ One worker runs one live session at a time. The worker shuts down after five idl
 minutes, so the first request after a pause waits for a cold start (model loading).
 
 Environment:
-    EMOSTREAM_RUN       trained behaviour model under /models/emostream (default "reg")
+    EMOSTREAM_RUN       trained behaviour model under /models/emostream (default "it_ccc_la2";
+                        the previous baseline is "reg")
+    EMOSTREAM_EMOTION_GAIN  scale of the emotion branch (default 1.5; 1.0 = as trained)
+    EMOSTREAM_HOP       1 (default) per-frame streaming, lowest delay, needs an L40S-class GPU;
+                        5 block streaming, for an A10G
     EMOSTREAM_GPU       Modal GPU type (default "L40S": 25 FPS measured; "A10G" is cheaper, ~23 FPS)
     EMOSTREAM_TENSORRT  "1" (default) for the TensorRT renderer, "0" for PyTorch (required on a T4)
 """
@@ -20,14 +24,17 @@ import modal
 
 import _common as C
 
-RUN = os.environ.get("EMOSTREAM_RUN", "reg")
+RUN = os.environ.get("EMOSTREAM_RUN", "it_ccc_la2")
+EMOTION_GAIN = os.environ.get("EMOSTREAM_EMOTION_GAIN", "1.5")
+HOP = os.environ.get("EMOSTREAM_HOP", "1")   # 1 = per-frame streaming (L40S); 5 = block streaming (A10G)
 GPU = os.environ.get("EMOSTREAM_GPU", "L40S")
 TENSORRT = os.environ.get("EMOSTREAM_TENSORRT", "1") == "1"   # needs an Ampere-or-newer GPU (not T4)
 
 app = modal.App("emostream-v2-live")
 image = C.engine_image(
     extra_pip=("fastapi==0.115.6", "python-multipart==0.0.20"), tensorrt=TENSORRT,
-    env={"EMOSTREAM_RUN": RUN, "EMOSTREAM_TENSORRT": "1" if TENSORRT else "0"},
+    env={"EMOSTREAM_RUN": RUN, "EMOSTREAM_TENSORRT": "1" if TENSORRT else "0",
+         "EMOSTREAM_EMOTION_GAIN": EMOTION_GAIN, "EMOSTREAM_HOP": HOP},
     local_dirs=((str(C.ROOT / "backend"), "/root/backend"),
                 (str(C.ROOT / "frontend" / "dist"), "/root/frontend_dist")),
 )
@@ -45,7 +52,8 @@ def web():
     trt = os.environ.get("EMOSTREAM_TENSORRT", "1") == "1"
     provider = GpuEngineProvider(
         C.ensure_checkpoints(tensorrt=trt),
-        emostream_checkpoint=f"{C.MODELS}/emostream/{os.environ.get('EMOSTREAM_RUN', 'reg')}/model.pt",
-        tensorrt=trt,
+        emostream_checkpoint=f"{C.MODELS}/emostream/{os.environ.get('EMOSTREAM_RUN', 'it_ccc_la2')}/model.pt",
+        tensorrt=trt, emotion_gain=float(os.environ.get("EMOSTREAM_EMOTION_GAIN", "1.5")),
+        hop=int(os.environ.get("EMOSTREAM_HOP", "1")),
     )
     return create_app(provider, static_dir="/root/frontend_dist")

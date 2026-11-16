@@ -18,6 +18,8 @@ from dataclasses import dataclass
 
 import numpy as np
 
+from .retarget import LIP_OPEN_THRESHOLD, build_lip_retargeter, lip_close_offset, lip_open_ratio
+
 DITTO_REPO = os.environ.get("DITTO_REPO", "/opt/ditto")
 
 
@@ -58,6 +60,10 @@ class Runtime:
             }}
         self.sdk = StreamSDK(cfg, f"{checkpoints}/ditto_pytorch", **replace)
         self.defaults = self.sdk.default_kwargs
+        # Optional LivePortrait lip-retargeting network (closes an open-mouthed portrait).
+        lip_ckpt = os.path.join(os.path.dirname(checkpoints.rstrip("/")), "liveportrait",
+                                "stitching_retargeting_module.pth")
+        self.lip_net = build_lip_retargeter(lip_ckpt, device) if os.path.exists(lip_ckpt) else None
         if not tensorrt:
             self.warp = self.sdk.warp_f3d.warp_net.model
             self.decoder = self.sdk.decode_f3d.decoder.model
@@ -65,21 +71,34 @@ class Runtime:
             self.decoder.eval()
 
     # ---- portrait -----------------------------------------------------------------
-    def register(self, image_path: str, max_dim: int = 1920) -> Avatar:
+    def register(self, image_path: str, max_dim: int = 1920, close_open_mouth: bool = True) -> Avatar:
+        """Registers a portrait. If its mouth is open and ``close_open_mouth`` is set, the
+        lip-closing keypoint offset is computed once and applied to every rendered frame,
+        so that the avatar rests with a closed mouth."""
         import cv2
+        from core.atomic_components.loader import load_source_frames
+        from core.atomic_components.motion_stitch import transform_keypoint
 
         d = self.defaults
-        info = self.sdk.avatar_registrar(
-            image_path, max_dim=max_dim, n_frames=1,
-            crop_scale=d.get("crop_scale", 2.3), crop_vx_ratio=d.get("crop_vx_ratio", 0),
-            crop_vy_ratio=d.get("crop_vy_ratio", -0.125), crop_flag_do_rot=d.get("crop_flag_do_rot", True),
-        )
-        img = info["img_rgb_lst"][0]
-        M = info["M_c2o_lst"][0]
+        rgb_list, is_image = load_source_frames(image_path, max_dim=max_dim, n_frames=1)
+        img = rgb_list[0]
+        one = self.sdk.avatar_registrar.source2info(
+            img, None, crop_scale=d.get("crop_scale", 2.3), crop_vx_ratio=d.get("crop_vx_ratio", 0),
+            crop_vy_ratio=d.get("crop_vy_ratio", -0.125), crop_flag_do_rot=d.get("crop_flag_do_rot", True))
+        info = {"x_s_info_lst": [one["x_s_info"]], "f_s_lst": [one["f_s"]], "M_c2o_lst": [one["M_c2o"]],
+                "eye_open_lst": [one["eye_open"]], "eye_ball_lst": [one["eye_ball"]],
+                "sc": one["x_s_info"]["kp"].flatten(), "is_image_flag": True, "img_rgb_lst": [img]}
+        M = one["M_c2o"]
         crop = cv2.warpAffine(img, np.linalg.inv(M)[:2], (512, 512), flags=cv2.INTER_LINEAR)
-        f_s = info["f_s_lst"][0] if self.tensorrt else self.torch.from_numpy(info["f_s_lst"][0]).to(self.device)
-        return Avatar(source_info=info, x_s_info=info["x_s_info_lst"][0], f_s=f_s, image_rgb=img,
-                      crop_rgb=crop, M_c2o=M)
+        f_s = one["f_s"] if self.tensorrt else self.torch.from_numpy(one["f_s"]).to(self.device)
+        avatar = Avatar(source_info=info, x_s_info=one["x_s_info"], f_s=f_s, image_rgb=img, crop_rgb=crop, M_c2o=M)
+        avatar.lip_ratio = lip_open_ratio(one["lmk203"])
+        avatar.mouth_open = avatar.lip_ratio >= LIP_OPEN_THRESHOLD
+        avatar.lip_delta = None
+        if close_open_mouth and avatar.mouth_open and self.lip_net is not None:
+            avatar.lip_delta = lip_close_offset(self.lip_net, transform_keypoint(one["x_s_info"]), avatar.lip_ratio,
+                                                self.device)
+        return avatar
 
     # ---- rendering ----------------------------------------------------------------
     def new_stitcher(self, avatar: Avatar):
@@ -114,6 +133,8 @@ class Runtime:
             avatar._x_s_kp = transform_keypoint(avatar.x_s_info)
         x_d = transform_keypoint(x_d_info)
         x_d = self.sdk.motion_stitch.stitch_net(avatar._x_s_kp, x_d)
+        if getattr(avatar, "lip_delta", None) is not None:
+            x_d = x_d + avatar.lip_delta      # close the portrait's open mouth before animating
         return avatar._x_s_kp, x_d
 
     def blink_template(self):

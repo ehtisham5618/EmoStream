@@ -1,0 +1,197 @@
+{
+ "checkpoint": "outputs/local/it_ccc.pt",
+ "actors": 4,
+ "per_cell": 8,
+ "matrix": {
+  "neutral->neutral": {
+   "selected_cos": null,
+   "voice_cos": null,
+   "nearest_is_selected": 1.0,
+   "lip_corr_vs_neutral": 1.0
+  },
+  "neutral->happy": {
+   "selected_cos": 0.449,
+   "voice_cos": null,
+   "nearest_is_selected": 0.125,
+   "lip_corr_vs_neutral": 0.967
+  },
+  "neutral->sad": {
+   "selected_cos": 0.66,
+   "voice_cos": null,
+   "nearest_is_selected": 0.0,
+   "lip_corr_vs_neutral": 0.989
+  },
+  "neutral->angry": {
+   "selected_cos": 0.721,
+   "voice_cos": null,
+   "nearest_is_selected": 0.406,
+   "lip_corr_vs_neutral": 0.975
+  },
+  "neutral->surprised": {
+   "selected_cos": 0.727,
+   "voice_cos": null,
+   "nearest_is_selected": 0.406,
+   "lip_corr_vs_neutral": 0.805
+  },
+  "happy->neutral": {
+   "selected_cos": null,
+   "voice_cos": 0.046,
+   "nearest_is_selected": 1.0,
+   "lip_corr_vs_neutral": 1.0
+  },
+  "happy->happy": {
+   "selected_cos": 0.481,
+   "voice_cos": 0.481,
+   "nearest_is_selected": 0.281,
+   "lip_corr_vs_neutral": 0.986
+  },
+  "happy->sad": {
+   "selected_cos": 0.662,
+   "voice_cos": 0.331,
+   "nearest_is_selected": 0.125,
+   "lip_corr_vs_neutral": 0.99
+  },
+  "happy->angry": {
+   "selected_cos": 0.694,
+   "voice_cos": 0.419,
+   "nearest_is_selected": 0.469,
+   "lip_corr_vs_neutral": 0.987
+  },
+  "happy->surprised": {
+   "selected_cos": 0.708,
+   "voice_cos": 0.435,
+   "nearest_is_selected": 0.375,
+   "lip_corr_vs_neutral": 0.886
+  },
+  "sad->neutral": {
+   "selected_cos": null,
+   "voice_cos": 0.108,
+   "nearest_is_selected": 1.0,
+   "lip_corr_vs_neutral": 1.0
+  },
+  "sad->happy": {
+   "selected_cos": 0.528,
+   "voice_cos": -0.086,
+   "nearest_is_selected": 0.344,
+   "lip_corr_vs_neutral": 0.985
+  },
+  "sad->sad": {
+   "selected_cos": 0.678,
+   "voice_cos": 0.678,
+   "nearest_is_selected": 0.438,
+   "lip_corr_vs_neutral": 0.99
+  },
+  "sad->angry": {
+   "selected_cos": 0.691,
+   "voice_cos": 0.583,
+   "nearest_is_selected": 0.5,
+   "lip_corr_vs_neutral": 0.982
+  },
+  "sad->surprised": {
+   "selected_cos": 0.709,
+   "voice_cos": 0.373,
+   "nearest_is_selected": 0.469,
+   "lip_corr_vs_neutral": 0.866
+  },
+  "angry->neutral": {
+   "selected_cos": null,
+   "voice_cos": 0.021,
+   "nearest_is_selected": 0.969,
+   "lip_corr_vs_neutral": 1.0
+  },
+  "angry->happy": {
+   "selected_cos": 0.484,
+   "voice_cos": -0.037,
+   "nearest_is_selected": 0.188,
+   "lip_corr_vs_neutral": 0.99
+  },
+  "angry->sad": {
+   "selected_cos": 0.693,
+   "voice_cos": 0.551,
+   "nearest_is_selected": 0.156,
+   "lip_corr_vs_neutral": 0.992
+  },
+  "angry->angry": {
+   "selected_cos": 0.693,
+   "voice_cos": 0.693,
+   "nearest_is_selected": 0.5,
+   "lip_corr_vs_neutral": 0.987
+  },
+  "angry->surprised": {
+   "selected_cos": 0.726,
+   "voice_cos": 0.386,
+   "nearest_is_selected": 0.344,
+   "lip_corr_vs_neutral": 0.933
+  },
+  "surprised->neutral": {
+   "selected_cos": null,
+   "voice_cos": 0.272,
+   "nearest_is_selected": 1.0,
+   "lip_corr_vs_neutral": 1.0
+  },
+  "surprised->happy": {
+   "selected_cos": 0.466,
+   "voice_cos": 0.038,
+   "nearest_is_selected": 0.25,
+   "lip_corr_vs_neutral": 0.985
+  },
+  "surprised->sad": {
+   "selected_cos": 0.68,
+   "voice_cos": 0.422,
+   "nearest_is_selected": 0.25,
+   "lip_corr_vs_neutral": 0.991
+  },
+  "surprised->angry": {
+   "selected_cos": 0.711,
+   "voice_cos": 0.435,
+   "nearest_is_selected": 0.5,
+   "lip_corr_vs_neutral": 0.987
+  },
+  "surprised->surprised": {
+   "selected_cos": 0.744,
+   "voice_cos": 0.744,
+   "nearest_is_selected": 0.562,
+   "lip_corr_vs_neutral": 0.904
+  }
+ },
+ "neutral_selected_leak": {
+  "happy": 0.238,
+  "sad": 0.248,
+  "angry": 0.246,
+  "surprised": 0.238
+ },
+ "intensity_response": {
+  "happy": {
+   "0.0": 0.0,
+   "0.25": 0.087,
+   "0.5": 0.203,
+   "0.75": 0.314,
+   "1.0": 0.401
+  },
+  "sad": {
+   "0.0": 0.0,
+   "0.25": 0.138,
+   "0.5": 0.255,
+   "0.75": 0.345,
+   "1.0": 0.427
+  },
+  "angry": {
+   "0.0": 0.0,
+   "0.25": 0.13,
+   "0.5": 0.25,
+   "0.75": 0.36,
+   "1.0": 0.469
+  },
+  "surprised": {
+   "0.0": 0.0,
+   "0.25": 0.085,
+   "0.5": 0.179,
+   "0.75": 0.283,
+   "1.0": 0.399
+  }
+ },
+ "nearest_accuracy": {
+  "voice_matches_selection": 0.556,
+  "voice_differs_from_selection": 0.444
+ }
+}

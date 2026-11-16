@@ -72,14 +72,25 @@ def to_delta(motion: np.ndarray, rest: np.ndarray) -> np.ndarray:
     return y
 
 
+def shift_features(audio: np.ndarray, lookahead: int) -> np.ndarray:
+    """Input for frame t becomes the feature of frame t + lookahead (the last feature is
+    repeated at the end). The model then sees ``lookahead`` more frames of future audio,
+    at the price of ``lookahead * 40`` ms more delay in a live stream."""
+    if lookahead <= 0:
+        return audio
+    return np.concatenate([audio[lookahead:], np.repeat(audio[-1:], min(lookahead, len(audio)), 0)], 0)
+
+
 class ClipSet:
     """All clips of one split in memory, with deltas and articulation targets."""
 
-    def __init__(self, index: list[dict], loader=np.load):
+    def __init__(self, index: list[dict], loader=np.load, lookahead: int = 0):
         self.clips = []
+        self.lookahead = lookahead
         for r in index:
             z = loader(r["features"])
-            self.clips.append({**r, "motion": motion_vector(z), "audio": np.asarray(z["hubert"])})
+            self.clips.append({**r, "motion": motion_vector(z),
+                               "audio": shift_features(np.asarray(z["hubert"]), lookahead)})
         self.refs = actor_references(self.clips)
         kept = []
         for c in self.clips:

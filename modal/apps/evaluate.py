@@ -74,7 +74,8 @@ def eval_subset(split: str, per_cell: int, levels=(3,)) -> list[dict]:
               volumes={C.MODELS: C.models_vol, C.DATA: C.data_vol})
 def generate(tag: str, behaviour: str = "ditto", run: str = "base", split: str = "val", per_cell: int = 4,
              steps: int = 10, valid_frames: int = 10, exp_gain: float = 1.0, pose_gain: float = 1.0,
-             intensity: float = 1.0, size: int = 512, force_emotion: str = "") -> dict:
+             intensity: float = 1.0, size: int = 512, force_emotion: str = "", hop: int = 5,
+             emotions: str = "", levels: str = "3", emotion_gain: float = 1.0, force_emotions: str = "") -> dict:
     import os
     import subprocess
     import time
@@ -89,6 +90,7 @@ def generate(tag: str, behaviour: str = "ditto", run: str = "base", split: str =
     from emostream.engine.session import AvatarSession, stream_file
 
     assert split != "test" or tag.startswith("test_"), "test split is reserved for the final report"
+    assert not (behaviour == "oracle" and split == "test"), "the oracle reads real motion; never on the test split"
     os.chdir(C.REPO)
     rt = Runtime(C.ensure_checkpoints())
     net = None
@@ -102,58 +104,93 @@ def generate(tag: str, behaviour: str = "ditto", run: str = "base", split: str =
         if behaviour == "emostream":
             from emostream.engine.behaviour_emostream import EmoStreamBehaviour
 
-            return EmoStreamBehaviour(runtime, av, timeline, net, exp_gain=exp_gain, pose_gain=pose_gain)
+            return EmoStreamBehaviour(runtime, av, timeline, net, exp_gain=exp_gain, pose_gain=pose_gain, hop=hop,
+                                      emotion_gain=emotion_gain)
         if behaviour == "ditto_full":
             from emostream.engine.behaviour_emostream import DittoFullFace
 
             return DittoFullFace(runtime, av, timeline, sampling_timesteps=steps, valid_frames=valid_frames)
         return DittoBehaviour(runtime, av, timeline, sampling_timesteps=steps, valid_frames=valid_frames)
 
-    clips = eval_subset(split, per_cell)
-    out_dir = f"{C.DATA}/eval_out/{tag}"
-    os.makedirs(out_dir, exist_ok=True)
-    avatars, meta, t0 = {}, [], time.perf_counter()
-    stage_tot, n_frames = {}, 0
-    for r in clips:
+    oracle = {}
+
+    def oracle_deltas(r):
+        """Real motion of this clip as deltas from the actor's rest pose (renderer check)."""
+        from emostream.training.data import to_delta
+
         actor = r["actor"]
-        if actor not in avatars:
-            avatars[actor] = rt.register(f"{C.DATA}/eval/{split}/{actor}/portrait.png")
-        gt = f"{C.DATA}/mead_v2/gt256/{actor}/{r['clip_id']}.mp4"
-        wav = f"/tmp/{r['clip_id']}.wav"
-        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", gt, "-vn", "-ac", "1", "-ar", "16000", wav],
-                       check=True)
-        audio, _ = sf.read(wav, dtype="float32")
-        emotion = force_emotion or r["emotion"]
-        sess = AvatarSession(rt, avatars[actor], factory, emotion=emotion,
-                             intensity=1.0 if emotion == "neutral" else intensity * r["level"] / 3, size=size,
-                             portrait_consent=True, audio_consent=True)
-        tmp = f"/tmp/{r['clip_id']}.mp4"
-        w = imageio.get_writer(tmp, fps=25, codec="libx264", quality=8, macro_block_size=1)
-        for fr in stream_file(sess, audio, chunk_ms=200, paced=False):
-            w.append_data(fr.rgb)
-        w.close()
-        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", tmp, "-i", wav, "-map", "0:v", "-map", "1:a",
-                        "-c:v", "copy", "-c:a", "aac", "-shortest", f"{out_dir}/{r['clip_id']}.mp4"], check=True)
-        os.remove(tmp)
-        os.remove(wav)
-        st = sess.stats()
-        n_frames += st["frames"]
-        for k, v in st["stages"].items():
-            stage_tot[k] = stage_tot.get(k, 0.0) + v["total_s"]
-        deltas = getattr(sess.behaviour, "last_deltas", None)
-        if deltas:
-            np.save(f"{out_dir}/{r['clip_id']}.motion.npy", np.stack(deltas).astype(np.float32))
-        meta.append({"clip_id": r["clip_id"], "actor": actor, "emotion": r["emotion"], "level": r["level"],
-                     "condition": emotion, "frames": st["frames"]})
-    info = {"tag": tag, "behaviour": behaviour, "run": run if behaviour == "emostream" else None, "split": split,
-            "gpu": torch.cuda.get_device_name(0), "clips": len(meta), "frames": n_frames,
-            "minutes": round((time.perf_counter() - t0) / 60, 2), "exp_gain": exp_gain, "pose_gain": pose_gain,
-            "force_emotion": force_emotion,
-            "ms_per_frame": {k: round(1000 * v / max(n_frames, 1), 2) for k, v in stage_tot.items()}}
-    with open(f"{out_dir}/meta.json", "w") as f:
-        json.dump({"info": info, "clips": meta}, f, indent=1)
+        if actor not in oracle:
+            z = np.load(f"{C.DATA}/mead_v2/packed/{actor}.npz")
+            ends = np.cumsum(z["lengths"])
+            mot = np.concatenate([z["exp"], z["pose"], z["t"][:, :2], z["scale"].reshape(-1, 1)], 1).astype(np.float32)
+            neutral = [i for i, e in enumerate(z["emotions"]) if e == "neutral"]
+            rest = np.median(np.concatenate([mot[ends[i] - z["lengths"][i]:ends[i] - z["lengths"][i] + 3]
+                                             for i in neutral]), 0)
+            oracle[actor] = (z["clip_ids"].tolist(), ends, z["lengths"], mot, rest)
+        ids, ends, lengths, mot, rest = oracle[actor]
+        i = ids.index(r["clip_id"])
+        return to_delta(mot[ends[i] - lengths[i]:ends[i]].copy(), rest)
+
+    clips = eval_subset(split, per_cell, tuple(int(x) for x in levels.split(",")))
+    if emotions:  # restrict the *audio* emotion, e.g. for cross-conditioning runs
+        clips = [c for c in clips if c["emotion"] in emotions.split(",")]
+    avatars = {}
+    base_tag, results = tag, []
+    selections = [e for e in force_emotions.split(",") if e] or [force_emotion]
+    for force_emotion in selections:
+      tag = f"{base_tag}_{force_emotion}" if force_emotions else base_tag
+      out_dir = f"{C.DATA}/eval_out/{tag}"
+      os.makedirs(out_dir, exist_ok=True)
+      meta, t0 = [], time.perf_counter()
+      stage_tot, n_frames = {}, 0
+      for r in clips:
+            actor = r["actor"]
+            if actor not in avatars:
+                avatars[actor] = rt.register(f"{C.DATA}/eval/{split}/{actor}/portrait.png")
+            gt = f"{C.DATA}/mead_v2/gt256/{actor}/{r['clip_id']}.mp4"
+            wav = f"/tmp/{r['clip_id']}.wav"
+            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", gt, "-vn", "-ac", "1", "-ar", "16000", wav],
+                           check=True)
+            audio, _ = sf.read(wav, dtype="float32")
+            emotion = force_emotion or r["emotion"]
+            fac = factory
+            if behaviour == "oracle":
+                from emostream.engine.behaviour_emostream import OracleBehaviour
+
+                deltas = oracle_deltas(r)
+                fac = lambda runtime, av, timeline: OracleBehaviour(runtime, av, timeline, deltas)  # noqa: E731
+            sess = AvatarSession(rt, avatars[actor], fac, emotion=emotion,
+                                 intensity=(1.0 if emotion == "neutral" else intensity if force_emotion
+                                            else intensity * r["level"] / 3), size=size,
+                                 portrait_consent=True, audio_consent=True)
+            tmp = f"/tmp/{r['clip_id']}.mp4"
+            w = imageio.get_writer(tmp, fps=25, codec="libx264", quality=8, macro_block_size=1)
+            for fr in stream_file(sess, audio, chunk_ms=200, paced=False):
+                w.append_data(fr.rgb)
+            w.close()
+            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", tmp, "-i", wav, "-map", "0:v", "-map", "1:a",
+                            "-c:v", "copy", "-c:a", "aac", "-shortest", f"{out_dir}/{r['clip_id']}.mp4"], check=True)
+            os.remove(tmp)
+            os.remove(wav)
+            st = sess.stats()
+            n_frames += st["frames"]
+            for k, v in st["stages"].items():
+                stage_tot[k] = stage_tot.get(k, 0.0) + v["total_s"]
+            deltas = getattr(sess.behaviour, "last_deltas", None)
+            if deltas:
+                np.save(f"{out_dir}/{r['clip_id']}.motion.npy", np.stack(deltas).astype(np.float32))
+            meta.append({"clip_id": r["clip_id"], "actor": actor, "emotion": r["emotion"], "level": r["level"],
+                         "condition": emotion, "frames": st["frames"]})
+      info = {"tag": tag, "behaviour": behaviour, "run": run if behaviour == "emostream" else None, "split": split,
+              "gpu": torch.cuda.get_device_name(0), "clips": len(meta), "frames": n_frames,
+              "minutes": round((time.perf_counter() - t0) / 60, 2), "exp_gain": exp_gain, "pose_gain": pose_gain,
+              "force_emotion": force_emotion, "hop": hop, "intensity": intensity, "emotion_gain": emotion_gain,
+              "ms_per_frame": {k: round(1000 * v / max(n_frames, 1), 2) for k, v in stage_tot.items()}}
+      with open(f"{out_dir}/meta.json", "w") as f:
+          json.dump({"info": info, "clips": meta}, f, indent=1)
+      results.append(info)
     C.data_vol.commit()
-    return info
+    return results[0] if len(results) == 1 else {"runs": results}
 
 
 @app.function(image=score_image, gpu=["T4", "L4", "A10G"], timeout=3 * 3600, volumes={C.DATA: C.data_vol}, cpu=4)
@@ -229,7 +266,7 @@ def score(tag: str, split: str = "val", per_cell: int = 4, do_sync: bool = True)
             p = np.mean(probs, 0)
             row["pred"] = keep_names[int(np.argmax(p))]
             row["probs"] = {k: round(float(v / p.sum()), 4) for k, v in zip(keep_names, p)}
-            y_true.append(it["emotion"])
+            y_true.append(it.get("condition") or it["emotion"])   # the selected emotion is the label
             y_pred.append(row["pred"])
         if sims:
             row["arcface"] = float(np.mean(sims))
@@ -276,13 +313,181 @@ def score(tag: str, split: str = "val", per_cell: int = 4, do_sync: bool = True)
 
 @app.local_entrypoint()
 def gen(tag: str, behaviour: str = "ditto", run: str = "base", split: str = "val", per_cell: int = 4,
-        exp_gain: float = 1.0, pose_gain: float = 1.0, force_emotion: str = "", then_score: bool = True):
+        exp_gain: float = 1.0, pose_gain: float = 1.0, force_emotion: str = "", then_score: bool = True,
+        hop: int = 5, intensity: float = 1.0, emotions: str = "", levels: str = "3", sync: bool = False,
+        mouth: bool = True, emotion_gain: float = 1.0, force_emotions: str = ""):
     print(json.dumps(generate.remote(tag=tag, behaviour=behaviour, run=run, split=split, per_cell=per_cell,
-                                     exp_gain=exp_gain, pose_gain=pose_gain, force_emotion=force_emotion), indent=1))
+                                     exp_gain=exp_gain, pose_gain=pose_gain, force_emotion=force_emotion, hop=hop,
+                                     intensity=intensity, emotions=emotions, levels=levels,
+                                     emotion_gain=emotion_gain, force_emotions=force_emotions), indent=1))
+    if force_emotions:      # cross-conditioning: score emotion and identity for each selection
+        for e in force_emotions.split(","):
+            r = score.remote(tag=f"{tag}_{e}", split=split, per_cell=per_cell, do_sync=False)
+            print(json.dumps(r, indent=1))
+        return
     if then_score:
-        print(json.dumps(score.remote(tag=tag, split=split, per_cell=per_cell), indent=1))
+        print(json.dumps(score.remote(tag=tag, split=split, per_cell=per_cell, do_sync=sync), indent=1))
+        if mouth:
+            print(json.dumps(mouth_metrics.remote(tag=tag, split=split, per_cell=per_cell), indent=1))
+
+
+def _mouth_series(video: str, fa) -> dict:
+    """Per-frame mouth and jaw measurements from 106-point landmarks, normalised by the
+    distance between the eye centres so they are comparable across crops and sizes.
+
+    * ``open``  vertical extent of the mouth landmarks (lip aperture including lip thickness)
+    * ``width`` horizontal extent of the mouth landmarks
+    * ``jaw``   chin height below the eye line
+    """
+    import cv2
+    import numpy as np
+
+    cap = cv2.VideoCapture(video)
+    face, out = None, {"open": [], "width": [], "jaw": []}
+    lm_model = fa.models["landmark_2d_106"]
+    while True:
+        ok, frame = cap.read()
+        if not ok:
+            break
+        if face is None:
+            faces = fa.get(frame)
+            if not faces:
+                for k in out:
+                    out[k].append(np.nan)
+                continue
+            face = max(faces, key=lambda x: (x.bbox[2] - x.bbox[0]) * (x.bbox[3] - x.bbox[1]))
+        lm = lm_model.get(frame, face)                      # (106, 2), same face box for the whole clip
+        mouth = lm[52:72]
+        eyes = np.linalg.norm(lm[33:43].mean(0) - lm[87:97].mean(0)) + 1e-6
+        eye_y = (lm[33:43].mean(0)[1] + lm[87:97].mean(0)[1]) / 2
+        out["open"].append((mouth[:, 1].max() - mouth[:, 1].min()) / eyes)
+        out["width"].append((mouth[:, 0].max() - mouth[:, 0].min()) / eyes)
+        out["jaw"].append((lm[0:33, 1].max() - eye_y) / eyes)
+    cap.release()
+    return {k: np.asarray(v, dtype=np.float32) for k, v in out.items()}
+
+
+@app.function(image=score_image, gpu=["T4", "L4", "A10G"], timeout=2 * 3600, volumes={C.DATA: C.data_vol}, cpu=4)
+def mouth_metrics(tag: str, split: str = "val", per_cell: int = 4) -> dict:
+    """Mouth aperture, mouth width and jaw displacement of generated clips against the
+    ground-truth video of the same clip: correlation over time and amplitude ratio."""
+    import os
+
+    import numpy as np
+    from insightface.app import FaceAnalysis
+
+    C.data_vol.reload()
+    fa = FaceAnalysis(name="buffalo_l", providers=["CUDAExecutionProvider", "CPUExecutionProvider"],
+                      allowed_modules=["detection", "landmark_2d_106"])
+    fa.prepare(ctx_id=0, det_size=(320, 320))
+    gt_dir = f"{C.DATA}/eval_out/gt_{split}/mouth"
+    os.makedirs(gt_dir, exist_ok=True)
+
+    def gt_series(r):
+        path = f"{gt_dir}/{r['clip_id']}.npz"
+        if not os.path.exists(path):
+            np.savez(path, **_mouth_series(f"{C.DATA}/mead_v2/gt256/{r['actor']}/{r['clip_id']}.mp4", fa))
+        return dict(np.load(path))
+
+    if tag == "gt":
+        clips = eval_subset(split, per_cell)
+        for r in clips:
+            gt_series(r)
+        C.data_vol.commit()
+        return {"tag": "gt", "clips": len(clips)}
+
+    out_dir = f"{C.DATA}/eval_out/{tag}"
+    meta = json.load(open(f"{out_dir}/meta.json"))
+    rows, agg = [], {k: {"corr": [], "sp": [], "sg": [], "rp": [], "rg": []} for k in ("open", "width", "jaw")}
+    for m in meta["clips"]:
+        g = gt_series(m)
+        p = _mouth_series(f"{out_dir}/{m['clip_id']}.mp4", fa)
+        row = {"clip_id": m["clip_id"], "emotion": m["emotion"]}
+        for k in agg:
+            n = min(len(g[k]), len(p[k]))
+            a, b = g[k][:n], p[k][:n]
+            ok = np.isfinite(a) & np.isfinite(b)
+            if ok.sum() < 20:
+                continue
+            a, b = a[ok], b[ok]
+            c = float(np.corrcoef(a, b)[0, 1]) if a.std() > 1e-6 and b.std() > 1e-6 else float("nan")
+            agg[k]["corr"].append(c)
+            agg[k]["sp"].append(b.std())
+            agg[k]["sg"].append(a.std())
+            agg[k]["rp"].append(np.percentile(b, 95) - np.percentile(b, 5))
+            agg[k]["rg"].append(np.percentile(a, 95) - np.percentile(a, 5))
+            row[k] = {"corr": c, "amp": float(b.std() / (a.std() + 1e-9))}
+        rows.append(row)
+    res = {"tag": tag, "clips": len(rows)}
+    for k, v in agg.items():
+        res[k] = {"corr": round(float(np.nanmean(v["corr"])), 3),
+                  "amplitude_ratio": round(float(np.sum(v["sp"]) / np.sum(v["sg"])), 3),
+                  "range_ratio": round(float(np.sum(v["rp"]) / np.sum(v["rg"])), 3)}
+    with open(f"{out_dir}/mouth.json", "w") as f:
+        json.dump({**res, "per_clip": rows}, f, indent=1)
+    C.data_vol.commit()
+    return res
+
+
+@app.function(image=score_image, gpu=["T4", "L4", "A10G"], timeout=3600, volumes={C.DATA: C.data_vol}, cpu=4)
+def av_offsets(split: str = "val", max_clips: int = 24) -> dict:
+    """SyncNet's own audio-video offset estimate on ground-truth clips (frames; the sign
+    convention is SyncNet's). A consistent non-zero offset would mean the recordings
+    themselves are out of sync, which would cap what any model trained on them can learn."""
+    import os
+    import re
+    import shutil
+    import subprocess
+    from collections import Counter, defaultdict
+
+    C.data_vol.reload()
+    rows = [json.loads(line) for line in open(f"{C.DATA}/mead_v2/manifests/clips.jsonl")]
+    rows = [r for r in rows if r["valid"] and r["split"] == split and r["duration_s"] >= 4.5]
+    by = defaultdict(list)
+    for r in sorted(rows, key=lambda r: r["clip_id"]):
+        by[r["actor"]].append(r)
+    picks = [r for a in sorted(by) for r in by[a][:: max(1, len(by[a]) // (max_clips // len(by)))][: max_clips // len(by)]]
+    per_actor, out = defaultdict(list), []
+    for r in picks:
+        work = f"/tmp/off/{r['clip_id']}"
+        shutil.rmtree(work, ignore_errors=True)
+        os.makedirs(work, exist_ok=True)
+        video = f"{C.DATA}/mead_v2/gt256/{r['actor']}/{r['clip_id']}.mp4"
+        subprocess.run(["python", "run_pipeline.py", "--videofile", video, "--reference", "x", "--data_dir", work],
+                       cwd=SYNC, capture_output=True, text=True)
+        b = subprocess.run(["python", "run_syncnet.py", "--videofile", video, "--reference", "x", "--data_dir", work],
+                           cwd=SYNC, capture_output=True, text=True)
+        shutil.rmtree(work, ignore_errors=True)
+        text = b.stdout + b.stderr          # SyncNet reports through the logging module (stderr)
+        m = re.search(r"AV offset:\s*(-?\d+)", text)
+        c = re.search(r"Confidence:\s*([\d.]+)", text)
+        if m:
+            off = int(m.group(1))
+            per_actor[r["actor"]].append(off)
+            out.append({"clip_id": r["clip_id"], "offset": off, "confidence": float(c.group(1)) if c else None})
+        else:
+            out.append({"clip_id": r["clip_id"], "offset": None, "debug": (b.stdout[-300:] + " | " + b.stderr[-400:])})
+    res = {"split": split, "clips": len(out), "offset_histogram": dict(sorted(Counter(o["offset"] for o in out if o["offset"] is not None).items())),
+           "picked": len(picks), "first_debug": next((o.get("debug") for o in out if o.get("debug")), None),
+           "per_actor": {a: v for a, v in per_actor.items()}, "per_clip": out}
+    os.makedirs(f"{C.DATA}/eval_out/gt_{split}", exist_ok=True)
+    with open(f"{C.DATA}/eval_out/gt_{split}/av_offsets.json", "w") as f:
+        json.dump(res, f, indent=1)
+    C.data_vol.commit()
+    return {k: v for k, v in res.items() if k != "per_clip"}
 
 
 @app.local_entrypoint()
-def sc(tag: str, split: str = "val", per_cell: int = 4):
-    print(json.dumps(score.remote(tag=tag, split=split, per_cell=per_cell), indent=1))
+def sc(tag: str, split: str = "val", per_cell: int = 4, sync: bool = True):
+    print(json.dumps(score.remote(tag=tag, split=split, per_cell=per_cell, do_sync=sync), indent=1))
+
+
+@app.local_entrypoint()
+def mouth(tag: str, split: str = "val", per_cell: int = 4):
+    print(json.dumps(mouth_metrics.remote(tag=tag, split=split, per_cell=per_cell), indent=1))
+
+
+@app.local_entrypoint()
+def offsets(split: str = "val", max_clips: int = 24):
+    assert split != "test", "the test split is reserved"
+    print(json.dumps(av_offsets.remote(split=split, max_clips=max_clips), indent=1))

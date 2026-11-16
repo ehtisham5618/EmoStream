@@ -40,10 +40,14 @@ class BlinkSchedule:
 
 
 def absolute_motion(x_s_info: dict, source_deg: np.ndarray, delta: np.ndarray, eye_offset=None, mask=None,
-                    exp_gain: float = 1.0, pose_gain: float = 1.0) -> dict:
+                    exp_gain: float = 1.0, pose_gain: float = 1.0, base_offset=None) -> dict:
     """Applies a 69-d motion delta (expression 63, rotation in degrees 3, translation 2,
-    scale ratio 1) to a source portrait's motion; returns a complete driving dict."""
+    scale ratio 1) to a source portrait's motion; returns a complete driving dict.
+    ``base_offset`` (63,) is added to the source expression first, e.g. the lip-closing
+    offset for a portrait whose mouth is open."""
     exp = x_s_info["exp"].reshape(1, -1) + exp_gain * delta[None, :63]
+    if base_offset is not None:
+        exp = exp + base_offset[None]
     if eye_offset is not None:
         exp = exp + (eye_offset * mask if mask is not None else eye_offset)[None]
     pose = source_deg + pose_gain * delta[63:66]
@@ -58,60 +62,104 @@ def absolute_motion(x_s_info: dict, source_deg: np.ndarray, delta: np.ndarray, e
 class EmoStreamBehaviour:
     """Streaming HuBERT features -> causal two-branch network (emostream.models.BehaviourNet).
 
-    A frame's motion is available as soon as the speech encoder has produced that
-    frame's feature: 85 ms of look-ahead, delivered in blocks of five frames (200 ms).
+    ``hop`` is how many frames the speech encoder advances per window:
+
+    * ``hop=5`` (how the features were computed for training): one window yields five
+      frames, so frames come out in groups of five every 200 ms and wait 85-245 ms.
+    * ``hop=1``: one window per frame, each frame taken from the last valid slot of its
+      own window. Frames come out one at a time, evenly, each after 85 ms of look-ahead.
+      Five times the encoder work (about 1.6 ms per window with TensorRT).
+
+    A model trained with ``lookahead`` L additionally waits for L more feature frames
+    (L x 40 ms) before it emits a frame.
     """
 
     absolute = True  # complete motion dicts; the session renders them through the full-face path
 
     def __init__(self, runtime, avatar, timeline: EmotionTimeline, net, chunk=(3, 5, 2), exp_gain: float = 1.0,
-                 pose_gain: float = 1.0, blink: bool = True, seed: int = 0, fade_frames: int = 10):
+                 pose_gain: float = 1.0, blink: bool = True, seed: int = 0, fade_frames: int = 10, hop: int = 5,
+                 lip_close=None, emotion_gain: float = 1.0):
+        assert hop in (1, 5), "hop must be 1 (per frame) or 5 (per block)"
         self.fade_frames = fade_frames  # emotion transition gate: 10 frames = 400 ms cross-fade
         self.rt, self.avatar, self.timeline = runtime, avatar, timeline
         self.torch = runtime.torch
         self.net = net.to(runtime.device).eval()
         self.chunk = tuple(chunk)
+        self.hop = hop
+        self.lookahead = int(getattr(net.cfg, "lookahead", 0))
         self.wav2feat = runtime.sdk.wav2feat
-        self.chunker = SlidingWindowChunker(*self.chunk)
+        p, v, f = self.chunk
+        # hop 1: slide the same 10-frame window by one frame and keep its last valid slot
+        self.chunker = SlidingWindowChunker(p, v, f) if hop == 5 else SlidingWindowChunker(p + v - 1, 1, f)
         self.state = None
         self.exp_gain, self.pose_gain = exp_gain, pose_gain
+        # Scale of the emotion branch's contribution. 1.0 is what the model learned; the
+        # articulation branch is never scaled by it.
+        self.emotion_gain = emotion_gain
         self.source_deg = runtime.source_degrees(avatar)
         self.mask = eye_mask()
         self.blinks = BlinkSchedule(runtime.blink_template() if blink else None, seed=seed)
+        self.lip_close = lip_close   # (63,) keypoint offset that closes an open-mouthed portrait, or None
         self.frames_out = 0
-        self.last_deltas = []  # kept for motion-space evaluation
+        self.feats = None            # features not yet consumed by the network
+        self.last_deltas = []        # kept for motion-space evaluation
 
-    def _run(self, windows, limit=None) -> list[dict]:
+    def _features(self, windows) -> None:
         if not windows:
+            return
+        if self.hop == 5:
+            new = [self.wav2feat(w, chunksize=self.chunk) for w in windows]
+        else:
+            new = [self.wav2feat(w, chunksize=self.chunk)[-1:] for w in windows]
+        new = np.concatenate(new, 0).astype(np.float32)
+        self.feats = new if self.feats is None else np.concatenate([self.feats, new], 0)
+
+    def _emit(self, total_frames=None) -> list[dict]:
+        """Runs the network on every frame whose (look-ahead shifted) feature is available.
+        At the end of a stream the last feature is repeated, as in training."""
+        if self.feats is None:
             return []
-        feats = np.concatenate([self.wav2feat(w, chunksize=self.chunk) for w in windows], 0)
-        if limit is not None:
-            feats = feats[:max(0, limit)]
-        if len(feats) == 0:
+        L = self.lookahead
+        if total_frames is None:
+            n = len(self.feats) - L
+            x = self.feats[L:L + n] if n > 0 else None
+        else:
+            n = max(0, total_frames - self.frames_out)
+            x = None
+            if n > 0 and len(self.feats):
+                pad = np.repeat(self.feats[-1:], max(0, L + n - len(self.feats)), 0)
+                x = np.concatenate([self.feats, pad], 0)[L:L + n]
+        if x is None or len(x) == 0:
             return []
+        self.feats = self.feats[len(x):]
         torch = self.torch
         emo = np.stack([self.timeline.blended(self.frames_out + i, one_hot_with_intensity, self.fade_frames)
-                        for i in range(len(feats))])
+                        for i in range(len(x))])
         with torch.no_grad():
-            out, self.state = self.net(torch.from_numpy(feats.astype(np.float32))[None].to(self.rt.device),
-                                       torch.from_numpy(emo)[None].to(self.rt.device), self.state)
+            out, self.state, parts = self.net(torch.from_numpy(x)[None].to(self.rt.device),
+                                              torch.from_numpy(emo)[None].to(self.rt.device), self.state,
+                                              return_parts=True)
+            if self.emotion_gain != 1.0:
+                out = parts["art"] + self.emotion_gain * parts["emo"]
         deltas = out[0].float().cpu().numpy()
         self.last_deltas.extend(deltas)
         motions = [absolute_motion(self.avatar.x_s_info, self.source_deg, d, self.blinks.step(), self.mask,
-                                   self.exp_gain, self.pose_gain) for d in deltas]
+                                   self.exp_gain, self.pose_gain, self.lip_close) for d in deltas]
         self.frames_out += len(motions)
         return motions
 
     def push(self, audio: np.ndarray) -> list[dict]:
-        return self._run(self.chunker.push(audio))
+        self._features(self.chunker.push(audio))
+        return self._emit()
 
     def flush(self, total_frames: int) -> list[dict]:
-        return self._run(self.chunker.flush(total_frames), limit=total_frames - self.frames_out)
+        self._features(self.chunker.flush(total_frames))
+        return self._emit(total_frames)
 
     @property
     def algorithmic_delay_frames(self) -> tuple[int, int]:
-        la = self.chunk[2] + 1
-        return la, la + self.chunk[1] - 1
+        la = self.chunk[2] + 1 + self.lookahead
+        return (la, la) if self.hop == 1 else (la, la + self.chunk[1] - 1)
 
 
 class DittoFullFace(DittoBehaviour):
@@ -148,3 +196,44 @@ class DittoFullFace(DittoBehaviour):
 
     def flush(self, total_frames):
         return [self._to_absolute(m) for m in super().flush(total_frames)]
+
+
+class OracleBehaviour:
+    """Replays known motion deltas (e.g. extracted from the real video of the same clip).
+
+    This is not a model. It isolates the renderer: if real motion driven through the
+    renderer reproduces the real video's mouth and jaw movement, then any shortfall in a
+    model's output is the model's, not the renderer's.
+    """
+
+    absolute = True
+
+    def __init__(self, runtime, avatar, timeline, deltas: np.ndarray, blink: bool = False):
+        self.rt, self.avatar = runtime, avatar
+        self.deltas = np.asarray(deltas, dtype=np.float32)
+        self.source_deg = runtime.source_degrees(avatar)
+        self.mask = eye_mask()
+        self.blinks = BlinkSchedule(runtime.blink_template() if blink else None)
+        self.samples = 0
+        self.frames_out = 0
+        self.last_deltas = []
+
+    def _emit(self, upto: int) -> list[dict]:
+        out = []
+        while self.frames_out < upto:
+            d = self.deltas[min(self.frames_out, len(self.deltas) - 1)]
+            self.last_deltas.append(d)
+            out.append(absolute_motion(self.avatar.x_s_info, self.source_deg, d, self.blinks.step(), self.mask))
+            self.frames_out += 1
+        return out
+
+    def push(self, audio: np.ndarray) -> list[dict]:
+        self.samples += len(audio)
+        return self._emit(self.samples // 640)
+
+    def flush(self, total_frames: int) -> list[dict]:
+        return self._emit(total_frames)
+
+    @property
+    def algorithmic_delay_frames(self) -> tuple[int, int]:
+        return 0, 0

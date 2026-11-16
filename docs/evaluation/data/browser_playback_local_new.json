@@ -1,0 +1,20 @@
+{
+ "draws": 732,
+ "seconds_measured": 29.23,
+ "presented_fps": 25.01,
+ "interval_ms": {
+  "p5": 32.1,
+  "p50": 34.1,
+  "p95": 51.0,
+  "p99": 51.9,
+  "max": 87.8
+ },
+ "intervals_within_30_to_50_ms": 0.815,
+ "intervals_under_20_ms": 0.001,
+ "intervals_over_80_ms": 0.001,
+ "interval_std_ms": 8.4,
+ "display_refresh_hz": 59.5,
+ "app_diagnostics": "Received / shown per second\n21.0 / 20.5\nTime between shown frames, median / 95% / longest\n33 / 50 / 200 ms\nFrame age when shown, median / 95%\n245 / 352 ms\nBuffer\n0 frames, 154 ms delay, moved 2\u00d7\nLate / skipped / overflow / held\n1 / 4 / 0 / 3\nOut of order / duplicate\n0 / 0\nDecode time, median\n3.3 ms\nPicture ahead of sound\n\u2013 ms\nServer queue\n2 chunks",
+ "app_numbers": "Frames shown\n20.5 per second, on screen\nVoice to face\n350 ms, in this browser\nServer delay\n264 ms median\nSlowest 5%\n341 ms\nFrames skipped\n0 of 770\nGPU memory\n\u2013 GiB reserved",
+ "console_errors": []
+}

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { decodeAudioFile, MicCapture, startMicrophone } from "./lib/audio";
 import { Chunker, CHUNK_SAMPLES, Emotion, EMOTIONS, FPS, ModelName, SAMPLE_RATE, ServerStats } from "./lib/protocol";
+import { FramePlayer, PlayerStats } from "./lib/player";
 import { LiveSession } from "./lib/session";
 
 type Phase = "idle" | "connecting" | "live" | "finishing";
@@ -35,11 +36,12 @@ export default function App() {
   const [phase, setPhase] = useState<Phase>("idle");
   const [error, setError] = useState<string | null>(null);
   const [stats, setStats] = useState<ServerStats | null>(null);
-  const [shownFps, setShownFps] = useState<number | null>(null);
+  const [play, setPlay] = useState<PlayerStats | null>(null);
   const [roundTrip, setRoundTrip] = useState<number | null>(null);
   const [level, setLevel] = useState(0);
   const [recordingUrl, setRecordingUrl] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sessionRef = useRef<LiveSession | null>(null);
@@ -48,7 +50,9 @@ export default function App() {
   const playbackRef = useRef<{ ctx: AudioContext; t0: number | null; buffer: AudioBuffer; dest: MediaStreamAudioDestinationNode } | null>(null);
   const feedTimer = useRef<number | null>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
-  const drawTimes = useRef<number[]>([]);
+  const playerRef = useRef<FramePlayer | null>(null);
+  const diagLog = useRef<Record<string, unknown>[]>([]);
+  const statsRef = useRef<ServerStats | null>(null);
   const trips = useRef<number[]>([]);
   const timers = useRef<number[]>([]);
 
@@ -80,26 +84,17 @@ export default function App() {
   useEffect(() => {
     if (phase === "idle") return;
     const id = window.setInterval(() => {
-      const now = performance.now();
-      drawTimes.current = drawTimes.current.filter((t) => now - t < 2000);
-      setShownFps(drawTimes.current.length / 2);
-      setRoundTrip(median(trips.current.slice(-50)));
+      const p = playerRef.current?.stats() ?? null;
+      const trip = median(trips.current.slice(-50));
+      if (p) {
+        setPlay(p);
+        // One row per half second, for the downloadable diagnostics file.
+        diagLog.current.push({ t: Math.round(performance.now()), client: p, roundTripMs: trip, server: statsRef.current });
+      }
+      setRoundTrip(trip);
     }, 500);
     return () => window.clearInterval(id);
   }, [phase]);
-
-  const draw = useCallback(async (jpeg: Uint8Array) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const bitmap = await createImageBitmap(new Blob([jpeg as BlobPart], { type: "image/jpeg" }));
-    if (canvas.width !== bitmap.width) {
-      canvas.width = bitmap.width;
-      canvas.height = bitmap.height;
-    }
-    canvas.getContext("2d")!.drawImage(bitmap, 0, 0);
-    bitmap.close();
-    drawTimes.current.push(performance.now());
-  }, []);
 
   const cleanup = useCallback(async () => {
     if (feedTimer.current !== null) window.clearInterval(feedTimer.current);
@@ -110,6 +105,8 @@ export default function App() {
     micRef.current = null;
     if (recorderRef.current && recorderRef.current.state !== "inactive") recorderRef.current.stop();
     recorderRef.current = null;
+    playerRef.current?.stop();
+    playerRef.current = null;
     if (playbackRef.current) await playbackRef.current.ctx.close().catch(() => undefined);
     playbackRef.current = null;
     sessionRef.current = null;
@@ -133,11 +130,14 @@ export default function App() {
   const start = async () => {
     if (!portrait || !consentPortrait || !consentAudio) return;
     setError(null);
+    setNotice(null);
     setStats(null);
     setRecordingUrl(null);
     trips.current = [];
-    drawTimes.current = [];
-    chunkerRef.current = new Chunker(CHUNK_SAMPLES);
+    diagLog.current = [];
+    setPlay(null);
+    // Microphone audio is sent every 80 ms so the server is not kept waiting for a full block.
+    chunkerRef.current = new Chunker(source === "mic" ? SAMPLE_RATE * 0.08 : CHUNK_SAMPLES);
     setPhase("connecting");
 
     let fileSamples: Float32Array | null = null;
@@ -156,8 +156,11 @@ export default function App() {
     }
 
     const session = new LiveSession({
-      onReady: () => {
+      onReady: (info) => {
         setPhase("live");
+        setNotice(info.portrait?.mouth_open
+          ? "This photo shows an open mouth, so the avatar's mouth is being closed automatically. A photo with a closed mouth and a relaxed face gives the most natural result."
+          : null);
         if (fileSamples) {
           // Deliver the file at the pace a microphone would.
           const samples = fileSamples;
@@ -182,35 +185,44 @@ export default function App() {
       },
       onFrame: (frame, trip) => {
         if (trip !== null) trips.current.push(trip);
-        const pb = playbackRef.current;
-        if (!pb) {
-          void draw(frame.jpeg); // microphone: show as soon as it arrives
-          return;
-        }
-        // File: start the sound with the first frame and hold every frame to its timestamp.
-        if (pb.t0 === null) {
-          pb.t0 = performance.now() - frame.index * (1000 / FPS);
-          const src = pb.ctx.createBufferSource();
-          src.buffer = pb.buffer;
-          src.connect(pb.ctx.destination);
-          src.connect(pb.dest);
-          src.start(0, frame.index / FPS);
-          startRecording(pb.dest.stream);
-        }
-        const wait = pb.t0 + frame.index * (1000 / FPS) - performance.now();
-        if (wait <= 2) void draw(frame.jpeg);
-        else timers.current.push(window.setTimeout(() => void draw(frame.jpeg), wait));
+        void playerRef.current?.push(frame.index, frame.jpeg);
       },
-      onStats: setStats,
+      onStats: (st) => {
+        statsRef.current = st;
+        setStats(st);
+      },
       onDone: (final) => {
         setStats(final);
-        const tail = playbackRef.current ? 600 : 0; // let scheduled frames play out
+        const tail = 700; // let buffered frames play out
         window.setTimeout(() => sessionRef.current?.stop(), tail);
       },
       onError: (message) => setError(message),
       onClose: () => void cleanup(),
     });
     sessionRef.current = session;
+
+    // Frames are presented on a 40 ms timeline from a small buffer, not when they arrive.
+    const pb = playbackRef.current;
+    const player = new FramePlayer(canvasRef.current!, {
+      targetDelayMs: pb ? 350 : 120,
+      maxDelayMs: 600,
+      synced: !!pb,
+      onTimeline: (frameZeroTime) => {
+        if (!pb) return;
+        // Uploaded audio: start the sound exactly when frame 0 is shown, and keep the
+        // picture locked to the audio clock from then on.
+        const src = pb.ctx.createBufferSource();
+        src.buffer = pb.buffer;
+        src.connect(pb.ctx.destination);
+        src.connect(pb.dest);
+        const startAt = pb.ctx.currentTime + Math.max(0, frameZeroTime - performance.now()) / 1000;
+        src.start(startAt);
+        player.audioClockMs = () => (pb.ctx.currentTime - startAt) * 1000;
+        startRecording(pb.dest.stream);
+      },
+    });
+    playerRef.current = player;
+    player.start();
 
     try {
       if (source === "mic") {
@@ -286,6 +298,15 @@ export default function App() {
     }
   };
 
+  const downloadDiagnostics = () => {
+    const blob = new Blob([JSON.stringify({ source, model, emotion, intensity, userAgent: navigator.userAgent, rows: diagLog.current }, null, 1)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "emostream-diagnostics.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
   const busy = phase !== "idle";
   const consented = consentPortrait && consentAudio;
   const canStart = !!portrait && consented && !busy && (source === "mic" || !!audioFile);
@@ -321,6 +342,7 @@ export default function App() {
             {recordingUrl && !busy && <a className="link" href={recordingUrl} download="emostream-session.webm">Save this session</a>}
           </div>
           {error && <p className="error" role="alert">{error}</p>}
+          {notice && <p className="notice">{notice}</p>}
         </section>
 
         <section className="console">
@@ -384,13 +406,30 @@ export default function App() {
           <fieldset>
             <legend>Performance</legend>
             <dl className="numbers">
-              <div><dt>Frames shown</dt><dd>{fmt(shownFps, 1)}<small> per second</small></dd></div>
+              <div><dt>Frames shown</dt><dd>{fmt(play?.presentedFps, 1)}<small> per second, on screen</small></dd></div>
               <div><dt>Voice to face</dt><dd>{fmt(roundTrip)}<small> ms, in this browser</small></dd></div>
               <div><dt>Server delay</dt><dd>{fmt(stats?.latency?.p50_ms)}<small> ms median</small></dd></div>
               <div><dt>Slowest 5%</dt><dd>{fmt(stats?.latency?.p95_ms)}<small> ms</small></dd></div>
               <div><dt>Frames skipped</dt><dd>{stats ? stats.frames_dropped : "–"}<small> of {stats ? stats.frames : "–"}</small></dd></div>
               <div><dt>GPU memory</dt><dd>{fmt(stats?.gpu?.torch_reserved_gib, 2)}<small> GiB reserved</small></dd></div>
             </dl>
+            {play && (
+              <details className="diag">
+                <summary>Playback diagnostics</summary>
+                <dl>
+                  <div><dt>Received / shown per second</dt><dd>{fmt(play.receivedFps, 1)} / {fmt(play.presentedFps, 1)}</dd></div>
+                  <div><dt>Time between shown frames, median / 95% / longest</dt><dd>{fmt(play.intervalP50Ms)} / {fmt(play.intervalP95Ms)} / {fmt(play.intervalMaxMs)} ms</dd></div>
+                  <div><dt>Frame age when shown, median / 95%</dt><dd>{fmt(play.ageP50Ms)} / {fmt(play.ageP95Ms)} ms</dd></div>
+                  <div><dt>Buffer</dt><dd>{play.bufferDepth} frames, {fmt(play.playoutDelayMs)} ms delay, moved {play.timelineShifts}×</dd></div>
+                  <div><dt>Late / skipped / overflow / held</dt><dd>{play.droppedLate} / {play.skipped} / {play.droppedOverflow} / {play.holds}</dd></div>
+                  <div><dt>Out of order / duplicate</dt><dd>{play.outOfOrder} / {play.duplicates}</dd></div>
+                  <div><dt>Decode time, median</dt><dd>{fmt(play.decodeP50Ms, 1)} ms</dd></div>
+                  <div><dt>Picture ahead of sound</dt><dd>{fmt(play.avOffsetMs)} ms</dd></div>
+                  <div><dt>Server queue</dt><dd>{stats?.queued_chunks ?? "–"} chunks</dd></div>
+                </dl>
+                <button className="secondary" onClick={downloadDiagnostics}>Save diagnostics file</button>
+              </details>
+            )}
             {stats?.stages_ms && (
               <p className="note">
                 Per frame: motion {fmt(stats.stages_ms.behaviour, 1)} ms, rendering {fmt(stats.stages_ms.render, 1)} ms.

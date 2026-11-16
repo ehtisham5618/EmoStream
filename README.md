@@ -17,7 +17,7 @@ audio ──► streaming HuBERT ──► behaviour model ──► motion (69 
 
 - **Renderer:** LivePortrait, frozen, as packaged in [Ditto](https://github.com/antgroup/ditto-talkinghead) (Apache-2.0).
 - **Behaviour model:** two interchangeable options.
-  - `emostream` — ours. A 1.36 M-parameter causal network with an articulation branch and an emotion branch, trained on MEAD. Algorithmic delay 120–280 ms.
+  - `emostream` — ours. A 1.36 M-parameter causal network with an articulation branch and an emotion branch, trained on MEAD with an amplitude-preserving loss. Algorithmic delay 200 ms with per-frame streaming.
   - `ditto` — Ditto's pretrained motion-diffusion model, used as the baseline. Algorithmic delay 520–880 ms.
 - **Engine:** sample-accurate chunking, per-frame emotion timeline, tail flush, per-stage timing, latency tracking, visible "AI-generated" watermark, consent gate.
 
@@ -25,28 +25,32 @@ Details: [`docs/architecture/emostream_architecture.md`](docs/architecture/emost
 
 ## Status
 
-Measured on **validation actors** (unseen in training); the test split has not been touched. Full conditions are in the linked records.
+Two rounds of work so far. Numbers are on **validation actors** (unseen in training); the six test actors have not been touched.
 
-| Target | Result | Met? |
-|---|---|---|
-| 25 FPS at ≥ 256×256 | 25.0 FPS at 512×512 for five minutes, no skipped frames (L40S, TensorRT) | Yes on L40S; 23 FPS on A10G; RTX 4050 not tested |
-| Latency p50 ≤ 350 ms, p95 ≤ 500 ms | 269 ms / 319 ms on the server | Yes (network time is extra) |
-| Peak GPU memory ≤ 6 GB | 2.8 GiB | Yes on the GPUs tested |
-| Five-minute stability | 7,500 / 7,500 frames, no drift | Yes |
-| Emotion macro-F1 ≥ 0.70 | 0.65 (Ditto baseline 0.21; real video 0.73) | No, 5 points short |
-| ArcFace identity ≥ 0.80 | 0.93 | Yes |
-| Lip sync within 5 % of the baseline | LSE-C 4.79 vs 4.75 (real video 5.78) | Yes |
-| Boundary jerk −20 % at emotion changes | −84 % | Yes |
+**Current iteration (animation quality, 16 Nov 2026)** — full report: [`docs/iterations/current_iteration/final_iteration_report.md`](docs/iterations/current_iteration/final_iteration_report.md)
 
-| Area | State | Record |
-|---|---|---|
-| Reference-product study (Keyframe Labs) | Public pages, docs and SDK; no live session observed | [`docs/reverse_engineering/`](docs/reverse_engineering/) |
-| Pretrained candidates on the same inputs | SadTalker, Ditto, AniPortrait, Hallo2 all run | [`2026-11-14_pretrained_poc.md`](docs/experiments/2026-11-14_pretrained_poc.md) |
-| MEAD validation, manifest, splits | 16,988 valid clips, 33 / 4 / 6 actors | [`2026-11-14_mead_validation.md`](docs/experiments/2026-11-14_mead_validation.md) |
-| Engine and renderer speed | PyTorch vs TensorRT, per-stage times | [`2026-11-14_engine_and_renderer.md`](docs/experiments/2026-11-14_engine_and_renderer.md) |
-| Behaviour model training | Four runs; `reg` selected on validation | [`2026-11-15_behaviour_model_training.md`](docs/experiments/2026-11-15_behaviour_model_training.md) |
-| Evaluation | Lip sync, emotion, identity, real time, transitions, deployed app | [`2026-11-15_validation_report.md`](docs/evaluation/2026-11-15_validation_report.md) |
-| Live application | Deployed and driven end to end by a WebSocket client; not yet tried in a browser with a real microphone | `backend/`, `frontend/`, `modal/apps/serve.py` |
+| Measure | Previous (`reg`) | Now (`it_ccc_la2`) | Real video |
+|---|---|---|---|
+| Mouth opening, share of real movement | 0.40 | 0.72–0.78 | 1.0 |
+| Jaw movement, share of real | 0.50 | 0.78–0.87 | 1.0 |
+| Upper-face movement, share of real | 0.39 | 0.84 | 1.0 |
+| Emotion macro-F1 (target ≥ 0.70) | 0.65 | 0.75–0.81 | 0.73 |
+| ArcFace identity (target ≥ 0.80) | 0.93 | 0.88–0.92 | 0.75 |
+| SyncNet LSE-C | 4.79 | 4.76 (not improved) | 5.78 |
+| Server latency p50 / p95, L40S (targets 350 / 500 ms) | 269 / 319 ms | 270 / 273 ms | — |
+| Frames drawn in the browser | ~10.5 per second, in bursts | 23.9 per second, evenly paced | — |
+
+Not yet done: a browser test by a person with a real microphone, human ratings, the test split, the RTX 4050.
+
+| Area | Record |
+|---|---|
+| Reference-product study (Keyframe Labs) | [`docs/reverse_engineering/`](docs/reverse_engineering/) |
+| Pretrained candidates on the same inputs | [`2026-11-14_pretrained_poc.md`](docs/experiments/2026-11-14_pretrained_poc.md) |
+| MEAD validation, manifest, splits | [`2026-11-14_mead_validation.md`](docs/experiments/2026-11-14_mead_validation.md) |
+| Engine and renderer speed | [`2026-11-14_engine_and_renderer.md`](docs/experiments/2026-11-14_engine_and_renderer.md) |
+| First behaviour model and its evaluation | [`2026-11-15_behaviour_model_training.md`](docs/experiments/2026-11-15_behaviour_model_training.md), [`2026-11-15_validation_report.md`](docs/evaluation/2026-11-15_validation_report.md) |
+| Animation-quality iteration | [`docs/iterations/current_iteration/`](docs/iterations/current_iteration/) |
+| Frontend ↔ backend contract | [`docs/integration/frontend_backend_contract.md`](docs/integration/frontend_backend_contract.md) |
 
 ## Repository layout
 
@@ -78,7 +82,7 @@ cd frontend && npm install && npm test && npm run build && cd ..
 modal deploy modal/apps/serve.py
 
 # offline: one portrait + one audio file through the engine, with timing
-modal run modal/apps/live_bench.py --behaviour emostream --run reg --gpu A10G
+modal run modal/apps/live_bench.py --behaviour emostream --run it_ccc_la2 --tensorrt --hop 1 --emotion-gain 1.5 --gpu L40S
 ```
 
 Reproducing the experiments, in order:
@@ -87,8 +91,8 @@ Reproducing the experiments, in order:
 modal run modal/apps/mead_survey.py              # read-only survey of the raw data
 modal run modal/apps/mead_manifest.py            # level 2/3 extraction, validation, splits
 modal run modal/apps/mead_preprocess.py          # motion targets + speech features (GPU, ~7 GPU-hours)
-modal run modal/apps/train_behaviour.py --run reg --steps 5000 --dropout 0.3 --weight-decay 0.01
-modal run modal/apps/evaluate.py::gen --behaviour emostream --run reg --tag val_emostream_reg
+modal run modal/apps/train_behaviour.py --run it_ccc_la2 --steps 5000 --dropout 0.3 --weight-decay 0.01 --w-ccc 1.0 --lookahead 2
+modal run modal/apps/evaluate.py::gen --behaviour emostream --run it_ccc_la2 --tag val_it_ccc_la2_h5
 ```
 
 GPU jobs cost money. Preprocessing is the expensive one; training a model takes a few minutes on a T4.
@@ -125,7 +129,8 @@ The project is academic. A commercial deployment would need the face-analysis mo
 ## Known limitations
 
 - Visual quality is capped by the frozen renderer: large head turns and anything outside the face crop are not handled well.
-- Our behaviour model regresses motion, so the mouth is less lively than a real speaker's and head motion is calm.
+- Mouth and jaw now move at 72–87 % of a real speaker's amplitude, but articulation timing is only moderately accurate (correlation 0.55–0.58 with real video), and blinks and gaze are scripted rather than learned.
+- A portrait's own expression becomes the avatar's resting face. An open mouth is closed automatically; a smile with closed lips is not removed. Use a relaxed, closed-mouth photo.
 - 25 FPS was measured on an L40S; an A10G reaches about 23 FPS and keeps latency bounded by skipping frames. The project's reference laptop GPU (RTX 4050, 6 GB) was not available for testing.
 - Neutral speech is often read as "happy" by the emotion classifier, and intensity values between 0 and 1 have not been scored.
 - One live session per GPU worker.

@@ -13,8 +13,13 @@ import {
   VideoFrame,
 } from "./protocol";
 
+export interface ReadyInfo {
+  portrait?: { mouth_open?: boolean; lip_open_ratio?: number; mouth_closed_automatically?: boolean };
+  algorithmic_delay_ms?: [number, number] | null;
+}
+
 export interface SessionEvents {
-  onReady: () => void;
+  onReady: (info: ReadyInfo) => void;
   onFrame: (frame: VideoFrame, roundTripMs: number | null) => void;
   onStats: (stats: ServerStats) => void;
   onDone: (stats: ServerStats) => void;
@@ -35,7 +40,8 @@ export class LiveSession {
   // sentAt[k] = time at which the audio completing frame k left the browser
   private sentAt: number[] = [];
   private ready = false;
-  private pending: Uint8Array[] = [];
+  /** Samples captured before the server was ready; they are discarded, not queued. */
+  discardedSamples = 0;
 
   constructor(private readonly events: SessionEvents) {}
 
@@ -73,9 +79,7 @@ export class LiveSession {
     }
     if (msg.type === "ready") {
       this.ready = true;
-      for (const m of this.pending) this.ws?.send(m);
-      this.pending = [];
-      this.events.onReady();
+      this.events.onReady((msg.session ?? {}) as ReadyInfo);
     } else if (msg.type === "stats") {
       this.events.onStats(msg as unknown as ServerStats);
     } else if (msg.type === "done") {
@@ -85,17 +89,23 @@ export class LiveSession {
     }
   }
 
-  /** Sends 16 kHz mono samples. Audio captured before the server is ready is queued. */
-  sendAudio(samples: Float32Array, sampleRate: number = SAMPLE_RATE): void {
+  /**
+   * Sends 16 kHz mono samples. Audio captured before the server is ready is dropped:
+   * queueing it would hand the server several seconds of backlog at once, and a live
+   * avatar would start seconds behind the speaker and stay there.
+   */
+  sendAudio(samples: Float32Array): void {
     if (!this.ws) return;
-    const message = audioMessage(samples);
-    const before = Math.floor((this.samplesSent * SAMPLE_RATE) / sampleRate / SAMPLES_PER_FRAME);
+    if (!this.ready) {
+      this.discardedSamples += samples.length;
+      return;
+    }
+    const before = Math.floor(this.samplesSent / SAMPLES_PER_FRAME);
     this.samplesSent += samples.length;
-    const after = Math.floor((this.samplesSent * SAMPLE_RATE) / sampleRate / SAMPLES_PER_FRAME);
+    const after = Math.floor(this.samplesSent / SAMPLES_PER_FRAME);
     const now = performance.now();
     for (let k = before; k < after; k++) this.sentAt[k] = now;
-    if (this.ready) this.ws.send(message);
-    else this.pending.push(message);
+    this.ws.send(audioMessage(samples));
   }
 
   setEmotion(emotion: Emotion, intensity: number): void {

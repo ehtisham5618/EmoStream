@@ -30,7 +30,7 @@ class LiveSession(Protocol):
 
 class EngineProvider(Protocol):
     def info(self) -> dict: ...
-    def open_session(self, portrait: bytes, req: StartRequest) -> LiveSession: ...
+    def open_session(self, portrait: bytes, req: StartRequest, hop: int | None = None) -> LiveSession: ...
 
 
 class EngineSessionAdapter:
@@ -74,7 +74,7 @@ class GpuEngineProvider:
     """Real engine. One live session at a time per GPU worker."""
 
     def __init__(self, checkpoints: str, emostream_checkpoint: str | None, max_latency_ms: float | None = 450.0,
-                 tensorrt: bool = False):
+                 tensorrt: bool = False, emotion_gain: float = 1.0, hop: int = 1):
         import torch
 
         from emostream.engine.runtime import Runtime
@@ -88,6 +88,11 @@ class GpuEngineProvider:
 
             self.net = BehaviourNet.load(torch.load(emostream_checkpoint, map_location="cpu", weights_only=False))
         self.max_latency_ms = max_latency_ms
+        self.emotion_gain = emotion_gain
+        # Live sessions: hop 1 (one frame per encoder window) gives evenly spaced frames and
+        # the lowest delay; hop 5 (as in training) is slightly more accurate and is used for
+        # exports and on GPUs that cannot afford five encoder passes per block.
+        self.hop = hop
         self._busy = threading.Lock()
         self.started = time.time()
 
@@ -98,9 +103,11 @@ class GpuEngineProvider:
             "emotions": list(EMOTIONS), "fps": FPS, "sample_rate": SAMPLE_RATE,
             "busy": self._busy.locked(), "max_session_seconds": MAX_SESSION_SECONDS,
             "emostream_parameters": self.net.n_parameters() if self.net is not None else None,
+            "emostream_lookahead_frames": int(getattr(self.net.cfg, "lookahead", 0)) if self.net is not None else None,
+            "emotion_gain": self.emotion_gain, "live_hop": self.hop,
         }
 
-    def open_session(self, portrait: bytes, req: StartRequest) -> LiveSession:
+    def open_session(self, portrait: bytes, req: StartRequest, hop: int | None = None) -> LiveSession:
         from emostream.engine.behaviour import DittoBehaviour
         from emostream.engine.session import AvatarSession
 
@@ -125,13 +132,22 @@ class GpuEngineProvider:
                 if req.model == "emostream":
                     from emostream.engine.behaviour_emostream import EmoStreamBehaviour
 
-                    return EmoStreamBehaviour(runtime, av, timeline, self.net)
+                    return EmoStreamBehaviour(runtime, av, timeline, self.net, hop=hop or self.hop,
+                                              emotion_gain=self.emotion_gain)
                 return DittoBehaviour(runtime, av, timeline, sampling_timesteps=10, valid_frames=10)
 
             session = AvatarSession(self.rt, avatar, factory, emotion=req.emotion, intensity=req.intensity,
                                     size=req.size, portrait_consent=True, audio_consent=True,
                                     max_latency_ms=self.max_latency_ms)
-            return EngineSessionAdapter(session, req.sample_rate, on_close=self._busy.release)
+            adapter = EngineSessionAdapter(session, req.sample_rate, on_close=self._busy.release)
+            adapter.portrait_info = {
+                "mouth_open": bool(getattr(avatar, "mouth_open", False)),
+                "lip_open_ratio": round(float(getattr(avatar, "lip_ratio", 0.0)), 4),
+                "mouth_closed_automatically": getattr(avatar, "lip_delta", None) is not None,
+            }
+            lo, hi = session.behaviour.algorithmic_delay_frames
+            adapter.algorithmic_delay_ms = [lo * 40, hi * 40]
+            return adapter
         except BaseException:
             self._busy.release()
             raise
@@ -165,7 +181,7 @@ class GpuEngineProvider:
             if len(audio) < SAMPLE_RATE // 4:
                 raise ProtocolError("bad_audio", "the audio is shorter than a quarter of a second")
             adapter = self.open_session(portrait, StartRequest(SAMPLE_RATE, req.emotion, req.intensity, req.model,
-                                                               req.size, req.jpeg_quality))
+                                                               req.size, req.jpeg_quality), hop=5)
             adapter.session.max_latency_ms = None  # never skip frames in an export
             silent = os.path.join(work, "video.mp4")
             writer = imageio.get_writer(silent, fps=FPS, codec="libx264", quality=8, macro_block_size=1)
