@@ -8,8 +8,8 @@ One worker runs one live session at a time. The worker shuts down after five idl
 minutes, so the first request after a pause waits for a cold start (model loading).
 
 Environment:
-    EMOSTREAM_RUN       trained behaviour model under /models/emostream (default "it_ccc_la2";
-                        the previous baseline is "reg")
+    EMOSTREAM_RUN       trained behaviour model under /models/emostream (default "wl_base": WavLM
+                        speech features, 17 Nov 2026; previous: "it_ccc_la2"; original baseline: "reg")
     EMOSTREAM_EMOTION_GAIN  scale of the emotion branch (default 1.5; 1.0 = as trained)
     EMOSTREAM_HOP       1 (default) per-frame streaming, lowest delay, needs an L40S-class GPU;
                         5 block streaming, for an A10G
@@ -26,7 +26,7 @@ import modal
 
 import _common as C
 
-RUN = os.environ.get("EMOSTREAM_RUN", "it_ccc_la2")
+RUN = os.environ.get("EMOSTREAM_RUN", "wl_base")
 EMOTION_GAIN = os.environ.get("EMOSTREAM_EMOTION_GAIN", "1.5")
 SLOT = os.environ.get("EMOSTREAM_SLOT", "4")    # per-frame read-out slot, 0 (more look-ahead) .. 4
 HOP = os.environ.get("EMOSTREAM_HOP", "1")   # 1 = per-frame streaming (L40S); 5 = block streaming (A10G)
@@ -59,7 +59,7 @@ def web():
     trt = os.environ.get("EMOSTREAM_TENSORRT", "1") == "1"
     provider = GpuEngineProvider(
         C.ensure_checkpoints(tensorrt=trt),
-        emostream_checkpoint=f"{C.MODELS}/emostream/{os.environ.get('EMOSTREAM_RUN', 'it_ccc_la2')}/model.pt",
+        emostream_checkpoint=f"{C.MODELS}/emostream/{os.environ.get('EMOSTREAM_RUN', 'wl_base')}/model.pt",
         tensorrt=trt, emotion_gain=float(os.environ.get("EMOSTREAM_EMOTION_GAIN", "1.5")),
         hop=int(os.environ.get("EMOSTREAM_HOP", "1")),
         slot=int(os.environ.get("EMOSTREAM_SLOT", "4")),

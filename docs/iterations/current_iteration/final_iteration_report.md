@@ -8,6 +8,16 @@ The avatar now opens its mouth and moves its jaw about twice as much as before, 
 
 **The first iteration is not complete.** By the agreed conditions it still needs: your own browser test with a real microphone, your approval of the animation quality, and the Lovable UI and its integration.
 
+## Addendum, 17 November: lip sync
+
+After the user's sessions 4 and 5 (smooth playback, but lips not matching the words):
+
+- **What the user saw** was mostly the cached old page: it played the live voice against a face 1.1 s behind. The current page plays the voice on the picture's timeline (median 7–9 ms offset). The server now refuses the old page with a reload instruction. Details: `latest_session_diagnostics_analysis.md`.
+- **Start-up errors** were a server crash when statistics were requested before the first frame of a fresh worker. Fixed, with a warm-up session, progress messages and proper error reports. Details: `startup_failure_root_cause.md`.
+- **The model's own lip accuracy** was limited by its speech encoder, not by timing (no systematic offset), loss design or microphone audio. Details: `behaviour_model_root_cause.md`.
+- **New live model `wl_base`** (WavLM speech features). On rendered validation video it improves mouth opening by +0.036, jaw by +0.034 and mouth shape (width) by +0.058, all with 95 % intervals above zero. SyncNet is unchanged within noise, and server latency is lower (216 ms median). Details: `animation_quality_experiments.md`.
+- Still not verified: a person at a real microphone on the current page.
+
 ## Addendum, 16 November (evening): the user's browser test and the transport fix
 
 The user's own sessions did not play well: frames arrived in bursts and the face fell up to 6.8 s behind the voice, while the server stayed at about 260 ms. The cause was delivery (independent JPEG frames over one TCP connection, and recordings that paired the live microphone with the delayed picture), not the model. Video is now H.264 with network pacing, the browser buffers adaptively, and the voice is played and recorded on the picture's timeline. Findings, the comparison with Keyframe Labs, and measurements are in `transport_fix.md`. The browser figures in the table above (23.9 frames per second, 0.55 s) describe the earlier JPEG client on a good link and are superseded by that document. A person at a real microphone has not yet tested the new build.

@@ -120,12 +120,14 @@ def _run(tensorrt: bool, behaviour: str, run: str, portrait: str, audio: str, se
     return res
 
 
-@app.function(image=C.engine_image(), gpu="A10G", volumes=VOLS, timeout=1800)
+@app.function(image=C.engine_image(extra_pip=("transformers==4.46.3",), env={"HF_HOME": f"{C.MODELS}/hf"}),
+              gpu="A10G", volumes=VOLS, timeout=1800)
 def bench_pytorch(**kw) -> dict:
     return _run(False, **kw)
 
 
-@app.function(image=C.engine_image(tensorrt=True), gpu="A10G", volumes=VOLS, timeout=1800)
+@app.function(image=C.engine_image(extra_pip=("transformers==4.46.3",), tensorrt=True,
+                                   env={"HF_HOME": f"{C.MODELS}/hf"}), gpu="A10G", volumes=VOLS, timeout=1800)
 def bench_tensorrt(**kw) -> dict:
     return _run(True, **kw)
 

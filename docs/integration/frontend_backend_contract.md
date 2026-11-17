@@ -31,7 +31,9 @@ Reference client: `frontend/src/lib/` (`protocol.ts`, `session.ts`, `audio.ts`, 
   "busy": false,
   "max_session_seconds": 900,
   "emostream_parameters": 1361385,
-  "protocol": {"audio": "pcm_s16le mono", "frame": "jpeg", "video": ["jpeg", "h264"], "frame_period_ms": 40}
+  "protocol": {"audio": "pcm_s16le mono", "frame": "jpeg", "video": ["jpeg", "h264"], "frame_period_ms": 40},
+  "frontend_build": "20261117034200", "warm_up": {"ok": true, "register_s": 2.3, "first_frame_s": 0.6},
+  "live_hop": 1, "live_slot": 4
 }
 ```
 `models` lists what the worker can actually run; `emostream` is absent if no trained checkpoint is loaded.
@@ -86,12 +88,13 @@ Audio sent before `ready` is not accepted by the server; the reference client qu
  "sample_rate": 16000,
  "emotion": "neutral", "intensity": 1.0,
  "model": "emostream", "size": 512, "jpeg_quality": 80,
- "video": "h264", "bitrate_kbps": 900}
+ "video": "h264", "bitrate_kbps": 900, "client_build": "20261117034200"}
 ```
+- `client_build` (optional): the page's build identifier; echoed in `ready` for diagnostics.
 - `consent.portrait` and `consent.audio` must both be the JSON value `true`. Anything else → `consent_required`, and no engine work is done.
 - `sample_rate`: 16000, 22050, 24000, 32000, 44100 or 48000. **Send 16000.** Other rates are resampled per chunk on the server, which is lower quality.
 - `size`: 256, 384 or 512 (square). `jpeg_quality`: 40–95.
-- `video`: `"h264"` or `"jpeg"` (default `"jpeg"`, for older clients). **Send `"h264"`** when the browser has WebCodecs (`VideoDecoder`); it needs about a tenth of the bandwidth. `bitrate_kbps`: 200–4000, default 900; the server lowers it by itself on a poor link. `ready.session.video.codec` says what the server will actually send (it falls back to `"jpeg"` if H.264 is not available on the worker).
+- `video`: `"h264"` or `"jpeg"`. **Required for live sessions** since 17 Nov 2026: a start without it is refused with `client_outdated` (only the cached pre-H.264 page omitted it). **Send `"h264"`** when the browser has WebCodecs (`VideoDecoder`); it needs about a tenth of the bandwidth. `bitrate_kbps`: 200–4000, default 900; the server lowers it by itself on a poor link. `ready.session.video.codec` says what the server will actually send (it falls back to `"jpeg"` if H.264 is not available on the worker).
 
 **Portrait** (second message, binary): byte `0x10` followed by the image file bytes (PNG, JPEG or WebP, ≤ 12 MB). One clearly visible face, looking at the camera. A closed mouth and neutral expression give the best result.
 
@@ -118,14 +121,18 @@ Audio sent before `ready` is not accepted by the server; the reference client qu
 
 ### 3.3 Server → client
 
+**`status`** (before `ready`): `{"type": "status", "stage": "initializing_portrait"}` — the portrait arrived and the face is being prepared (typically 0.5–2.5 s on a warm worker). A UI should show progress from the moment it connects; on a cold worker the connection itself can take 20–40 s.
+
 **`ready`**
 ```json
 {"type": "ready", "session": {
   "model": "emostream", "size": 512, "fps": 25, "emotion": "neutral", "intensity": 1.0,
   "portrait": {"mouth_open": true, "lip_open_ratio": 0.21, "mouth_closed_automatically": true},
   "algorithmic_delay_ms": [200, 200],
-  "video": {"codec": "h264", "bitrate_kbps": 900}}}
+  "video": {"codec": "h264", "bitrate_kbps": 900},
+  "frontend_build": "20261117034200", "client_build": "20261117034200"}}
 ```
+- `frontend_build`: the page bundled with this server. A page whose own build differs should reload itself (`/api/info` reports the same value).
 - `portrait.mouth_open`: the uploaded photo shows an open mouth. `mouth_closed_automatically`: the engine is closing it before animating. A UI should tell the user when `mouth_open` is true, because results are better with a closed-mouth photo.
 - `algorithmic_delay_ms`: `[min, max]` wait for future audio that the chosen model needs before a frame can be produced, excluding compute and network.
 
@@ -203,6 +210,9 @@ The presentation time of frame *k* is `k × 40 ms` on the audio timeline. Indice
 | `bad_audio`, `audio_too_large`, `unexpected_binary` | Malformed audio message | Programming error |
 | `session_too_long` | Over 15 minutes of audio | Start a new session |
 | `bad_json`, `bad_message`, `unknown_type` | Malformed text message | Programming error |
+| `client_outdated` | Start request without `video` (an old, cached page) | Reload the page |
+| `overloaded` | More than two minutes of audio waiting on the server | Start a new session |
+| `internal_error` | Unexpected server fault (logged in full on the worker) | Show the message; offer to start again |
 
 There is no resume: after any error or disconnect, open a new socket and send `start` and the portrait again.
 
