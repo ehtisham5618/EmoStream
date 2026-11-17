@@ -1,0 +1,201 @@
+{
+ "rows": [
+  {
+   "clip": "M005_neutral_L1_001.wav",
+   "original_db": -30.5,
+   "level_db": -20,
+   "lip_std_ratio": 1.0264978408813477,
+   "corr_to_ref": 0.9907974385981535
+  },
+  {
+   "clip": "M005_neutral_L1_001.wav",
+   "original_db": -30.5,
+   "level_db": -30,
+   "lip_std_ratio": 1.000374436378479,
+   "corr_to_ref": 0.9999281753631857
+  },
+  {
+   "clip": "M005_neutral_L1_001.wav",
+   "original_db": -30.5,
+   "level_db": -40,
+   "lip_std_ratio": 1.0268043279647827,
+   "corr_to_ref": 0.9701062338613831
+  },
+  {
+   "clip": "M005_neutral_L1_001.wav",
+   "original_db": -30.5,
+   "level_db": -47,
+   "lip_std_ratio": 1.0656605958938599,
+   "corr_to_ref": 0.9329447085920637
+  },
+  {
+   "clip": "M005_neutral_L1_001.wav",
+   "original_db": -30.5,
+   "level_db": -55,
+   "lip_std_ratio": 1.062188744544983,
+   "corr_to_ref": 0.8934219357442623
+  },
+  {
+   "clip": "M005_neutral_L1_002.wav",
+   "original_db": -29.7,
+   "level_db": -20,
+   "lip_std_ratio": 1.005532145500183,
+   "corr_to_ref": 0.9976761045317111
+  },
+  {
+   "clip": "M005_neutral_L1_002.wav",
+   "original_db": -29.7,
+   "level_db": -30,
+   "lip_std_ratio": 0.9999343156814575,
+   "corr_to_ref": 0.9999932343563371
+  },
+  {
+   "clip": "M005_neutral_L1_002.wav",
+   "original_db": -29.7,
+   "level_db": -40,
+   "lip_std_ratio": 1.0053666830062866,
+   "corr_to_ref": 0.9932010588353098
+  },
+  {
+   "clip": "M005_neutral_L1_002.wav",
+   "original_db": -29.7,
+   "level_db": -47,
+   "lip_std_ratio": 1.0220389366149902,
+   "corr_to_ref": 0.9629152527439732
+  },
+  {
+   "clip": "M005_neutral_L1_002.wav",
+   "original_db": -29.7,
+   "level_db": -55,
+   "lip_std_ratio": 0.9811757206916809,
+   "corr_to_ref": 0.9077915240492774
+  },
+  {
+   "clip": "M005_neutral_L1_003.wav",
+   "original_db": -28.9,
+   "level_db": -20,
+   "lip_std_ratio": 1.0071942806243896,
+   "corr_to_ref": 0.9963462496561301
+  },
+  {
+   "clip": "M005_neutral_L1_003.wav",
+   "original_db": -28.9,
+   "level_db": -30,
+   "lip_std_ratio": 1.006996989250183,
+   "corr_to_ref": 0.9998615568395047
+  },
+  {
+   "clip": "M005_neutral_L1_003.wav",
+   "original_db": -28.9,
+   "level_db": -40,
+   "lip_std_ratio": 1.0588401556015015,
+   "corr_to_ref": 0.9904682924582757
+  },
+  {
+   "clip": "M005_neutral_L1_003.wav",
+   "original_db": -28.9,
+   "level_db": -47,
+   "lip_std_ratio": 0.9884505271911621,
+   "corr_to_ref": 0.9839604099739397
+  },
+  {
+   "clip": "M005_neutral_L1_003.wav",
+   "original_db": -28.9,
+   "level_db": -55,
+   "lip_std_ratio": 0.9392754435539246,
+   "corr_to_ref": 0.9526533643911156
+  },
+  {
+   "clip": "M005_neutral_L1_004.wav",
+   "original_db": -32.6,
+   "level_db": -20,
+   "lip_std_ratio": 0.9955202341079712,
+   "corr_to_ref": 0.9916723679380206
+  },
+  {
+   "clip": "M005_neutral_L1_004.wav",
+   "original_db": -32.6,
+   "level_db": -30,
+   "lip_std_ratio": 0.9980019927024841,
+   "corr_to_ref": 0.9994340633273021
+  },
+  {
+   "clip": "M005_neutral_L1_004.wav",
+   "original_db": -32.6,
+   "level_db": -40,
+   "lip_std_ratio": 1.0301992893218994,
+   "corr_to_ref": 0.9944918916271143
+  },
+  {
+   "clip": "M005_neutral_L1_004.wav",
+   "original_db": -32.6,
+   "level_db": -47,
+   "lip_std_ratio": 1.065666675567627,
+   "corr_to_ref": 0.9694474058496225
+  },
+  {
+   "clip": "M005_neutral_L1_004.wav",
+   "original_db": -32.6,
+   "level_db": -55,
+   "lip_std_ratio": 1.0912034511566162,
+   "corr_to_ref": 0.885790382615114
+  },
+  {
+   "clip": "M005_neutral_L1_005.wav",
+   "original_db": -31.8,
+   "level_db": -20,
+   "lip_std_ratio": 0.9814780950546265,
+   "corr_to_ref": 0.9954249623605208
+  },
+  {
+   "clip": "M005_neutral_L1_005.wav",
+   "original_db": -31.8,
+   "level_db": -30,
+   "lip_std_ratio": 1.0077733993530273,
+   "corr_to_ref": 0.9997580644947224
+  },
+  {
+   "clip": "M005_neutral_L1_005.wav",
+   "original_db": -31.8,
+   "level_db": -40,
+   "lip_std_ratio": 0.9759645462036133,
+   "corr_to_ref": 0.9926147455340035
+  },
+  {
+   "clip": "M005_neutral_L1_005.wav",
+   "original_db": -31.8,
+   "level_db": -47,
+   "lip_std_ratio": 0.9658900499343872,
+   "corr_to_ref": 0.9721761643894102
+  },
+  {
+   "clip": "M005_neutral_L1_005.wav",
+   "original_db": -31.8,
+   "level_db": -55,
+   "lip_std_ratio": 0.9561295509338379,
+   "corr_to_ref": 0.9342034527974727
+  }
+ ],
+ "summary": {
+  "-20": {
+   "lip_std_ratio": 1.003,
+   "corr_to_ref": 0.994
+  },
+  "-30": {
+   "lip_std_ratio": 1.003,
+   "corr_to_ref": 1.0
+  },
+  "-40": {
+   "lip_std_ratio": 1.019,
+   "corr_to_ref": 0.988
+  },
+  "-47": {
+   "lip_std_ratio": 1.022,
+   "corr_to_ref": 0.964
+  },
+  "-55": {
+   "lip_std_ratio": 1.006,
+   "corr_to_ref": 0.915
+  }
+ }
+}
