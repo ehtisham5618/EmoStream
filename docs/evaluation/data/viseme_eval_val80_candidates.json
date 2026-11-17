@@ -1,0 +1,365 @@
+{
+ "clips": 80,
+ "phonemes_used": 1068,
+ "tags": {
+  "gt": {
+   "viseme_distinctness": 0.338,
+   "bilabial": {
+    "n": 158,
+    "real_closed": 140,
+    "recall": 1.0,
+    "model_closed_on_bilabials": 140,
+    "precision": 1.0,
+    "timing_ms_median": 0.0,
+    "timing_ms_mean_abs": 0.0,
+    "min_gap_model_mean": 0.0492,
+    "min_gap_real_mean": 0.0492,
+    "strict_real_closed": 86,
+    "strict_model_closed": 86,
+    "strict_recall": 1.0,
+    "strict_precision": 1.0
+   },
+   "open_vowel_false_closure_rate": 0.0,
+   "inner_gap_corr_lag0": 1.0,
+   "inner_gap_best_lag_frames_median": 0.0,
+   "shape_error_by_class": {
+    "bilabial (p b m)": {
+     "gap": 0.0,
+     "width": 0.0,
+     "round": 0.0
+    },
+    "dental (th)": {
+     "gap": 0.0,
+     "width": 0.0,
+     "round": 0.0
+    },
+    "labiodental (f v)": {
+     "gap": 0.0,
+     "width": 0.0,
+     "round": 0.0
+    },
+    "open (ah aa)": {
+     "gap": 0.0,
+     "width": 0.0,
+     "round": 0.0
+    },
+    "postalveolar (sh ch j)": {
+     "gap": 0.0,
+     "width": 0.0,
+     "round": 0.0
+    },
+    "rounded (oo w oh)": {
+     "gap": 0.0,
+     "width": 0.0,
+     "round": 0.0
+    },
+    "spread (ee)": {
+     "gap": 0.0,
+     "width": 0.0,
+     "round": 0.0
+    }
+   }
+  },
+  "ev_reg": {
+   "viseme_distinctness": 0.276,
+   "bilabial": {
+    "n": 158,
+    "real_closed": 140,
+    "recall": 0.793,
+    "model_closed_on_bilabials": 122,
+    "precision": 0.91,
+    "timing_ms_median": 0.0,
+    "timing_ms_mean_abs": 41.1,
+    "min_gap_model_mean": 0.0657,
+    "min_gap_real_mean": 0.0492,
+    "strict_real_closed": 86,
+    "strict_model_closed": 49,
+    "strict_recall": 0.384,
+    "strict_precision": 0.673
+   },
+   "open_vowel_false_closure_rate": 0.098,
+   "inner_gap_corr_lag0": 0.484,
+   "inner_gap_best_lag_frames_median": 0.0,
+   "shape_error_by_class": {
+    "bilabial (p b m)": {
+     "gap": 0.731,
+     "width": 0.84,
+     "round": 0.787
+    },
+    "dental (th)": {
+     "gap": 0.728,
+     "width": 0.82,
+     "round": 0.643
+    },
+    "labiodental (f v)": {
+     "gap": 0.859,
+     "width": 0.892,
+     "round": 0.864
+    },
+    "open (ah aa)": {
+     "gap": 0.712,
+     "width": 0.9,
+     "round": 0.745
+    },
+    "postalveolar (sh ch j)": {
+     "gap": 0.727,
+     "width": 0.707,
+     "round": 0.652
+    },
+    "rounded (oo w oh)": {
+     "gap": 0.881,
+     "width": 0.901,
+     "round": 0.898
+    },
+    "spread (ee)": {
+     "gap": 0.703,
+     "width": 0.762,
+     "round": 0.678
+    }
+   }
+  },
+  "slot_s4": {
+   "viseme_distinctness": 0.299,
+   "bilabial": {
+    "n": 158,
+    "real_closed": 140,
+    "recall": 0.914,
+    "model_closed_on_bilabials": 141,
+    "precision": 0.908,
+    "timing_ms_median": 0.0,
+    "timing_ms_mean_abs": 40.6,
+    "min_gap_model_mean": 0.0459,
+    "min_gap_real_mean": 0.0492,
+    "strict_real_closed": 86,
+    "strict_model_closed": 88,
+    "strict_recall": 0.674,
+    "strict_precision": 0.659
+   },
+   "open_vowel_false_closure_rate": 0.098,
+   "inner_gap_corr_lag0": 0.529,
+   "inner_gap_best_lag_frames_median": 0.0,
+   "shape_error_by_class": {
+    "bilabial (p b m)": {
+     "gap": 0.711,
+     "width": 0.864,
+     "round": 0.789
+    },
+    "dental (th)": {
+     "gap": 0.656,
+     "width": 0.645,
+     "round": 0.593
+    },
+    "labiodental (f v)": {
+     "gap": 0.784,
+     "width": 0.803,
+     "round": 0.848
+    },
+    "open (ah aa)": {
+     "gap": 0.702,
+     "width": 0.812,
+     "round": 0.727
+    },
+    "postalveolar (sh ch j)": {
+     "gap": 0.632,
+     "width": 0.768,
+     "round": 0.544
+    },
+    "rounded (oo w oh)": {
+     "gap": 0.825,
+     "width": 0.861,
+     "round": 0.829
+    },
+    "spread (ee)": {
+     "gap": 0.693,
+     "width": 0.724,
+     "round": 0.668
+    }
+   }
+  },
+  "ev_wl_base": {
+   "viseme_distinctness": 0.297,
+   "bilabial": {
+    "n": 158,
+    "real_closed": 140,
+    "recall": 0.914,
+    "model_closed_on_bilabials": 140,
+    "precision": 0.914,
+    "timing_ms_median": 0.0,
+    "timing_ms_mean_abs": 42.8,
+    "min_gap_model_mean": 0.0267,
+    "min_gap_real_mean": 0.0492,
+    "strict_real_closed": 86,
+    "strict_model_closed": 120,
+    "strict_recall": 0.895,
+    "strict_precision": 0.642
+   },
+   "open_vowel_false_closure_rate": 0.085,
+   "inner_gap_corr_lag0": 0.567,
+   "inner_gap_best_lag_frames_median": 0.0,
+   "shape_error_by_class": {
+    "bilabial (p b m)": {
+     "gap": 0.687,
+     "width": 0.734,
+     "round": 0.759
+    },
+    "dental (th)": {
+     "gap": 0.66,
+     "width": 0.669,
+     "round": 0.594
+    },
+    "labiodental (f v)": {
+     "gap": 0.695,
+     "width": 0.704,
+     "round": 0.731
+    },
+    "open (ah aa)": {
+     "gap": 0.69,
+     "width": 0.672,
+     "round": 0.718
+    },
+    "postalveolar (sh ch j)": {
+     "gap": 0.539,
+     "width": 0.771,
+     "round": 0.534
+    },
+    "rounded (oo w oh)": {
+     "gap": 0.79,
+     "width": 0.797,
+     "round": 0.849
+    },
+    "spread (ee)": {
+     "gap": 0.714,
+     "width": 0.678,
+     "round": 0.701
+    }
+   }
+  },
+  "ev_ph_aug": {
+   "viseme_distinctness": 0.287,
+   "bilabial": {
+    "n": 158,
+    "real_closed": 140,
+    "recall": 0.893,
+    "model_closed_on_bilabials": 135,
+    "precision": 0.926,
+    "timing_ms_median": 0.0,
+    "timing_ms_mean_abs": 45.1,
+    "min_gap_model_mean": 0.0418,
+    "min_gap_real_mean": 0.0492,
+    "strict_real_closed": 86,
+    "strict_model_closed": 101,
+    "strict_recall": 0.849,
+    "strict_precision": 0.723
+   },
+   "open_vowel_false_closure_rate": 0.098,
+   "inner_gap_corr_lag0": 0.581,
+   "inner_gap_best_lag_frames_median": 0.0,
+   "shape_error_by_class": {
+    "bilabial (p b m)": {
+     "gap": 0.731,
+     "width": 0.775,
+     "round": 0.742
+    },
+    "dental (th)": {
+     "gap": 0.572,
+     "width": 0.667,
+     "round": 0.574
+    },
+    "labiodental (f v)": {
+     "gap": 0.715,
+     "width": 0.662,
+     "round": 0.731
+    },
+    "open (ah aa)": {
+     "gap": 0.688,
+     "width": 0.689,
+     "round": 0.69
+    },
+    "postalveolar (sh ch j)": {
+     "gap": 0.522,
+     "width": 0.764,
+     "round": 0.555
+    },
+    "rounded (oo w oh)": {
+     "gap": 0.827,
+     "width": 0.765,
+     "round": 0.87
+    },
+    "spread (ee)": {
+     "gap": 0.673,
+     "width": 0.711,
+     "round": 0.662
+    }
+   }
+  },
+  "ev_ph_all": {
+   "viseme_distinctness": 0.305,
+   "bilabial": {
+    "n": 158,
+    "real_closed": 140,
+    "recall": 0.907,
+    "model_closed_on_bilabials": 139,
+    "precision": 0.914,
+    "timing_ms_median": 0.0,
+    "timing_ms_mean_abs": 37.5,
+    "min_gap_model_mean": 0.0415,
+    "min_gap_real_mean": 0.0492,
+    "strict_real_closed": 86,
+    "strict_model_closed": 89,
+    "strict_recall": 0.733,
+    "strict_precision": 0.708
+   },
+   "open_vowel_false_closure_rate": 0.089,
+   "inner_gap_corr_lag0": 0.582,
+   "inner_gap_best_lag_frames_median": 0.0,
+   "shape_error_by_class": {
+    "bilabial (p b m)": {
+     "gap": 0.688,
+     "width": 0.724,
+     "round": 0.732
+    },
+    "dental (th)": {
+     "gap": 0.674,
+     "width": 0.565,
+     "round": 0.65
+    },
+    "labiodental (f v)": {
+     "gap": 0.67,
+     "width": 0.666,
+     "round": 0.704
+    },
+    "open (ah aa)": {
+     "gap": 0.689,
+     "width": 0.682,
+     "round": 0.665
+    },
+    "postalveolar (sh ch j)": {
+     "gap": 0.641,
+     "width": 0.739,
+     "round": 0.628
+    },
+    "rounded (oo w oh)": {
+     "gap": 0.782,
+     "width": 0.78,
+     "round": 0.817
+    },
+    "spread (ee)": {
+     "gap": 0.653,
+     "width": 0.682,
+     "round": 0.672
+    }
+   }
+  }
+ },
+ "viseme_classes": {
+  "bilabial (p b m)": 158,
+  "dental (th)": 62,
+  "labiodental (f v)": 91,
+  "open (ah aa)": 235,
+  "postalveolar (sh ch j)": 82,
+  "rounded (oo w oh)": 156,
+  "spread (ee)": 284
+ },
+ "chance": 0.143,
+ "real_video_distinctness": 0.334
+}
