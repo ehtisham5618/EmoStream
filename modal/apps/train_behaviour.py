@@ -24,7 +24,7 @@ def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = T
               hidden: int = 256, w_velocity: float = 1.0, seed: int = 0, max_train_clips: int = 0,
               dropout: float = 0.1, lr: float = 1e-3, eval_every: int = 500, weight_decay: float = 1e-4,
               w_ccc: float = 0.0, lookahead: int = 0, w_vel_ccc: float = 0.0, w_closure: float = 0.0,
-              features: str = "ditto_hubert") -> dict:
+              features: str = "ditto_hubert", only_valid_wavlm: bool = False) -> dict:
     import os
     import numpy as np
     import torch
@@ -50,9 +50,17 @@ def train_run(run: str = "base", steps: int = 12000, separate_branches: bool = T
                 assert (w["clip_ids"] == z["clip_ids"]).all() and (w["lengths"] == z["lengths"]).all(), actor
                 arr["hubert"] = w["wavlm"]          # ClipSet reads the speech features from this key
                 feature_config.update(json.loads(str(w["config"])))
+                valid = w["valid"]
+            elif only_valid_wavlm:
+                # the same clips as a WavLM run, so the two can be compared fairly
+                valid = np.load(f"{C.DATA}/mead_v2/wavlm/{actor}.npz")["valid"]
+            else:
+                valid = np.ones(len(z["clip_ids"]), bool)
             ends = np.cumsum(z["lengths"])
-            for cid, emo, lv, s, e in zip(z["clip_ids"].tolist(), z["emotions"].tolist(), z["levels"].tolist(),
-                                          ends - z["lengths"], ends):
+            for cid, emo, lv, s, e, ok in zip(z["clip_ids"].tolist(), z["emotions"].tolist(), z["levels"].tolist(),
+                                              ends - z["lengths"], ends, valid):
+                if not ok:      # no verified audio for this clip (WavLM features only)
+                    continue
                 store[cid] = (arr, int(s), int(e))
                 rows.append({"clip_id": cid, "actor": actor, "emotion": emo, "level": int(lv), "split": split,
                              "features": cid})
@@ -91,8 +99,9 @@ def main(run: str = "base", steps: int = 12000, separate_branches: bool = True, 
          hidden: int = 256, w_velocity: float = 1.0, seed: int = 0, max_train_clips: int = 0,
          dropout: float = 0.1, lr: float = 1e-3, eval_every: int = 500, weight_decay: float = 1e-4,
          w_ccc: float = 0.0, lookahead: int = 0, w_vel_ccc: float = 0.0, w_closure: float = 0.0,
-         features: str = "ditto_hubert"):
-    res = train_run.remote(w_vel_ccc=w_vel_ccc, w_closure=w_closure, features=features, run=run, steps=steps, separate_branches=separate_branches, lip_cap=lip_cap,
+         features: str = "ditto_hubert", only_valid_wavlm: bool = False):
+    res = train_run.remote(w_vel_ccc=w_vel_ccc, w_closure=w_closure, features=features,
+                           only_valid_wavlm=only_valid_wavlm, run=run, steps=steps, separate_branches=separate_branches, lip_cap=lip_cap,
                            hidden=hidden, w_velocity=w_velocity, seed=seed, max_train_clips=max_train_clips,
                            dropout=dropout, lr=lr, eval_every=eval_every, weight_decay=weight_decay,
                            w_ccc=w_ccc, lookahead=lookahead)

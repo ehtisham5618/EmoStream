@@ -1,0 +1,9 @@
+{
+ "clips": 40,
+ "frames": 3957,
+ "probe": {
+  "ditto_streaming_hubert (current)": 0.3037,
+  "wavlm-base-plus layer 6, streaming (1 s past, 80 ms future, block 1)": 0.346,
+  "wavlm-base-plus layer 6, streaming (1 s past, 160 ms future, block 1)": 0.389
+ }
+}

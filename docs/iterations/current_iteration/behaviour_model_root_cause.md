@@ -94,3 +94,18 @@ Caveat: one actor, 40 clips, a linear probe. Whether a trained model gains as mu
 - No phoneme alignment; "closures reproduced" is a proxy (the most closed 15 % of each clip's real frames).
 - Lip rounding is not measured separately; the mouth-width metric covers part of it.
 - The test split was not used.
+
+## 7. Data finding: MEAD audio and video numbering differ for 13 actors
+
+Training a new speech encoder needs each clip's audio. MEAD ships audio separately (`audio.tar`, all levels; the raw volume's `extracted/` copy had level 1 only). On M005 the `.m4a` is identical to the video's soundtrack (0 ms offset, correlation 1.00, about 19 ms shorter). But for 13 actors (M037, M040, M041, W023, W025, W026, W028, W029, W033, W035, W037, W038, W040) only about 50 of 400 clips pair correctly by file number; the rest of the same-numbered files are **different sentences** (`evaluation/benchmarks/mead_audio_pairing.py`).
+
+Every clip was therefore paired by content (`evaluation/benchmarks/mead_audio_match.py`): by number when the duration agrees, otherwise by an unambiguous duration match in the same emotion and level, and in both cases verified by running Ditto's HuBERT on the `.m4a` and correlating with the features stored from the video's own audio (right pair ≥ 0.974; 46 candidate pairs failed and were dropped).
+
+| | Clips |
+|---|---|
+| Train + validation clips | 14,646 |
+| Paired and verified | 12,247 (84 %) |
+| Left out of WavLM training | 2,399 |
+| Validation actors affected | W026 (148 left out), W035 (202 left out) |
+
+Earlier models are unaffected: their features came from each video's own soundtrack. For a fair comparison, the Ditto-HuBERT control is trained on the same 12,247 clips (`--only-valid-wavlm`).
