@@ -75,5 +75,7 @@ def web():
     import glob
 
     examples = sorted(glob.glob(f"{C.REPO}/example/*.png") + glob.glob(f"{C.REPO}/example/*.jpg"))
-    print("warm-up:", provider.warm_up(examples[0]) if examples else "no example portrait found", flush=True)
+    # 6 s rather than 2 s: the first real session after a cold start still skipped 36 of 710 frames
+    # with a 2 s warm-up (17 Nov 2026); later sessions on the same worker skipped none.
+    print("warm-up:", provider.warm_up(examples[0], seconds=6.0) if examples else "no example portrait found", flush=True)
     return create_app(provider, static_dir="/root/frontend_dist")

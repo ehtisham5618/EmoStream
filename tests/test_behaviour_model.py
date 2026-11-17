@@ -124,7 +124,8 @@ def test_clipset_removes_actor_identity_and_emotion_offset():
             d = offsets[c["emotion"]]
             assert c["y"][:, d].mean() == pytest.approx(0.03 * c["level"] / 3, abs=2e-3)
             assert abs(c["y_art"][:, d].mean()) < 2e-3             # articulation target has no emotion offset
-    audio, emo, y, y_art, mask, closed = ds.batch(np.random.default_rng(0), 8, 100)
+    audio, emo, y, y_art, mask, closed, vis = ds.batch(np.random.default_rng(0), 8, 100)
+    assert vis.shape == mask.shape and (vis == -1).all()          # no labels in this fixture
     assert closed.shape == mask.shape and 0 < closed[mask > 0].mean() < 0.5
     assert audio.shape == (8, 100, 32) and y.shape == (8, 100, MOTION_DIM)
     assert mask[:, :80].all() and not mask[:, 80:].any()

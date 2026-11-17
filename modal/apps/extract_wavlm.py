@@ -28,9 +28,39 @@ app = modal.App("emostream-v2-extract-wavlm")
 image = C.engine_image(extra_pip=("transformers==4.46.3",))
 
 
+def degrade(audio, seed: int):
+    """A reproducible random 'real microphone' version of a clean studio clip: gain, noise,
+    band limit (phone/laptop microphones, codecs) and room echo."""
+    import numpy as np
+    from scipy.signal import butter, fftconvolve, sosfilt
+
+    rng = np.random.default_rng(seed)
+    a = audio.astype(np.float64)
+    if rng.random() < 0.5:                                    # band limit
+        sos = butter(6, rng.uniform(3400, 7000), btype="low", fs=16000, output="sos")
+        a = sosfilt(sos, a)
+    if rng.random() < 0.3:                                    # room echo
+        rt60 = rng.uniform(0.2, 0.6)
+        n = int(rt60 * 16000)
+        ir = rng.standard_normal(n) * np.exp(-6.9 * np.arange(n) / n)
+        ir[0] = 1.0
+        wet = fftconvolve(a, ir / np.abs(ir).sum() * 4)[: len(a)]
+        mix = rng.uniform(0.2, 0.5)
+        a = (1 - mix) * a + mix * wet
+    speech = np.sqrt(np.mean(a ** 2)) + 1e-9
+    snr = rng.uniform(15, 40)
+    noise = rng.standard_normal(len(a))
+    if rng.random() < 0.5:                                    # pink-ish noise
+        noise = np.cumsum(noise)
+        noise -= np.convolve(noise, np.ones(400) / 400, mode="same")
+    noise *= speech / (np.sqrt(np.mean(noise ** 2)) + 1e-9) / 10 ** (snr / 20)
+    a = (a + noise) * 10 ** (rng.uniform(-18, 6) / 20)
+    return np.clip(a, -1, 1).astype(np.float32)
+
+
 @app.function(image=image, gpu=["A10G", "L4", "T4"], volumes={C.DATA: C.data_vol}, timeout=3600, cpu=4,
               memory=16384, max_containers=10)
-def actor_features(actor: str, layer: int = LAYER, future: int = FUTURE) -> dict:
+def actor_features(actor: str, layer: int = LAYER, future: int = FUTURE, augment: bool = False) -> dict:
     import os
     import subprocess
     import time
@@ -59,6 +89,10 @@ def actor_features(actor: str, layer: int = LAYER, future: int = FUTURE) -> dict
         audio = np.frombuffer(pcm, "<i2").astype(np.float32) / 32768.0
         if len(audio) < n * 640:
             short += 1
+        if augment:
+            import zlib
+
+            audio = degrade(audio, zlib.crc32(cid.encode()))
         audios.append(audio)
     keep = [i for i, a in enumerate(audios) if len(a)]
     got = x.frames_many([audios[i] for i in keep], [lengths[i] for i in keep], batch=96)
@@ -66,8 +100,9 @@ def actor_features(actor: str, layer: int = LAYER, future: int = FUTURE) -> dict
     for i, f in zip(keep, got):
         feats[i] = f.astype(np.float16)
     valid = np.array([bool(len(a)) for a in audios])
-    os.makedirs(f"{C.DATA}/mead_v2/wavlm", exist_ok=True)
-    np.savez(f"{C.DATA}/mead_v2/wavlm/{actor}.npz", clip_ids=z["clip_ids"], lengths=z["lengths"],
+    sub = "wavlm_aug" if augment else "wavlm"
+    os.makedirs(f"{C.DATA}/mead_v2/{sub}", exist_ok=True)
+    np.savez(f"{C.DATA}/mead_v2/{sub}/{actor}.npz", clip_ids=z["clip_ids"], lengths=z["lengths"],
              wavlm=np.concatenate(feats, 0), valid=valid, config=json.dumps(x.config))
     C.data_vol.commit()
     return {"actor": actor, "clips": len(feats), "valid": int(valid.sum()), "unpaired": len(missing), "audio_shorter_than_video": short,
@@ -76,7 +111,7 @@ def actor_features(actor: str, layer: int = LAYER, future: int = FUTURE) -> dict
 
 
 @app.local_entrypoint()
-def main(actors: str = ""):
+def main(actors: str = "", augment: bool = False):
     if actors:
         todo = actors.split(",")
     else:
@@ -85,7 +120,7 @@ def main(actors: str = ""):
     todo = [a for a in todo if a not in TEST_ACTORS]
     # One call per actor, collected one by one: ``.map`` iteration ended early with a
     # client-side StopAsyncIteration under Python 3.14, abandoning actors still queued.
-    calls = [(a, actor_features.spawn(a)) for a in todo]
+    calls = [(a, actor_features.spawn(a, augment=augment)) for a in todo]
     for a, call in calls:
         try:
             print(json.dumps(call.get()), flush=True)

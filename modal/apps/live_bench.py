@@ -22,7 +22,8 @@ VOLS = {C.MODELS: C.models_vol, C.DATA: C.data_vol}
 
 def _run(tensorrt: bool, behaviour: str, run: str, portrait: str, audio: str, seconds: float, size: int,
          chunk_ms: int, emotion: str, intensity: float, schedule: str, max_latency_ms: float, tag: str,
-         save_video: bool, emotion_gain: float = 1.0, close_mouth: bool = True, hop: int = 5) -> dict:
+         save_video: bool, emotion_gain: float = 1.0, close_mouth: bool = True, hop: int = 5,
+         lip_target: float = -1.0, lip_strength: float = 1.0) -> dict:
     import os
     import subprocess
     import time
@@ -60,7 +61,9 @@ def _run(tensorrt: bool, behaviour: str, run: str, portrait: str, audio: str, se
     if seconds > 0:  # loop the recording to the requested length
         wav = np.tile(wav, int(np.ceil(seconds * 16000 / len(wav))))[: int(seconds * 16000)]
     t0 = time.perf_counter()
-    avatar = rt.register(f"{C.DATA}/{portrait}", close_open_mouth=close_mouth)
+    avatar = rt.register(f"{C.DATA}/{portrait}", close_open_mouth=close_mouth,
+                         lip_target=None if lip_target < 0 else lip_target,
+                         lip_strength=lip_strength)
     register_s = time.perf_counter() - t0
 
     def new_session(limit):
@@ -137,11 +140,12 @@ def main(behaviour: str = "emostream", run: str = "base", tensorrt: bool = False
          portrait: str = "eval/val/M005/portrait.png", audio: str = "poc/inputs/audio.wav", seconds: float = 0,
          size: int = 512, chunk_ms: int = 200, emotion: str = "neutral", intensity: float = 1.0,
          schedule: str = "", max_latency_ms: float = 0, tag: str = "", save_video: bool = True,
-         emotion_gain: float = 1.0, close_mouth: bool = True, hop: int = 5):
+         emotion_gain: float = 1.0, close_mouth: bool = True, hop: int = 5, lip_target: float = -1.0,
+         lip_strength: float = 1.0):
     tag = tag or f"live_{behaviour}_{'trt' if tensorrt else 'pt'}_{gpu}"
     fn = (bench_tensorrt if tensorrt else bench_pytorch).with_options(gpu=gpu)
     res = fn.remote(behaviour=behaviour, run=run, portrait=portrait, audio=audio, seconds=seconds, size=size,
                     chunk_ms=chunk_ms, emotion=emotion, intensity=intensity, schedule=schedule,
                     max_latency_ms=max_latency_ms, tag=tag, save_video=save_video, emotion_gain=emotion_gain,
-                    close_mouth=close_mouth, hop=hop)
+                    close_mouth=close_mouth, hop=hop, lip_target=lip_target, lip_strength=lip_strength)
     print(json.dumps(res, indent=1))

@@ -18,7 +18,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from .retarget import LIP_OPEN_THRESHOLD, build_lip_retargeter, lip_close_offset, lip_open_ratio
+from .retarget import LIP_OPEN_THRESHOLD, build_lip_retargeter, lip_close_offset, lip_open_ratio, lip_target_for
 
 DITTO_REPO = os.environ.get("DITTO_REPO", "/opt/ditto")
 
@@ -71,7 +71,8 @@ class Runtime:
             self.decoder.eval()
 
     # ---- portrait -----------------------------------------------------------------
-    def register(self, image_path: str, max_dim: int = 1920, close_open_mouth: bool = True) -> Avatar:
+    def register(self, image_path: str, max_dim: int = 1920, close_open_mouth: bool = True,
+                 lip_target: float | None = None, lip_strength: float = 1.0) -> Avatar:
         """Registers a portrait. If its mouth is open and ``close_open_mouth`` is set, the
         lip-closing keypoint offset is computed once and applied to every rendered frame,
         so that the avatar rests with a closed mouth."""
@@ -97,7 +98,8 @@ class Runtime:
         avatar.lip_delta = None
         if close_open_mouth and avatar.mouth_open and self.lip_net is not None:
             avatar.lip_delta = lip_close_offset(self.lip_net, transform_keypoint(one["x_s_info"]), avatar.lip_ratio,
-                                                self.device)
+                                                self.device, strength=lip_strength,
+                                                target=lip_target_for(avatar.lip_ratio) if lip_target is None else lip_target)
         return avatar
 
     # ---- rendering ----------------------------------------------------------------

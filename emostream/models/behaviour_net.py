@@ -59,6 +59,9 @@ class BehaviourConfig:
     # 1024-d) or "wavlm" (emostream.audio.wavlm, 768-d; settings in ``feature_config``)
     features: str = "ditto_hubert"
     feature_config: dict | None = None
+    # training-only phoneme supervision: classes predicted from the articulation branch
+    # (0 silence, 1..7 viseme classes, 8 other); 0 = no head. Not used at inference.
+    n_visemes: int = 0
 
 
 class BehaviourNet(nn.Module):
@@ -78,6 +81,7 @@ class BehaviourNet(nn.Module):
         self.emo_head = nn.Linear(cfg.emo_hidden, POSE_DIM + TRANS_DIM + 1)
         # head pose that does not depend on emotion (speech-driven nods), from articulation features
         self.art_head = nn.Linear(cfg.hidden, POSE_DIM + TRANS_DIM + 1)
+        self.vis_out = nn.Linear(cfg.hidden, cfg.n_visemes) if cfg.n_visemes else None
         # region-aware gate
         self.gate_logit = nn.Parameter(torch.zeros(EXP_DIM))
         self.register_buffer("lip_mask", keypoint_mask(LIP_KEYPOINTS))
@@ -120,7 +124,10 @@ class BehaviourNet(nn.Module):
         emo_out = torch.cat([self.emo_exp(emo) * self.emotion_gate(), self.emo_head(emo)], -1) * intensity
         out = (art_out + emo_out) * self.out_scale
         if return_parts:
-            return out, (h_art, h_emo), {"art": art_out * self.out_scale, "emo": emo_out * self.out_scale}
+            parts = {"art": art_out * self.out_scale, "emo": emo_out * self.out_scale}
+            if self.vis_out is not None:
+                parts["vis_logits"] = self.vis_out(art)
+            return out, (h_art, h_emo), parts
         return out, (h_art, h_emo)
 
     # ------------------------------------------------------------------------------

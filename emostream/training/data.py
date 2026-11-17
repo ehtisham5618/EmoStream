@@ -110,8 +110,12 @@ class ClipSet:
         self.lookahead = lookahead
         for r in index:
             z = loader(r["features"])
-            self.clips.append({**r, "motion": motion_vector(z),
-                               "audio": shift_features(np.asarray(z["hubert"]), lookahead)})
+            c = {**r, "motion": motion_vector(z), "audio": shift_features(np.asarray(z["hubert"]), lookahead)}
+            if "hubert_aug" in z:
+                c["audio_aug"] = shift_features(np.asarray(z["hubert_aug"]), lookahead)
+            if "viseme" in z:
+                c["viseme"] = np.asarray(z["viseme"]).astype(np.int64)
+            self.clips.append(c)
         self.refs = actor_references(self.clips)
         kept = []
         for c in self.clips:
@@ -146,9 +150,10 @@ class ClipSet:
             std[sl] = np.maximum(std[sl], 0.25 * np.median(std[sl]))
         return np.maximum(std, 1e-6).astype(np.float32)  # a constant coordinate must not divide by zero
 
-    def batch(self, rng: np.random.Generator, batch_size: int, length: int):
+    def batch(self, rng: np.random.Generator, batch_size: int, length: int, aug_prob: float = 0.0):
         """Random crops. Returns audio (B, L, D), emo (B, L, 5), y, y_art (B, L, 69), mask (B, L),
-        closed (B, L)."""
+        closed (B, L), viseme (B, L) with -1 where unlabelled.
+        ``aug_prob``: chance that a sample uses its degraded-audio features (if present)."""
         idx = rng.integers(0, len(self.clips), batch_size)
         D = self.clips[0]["audio"].shape[1]
         audio = np.zeros((batch_size, length, D), np.float32)
@@ -157,17 +162,21 @@ class ClipSet:
         y_art = np.zeros_like(y)
         mask = np.zeros((batch_size, length), np.float32)
         closed = np.zeros((batch_size, length), np.float32)
+        vis = np.full((batch_size, length), -1, np.int64)
         for b, i in enumerate(idx):
             c = self.clips[i]
             T = len(c["y"])
             n = min(T, length)
             # Always start at the clip start half of the time so the model sees stream starts.
             s = 0 if (T <= length or rng.random() < 0.5) else int(rng.integers(0, T - length + 1))
-            audio[b, :n] = c["audio"][s:s + n]
+            src = c["audio_aug"] if ("audio_aug" in c and rng.random() < aug_prob) else c["audio"]
+            audio[b, :n] = src[s:s + n]
+            if "viseme" in c:
+                vis[b, :n] = c["viseme"][s:s + n]
             y[b, :n] = c["y"][s:s + n]
             y_art[b, :n] = c["y_art"][s:s + n]
             closed[b, :n] = c["closed"][s:s + n]
             emo[b, :n] = c["emo"]
             emo[b, n:, 0] = 1.0
             mask[b, :n] = 1.0
-        return audio, emo, y, y_art, mask, closed
+        return audio, emo, y, y_art, mask, closed, vis

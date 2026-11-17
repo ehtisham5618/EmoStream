@@ -21,6 +21,19 @@ import numpy as np
 # (LivePortrait's own default, ``lip_normalize_threshold``).
 LIP_OPEN_THRESHOLD = 0.03
 
+# How far an open mouth is closed. LivePortrait closes to ratio 0. For a clearly open mouth
+# (ratio >= 0.2) that overshoots: the lips are pressed together and speech can no longer open
+# them (user portrait, ratio 0.31: vowel openings 20-25 % of a real speaker's, 17 Nov 2026).
+# Closing such portraits to a relaxed ratio of 0.15 gave the best match to real speakers
+# (docs/iterations/current_iteration/bilabial_closure_experiments.md). Slightly open portraits
+# keep ratio 0 (validated on MEAD: evaluation portrait ratio 0.12, closure recall 0.90).
+WIDE_OPEN_RATIO = 0.2
+RELAXED_TARGET = 0.15
+
+
+def lip_target_for(ratio: float) -> float:
+    return RELAXED_TARGET if ratio >= WIDE_OPEN_RATIO else 0.0
+
 
 def lip_open_ratio(lmk203: np.ndarray) -> float:
     """Inner-lip gap divided by mouth width, from the 203-point landmarks
@@ -57,12 +70,14 @@ def build_lip_retargeter(checkpoint_path: str, device: str = "cuda"):
     return net.to(device).eval()
 
 
-def lip_close_offset(net, x_s_keypoints: np.ndarray, ratio: float, device: str = "cuda") -> np.ndarray:
-    """Keypoint offset (1, 21, 3) that closes the source's lips (target ratio 0)."""
+def lip_close_offset(net, x_s_keypoints: np.ndarray, ratio: float, device: str = "cuda", target: float = 0.0,
+                     strength: float = 1.0) -> np.ndarray:
+    """Keypoint offset (1, 21, 3) that brings the source's lip-opening ratio to ``target``
+    (0 = fully closed, LivePortrait's default), scaled by ``strength``."""
     import torch
 
     feat = np.concatenate([np.asarray(x_s_keypoints, dtype=np.float32).reshape(1, -1),
-                           np.array([[ratio, 0.0]], dtype=np.float32)], 1)
+                           np.array([[ratio, target]], dtype=np.float32)], 1)
     with torch.no_grad():
         delta = net(torch.from_numpy(feat).to(device))
-    return delta.float().cpu().numpy().reshape(1, 21, 3)
+    return strength * delta.float().cpu().numpy().reshape(1, 21, 3)

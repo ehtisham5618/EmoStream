@@ -26,6 +26,9 @@ class TrainConfig:
     lookahead: int = 0             # future feature frames given to the model
     w_vel_ccc: float = 0.0         # concordance of lip *velocities* (timing of openings and closings)
     w_closure: float = 0.0         # extra lip error weight on frames where the real mouth is closed
+    w_viseme: float = 0.0          # phoneme supervision: cross-entropy of the articulation branch's viseme head
+    w_bilabial: float = 0.0        # extra lip error on /p b m/ frames and the 2 frames before them
+    aug_prob: float = 0.0          # chance of training a sample on degraded-audio features
     eval_every: int = 1000
     seed: int = 0
     model: BehaviourConfig = field(default_factory=BehaviourConfig)
@@ -175,8 +178,8 @@ def train(train_set, val_set, cfg: TrainConfig, device: str = "cuda", log=print,
     history, best, t0 = [], None, time.perf_counter()
     net.train()
     for step in range(1, cfg.steps + 1):
-        audio, emo, y, y_art, mask, closed = (torch.from_numpy(x).to(device) for x in
-                                              train_set.batch(rng, cfg.batch_size, cfg.length))
+        audio, emo, y, y_art, mask, closed, vis = (torch.from_numpy(x).to(device) for x in
+                                                   train_set.batch(rng, cfg.batch_size, cfg.length, cfg.aug_prob))
         _, _, parts = net(audio, emo, return_parts=True)
         art, emo_part = parts["art"] / std, parts["emo"] / std
         if cfg.separate_branches:
@@ -184,6 +187,17 @@ def train(train_set, val_set, cfg: TrainConfig, device: str = "cuda", log=print,
             loss_art = motion_loss(art, y_art / std, mask, weight, cfg.w_velocity, cfg.w_ccc)
             loss_art = loss_art + lip_timing_terms(art, y_art / std, mask, closed, weight, net.lip_mask_full,
                                                    cfg.w_vel_ccc, cfg.w_closure)
+            if cfg.w_bilabial > 0:
+                # lips close before the acoustic release: include the 2 frames before each /p b m/ frame
+                bil = (vis == 1).float()
+                ant = torch.maximum(bil, torch.nn.functional.pad(bil[:, 2:], (0, 2)))
+                ant = torch.maximum(ant, torch.nn.functional.pad(bil[:, 1:], (0, 1)))
+                loss_art = loss_art + cfg.w_bilabial * masked_l1(art, y_art / std, mask * ant,
+                                                                 weight * net.lip_mask_full)
+            if cfg.w_viseme > 0 and "vis_logits" in parts:
+                lab = torch.where(mask > 0, vis, torch.full_like(vis, -1))
+                loss_art = loss_art + cfg.w_viseme * torch.nn.functional.cross_entropy(
+                    parts["vis_logits"].reshape(-1, parts["vis_logits"].shape[-1]), lab.reshape(-1), ignore_index=-1)
         else:
             full = art + emo_part
             loss_art = torch.zeros((), device=device)
