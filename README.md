@@ -27,6 +27,8 @@ Details: [`docs/architecture/emostream_architecture.md`](docs/architecture/emost
 
 Two rounds of work so far. Numbers are on **validation actors** (unseen in training); the six test actors have not been touched.
 
+**Latest (17 Nov 2026):** live model `ph_aug` (WavLM speech features, trained half the time on degraded microphone-like audio; [`final_articulation_report.md`](docs/iterations/current_iteration/final_articulation_report.md)), and the product UI from the Lovable design (`web/`) connected to the real engine ([`lovable_ui_integration_report.md`](docs/integration/lovable_ui_integration_report.md)).
+
 **Current iteration (animation quality, 16 Nov 2026)** — full report: [`docs/iterations/current_iteration/final_iteration_report.md`](docs/iterations/current_iteration/final_iteration_report.md)
 
 | Measure | Previous (`reg`) | Now (`it_ccc_la2`) | Real video |
@@ -61,8 +63,11 @@ emostream/            engine, behaviour model, training code, metrics, safety
   models/               BehaviourNet
   training/             data pipeline and trainer
   metrics/              motion smoothness and boundary jerk
-backend/              FastAPI app: /ws/session (live), /api/export (MP4), /api/info
-frontend/             React + TypeScript + Vite client
+backend/              FastAPI app: /ws/session (live), /api/export (MP4), /api/info, serves both clients
+web/                  product UI (Lovable design; TanStack Start built as a static single-page app), at /
+frontend/             test and diagnostics client (React + Vite), at /diagnostics/; its src/lib is the
+                      reference engine client that web/ also imports
+scripts/              build_frontends.sh: builds both clients with one build identifier
 modal/apps/           Modal jobs: PoC runs, MEAD jobs, training, evaluation, benchmarks, serving
 tests/                pytest (CPU only)
 docs/                 reference, reverse engineering, architecture, experiments, evaluation
@@ -75,7 +80,14 @@ Requirements: Python 3.10+, Node 18+, the Modal CLI (authenticated), and access 
 ```bash
 # tests (no GPU needed)
 python -m pytest tests -q
-cd frontend && npm install && npm test && npm run build && cd ..
+cd frontend && npm install && npm test && cd ..
+cd web && npm install && npm test && npm run lint && cd ..     # on Windows run vitest from an upper-case C:\ path
+bash scripts/build_frontends.sh                                # web/dist/client + frontend/dist, shared build id
+
+# product UI against a local backend or the timing stand-in (no GPU)
+python -m evaluation.benchmarks.fake_server --dist web/dist/client --diagnostics frontend/dist --port 8765
+python -m evaluation.benchmarks.studio_e2e --url http://127.0.0.1:8765      # browser end-to-end checks
+cd web && VITE_BACKEND=http://127.0.0.1:8765 npm run dev                    # dev server, /api and /ws proxied
 
 # live app on a Modal GPU (prints a URL; the worker stops after 5 idle minutes).
 # Defaults: L40S + TensorRT. Cheaper: EMOSTREAM_GPU=A10G. Stop it with: modal app stop emostream-v2-live
@@ -99,11 +111,15 @@ GPU jobs cost money. Preprocessing is the expensive one; training a model takes 
 
 ## Using the live app
 
-1. Choose a photo of one face looking at the camera.
-2. Confirm that the person in the photo and the speaker have agreed.
-3. Pick microphone or an audio file, then start.
-4. Change emotion and intensity at any time.
-5. Stop. The session can be saved as a video; an uploaded recording can also be rendered to MP4.
+Open the worker's URL: the product UI. **Studio** (`/app/studio`):
+
+1. Upload a photo of one face looking at the camera, and confirm portrait consent.
+2. Confirm voice consent, choose the microphone, and optionally switch on "Hear the avatar's voice" (headphones).
+3. Start session. The engine prepares the portrait (the stage shows each step); the microphone opens only when it is ready.
+4. Speak. Change emotion and intensity at any time; pause and resume.
+5. Stop. Export downloads the take as recorded in the browser; the telemetry drawer saves a diagnostics file.
+
+The test and diagnostics client (microphone or audio file, MP4 export of an uploaded recording) is at `/diagnostics/`.
 
 The wire protocol is documented at the top of [`backend/streaming/protocol.py`](backend/streaming/protocol.py).
 

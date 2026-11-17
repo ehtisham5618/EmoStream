@@ -1,14 +1,18 @@
 # Frontend ↔ backend contract
 
-This describes the backend **as implemented** on branch `iteration/animation-quality` (`backend/api/app.py`, `backend/streaming/protocol.py`, `backend/services/live.py`). A frontend that follows this document can drive the animation engine without changes to it. Nothing here is planned-only; anything not listed does not exist.
+This describes the backend **as implemented** on branch `iteration/lovable-ui-integration` (`backend/api/app.py`, `backend/streaming/protocol.py`, `backend/services/live.py`). A frontend that follows this document can drive the animation engine without changes to it. Nothing here is planned-only; anything not listed does not exist.
 
-Reference client: `frontend/src/lib/` (`protocol.ts`, `session.ts`, `audio.ts`, `player.ts`). Reference test client: `evaluation/benchmarks/ws_client.py`.
+Reference client: `frontend/src/lib/` (`protocol.ts`, `session.ts`, `audio.ts`, `player.ts`). The product UI (`web/`) imports these same files (alias `@engine`), so there is one implementation of the protocol. Reference test client: `evaluation/benchmarks/ws_client.py`.
+
+**Change on 17 Nov 2026 (Lovable UI integration):** the WebSocket and HTTP API are unchanged. Only what the worker serves as pages changed (§1, "Pages").
 
 ## 1. Deployment facts
 
 | | |
 |---|---|
-| Base URL | The Modal URL printed by `modal deploy modal/apps/serve.py` (HTTPS). The same origin serves the API, the WebSocket and the built frontend. |
+| Base URL | The Modal URL printed by `modal deploy modal/apps/serve.py` (HTTPS). The same origin serves the API, the WebSocket and the built browser clients. |
+| Pages | `/` and every client route (`/app/studio`, `/research`, …): the product UI (`web/dist/client`, a single-page app; any path without a file extension returns `index.html`). `/diagnostics/`: the test and diagnostics client (`frontend/dist`, built with base `/diagnostics/`). Pages and `build.json` are sent with `Cache-Control: no-store`; hashed assets are cacheable. `/api/*` and `/ws/*` never fall back to a page. GET and HEAD. |
+| Build identifier | `scripts/build_frontends.sh` builds both clients with one `EMOSTREAM_BUILD`; `/api/info` and `ready` report it as `frontend_build` (read from `web/dist/client/build.json`). |
 | Authentication | None. The URL is unauthenticated. |
 | Concurrency | **One live session per GPU worker.** A second session gets `busy`. |
 | Cold start | The worker stops after 5 idle minutes. The first request afterwards waits for model loading (tens of seconds). `GET /api/info` can be used to wake it. |
@@ -229,7 +233,9 @@ There is no resume: after any error or disconnect, open a new socket and send `s
 3. Present frames on a 40 ms timeline from an adaptive buffer (`frontend/src/lib/player.ts`, `PlayoutClock`): place the timeline behind the 95th percentile of recent arrival lateness, move it later at once when a frame arrives after its slot, give delay back slowly.
 4. **Play and record the voice on the picture's timeline.** Sample *n* of the audio that was sent belongs at `timeline base + n / 16000 s` (`frontend/src/lib/audio.ts`, `SyncedVoice`). A viewer, and any recording, must get the voice from there, never the live microphone, or the face will always appear to lag the voice by the whole round trip. Whether the speaker also hears it is a product choice (the test client offers a checkbox; headphones are needed).
 5. For an uploaded file, play the audio locally and lock the picture to the audio clock.
-6. Recording of a live session is done in the browser (`MediaRecorder` on the canvas plus the synced voice). Keep an inaudible source running on the recorded audio stream and repaint the canvas while a frame is held; otherwise Chrome's recorder loses step during pauses. The server only exports uploaded recordings.
+6. Recording of a live session is done in the browser (`MediaRecorder` on the canvas plus the synced voice). Keep an inaudible source running on the recorded audio stream and repaint the canvas while a frame is held; otherwise Chrome's recorder loses step during pauses. The server only exports uploaded recordings. (The product Studio's "Export" downloads this browser recording.)
+7. Do not capture or send microphone audio before `ready`. The product Studio asks for microphone permission before opening the WebSocket and opens the microphone only on `ready`; the reference `LiveSession` additionally discards anything passed to `sendAudio` before `ready`.
+8. Pausing means sending no audio. The engine then produces no frames; the player keeps the last picture and moves its timeline when frames resume.
 
 ## 6. What a future input method needs
 

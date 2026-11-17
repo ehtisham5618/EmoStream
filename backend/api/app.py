@@ -291,15 +291,15 @@ def create_app(provider, static_dir: str | None = None, diagnostics_dir: str | N
     if diagnostics_dir and Path(diagnostics_dir).is_dir():
         diag_index = Path(diagnostics_dir) / "index.html"
 
-        @app.get("/diagnostics", include_in_schema=False)
+        @app.api_route("/diagnostics", methods=["GET", "HEAD"], include_in_schema=False)
         def diagnostics_redirect():
             return Response(status_code=307, headers={"Location": "/diagnostics/"})
 
-        @app.get("/diagnostics/", include_in_schema=False)
+        @app.api_route("/diagnostics/", methods=["GET", "HEAD"], include_in_schema=False)
         def diagnostics_root():
             return FileResponse(diag_index, headers=no_store)
 
-        @app.get("/diagnostics/index.html", include_in_schema=False)
+        @app.api_route("/diagnostics/index.html", methods=["GET", "HEAD"], include_in_schema=False)
         def diagnostics_index():
             return FileResponse(diag_index, headers=no_store)
 
@@ -309,13 +309,13 @@ def create_app(provider, static_dir: str | None = None, diagnostics_dir: str | N
         root_dir = Path(static_dir).resolve()
         index = root_dir / "index.html"
 
-        @app.get("/", include_in_schema=False)
+        @app.api_route("/", methods=["GET", "HEAD"], include_in_schema=False)
         def root():
             return FileResponse(index, headers=no_store)
 
         # Single-page app: a file that exists is served as is; any other path without a file
         # extension (/app/studio, /research, …) gets the page, whose router shows the route.
-        @app.get("/{path:path}", include_in_schema=False)
+        @app.api_route("/{path:path}", methods=["GET", "HEAD"], include_in_schema=False)
         def static_or_page(path: str):
             if path.startswith(("api/", "ws/")):
                 raise HTTPException(404)

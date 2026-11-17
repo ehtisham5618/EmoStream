@@ -12,7 +12,7 @@ EmoStream turns **one static portrait + voice audio** into a continuously animat
 - **No Keyframe code or API** in the engine. Keyframe Labs is a product reference (`docs/reverse_engineering/`), nothing more.
 - **Safety:** consent checkbox before upload, visible "AI-generated" watermark on every output frame, no voice cloning, uploads are not stored by default.
 - Ask before launching GPU jobs expected to exceed roughly an hour or a few dollars; smaller runs are fine. State the estimated cost of each batch.
-- Shell note: multi-line Python passed through a bash heredoc sometimes fails on quotes here; write the script to a file and run it.
+- Shell note: multi-line Python passed through a bash heredoc sometimes fails on quotes here; write the script to a file and run it. Python on Windows writes CRLF in text mode: use `newline=""` when editing files (web/ is LF, enforced by Prettier). Run web/'s vitest from an upper-case `C:\` path (PowerShell); from `c:/` it fails to load suites.
 
 ## Current state (16 Nov 2026)
 
@@ -20,7 +20,8 @@ EmoStream turns **one static portrait + voice audio** into a continuously animat
 - MEAD audio for WavLM: `emostream-v2-data:/mead_v2/audio/<actor>/` (from `audio.tar`; train/val actors only). For 13 actors audio and video files are numbered differently; always use the content-verified map `/mead_v2/manifests/audio_map.json` (`evaluation/benchmarks/mead_audio_match.py`), never file numbers.
 - Live transport (16 Nov, after the user's failed browser sessions): H.264 over the WebSocket with ack-based pacing (`backend/streaming/video.py`), WebCodecs decoding and an adaptive jitter buffer in the client, and the avatar's voice played and recorded on the picture's timeline (`SyncedVoice`). JPEG frames remain as a fallback (`?video=jpeg` forces them). See `docs/iterations/current_iteration/transport_fix.md`. Local link emulation: `evaluation/benchmarks/throttle_proxy.py` + `fake_server.py --video`.
 - Reports: `docs/iterations/current_iteration/`. Integration contract: `docs/integration/frontend_backend_contract.md` (keep it in step with `backend/`).
-- The product UI will be supplied by the user from Lovable after the model is approved. Do not build or redesign the product frontend; `frontend/` is a test and diagnostics client.
+- Product UI (17 Nov 2026, branch `iteration/lovable-ui-integration`): `web/` is the user's Lovable design, connected to the real engine and served at `/` (static single-page build, `web/dist/client`). Preserve its design exactly; do not redesign it. `frontend/` is the test and diagnostics client, served at `/diagnostics/`; its `src/lib` is the one engine-client implementation, imported by `web/` as `@engine/*` (keep it compatible with web's stricter TypeScript settings). Build both with `bash scripts/build_frontends.sh` (one build id) before `modal deploy`. Browser checks: `evaluation/benchmarks/studio_e2e.py`; visual comparison with the delivered design: `evaluation/benchmarks/ui_visual_compare.py`. Report: `docs/integration/lovable_ui_integration_report.md`.
+- The product UI shows only measured figures (`web/src/lib/benchmarks.ts`, each with model, date and source) or data from the user's own sessions in the tab; no demo or illustrative data.
 - Future iterations (TTS/LLM input, dashboard modules, RTX 4050 optimisation, integrations, final test-split evaluation) are out of scope until the user starts them.
 
 ## Layout
@@ -34,7 +35,9 @@ docs/evaluation/           Metric definitions and reports
 modal/apps/                Modal entry points (one file per job); _bench.py = shared timing/VRAM helpers
 emostream/                 Python package: engine, models, data, metrics
 backend/                   FastAPI app (api/, services/, streaming/)
-frontend/                  React + TypeScript + Vite
+web/                       product UI (Lovable design, TanStack Start SPA build)
+frontend/                  React + TypeScript + Vite diagnostics client; src/lib = engine client
+scripts/                   build_frontends.sh
 training/                  configs and training entry points
 evaluation/                benchmark and metric runners
 tests/                     pytest

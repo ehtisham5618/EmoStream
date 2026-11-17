@@ -367,3 +367,4 @@ def test_product_ui_and_diagnostics_client_are_served(tmp_path):
     assert "diagnostics" in r.text and "no-store" in r.headers["cache-control"]
     assert c.get("/diagnostics/pcm-worklet.js").status_code == 200
     assert c.get("/diagnostics", follow_redirects=False).headers["location"] == "/diagnostics/"
+    assert c.head("/app/studio").status_code == 200                 # proxies and link checkers use HEAD

@@ -177,6 +177,7 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     dropped: [] as number[],
     latency: [] as number[],
     lastDropped: 0,
+    lastReceived: 0,
   });
 
   const mic = useMicrophone({
@@ -300,7 +301,6 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
   // and a per-second count of frames received for the timeline.
   useEffect(() => {
     if (phase !== "running" && phase !== "paused" && phase !== "finishing") return;
-    let last = 0;
     let tick = 0;
     const id = window.setInterval(() => {
       const { next, d, p, srv, voice } = sample();
@@ -325,14 +325,17 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
         });
       }
       if (tick % 4 === 0) {
+        // Counters live in the take's ref: this effect restarts on every phase change
+        // (pause, resume, finishing), and a local counter would restart from zero.
         const n = p?.received ?? 0;
-        setFrameLog((l) => [...l, n - last]);
         const sr = seriesRef.current;
-        sr.delivered.push(n - last);
+        const delivered = Math.max(0, n - sr.lastReceived);
+        setFrameLog((l) => [...l, delivered]);
+        sr.delivered.push(delivered);
         sr.dropped.push(Math.max(0, next.framesDropped - sr.lastDropped));
         sr.lastDropped = next.framesDropped;
+        sr.lastReceived = n;
         if (p && p.presented > 0) sr.fps.push(Math.round(p.presentedFps * 10) / 10);
-        last = n;
       }
     }, 250);
     return () => window.clearInterval(id);
@@ -398,7 +401,7 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     errorRef.current = null;
     finalizedRef.current = false;
     chunkerRef.current = new Chunker(MIC_CHUNK);
-    seriesRef.current = { fps: [], delivered: [], dropped: [], latency: [], lastDropped: 0 };
+    seriesRef.current = { fps: [], delivered: [], dropped: [], latency: [], lastDropped: 0, lastReceived: 0 };
     startedAt.current = Date.now();
     eventsRef.current = [{ t: 0, emotion: st.emotion, intensity: st.intensity }];
     setEvents(eventsRef.current);
@@ -456,6 +459,7 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     (window as unknown as Record<string, unknown>)["__emostream"] = {
       player,
       voice: () => voiceRef.current,
+      series: () => seriesRef.current,
     };
 
     const session = new LiveSession({
