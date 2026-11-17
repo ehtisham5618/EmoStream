@@ -263,6 +263,8 @@ def run(url: str, portrait: str | None, mic_wav: str | None, speak_s: float, hea
             if i < 0 or k * 640 - played[i][0] > 16000 * 0.3:
                 continue
             diffs.append(t_draw - (played[i][1] + (k * 640 - played[i][0]) / 16))
+        out["sync_log"] = {"shown": logs_js["shown"], "played": logs_js["played"],
+                           "pause_wall_s": [e[0] for e in log if e[1] == "out" and e[2] == "bin0x01"][:1]}
         if diffs:
             d = np.asarray(diffs)
             out["picture_minus_sound_ms"] = {"p50": round(float(np.median(d)), 1), "p95": round(float(np.percentile(d, 95)), 1),
@@ -276,7 +278,18 @@ def route_checks(url: str) -> dict:
     for path in ("/", "/app/studio", "/app/sessions", "/research", "/diagnostics/", "/build.json", "/api/info"):
         req = urllib.request.Request(url.rstrip("/") + path, headers={"Cache-Control": "no-cache"})
         with urllib.request.urlopen(req, timeout=120) as r:
+            body = r.read().decode("utf-8", "replace")
             res[path] = {"status": r.status, "cache_control": r.headers.get("cache-control"), "type": r.headers.get("content-type")}
+        if path in ("/", "/diagnostics/"):
+            # every script the page loads must exist (a wrong build base breaks the page silently)
+            import re
+
+            scripts = re.findall(r'<script[^>]+src="([^"]+)"', body)
+            res[path]["scripts"] = {}
+            for s in scripts:
+                with urllib.request.urlopen(url.rstrip("/") + s, timeout=120) as r2:
+                    res[path]["scripts"][s] = r2.status
+            assert scripts and all(s.startswith(path) for s in scripts), (path, scripts)
     return res
 
 
