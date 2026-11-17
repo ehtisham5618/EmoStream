@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { audioMessage, parseFrame, portraitMessage, TAG_AUDIO, TAG_PORTRAIT } from "@engine/protocol";
+import {
+  audioMessage,
+  parseFrame,
+  portraitMessage,
+  TAG_AUDIO,
+  TAG_PORTRAIT,
+} from "@engine/protocol";
 
 describe("shared engine protocol", () => {
   it("tags the portrait and audio messages as the backend expects", () => {

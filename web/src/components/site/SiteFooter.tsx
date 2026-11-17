@@ -14,9 +14,12 @@ export function SiteFooter() {
             <LogoMark className="size-7 text-foreground" />
             <span className="font-semibold tracking-tight">EmoStream</span>
           </div>
-          <p className="font-display mt-4 text-2xl leading-tight">One portrait. One voice. A human-like digital presence.</p>
+          <p className="font-display mt-4 text-2xl leading-tight">
+            One portrait. One voice. A human-like digital presence.
+          </p>
           <p className="mt-3 text-sm text-muted-foreground">
-            An academic research project on efficient, audio-driven, emotion-controllable portrait animation.
+            An academic research project on efficient, audio-driven, emotion-controllable portrait
+            animation.
           </p>
         </div>
         <FooterCol
@@ -49,14 +52,30 @@ export function SiteFooter() {
       <div className="border-t border-border">
         <div className="mx-auto flex max-w-[1320px] flex-wrap items-center justify-between gap-3 px-5 py-5 md:px-8">
           <p className="eyebrow text-muted-foreground">EmoStream · research build</p>
-          <p className="text-xs text-muted-foreground">Every animated output is labelled as AI-generated.</p>
+          <p className="text-xs text-muted-foreground">
+            Every animated output is labelled as AI-generated.
+          </p>
         </div>
       </div>
     </footer>
   );
 }
 
-type FooterLink = { to: "/" | "/how-it-works" | "/capabilities" | "/app/studio" | "/research" | "/app/models" | "/app/help" | "/about" | "/privacy" | "/responsible-ai"; label: string; hash?: string };
+type FooterLink = {
+  to:
+    | "/"
+    | "/how-it-works"
+    | "/capabilities"
+    | "/app/studio"
+    | "/research"
+    | "/app/models"
+    | "/app/help"
+    | "/about"
+    | "/privacy"
+    | "/responsible-ai";
+  label: string;
+  hash?: string;
+};
 
 function FooterCol({ title, links }: { title: string; links: FooterLink[] }) {
   return (
@@ -65,7 +84,11 @@ function FooterCol({ title, links }: { title: string; links: FooterLink[] }) {
       <ul className="mt-4 space-y-2.5">
         {links.map((l) => (
           <li key={l.label}>
-            <Link to={l.to} {...(l.hash ? { hash: l.hash } : {})} className="text-sm text-foreground/85 transition-colors hover:text-ember">
+            <Link
+              to={l.to}
+              {...(l.hash ? { hash: l.hash } : {})}
+              className="text-sm text-foreground/85 transition-colors hover:text-ember"
+            >
               {l.label}
             </Link>
           </li>

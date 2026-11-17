@@ -87,7 +87,8 @@ export const PORTRAIT_RULES = {
 
 export function validatePortraitFile(file: { type: string; size: number }): string | null {
   if (!PORTRAIT_RULES.types.includes(file.type)) return "Use a JPG, PNG or WebP image.";
-  if (file.size > PORTRAIT_RULES.maxBytes) return "That image is over 10 MB. Export a smaller copy and try again.";
+  if (file.size > PORTRAIT_RULES.maxBytes)
+    return "That image is over 10 MB. Export a smaller copy and try again.";
   return null;
 }
 
@@ -101,9 +102,12 @@ export function validatePortraitSize(w: number, h: number): string | null {
 export function canStartSession(st: Pick<StudioState, "portrait" | "consent" | "voiceConsent">) {
   if (!st.portrait) return { ok: false, reason: "Upload a portrait to create your avatar." };
   if (!st.consent) return { ok: false, reason: "Confirm consent for this portrait first." };
-  if (!st.voiceConsent) return { ok: false, reason: "Confirm consent for sending your voice to the engine." };
-  if (st.portrait.faceCheck === "not-found") return { ok: false, reason: "No face was found. Try a clearer, front-facing photo." };
-  if (st.portrait.faceCheck === "multiple") return { ok: false, reason: "More than one face found. Use a portrait of one person." };
+  if (!st.voiceConsent)
+    return { ok: false, reason: "Confirm consent for sending your voice to the engine." };
+  if (st.portrait.faceCheck === "not-found")
+    return { ok: false, reason: "No face was found. Try a clearer, front-facing photo." };
+  if (st.portrait.faceCheck === "multiple")
+    return { ok: false, reason: "More than one face found. Use a portrait of one person." };
   return { ok: true as const, reason: "" };
 }
 
@@ -142,7 +146,11 @@ export function loadImage(url: string) {
 
 /** Uses the browser Shape Detection API when present; otherwise the engine checks at session start. */
 export async function detectFace(url: string): Promise<FaceCheck> {
-  const FD = (globalThis as unknown as { FaceDetector?: new (o?: object) => { detect: (i: CanvasImageSource) => Promise<unknown[]> } }).FaceDetector;
+  const FD = (
+    globalThis as unknown as {
+      FaceDetector?: new (o?: object) => { detect: (i: CanvasImageSource) => Promise<unknown[]> };
+    }
+  ).FaceDetector;
   if (!FD) return "unsupported";
   try {
     const img = await loadImage(url);

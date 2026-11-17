@@ -18,8 +18,10 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         ink: "bg-foreground text-background shadow-sm hover:bg-foreground/88",
         ember: "bg-ember text-ember-foreground shadow-sm hover:bg-ember/90",
-        hairline: "border border-border bg-transparent text-foreground hover:border-foreground/40 hover:bg-accent/60",
-        stage: "border border-stage-line bg-stage-raised text-stage-foreground hover:bg-stage-foreground/10",
+        hairline:
+          "border border-border bg-transparent text-foreground hover:border-foreground/40 hover:bg-accent/60",
+        stage:
+          "border border-stage-line bg-stage-raised text-stage-foreground hover:bg-stage-foreground/10",
         live: "bg-live text-ember-foreground shadow-sm hover:bg-live/90",
       },
       size: {

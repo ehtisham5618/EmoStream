@@ -33,10 +33,26 @@ export const Route = createFileRoute("/")({
 });
 
 const STEPS = [
-  { n: "01", title: "Start with a portrait.", body: "One clear, front-facing photo. EmoStream builds an appearance representation from it once, then reuses it for every frame." },
-  { n: "02", title: "Supply your voice.", body: "Speak into your microphone. WavLM reads the audio as it arrives; nothing waits for the sentence to finish." },
-  { n: "03", title: "Shape the expression.", body: "Pick one of five emotions and set its intensity. Change it mid-sentence — the expression branch follows." },
-  { n: "04", title: "Watch the portrait come alive.", body: "Motion is fused and rendered by LivePortrait into a 512×512 stream, labelled as AI-generated." },
+  {
+    n: "01",
+    title: "Start with a portrait.",
+    body: "One clear, front-facing photo. EmoStream builds an appearance representation from it once, then reuses it for every frame.",
+  },
+  {
+    n: "02",
+    title: "Supply your voice.",
+    body: "Speak into your microphone. WavLM reads the audio as it arrives; nothing waits for the sentence to finish.",
+  },
+  {
+    n: "03",
+    title: "Shape the expression.",
+    body: "Pick one of five emotions and set its intensity. Change it mid-sentence — the expression branch follows.",
+  },
+  {
+    n: "04",
+    title: "Watch the portrait come alive.",
+    body: "Motion is fused and rendered by LivePortrait into a 512×512 stream, labelled as AI-generated.",
+  },
 ];
 
 function Landing() {
@@ -51,8 +67,8 @@ function Landing() {
               A face that moves with <em className="text-ember">every word.</em>
             </h1>
             <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              Turn a single portrait into an expressive talking avatar. EmoStream transforms voice into synchronized facial
-              motion, with emotion and intensity under your control.
+              Turn a single portrait into an expressive talking avatar. EmoStream transforms voice
+              into synchronized facial motion, with emotion and intensity under your control.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Button asChild variant="ink" size="lg">
@@ -73,7 +89,8 @@ function Landing() {
           <div className="relative">
             <HeroStage className="mx-auto w-full max-w-[600px]" />
             <p className="mt-3 text-center text-xs text-muted-foreground lg:text-left">
-              Illustration of the mechanism. Real rendered output appears in Studio when an engine is connected.
+              Illustration of the mechanism. Real rendered output appears in Studio when an engine
+              is connected.
             </p>
           </div>
         </div>
@@ -87,7 +104,8 @@ function Landing() {
               <SectionLabel index="ES—02">The mechanism</SectionLabel>
               <h2 className="display-lg mt-6">Portrait, voice, emotion. Then motion.</h2>
               <p className="mt-5 max-w-sm text-muted-foreground">
-                Your voice drives the movement. Your selected emotion shapes the expression. The portrait keeps its identity.
+                Your voice drives the movement. Your selected emotion shapes the expression. The
+                portrait keeps its identity.
               </p>
             </div>
             <ol className="grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
@@ -114,7 +132,8 @@ function Landing() {
             <h2 className="display-lg mt-6 max-w-2xl">Five emotions. One dial for how strongly.</h2>
           </div>
           <p className="max-w-sm text-muted-foreground">
-            Voice controls articulation. Your selected emotion controls expression. Both run at the same time, on separate branches of the model.
+            Voice controls articulation. Your selected emotion controls expression. Both run at the
+            same time, on separate branches of the model.
           </p>
         </div>
         <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
@@ -124,7 +143,11 @@ function Landing() {
                 <span className={cn("size-2 rounded-full", e.bgClass)} />
                 <span className="timecode text-[10px] text-muted-foreground">100%</span>
               </div>
-              <ExpressionGlyph emotion={e.id} className="mx-auto mt-4 h-28 w-full text-foreground/75" accentClass="stroke-ember" />
+              <ExpressionGlyph
+                emotion={e.id}
+                className="mx-auto mt-4 h-28 w-full text-foreground/75"
+                accentClass="stroke-ember"
+              />
               <p className="mt-4 font-medium">{e.label}</p>
               <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{e.cue}</p>
             </div>
@@ -137,18 +160,26 @@ function Landing() {
         <div className="relative z-[2] mx-auto grid max-w-[1320px] gap-12 px-5 py-20 md:px-8 lg:grid-cols-[1fr_1.4fr] lg:py-24">
           <div>
             <p className="eyebrow text-stage-muted">ES—04 · Articulation, frame by frame</p>
-            <h2 className="display-lg mt-6 text-stage-foreground">Lips and jaw follow the sound, not a script.</h2>
+            <h2 className="display-lg mt-6 text-stage-foreground">
+              Lips and jaw follow the sound, not a script.
+            </h2>
             <p className="mt-5 max-w-md text-stage-muted">
-              Each 40 ms of audio becomes one frame of mouth and jaw motion. Because the model is causal, it never needs to hear what comes next.
+              Each 40 ms of audio becomes one frame of mouth and jaw motion. Because the model is
+              causal, it never needs to hear what comes next.
             </p>
-            <Link to="/capabilities" className="mt-8 inline-flex items-center gap-1.5 text-sm text-stage-foreground underline-offset-4 hover:underline">
+            <Link
+              to="/capabilities"
+              className="mt-8 inline-flex items-center gap-1.5 text-sm text-stage-foreground underline-offset-4 hover:underline"
+            >
               See every capability <ArrowUpRight className="size-4" />
             </Link>
           </div>
           <div className="space-y-4">
             <WaveformMotif bars={120} seed={4} className="h-14 w-full text-stage-foreground/60" />
             <FrameStrip frames={6} start={96} />
-            <p className="eyebrow text-[10px] text-stage-muted">Diagram · landmark states sampled every third frame</p>
+            <p className="eyebrow text-[10px] text-stage-muted">
+              Diagram · landmark states sampled every third frame
+            </p>
           </div>
         </div>
       </section>
@@ -160,7 +191,9 @@ function Landing() {
             <SectionLabel index="ES—05">Measured, with conditions</SectionLabel>
             <h2 className="display-lg mt-6">What we have actually measured.</h2>
             <p className="mt-5 max-w-sm text-muted-foreground">
-              Engine figures come from a validation run on an NVIDIA L40S with TensorRT (15 Nov 2026, earlier model). Quality figures are for the live model, measured on MEAD validation clips (17 Nov 2026). Nothing here is a projection.
+              Engine figures come from a validation run on an NVIDIA L40S with TensorRT (15 Nov
+              2026, earlier model). Quality figures are for the live model, measured on MEAD
+              validation clips (17 Nov 2026). Nothing here is a projection.
             </p>
             <Button asChild variant="hairline" className="mt-8">
               <Link to="/research">
@@ -171,13 +204,38 @@ function Landing() {
           <div>
             <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-3">
               <Stat v="≈25" unit="FPS" k="Frame rate" c={`L40S · TensorRT · ${VALIDATION.date}`} />
-              <Stat v={String(VALIDATION.serverP50Ms)} unit="ms" k="Server p50" c={`Server-side · ${VALIDATION.date}`} />
-              <Stat v={String(VALIDATION.serverP95Ms)} unit="ms" k="Server p95" c={`Server-side · ${VALIDATION.date}`} />
-              <Stat v={String(VALIDATION.peakVramGiB)} unit="GiB" k="Peak GPU memory" c={`L40S · ${VALIDATION.date}`} />
-              <Stat v={CURRENT.arcface.toFixed(3)} k="Identity similarity" c={`ArcFace · live model ${CURRENT.model}`} />
-              <Stat v={CURRENT.emotionMacroF1.toFixed(3)} k="Emotion macro-F1" c={`5 classes · ${CURRENT.model}`} />
+              <Stat
+                v={String(VALIDATION.serverP50Ms)}
+                unit="ms"
+                k="Server p50"
+                c={`Server-side · ${VALIDATION.date}`}
+              />
+              <Stat
+                v={String(VALIDATION.serverP95Ms)}
+                unit="ms"
+                k="Server p95"
+                c={`Server-side · ${VALIDATION.date}`}
+              />
+              <Stat
+                v={String(VALIDATION.peakVramGiB)}
+                unit="GiB"
+                k="Peak GPU memory"
+                c={`L40S · ${VALIDATION.date}`}
+              />
+              <Stat
+                v={CURRENT.arcface.toFixed(3)}
+                k="Identity similarity"
+                c={`ArcFace · live model ${CURRENT.model}`}
+              />
+              <Stat
+                v={CURRENT.emotionMacroF1.toFixed(3)}
+                k="Emotion macro-F1"
+                c={`5 classes · ${CURRENT.model}`}
+              />
             </dl>
-            <p className="mt-4 border-l-2 border-ember pl-4 text-sm leading-relaxed text-muted-foreground">{DISCLAIMER}</p>
+            <p className="mt-4 border-l-2 border-ember pl-4 text-sm leading-relaxed text-muted-foreground">
+              {DISCLAIMER}
+            </p>
           </div>
         </div>
       </section>
@@ -188,17 +246,19 @@ function Landing() {
           <MotionLine className="text-foreground/25" />
           <div className="mt-12 grid gap-10 lg:grid-cols-[1.2fr_1fr]">
             <blockquote className="font-display text-[clamp(1.75rem,3vw,2.6rem)] leading-[1.12]">
-              EmoStream is an academic research project. It asks a narrow question: how cheaply can a single portrait be
-              animated from live speech, while keeping the person recognisable and the emotion under the user's control?
+              EmoStream is an academic research project. It asks a narrow question: how cheaply can
+              a single portrait be animated from live speech, while keeping the person recognisable
+              and the emotion under the user's control?
             </blockquote>
             <div className="space-y-5 text-muted-foreground">
               <p>
-                There are no customers, partners or testimonials to show you, and we won't invent any. What we can show is the
-                architecture, the measurements, and the limits we know about.
+                There are no customers, partners or testimonials to show you, and we won't invent
+                any. What we can show is the architecture, the measurements, and the limits we know
+                about.
               </p>
               <p>
-                Every frame EmoStream produces carries a visible AI-generated watermark. Portraits are only animated after the
-                uploader confirms they have consent.
+                Every frame EmoStream produces carries a visible AI-generated watermark. Portraits
+                are only animated after the uploader confirms they have consent.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
                 <Button asChild variant="ink">
@@ -251,11 +311,21 @@ function StepGraphic({ i }: { i: number }) {
   if (i === 1)
     return <WaveformMotif bars={16} seed={3} className={common} barClass="fill-current" />;
   if (i === 2)
-    return <ExpressionGlyph emotion="happy" intensity={80} className="h-10 w-14 text-foreground/60" />;
+    return (
+      <ExpressionGlyph emotion="happy" intensity={80} className="h-10 w-14 text-foreground/60" />
+    );
   return (
     <svg viewBox="0 0 64 40" className={common} fill="none" aria-hidden>
       {[0, 1, 2].map((k) => (
-        <rect key={k} x={4 + k * 20} y="6" width="16" height="28" rx="2" className={k === 2 ? "stroke-ember" : "stroke-current"} />
+        <rect
+          key={k}
+          x={4 + k * 20}
+          y="6"
+          width="16"
+          height="28"
+          rx="2"
+          className={k === 2 ? "stroke-ember" : "stroke-current"}
+        />
       ))}
     </svg>
   );

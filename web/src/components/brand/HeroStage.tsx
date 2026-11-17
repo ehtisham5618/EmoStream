@@ -54,7 +54,9 @@ export function HeroStage({ className }: { className?: string }) {
             lineClass="stroke-stage-foreground/80"
             dotClass="fill-stage-foreground/70"
           />
-          <span className="eyebrow absolute bottom-3 left-4 text-stage-muted">Landmark illustration</span>
+          <span className="eyebrow absolute bottom-3 left-4 text-stage-muted">
+            Landmark illustration
+          </span>
         </div>
         {/* parameter rail */}
         <div className="hidden w-36 flex-col justify-between border-l border-stage-line p-3 sm:flex">
@@ -63,8 +65,17 @@ export function HeroStage({ className }: { className?: string }) {
           <Readout label="Brow" value={params.browRaise * 0.5 + 0.5} />
           <div>
             <p className="eyebrow text-[9px] text-stage-muted">Emotion</p>
-            <p className={cn("mt-1 text-sm font-medium transition-colors duration-500", emo.colorClass)}>{emo.label}</p>
-            <p className="timecode text-[10px] text-stage-muted">{emotion === "happy" ? "70%" : "—"}</p>
+            <p
+              className={cn(
+                "mt-1 text-sm font-medium transition-colors duration-500",
+                emo.colorClass,
+              )}
+            >
+              {emo.label}
+            </p>
+            <p className="timecode text-[10px] text-stage-muted">
+              {emotion === "happy" ? "70%" : "—"}
+            </p>
           </div>
         </div>
       </div>
@@ -76,7 +87,12 @@ export function HeroStage({ className }: { className?: string }) {
           <span className="eyebrow text-[9px] text-stage-muted">Expression</span>
         </div>
         <div className="relative">
-          <svg viewBox={`0 0 ${BARS.length * 4} 32`} preserveAspectRatio="none" className="h-8 w-full" aria-hidden>
+          <svg
+            viewBox={`0 0 ${BARS.length * 4} 32`}
+            preserveAspectRatio="none"
+            className="h-8 w-full"
+            aria-hidden
+          >
             {BARS.map((v, i) => {
               const h = Math.round(Math.max(1.5, v * 30) * 100) / 100;
               const played = i / BARS.length <= progress;
@@ -97,7 +113,10 @@ export function HeroStage({ className }: { className?: string }) {
             <div className="w-1/2 bg-emo-neutral/60" />
             <div className="w-1/2 bg-emo-happy/80" />
           </div>
-          <div className="pointer-events-none absolute -top-1 bottom-0 w-px bg-ember" style={{ left: `${progress * 100}%` }} />
+          <div
+            className="pointer-events-none absolute -top-1 bottom-0 w-px bg-ember"
+            style={{ left: `${progress * 100}%` }}
+          />
         </div>
       </div>
     </figure>
@@ -113,7 +132,10 @@ function Readout({ label, value }: { label: string; value: number }) {
         <p className="timecode text-[10px] text-stage-foreground/80">{v.toFixed(2)}</p>
       </div>
       <div className="mt-1 h-[3px] rounded-full bg-stage-line">
-        <div className="h-full rounded-full bg-stage-foreground/70" style={{ width: `${v * 100}%` }} />
+        <div
+          className="h-full rounded-full bg-stage-foreground/70"
+          style={{ width: `${v * 100}%` }}
+        />
       </div>
     </div>
   );

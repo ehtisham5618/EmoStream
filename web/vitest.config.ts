@@ -12,6 +12,9 @@ export default defineConfig({
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
   },
   resolve: {
-    alias: { "@": path.resolve(__dirname, "./src"), "@engine": path.resolve(__dirname, "../frontend/src/lib") },
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+      "@engine": path.resolve(__dirname, "../frontend/src/lib"),
+    },
   },
 });

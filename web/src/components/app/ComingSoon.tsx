@@ -1,5 +1,12 @@
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { SoonBadge } from "./Status";
 
@@ -33,7 +40,9 @@ export function ComingSoonProvider({ children }: { children: ReactNode }) {
             <ol className="flex flex-wrap items-center gap-1.5">
               {info.flow.map((f, i) => (
                 <li key={f} className="flex items-center gap-1.5">
-                  <span className="timecode rounded border border-border bg-muted/60 px-2 py-1 text-[10.5px] uppercase">{f}</span>
+                  <span className="timecode rounded border border-border bg-muted/60 px-2 py-1 text-[10.5px] uppercase">
+                    {f}
+                  </span>
                   {i < info.flow!.length - 1 && <span className="text-muted-foreground">→</span>}
                 </li>
               ))}

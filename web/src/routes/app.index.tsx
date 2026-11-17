@@ -15,9 +15,16 @@ export const Route = createFileRoute("/app/")({
   head: () => ({
     meta: [
       { title: "Overview — EmoStream" },
-      { name: "description", content: "Your EmoStream workspace: engine status, current configuration, benchmarks and what's in development." },
+      {
+        name: "description",
+        content:
+          "Your EmoStream workspace: engine status, current configuration, benchmarks and what's in development.",
+      },
       { property: "og:title", content: "Overview — EmoStream" },
-      { property: "og:description", content: "Engine status, configuration and development status for EmoStream." },
+      {
+        property: "og:description",
+        content: "Engine status, configuration and development status for EmoStream.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -25,13 +32,29 @@ export const Route = createFileRoute("/app/")({
   component: Overview,
 });
 
-const FEATURES: { name: string; status: "available" | "engine" | "planned" | "soon"; note: string }[] = [
-  { name: "Live microphone input", status: "available", note: "Captured in the browser, streamed as 16 kHz PCM" },
-  { name: "Emotion + intensity control", status: "available", note: "Five emotions, 0–100%, adjustable mid-session" },
+const FEATURES: {
+  name: string;
+  status: "available" | "engine" | "planned" | "soon";
+  note: string;
+}[] = [
+  {
+    name: "Live microphone input",
+    status: "available",
+    note: "Captured in the browser, streamed as 16 kHz PCM",
+  },
+  {
+    name: "Emotion + intensity control",
+    status: "available",
+    note: "Five emotions, 0–100%, adjustable mid-session",
+  },
   { name: "Rendered avatar stream", status: "engine", note: "Needs a running EmoStream engine" },
   { name: "Export of a take", status: "engine", note: "Through the engine's /api/export" },
   { name: "Audio file input", status: "planned", note: "Not confirmed on the current engine" },
-  { name: "Saved avatars & session history", status: "planned", note: "Engine does not persist anything yet" },
+  {
+    name: "Saved avatars & session history",
+    status: "planned",
+    note: "Engine does not persist anything yet",
+  },
   { name: "Text to speech", status: "soon", note: "Text → TTS → audio → animation" },
   { name: "AI conversation", status: "soon", note: "Speech → LLM → TTS → avatar speaks" },
   { name: "Meeting integrations", status: "soon", note: "Meet, Zoom, Teams via virtual camera" },
@@ -73,7 +96,9 @@ function Overview() {
             </div>
             <div className="self-end">
               <FrameStrip frames={4} start={140} emotion="happy" intensity={50} />
-              <p className="eyebrow mt-2 text-[9px] text-stage-muted">Diagram · articulation frames</p>
+              <p className="eyebrow mt-2 text-[9px] text-stage-muted">
+                Diagram · articulation frames
+              </p>
             </div>
           </div>
         </section>
@@ -82,9 +107,21 @@ function Overview() {
         <section className="panel flex flex-col p-6">
           <SectionTitle
             label="Engine"
-            title={status === "online" ? "Connected" : status === "offline" ? "Unreachable" : status === "checking" ? "Checking…" : "Not connected"}
+            title={
+              status === "online"
+                ? "Connected"
+                : status === "offline"
+                  ? "Unreachable"
+                  : status === "checking"
+                    ? "Checking…"
+                    : "Not connected"
+            }
             aside={
-              <StatusPill tone={status === "online" ? "success" : status === "offline" ? "live" : "muted"} dot pulse={status === "checking"}>
+              <StatusPill
+                tone={status === "online" ? "success" : status === "offline" ? "live" : "muted"}
+                dot
+                pulse={status === "checking"}
+              >
                 {status === "unset" ? "No address" : status}
               </StatusPill>
             }
@@ -94,7 +131,7 @@ function Overview() {
               ? "No engine address is available."
               : status === "online"
                 ? `/api/info answered in ${info?.latencyMs ?? "—"} ms.`
-                : info?.error ?? "Waiting for /api/info."}
+                : (info?.error ?? "Waiting for /api/info.")}
           </p>
           <dl className="mt-5 divide-y divide-border border-y border-border text-sm">
             <Row k="Default emotion" v={`${emo.label} · ${settings.defaultIntensity}%`} />
@@ -121,15 +158,24 @@ function Overview() {
           <section className="panel p-6">
             <SectionTitle label="Notices" title="Before you start" />
             <ul className="space-y-3 text-sm">
-              <Notice>Sessions and avatars live only in this browser tab. Closing it clears them.</Notice>
-              <Notice>Every preview frame carries a visible “AI-generated” watermark. It can't be turned off.</Notice>
-              <Notice>RTX 4050 performance hasn't been verified. Headline figures come from an L40S.</Notice>
+              <Notice>
+                Sessions and avatars live only in this browser tab. Closing it clears them.
+              </Notice>
+              <Notice>
+                Every preview frame carries a visible “AI-generated” watermark. It can't be turned
+                off.
+              </Notice>
+              <Notice>
+                RTX 4050 performance hasn't been verified. Headline figures come from an L40S.
+              </Notice>
             </ul>
           </section>
           <section className="panel p-6">
             <SectionTitle label="Recent activity" title="This visit" />
             {sessions.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No takes yet. Activity from this visit shows here — nothing is stored on a server.</p>
+              <p className="text-sm text-muted-foreground">
+                No takes yet. Activity from this visit shows here — nothing is stored on a server.
+              </p>
             ) : (
               <ul className="divide-y divide-border">
                 {sessions.slice(0, 4).map((s) => (
@@ -152,7 +198,10 @@ function Overview() {
               label="Benchmark snapshot"
               title={`Live model ${CURRENT.model} · engine run ${VALIDATION.date}`}
               aside={
-                <Link to="/app/models" className="text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline">
+                <Link
+                  to="/app/models"
+                  className="text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
+                >
                   Conditions & hardware
                 </Link>
               }
@@ -173,7 +222,10 @@ function Overview() {
               ))}
             </dl>
             <p className="mt-3 flex gap-2 text-xs leading-relaxed text-muted-foreground">
-              <Info className="mt-0.5 size-3.5 shrink-0" /> {DISCLAIMER} FPS, latency and memory: engine run on an L40S, {VALIDATION.date} (earlier model {VALIDATION.model}); latency is server-side only. ArcFace and SyncNet confidence (LSE-C): live model {CURRENT.model}, 80 MEAD validation clips, {CURRENT.date}.
+              <Info className="mt-0.5 size-3.5 shrink-0" /> {DISCLAIMER} FPS, latency and memory:
+              engine run on an L40S, {VALIDATION.date} (earlier model {VALIDATION.model}); latency
+              is server-side only. ArcFace and SyncNet confidence (LSE-C): live model{" "}
+              {CURRENT.model}, 80 MEAD validation clips, {CURRENT.date}.
             </p>
           </section>
 
@@ -182,11 +234,28 @@ function Overview() {
             <SectionTitle label="Development status" title="What works today, and what's next" />
             <ul className="divide-y divide-border">
               {FEATURES.map((f) => (
-                <li key={f.name} className="grid grid-cols-[1fr_auto] items-center gap-3 py-2.5 sm:grid-cols-[1.1fr_1.4fr_auto]">
+                <li
+                  key={f.name}
+                  className="grid grid-cols-[1fr_auto] items-center gap-3 py-2.5 sm:grid-cols-[1.1fr_1.4fr_auto]"
+                >
                   <span className="text-sm font-medium">{f.name}</span>
                   <span className="hidden text-xs text-muted-foreground sm:block">{f.note}</span>
-                  <StatusPill tone={f.status === "available" ? "success" : f.status === "engine" ? "warning" : "soon"}>
-                    {f.status === "available" ? "Available" : f.status === "engine" ? "Needs engine" : f.status === "planned" ? "Planned" : "Coming soon"}
+                  <StatusPill
+                    tone={
+                      f.status === "available"
+                        ? "success"
+                        : f.status === "engine"
+                          ? "warning"
+                          : "soon"
+                    }
+                  >
+                    {f.status === "available"
+                      ? "Available"
+                      : f.status === "engine"
+                        ? "Needs engine"
+                        : f.status === "planned"
+                          ? "Planned"
+                          : "Coming soon"}
                   </StatusPill>
                 </li>
               ))}

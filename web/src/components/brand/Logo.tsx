@@ -16,13 +16,22 @@ export function LogoMark({ className, accent = true }: { className?: string; acc
   );
 }
 
-export function Wordmark({ className, compact = false }: { className?: string; compact?: boolean }) {
+export function Wordmark({
+  className,
+  compact = false,
+}: {
+  className?: string;
+  compact?: boolean;
+}) {
   return (
     <span className={cn("inline-flex items-center gap-2 text-foreground", className)}>
       <LogoMark className="size-7" />
       {!compact && (
         <span className="text-[1.15rem] font-semibold tracking-[-0.03em]">
-          Emo<span className="font-display text-[1.35rem] font-normal italic tracking-[-0.01em]">Stream</span>
+          Emo
+          <span className="font-display text-[1.35rem] font-normal italic tracking-[-0.01em]">
+            Stream
+          </span>
         </span>
       )}
     </span>

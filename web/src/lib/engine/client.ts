@@ -17,7 +17,9 @@ export function normaliseBase(url: string) {
 
 /** Base URL of the engine: settings override, then build-time VITE_ENGINE_URL, then this origin. */
 export function engineBase(settingsUrl = ""): string {
-  const configured = normaliseBase(settingsUrl) || normaliseBase((import.meta.env["VITE_ENGINE_URL"] as string | undefined) ?? "");
+  const configured =
+    normaliseBase(settingsUrl) ||
+    normaliseBase((import.meta.env["VITE_ENGINE_URL"] as string | undefined) ?? "");
   if (configured) return configured;
   return typeof window === "undefined" ? "" : window.location.origin;
 }

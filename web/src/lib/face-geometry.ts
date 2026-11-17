@@ -19,13 +19,14 @@ export function faceLandmarks(p: FaceParams) {
     const th = Math.PI - (Math.PI * i) / 16;
     const s = Math.sin(th);
     const c = Math.cos(th);
-    const narrow = 1 - 0.3 * Math.max(0, s - 0.3) / 0.7;
+    const narrow = 1 - (0.3 * Math.max(0, s - 0.3)) / 0.7;
     jaw.push([CX + 118 * c * narrow, 214 + 194 * s + jawDrop * s * s]);
   }
 
   const brow = (t: number): Pt => {
     const x = 172 + 64 * t;
-    const y = 182 - p.browRaise * 18 - Math.sin(Math.PI * (0.15 + t * 0.85)) * 9 - p.browTilt * 16 * t * t;
+    const y =
+      182 - p.browRaise * 18 - Math.sin(Math.PI * (0.15 + t * 0.85)) * 9 - p.browTilt * 16 * t * t;
     return [x, y];
   };
   const browL: Pt[] = [0, 0.25, 0.5, 0.75, 1].map(brow);
@@ -35,8 +36,14 @@ export function faceLandmarks(p: FaceParams) {
     const w = 46;
     const h = 10 * (1 + p.eyeOpen * 0.9);
     const ey = 218;
-    const upper: Pt[] = [0, 0.2, 0.5, 0.8, 1].map((t) => [ex - w / 2 + w * t, ey - h * Math.sin(Math.PI * t)]);
-    const lower: Pt[] = [0, 0.3, 0.7, 1].map((t) => [ex - w / 2 + w * t, ey + h * 0.7 * Math.sin(Math.PI * t)]);
+    const upper: Pt[] = [0, 0.2, 0.5, 0.8, 1].map((t) => [
+      ex - w / 2 + w * t,
+      ey - h * Math.sin(Math.PI * t),
+    ]);
+    const lower: Pt[] = [0, 0.3, 0.7, 1].map((t) => [
+      ex - w / 2 + w * t,
+      ey + h * 0.7 * Math.sin(Math.PI * t),
+    ]);
     return { upper, lower, pupil: [ex, ey - h * 0.1] };
   };
   const eyeL = eye(206);
@@ -78,7 +85,11 @@ export function faceLandmarks(p: FaceParams) {
   });
 
   const R = (pts: Pt[]): Pt[] => pts.map(([x, y]) => [round(x), round(y)]);
-  const E = (e: { upper: Pt[]; lower: Pt[]; pupil: Pt }) => ({ upper: R(e.upper), lower: R(e.lower), pupil: [round(e.pupil[0]), round(e.pupil[1])] as Pt });
+  const E = (e: { upper: Pt[]; lower: Pt[]; pupil: Pt }) => ({
+    upper: R(e.upper),
+    lower: R(e.lower),
+    pupil: [round(e.pupil[0]), round(e.pupil[1])] as Pt,
+  });
   return {
     jaw: R(jaw),
     browL: R(browL),
@@ -95,7 +106,8 @@ export function faceLandmarks(p: FaceParams) {
 }
 
 export const toPath = (pts: Pt[], close = false) =>
-  pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ") + (close ? " Z" : "");
+  pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ") +
+  (close ? " Z" : "");
 
 /** Smooth path through points (Catmull-Rom → Bézier). */
 export function smoothPath(pts: Pt[]) {
@@ -116,14 +128,17 @@ export function smoothPath(pts: Pt[]) {
 
 /** Deterministic pseudo-random speech envelope used by illustrations only. */
 export function speechEnvelope(t: number) {
-  const syll = Math.max(0, Math.sin(t * 9.1) * 0.6 + Math.sin(t * 5.3 + 1.2) * 0.35 + Math.sin(t * 13.7) * 0.2);
+  const syll = Math.max(
+    0,
+    Math.sin(t * 9.1) * 0.6 + Math.sin(t * 5.3 + 1.2) * 0.35 + Math.sin(t * 13.7) * 0.2,
+  );
   const phrase = 0.5 + 0.5 * Math.sin(t * 0.9);
   return Math.min(1, syll * (0.35 + phrase * 0.75));
 }
 
 export function seededBars(n: number, seed = 7) {
   let s = seed;
-  const rnd = () => ((s = (s * 16807) % 2147483647) / 2147483647);
+  const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
   return Array.from({ length: n }, (_, i) => {
     const env = speechEnvelope(i * 0.11 + seed);
     return round(Math.max(0.06, Math.min(1, env * 0.85 + rnd() * 0.25)));

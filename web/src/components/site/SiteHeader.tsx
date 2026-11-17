@@ -50,11 +50,21 @@ export function SiteHeader() {
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
       </div>
-      <div className={cn("grid overflow-hidden transition-[grid-template-rows] duration-300 ease-soft lg:hidden", open ? "grid-rows-[1fr]" : "grid-rows-[0fr]")}>
+      <div
+        className={cn(
+          "grid overflow-hidden transition-[grid-template-rows] duration-300 ease-soft lg:hidden",
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+        )}
+      >
         <nav className="min-h-0 px-5 pb-0" aria-label="Mobile">
           <div className="flex flex-col gap-1 border-t border-border py-4">
             {NAV.map((n) => (
-              <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="rounded-md px-2 py-2.5 text-[15px] hover:bg-accent">
+              <Link
+                key={n.to}
+                to={n.to}
+                onClick={() => setOpen(false)}
+                className="rounded-md px-2 py-2.5 text-[15px] hover:bg-accent"
+              >
                 {n.label}
               </Link>
             ))}

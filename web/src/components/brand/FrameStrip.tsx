@@ -18,11 +18,17 @@ export function FrameStrip({
   className?: string;
 }) {
   return (
-    <div className={cn("grid gap-1.5", className)} style={{ gridTemplateColumns: `repeat(${frames}, minmax(0, 1fr))` }}>
+    <div
+      className={cn("grid gap-1.5", className)}
+      style={{ gridTemplateColumns: `repeat(${frames}, minmax(0, 1fr))` }}
+    >
       {Array.from({ length: frames }, (_, i) => {
         const open = Math.min(1, 0.1 + speechEnvelope((start + i * 3) * 0.07) * 1.1);
         return (
-          <figure key={i} className="overflow-hidden rounded-[3px] border border-stage-line bg-stage-raised">
+          <figure
+            key={i}
+            className="overflow-hidden rounded-[3px] border border-stage-line bg-stage-raised"
+          >
             <FaceMesh
               params={faceFor(emotion, intensity, { mouthOpen: open })}
               variant="features"

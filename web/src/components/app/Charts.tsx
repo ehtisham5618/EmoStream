@@ -30,18 +30,41 @@ export function ChartCard({
           <p className="eyebrow text-[10px] text-muted-foreground">{label}</p>
           <h3 className="mt-1 font-semibold">{title}</h3>
         </div>
-        <span className={cn("shrink-0 rounded-full border px-2 py-[2px] font-mono text-[9.5px] uppercase tracking-wider", p.c)}>{p.t}</span>
+        <span
+          className={cn(
+            "shrink-0 rounded-full border px-2 py-[2px] font-mono text-[9.5px] uppercase tracking-wider",
+            p.c,
+          )}
+        >
+          {p.t}
+        </span>
       </div>
       <div className="mt-4 flex-1">{children}</div>
-      {foot && <figcaption className="mt-3 text-[11.5px] leading-relaxed text-muted-foreground">{foot}</figcaption>}
+      {foot && (
+        <figcaption className="mt-3 text-[11.5px] leading-relaxed text-muted-foreground">
+          {foot}
+        </figcaption>
+      )}
     </figure>
   );
 }
 
-export const axis = { stroke: "var(--muted-foreground)", fontSize: 10, fontFamily: "var(--font-mono)", tickLine: false, axisLine: false } as const;
+export const axis = {
+  stroke: "var(--muted-foreground)",
+  fontSize: 10,
+  fontFamily: "var(--font-mono)",
+  tickLine: false,
+  axisLine: false,
+} as const;
 export const grid = { stroke: "var(--border)", strokeDasharray: "2 4", vertical: false } as const;
 export const tooltipStyle = {
-  contentStyle: { background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 6, fontSize: 12, color: "var(--popover-foreground)" },
+  contentStyle: {
+    background: "var(--popover)",
+    border: "1px solid var(--border)",
+    borderRadius: 6,
+    fontSize: 12,
+    color: "var(--popover-foreground)",
+  },
   labelStyle: { color: "var(--muted-foreground)", fontFamily: "var(--font-mono)", fontSize: 10 },
   cursor: { fill: "var(--accent)", opacity: 0.4 },
 } as const;

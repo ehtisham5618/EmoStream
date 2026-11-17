@@ -25,7 +25,12 @@ export function SessionPanel({ s }: { s: StudioSession }) {
     { ok: s.mic.permission === "granted", label: "Microphone allowed", soft: true },
     {
       ok: engine.status === "online",
-      label: engine.status === "online" ? "Engine online" : engine.status === "checking" ? "Checking engine…" : "Engine not reachable",
+      label:
+        engine.status === "online"
+          ? "Engine online"
+          : engine.status === "checking"
+            ? "Checking engine…"
+            : "Engine not reachable",
       soft: true,
     },
   ];
@@ -38,10 +43,18 @@ export function SessionPanel({ s }: { s: StudioSession }) {
             <span
               className={cn(
                 "inline-flex size-4 items-center justify-center rounded-full",
-                c.ok ? "bg-success/15 text-success" : c.soft ? "bg-muted text-muted-foreground" : "bg-warning/20 text-foreground",
+                c.ok
+                  ? "bg-success/15 text-success"
+                  : c.soft
+                    ? "bg-muted text-muted-foreground"
+                    : "bg-warning/20 text-foreground",
               )}
             >
-              {c.ok ? <Check className="size-2.5" strokeWidth={3} /> : <X className="size-2.5" strokeWidth={3} />}
+              {c.ok ? (
+                <Check className="size-2.5" strokeWidth={3} />
+              ) : (
+                <X className="size-2.5" strokeWidth={3} />
+              )}
             </span>
             <span className={c.ok ? "" : "text-muted-foreground"}>{c.label}</span>
           </li>
@@ -52,13 +65,21 @@ export function SessionPanel({ s }: { s: StudioSession }) {
         <Tooltip>
           <TooltipTrigger asChild>
             <span tabIndex={canExport ? -1 : 0}>
-              <Button variant="hairline" size="sm" className="w-full" disabled={!canExport || s.exporting} onClick={s.doExport}>
+              <Button
+                variant="hairline"
+                size="sm"
+                className="w-full"
+                disabled={!canExport || s.exporting}
+                onClick={s.doExport}
+              >
                 {s.exporting ? <Loader2 className="animate-spin" /> : <Download />} Export
               </Button>
             </span>
           </TooltipTrigger>
           {!canExport && (
-            <TooltipContent>Downloads this take as recorded in your browser, once a rendered session is complete</TooltipContent>
+            <TooltipContent>
+              Downloads this take as recorded in your browser, once a rendered session is complete
+            </TooltipContent>
           )}
         </Tooltip>
         <Button variant="ghost" size="sm" onClick={s.reset} disabled={s.phase === "idle"}>

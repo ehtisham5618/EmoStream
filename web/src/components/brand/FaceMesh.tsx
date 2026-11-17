@@ -37,12 +37,20 @@ export function FaceMesh({
   const viewBox = variant === "features" ? "150 140 212 240" : "0 0 512 512";
 
   return (
-    <svg viewBox={viewBox} className={cn("overflow-visible", className)} aria-hidden="true" fill="none">
+    <svg
+      viewBox={viewBox}
+      className={cn("overflow-visible", className)}
+      aria-hidden="true"
+      fill="none"
+    >
       {variant === "full" && (
         <g className={lineClass} strokeWidth="1" opacity="0.35">
           {/* cranium + hairline */}
           <path d="M138 222 C 128 120, 196 62, 256 62 C 316 62, 384 120, 374 222" />
-          <path d="M160 168 C 190 118, 236 104, 300 116 C 334 124, 356 146, 362 172" strokeDasharray="2 5" />
+          <path
+            d="M160 168 C 190 118, 236 104, 300 116 C 334 124, 356 146, 362 172"
+            strokeDasharray="2 5"
+          />
           {/* neck + shoulders */}
           <path d="M210 398 C 212 430, 206 452, 176 466 C 132 480, 92 492, 60 512" />
           <path d="M302 398 C 300 430, 306 452, 336 466 C 380 480, 420 492, 452 512" />
@@ -51,7 +59,12 @@ export function FaceMesh({
           <path d="M372 214 C 388 212, 392 236, 386 256 C 382 272, 372 280, 366 282" />
         </g>
       )}
-      <g className={lineClass} strokeWidth={variant === "features" ? 3.4 : 1.25} strokeLinecap="round" strokeLinejoin="round">
+      <g
+        className={lineClass}
+        strokeWidth={variant === "features" ? 3.4 : 1.25}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         {variant === "full" && <path d={smoothPath(f.jaw)} opacity="0.8" />}
         <path d={smoothPath(f.browL)} />
         <path d={smoothPath(f.browR)} />
@@ -66,7 +79,12 @@ export function FaceMesh({
           </>
         )}
       </g>
-      <g className={accentClass} strokeWidth={variant === "features" ? 3.6 : 1.6} strokeLinecap="round" strokeLinejoin="round">
+      <g
+        className={accentClass}
+        strokeWidth={variant === "features" ? 3.6 : 1.6}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d={smoothPath(f.outerUpper)} />
         <path d={smoothPath(f.outerLower)} />
         <path d={smoothPath(f.innerUpper)} opacity="0.7" />
@@ -80,7 +98,10 @@ export function FaceMesh({
       )}
       {dots && (
         <g className={dotClass}>
-          {(variant === "full" ? [...f.jaw, ...f.noseBridge, ...f.noseBase, ...allFeature] : allFeature).map(([x, y], i) => (
+          {(variant === "full"
+            ? [...f.jaw, ...f.noseBridge, ...f.noseBase, ...allFeature]
+            : allFeature
+          ).map(([x, y], i) => (
             <circle key={i} cx={x} cy={y} r={variant === "features" ? 2.6 : 1.9} />
           ))}
         </g>

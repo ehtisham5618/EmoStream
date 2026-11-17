@@ -5,7 +5,14 @@ import { Page, PageHeader } from "@/components/app/PageHeader";
 import { StatusPill } from "@/components/app/Status";
 import { CropGuides } from "@/components/brand/HeroStage";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -62,19 +69,39 @@ function Avatars() {
           <div className="stage relative mx-auto aspect-[4/5] w-48 overflow-hidden rounded-lg">
             <CropGuides />
             <svg viewBox="0 0 100 125" className="absolute inset-0 h-full w-full" aria-hidden>
-              <ellipse cx="50" cy="52" rx="19" ry="24" fill="none" className="stroke-stage-foreground/40" strokeDasharray="2 3" />
-              <path d="M18 125c4-22 16-32 32-32s28 10 32 32" fill="none" className="stroke-stage-foreground/30" strokeDasharray="2 3" />
+              <ellipse
+                cx="50"
+                cy="52"
+                rx="19"
+                ry="24"
+                fill="none"
+                className="stroke-stage-foreground/40"
+                strokeDasharray="2 3"
+              />
+              <path
+                d="M18 125c4-22 16-32 32-32s28 10 32 32"
+                fill="none"
+                className="stroke-stage-foreground/30"
+                strokeDasharray="2 3"
+              />
             </svg>
           </div>
           <div>
             <h2 className="display-md">No avatars yet.</h2>
             <p className="mt-3 max-w-md text-muted-foreground">
-              Create your first one in Studio: upload a front-facing portrait, check the crop, and confirm you have consent to animate it.
+              Create your first one in Studio: upload a front-facing portrait, check the crop, and
+              confirm you have consent to animate it.
             </p>
             <ol className="mt-5 space-y-1.5 text-sm text-muted-foreground">
-              <li><span className="timecode mr-2 text-ember">01</span>Upload a portrait</li>
-              <li><span className="timecode mr-2 text-ember">02</span>Crop and position the face</li>
-              <li><span className="timecode mr-2 text-ember">03</span>Confirm consent</li>
+              <li>
+                <span className="timecode mr-2 text-ember">01</span>Upload a portrait
+              </li>
+              <li>
+                <span className="timecode mr-2 text-ember">02</span>Crop and position the face
+              </li>
+              <li>
+                <span className="timecode mr-2 text-ember">03</span>Confirm consent
+              </li>
             </ol>
             <Button asChild variant="ink" className="mt-6">
               <Link to="/app/studio">Create your first avatar</Link>
@@ -85,15 +112,27 @@ function Avatars() {
         <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_1fr]">
           <article className="group panel overflow-hidden">
             <div className="stage relative aspect-square overflow-hidden rounded-none">
-              <img src={portrait.url} alt={name} style={cropStyle(portrait)} className="transition-transform duration-500 ease-soft" />
+              <img
+                src={portrait.url}
+                alt={name}
+                style={cropStyle(portrait)}
+                className="transition-transform duration-500 ease-soft"
+              />
               <CropGuides />
-              <span className="eyebrow absolute bottom-3 right-3 rounded-[3px] bg-stage/70 px-2 py-1 text-[9px] text-stage-foreground">Source portrait</span>
+              <span className="eyebrow absolute bottom-3 right-3 rounded-[3px] bg-stage/70 px-2 py-1 text-[9px] text-stage-foreground">
+                Source portrait
+              </span>
             </div>
             <div className="flex flex-wrap items-center justify-between gap-3 p-5">
               <div className="min-w-0">
                 <h2 className="font-display truncate text-3xl">{name}</h2>
                 <p className="timecode mt-1 text-xs text-muted-foreground">
-                  Created {new Date(portrait.addedAt).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })} · {portrait.width}×{portrait.height}
+                  Created{" "}
+                  {new Date(portrait.addedAt).toLocaleString(undefined, {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })}{" "}
+                  · {portrait.width}×{portrait.height}
                 </p>
               </div>
               <StatusPill tone={consent ? "success" : "warning"} dot>
@@ -109,10 +148,22 @@ function Avatars() {
               <Button variant="hairline" size="sm" onClick={() => setPreview(true)}>
                 <Eye /> Preview
               </Button>
-              <Button variant="hairline" size="sm" onClick={() => { setDraft(name); setEdit(true); }}>
+              <Button
+                variant="hairline"
+                size="sm"
+                onClick={() => {
+                  setDraft(name);
+                  setEdit(true);
+                }}
+              >
                 <Pencil /> Rename
               </Button>
-              <Button variant="ghost" size="sm" className="ml-auto text-destructive hover:text-destructive" onClick={() => setDel(true)}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="ml-auto text-destructive hover:text-destructive"
+                onClick={() => setDel(true)}
+              >
                 <Trash2 /> Delete
               </Button>
             </div>
@@ -122,12 +173,18 @@ function Avatars() {
             <div className="panel p-5">
               <p className="eyebrow text-muted-foreground">Library</p>
               <p className="mt-2 text-sm text-muted-foreground">
-                Keeping several avatars between visits needs storage the current engine doesn't provide. These slots show where they will live.
+                Keeping several avatars between visits needs storage the current engine doesn't
+                provide. These slots show where they will live.
               </p>
               <div className="mt-4 grid grid-cols-3 gap-2">
                 {[0, 1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="soon-surface flex aspect-square items-end rounded-md border border-dashed border-soon/50 p-2">
-                    <span className="timecode text-[9px] text-soon">SLOT {String(i + 2).padStart(2, "0")}</span>
+                  <div
+                    key={i}
+                    className="soon-surface flex aspect-square items-end rounded-md border border-dashed border-soon/50 p-2"
+                  >
+                    <span className="timecode text-[9px] text-soon">
+                      SLOT {String(i + 2).padStart(2, "0")}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -143,7 +200,9 @@ function Avatars() {
         <DialogContent className="max-w-xl">
           <DialogHeader>
             <DialogTitle className="font-display text-3xl font-normal">{name}</DialogTitle>
-            <DialogDescription>The square EmoStream will animate. Change it with Crop & position in Studio.</DialogDescription>
+            <DialogDescription>
+              The square EmoStream will animate. Change it with Crop & position in Studio.
+            </DialogDescription>
           </DialogHeader>
           {portrait && (
             <div className="stage relative aspect-square overflow-hidden rounded-lg">
@@ -159,9 +218,17 @@ function Avatars() {
           <DialogHeader>
             <DialogTitle>Rename avatar</DialogTitle>
           </DialogHeader>
-          <Input value={draft} onChange={(e) => setDraft(e.target.value)} maxLength={40} aria-label="Avatar name" autoFocus />
+          <Input
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            maxLength={40}
+            aria-label="Avatar name"
+            autoFocus
+          />
           <DialogFooter>
-            <Button variant="hairline" onClick={() => setEdit(false)}>Cancel</Button>
+            <Button variant="hairline" onClick={() => setEdit(false)}>
+              Cancel
+            </Button>
             <Button
               variant="ink"
               disabled={!draft.trim()}
@@ -180,7 +247,10 @@ function Avatars() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete “{name}”?</AlertDialogTitle>
-            <AlertDialogDescription>The portrait is removed from this tab. It is only sent to the engine while a session runs and is not stored there, so there's nothing else to delete.</AlertDialogDescription>
+            <AlertDialogDescription>
+              The portrait is removed from this tab. It is only sent to the engine while a session
+              runs and is not stored there, so there's nothing else to delete.
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Keep it</AlertDialogCancel>

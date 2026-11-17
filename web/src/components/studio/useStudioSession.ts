@@ -5,7 +5,13 @@ import { FramePlayer, h264Supported, type PlayerStats } from "@engine/player";
 import { Chunker, FPS, SAMPLE_RATE, SAMPLES_PER_FRAME, type ServerStats } from "@engine/protocol";
 import { LiveSession, type ReadyInfo, type StartupStage } from "@engine/session";
 import { useMicrophone } from "@/lib/audio/useMicrophone";
-import { engineBase, engineErrorMessage, wsUrl, type ConnState, type LiveStats } from "@/lib/engine/client";
+import {
+  engineBase,
+  engineErrorMessage,
+  wsUrl,
+  type ConnState,
+  type LiveStats,
+} from "@/lib/engine/client";
 import type { EmotionId } from "@/lib/emotions";
 import { useSettings } from "@/lib/settings";
 import { canStartSession, renderCropJpeg, studioStore, useStudio } from "@/lib/studio-store";
@@ -23,7 +29,8 @@ export type StageState =
   | "complete"
   | "error";
 
-export type SessionPhase = "idle" | "running" | "paused" | "finishing" | "lost" | "complete" | "error";
+export type SessionPhase =
+  "idle" | "running" | "paused" | "finishing" | "lost" | "complete" | "error";
 
 export interface EmotionEvent {
   t: number;
@@ -56,9 +63,22 @@ export interface SessionDiagnostics {
 
 const EMPTY_STATS: LiveStats = { framesReceived: 0, framesDisplayed: 0, framesDropped: 0 };
 const EMPTY_DIAG: SessionDiagnostics = {
-  codec: null, bitrateKbps: null, playoutDelayMs: null, jitterP95Ms: null, voiceOffsetP50Ms: null, voiceWithin80: null,
-  serverP95Ms: null, serverSkipped: 0, networkSkipped: 0, clientDropped: 0, uplinkLagP95Ms: null, timelineShifts: 0,
-  decodeErrors: 0, startupReadyMs: null, startupFirstFrameMs: null, gpu: null,
+  codec: null,
+  bitrateKbps: null,
+  playoutDelayMs: null,
+  jitterP95Ms: null,
+  voiceOffsetP50Ms: null,
+  voiceWithin80: null,
+  serverP95Ms: null,
+  serverSkipped: 0,
+  networkSkipped: 0,
+  clientDropped: 0,
+  uplinkLagP95Ms: null,
+  timelineShifts: 0,
+  decodeErrors: 0,
+  startupReadyMs: null,
+  startupFirstFrameMs: null,
+  gpu: null,
 };
 
 /** Microphone audio goes out every 80 ms, so the engine is never kept waiting for a large block. */
@@ -110,7 +130,10 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
 
   const [phase, setPhase] = useState<SessionPhase>("idle");
   const [conn, setConn] = useState<ConnState>("idle");
-  const [startup, setStartup] = useState<{ stage: StartupStage | null; waitedS: number }>({ stage: null, waitedS: 0 });
+  const [startup, setStartup] = useState<{ stage: StartupStage | null; waitedS: number }>({
+    stage: null,
+    waitedS: 0,
+  });
   const [engineMode, setEngineMode] = useState(false);
   const [hasFrames, setHasFrames] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>();
@@ -135,7 +158,12 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
   const serverRef = useRef<ServerStats | null>(null);
   const readyInfoRef = useRef<ReadyInfo | null>(null);
   const gpuRef = useRef<string | null>(null);
-  const timesRef = useRef<{ click: number; stageAt: number; ready: number | null; firstFrame: number | null }>({ click: 0, stageAt: 0, ready: null, firstFrame: null });
+  const timesRef = useRef<{
+    click: number;
+    stageAt: number;
+    ready: number | null;
+    firstFrame: number | null;
+  }>({ click: 0, stageAt: 0, ready: null, firstFrame: null });
   const diagRows = useRef<Record<string, unknown>[]>([]);
   const errorsRef = useRef<{ t: number; code: string; message: string }[]>([]);
   const startedAt = useRef(0);
@@ -143,7 +171,13 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
   const timers = useRef<number[]>([]);
   const hearRef = useRef(false);
   /** Per-take measured series for Sessions and Analytics (this tab only). */
-  const seriesRef = useRef({ fps: [] as number[], delivered: [] as number[], dropped: [] as number[], latency: [] as number[], lastDropped: 0 });
+  const seriesRef = useRef({
+    fps: [] as number[],
+    delivered: [] as number[],
+    dropped: [] as number[],
+    latency: [] as number[],
+    lastDropped: 0,
+  });
 
   const mic = useMicrophone({
     deviceId: micDeviceId || undefined,
@@ -182,7 +216,10 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     const p: PlayerStats | null = player?.stats() ?? null;
     const srv = serverRef.current;
     const voice = voiceRef.current;
-    const diffs = player && voice ? pictureMinusSound(player.shownLog.slice(-125), voice.playedLog.slice(-400)) : [];
+    const diffs =
+      player && voice
+        ? pictureMinusSound(player.shownLog.slice(-125), voice.playedLog.slice(-400))
+        : [];
     const serverSkipped = srv?.frames_dropped ?? 0;
     const networkSkipped = srv?.video?.frames_skipped_for_network ?? 0;
     const clientDropped = p ? p.droppedLate + p.droppedOverflow : 0;
@@ -201,7 +238,9 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
       playoutDelayMs: p && p.presented > 0 ? Math.round(p.playoutDelayMs) : null,
       jitterP95Ms: p?.jitterP95Ms ?? null,
       voiceOffsetP50Ms: median(diffs),
-      voiceWithin80: diffs.length ? diffs.filter((x) => Math.abs(x) <= 80).length / diffs.length : null,
+      voiceWithin80: diffs.length
+        ? diffs.filter((x) => Math.abs(x) <= 80).length / diffs.length
+        : null,
       serverP95Ms: srv?.latency.p95_ms ?? null,
       serverSkipped,
       networkSkipped,
@@ -274,7 +313,13 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
           client: p,
           roundTripMs: sessionRef.current?.pingMs ?? null,
           network: { kbps: d.bitrateKbps },
-          voice: voice ? { scheduled: voice.scheduled, missed: voice.missed, pictureMinusSoundP50Ms: d.voiceOffsetP50Ms } : null,
+          voice: voice
+            ? {
+                scheduled: voice.scheduled,
+                missed: voice.missed,
+                pictureMinusSoundP50Ms: d.voiceOffsetP50Ms,
+              }
+            : null,
           server: srv,
           micPaused: micRef.current.state === "paused",
         });
@@ -297,7 +342,11 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
   useEffect(() => {
     if (conn !== "connecting") return;
     const id = window.setInterval(
-      () => setStartup((s) => ({ ...s, waitedS: Math.round((performance.now() - timesRef.current.stageAt) / 1000) })),
+      () =>
+        setStartup((s) => ({
+          ...s,
+          waitedS: Math.round((performance.now() - timesRef.current.stageAt) / 1000),
+        })),
       500,
     );
     return () => window.clearInterval(id);
@@ -313,7 +362,10 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     rec.ondataavailable = (e) => {
       if (e.data.size) chunks.push(e.data);
     };
-    rec.onstop = () => setRecordingUrl(URL.createObjectURL(new Blob(chunks, { type: rec.mimeType || "video/webm" })));
+    rec.onstop = () =>
+      setRecordingUrl(
+        URL.createObjectURL(new Blob(chunks, { type: rec.mimeType || "video/webm" })),
+      );
     rec.start(500);
     recorderRef.current = rec;
   }, []);
@@ -376,7 +428,9 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     if (mic.permission !== "granted") {
       const ok = await mic.probe();
       if (!ok) {
-        fail("Microphone access is needed to drive the avatar. Allow it in your browser's site settings, then try again.");
+        fail(
+          "Microphone access is needed to drive the avatar. Allow it in your browser's site settings, then try again.",
+        );
         return;
       }
     }
@@ -399,7 +453,10 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     playerRef.current = player;
     player.start();
     // Read-only handles for the measurement scripts in evaluation/benchmarks.
-    (window as unknown as Record<string, unknown>)["__emostream"] = { player, voice: () => voiceRef.current };
+    (window as unknown as Record<string, unknown>)["__emostream"] = {
+      player,
+      voice: () => voiceRef.current,
+    };
 
     const session = new LiveSession({
       onStage: (stage) => {
@@ -413,13 +470,19 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
         setConn("open");
         if (info.portrait?.mouth_open)
           toast("This portrait shows an open mouth", {
-            description: "The engine closes it before animating. A photo with a closed mouth and a relaxed face gives the most natural result.",
+            description:
+              "The engine closes it before animating. A photo with a closed mouth and a relaxed face gives the most natural result.",
           });
         // Microphone opens now: audio flows only once the engine and portrait are ready.
         void micRef.current.start().then((ok) => {
           if (!ok) {
-            errorsRef.current.push({ t: Math.round(performance.now()), code: "microphone", message: "microphone did not start" });
-            errorRef.current = "The microphone couldn't start, so the session was stopped. Check the input device and try again.";
+            errorsRef.current.push({
+              t: Math.round(performance.now()),
+              code: "microphone",
+              message: "microphone did not start",
+            });
+            errorRef.current =
+              "The microphone couldn't start, so the session was stopped. Check the input device and try again.";
             setErrorMsg(errorRef.current);
             sessionRef.current?.stop();
             return;
@@ -456,7 +519,8 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
         if (errorRef.current) finalize("error");
         else if (endingRef.current) finalize("complete");
         else finalize(readyRef.current ? "lost" : "error");
-        if (!errorRef.current && !endingRef.current && !readyRef.current) setErrorMsg("The engine closed the connection before it was ready.");
+        if (!errorRef.current && !endingRef.current && !readyRef.current)
+          setErrorMsg("The engine closed the connection before it was ready.");
       },
     });
     sessionRef.current = session;
@@ -466,7 +530,15 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     const video = forced !== "jpeg" && (await h264Supported()) ? "h264" : "jpeg";
     session.open(
       portraitBytes,
-      { sampleRate: SAMPLE_RATE, emotion: st.emotion, intensity: st.intensity / 100, model: "emostream", size: 512, video, bitrateKbps: 900 },
+      {
+        sampleRate: SAMPLE_RATE,
+        emotion: st.emotion,
+        intensity: st.intensity / 100,
+        model: "emostream",
+        size: 512,
+        video,
+        bitrateKbps: 900,
+      },
       wsUrl(engineUrl),
     );
   }, [engineUrl, mic, finalize, startRecording, recordingUrl]);
@@ -552,7 +624,8 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
       const last = ev[ev.length - 1];
       let next = ev;
       if (last && last.emotion === emotion && Math.abs(last.intensity - intensity) < 1) next = ev;
-      else if (last && t - last.t < 400) next = [...ev.slice(0, -1), { t: last.t, emotion, intensity }];
+      else if (last && t - last.t < 400)
+        next = [...ev.slice(0, -1), { t: last.t, emotion, intensity }];
       else next = [...ev, { t, emotion, intensity }];
       eventsRef.current = next;
       setEvents(next);
@@ -608,7 +681,9 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
       a.download = `emostream-session-${startedAt.current}.webm`;
       a.click();
       const id = `s-${startedAt.current}`;
-      studioStore.set((s) => ({ sessions: s.sessions.map((x) => (x.id === id ? { ...x, exported: true } : x)) }));
+      studioStore.set((s) => ({
+        sessions: s.sessions.map((x) => (x.id === id ? { ...x, exported: true } : x)),
+      }));
       toast.success("Export downloaded");
     } finally {
       setExporting(false);
@@ -672,7 +747,12 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
           : `Connecting to the engine… ${startup.waitedS} s${startup.waitedS >= 8 ? ". After an idle period the GPU worker needs up to a minute to start." : ""}`;
 
   const baseCheck = canStartSession({ portrait, consent, voiceConsent });
-  const canStart = live ? { ok: false as const, reason: phase === "finishing" ? "Finishing the last frames…" : "A session is running." } : baseCheck;
+  const canStart = live
+    ? {
+        ok: false as const,
+        reason: phase === "finishing" ? "Finishing the last frames…" : "A session is running.",
+      }
+    : baseCheck;
 
   return {
     stage,

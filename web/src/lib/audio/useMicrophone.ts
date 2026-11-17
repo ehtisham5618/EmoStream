@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { startMicrophone, type MicCapture } from "@engine/audio";
 
-export type MicState = "idle" | "requesting" | "denied" | "recording" | "paused" | "stopped" | "error" | "unsupported";
+export type MicState =
+  "idle" | "requesting" | "denied" | "recording" | "paused" | "stopped" | "error" | "unsupported";
 export type MicPermission = "unknown" | "prompt" | "granted" | "denied";
 
 const HISTORY = 240;
@@ -11,7 +12,12 @@ const HISTORY = 240;
  * mono float blocks from the engine's reference capture path (AudioWorklet, `@engine/audio`).
  * Blocks are delivered only while recording; nothing is buffered while paused.
  */
-export function useMicrophone(opts: { deviceId?: string | undefined; onSamples?: ((samples: Float32Array) => void) | undefined } = {}) {
+export function useMicrophone(
+  opts: {
+    deviceId?: string | undefined;
+    onSamples?: ((samples: Float32Array) => void) | undefined;
+  } = {},
+) {
   const [state, setState] = useState<MicState>("idle");
   const [permission, setPermission] = useState<MicPermission>("unknown");
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
@@ -73,7 +79,9 @@ export function useMicrophone(opts: { deviceId?: string | undefined; onSamples?:
     if (name === "NotAllowedError" || name === "SecurityError") {
       setPermission("denied");
       setState("denied");
-      setError("Microphone access was blocked. Allow it in your browser's site settings, then try again.");
+      setError(
+        "Microphone access was blocked. Allow it in your browser's site settings, then try again.",
+      );
     } else if (name === "NotFoundError" || name === "OverconstrainedError") {
       setState("error");
       setError("That microphone isn't available. Pick another input.");
@@ -164,7 +172,8 @@ export function useMicrophone(opts: { deviceId?: string | undefined; onSamples?:
   }, []);
 
   const stop = useCallback(() => {
-    if (capRef.current && !pausedRef.current) accRef.current += performance.now() - startedRef.current;
+    if (capRef.current && !pausedRef.current)
+      accRef.current += performance.now() - startedRef.current;
     pausedRef.current = false;
     setElapsed(accRef.current);
     teardown();
@@ -182,5 +191,21 @@ export function useMicrophone(opts: { deviceId?: string | undefined; onSamples?:
     setState("idle");
   }, [teardown]);
 
-  return { state, permission, devices, level, history, log: logRef.current, elapsed, error, probe, start, pause, resume, stop, reset, refreshDevices };
+  return {
+    state,
+    permission,
+    devices,
+    level,
+    history,
+    log: logRef.current,
+    elapsed,
+    error,
+    probe,
+    start,
+    pause,
+    resume,
+    stop,
+    reset,
+    refreshDevices,
+  };
 }

@@ -26,7 +26,12 @@ export function StatusPill({
   dot = false,
   pulse = false,
   className,
-}: VariantProps<typeof pill> & { children: ReactNode; dot?: boolean; pulse?: boolean; className?: string | undefined }) {
+}: VariantProps<typeof pill> & {
+  children: ReactNode;
+  dot?: boolean;
+  pulse?: boolean;
+  className?: string | undefined;
+}) {
   return (
     <span className={cn(pill({ tone }), className)}>
       {dot && <span className={cn("size-1.5 rounded-full bg-current", pulse && "animate-rec")} />}
@@ -35,7 +40,13 @@ export function StatusPill({
   );
 }
 
-export function DemoNote({ children = "Demonstration data", className }: { children?: ReactNode; className?: string | undefined }) {
+export function DemoNote({
+  children = "Demonstration data",
+  className,
+}: {
+  children?: ReactNode;
+  className?: string | undefined;
+}) {
   return (
     <StatusPill tone="demo" className={className}>
       {children}

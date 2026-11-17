@@ -12,7 +12,11 @@ export const Route = createFileRoute("/app/studio")({
   head: () => ({
     meta: [
       { title: "Studio — EmoStream" },
-      { name: "description", content: "Upload a portrait, speak, and choose an emotion. The EmoStream Studio turns your voice into facial motion." },
+      {
+        name: "description",
+        content:
+          "Upload a portrait, speak, and choose an emotion. The EmoStream Studio turns your voice into facial motion.",
+      },
       { property: "og:title", content: "Studio — EmoStream" },
       { property: "og:description", content: "Portrait → audio → emotion → animated avatar." },
       { property: "og:type", content: "website" },
@@ -28,7 +32,12 @@ function Studio() {
   const [preparing, setPreparing] = useState(false);
   const s = useStudioSession({ preparing });
   const live = s.phase === "running" || s.phase === "paused";
-  const stepDone = [s.stage !== "empty" && s.stage !== "preparing", s.mic.state === "recording" || s.phase === "complete", true, s.stage === "active" || (s.phase === "complete" && s.stats.framesReceived > 0)];
+  const stepDone = [
+    s.stage !== "empty" && s.stage !== "preparing",
+    s.mic.state === "recording" || s.phase === "complete",
+    true,
+    s.stage === "active" || (s.phase === "complete" && s.stats.framesReceived > 0),
+  ];
 
   return (
     <div className="mx-auto w-full max-w-[1600px] px-4 py-5 md:px-6">

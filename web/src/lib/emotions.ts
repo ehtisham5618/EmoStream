@@ -46,7 +46,14 @@ export const EMOTIONS: Emotion[] = [
     colorClass: "text-emo-happy",
     bgClass: "bg-emo-happy",
     borderClass: "border-emo-happy",
-    face: { browRaise: 0.15, browTilt: 0, eyeOpen: -0.3, mouthCurve: 1, mouthOpen: 0.15, mouthWidth: 0.15 },
+    face: {
+      browRaise: 0.15,
+      browTilt: 0,
+      eyeOpen: -0.3,
+      mouthCurve: 1,
+      mouthOpen: 0.15,
+      mouthWidth: 0.15,
+    },
   },
   {
     id: "sad",
@@ -55,7 +62,14 @@ export const EMOTIONS: Emotion[] = [
     colorClass: "text-emo-sad",
     bgClass: "bg-emo-sad",
     borderClass: "border-emo-sad",
-    face: { browRaise: 0.1, browTilt: 1, eyeOpen: -0.25, mouthCurve: -0.8, mouthOpen: 0, mouthWidth: -0.05 },
+    face: {
+      browRaise: 0.1,
+      browTilt: 1,
+      eyeOpen: -0.25,
+      mouthCurve: -0.8,
+      mouthOpen: 0,
+      mouthWidth: -0.05,
+    },
   },
   {
     id: "angry",
@@ -64,7 +78,14 @@ export const EMOTIONS: Emotion[] = [
     colorClass: "text-emo-angry",
     bgClass: "bg-emo-angry",
     borderClass: "border-emo-angry",
-    face: { browRaise: -0.6, browTilt: -1, eyeOpen: -0.05, mouthCurve: -0.35, mouthOpen: 0.05, mouthWidth: -0.15 },
+    face: {
+      browRaise: -0.6,
+      browTilt: -1,
+      eyeOpen: -0.05,
+      mouthCurve: -0.35,
+      mouthOpen: 0.05,
+      mouthWidth: -0.15,
+    },
   },
   {
     id: "surprised",
@@ -73,11 +94,19 @@ export const EMOTIONS: Emotion[] = [
     colorClass: "text-emo-surprised",
     bgClass: "bg-emo-surprised",
     borderClass: "border-emo-surprised",
-    face: { browRaise: 1, browTilt: 0.1, eyeOpen: 0.7, mouthCurve: 0, mouthOpen: 0.75, mouthWidth: -0.35 },
+    face: {
+      browRaise: 1,
+      browTilt: 0.1,
+      eyeOpen: 0.7,
+      mouthCurve: 0,
+      mouthOpen: 0.75,
+      mouthWidth: -0.35,
+    },
   },
 ];
 
-export const emotionById = (id: EmotionId): Emotion => EMOTIONS.find((e) => e.id === id) ?? EMOTIONS[0]!;
+export const emotionById = (id: EmotionId): Emotion =>
+  EMOTIONS.find((e) => e.id === id) ?? EMOTIONS[0]!;
 
 /** Blend from neutral toward an emotion by intensity (0–100). */
 export function faceFor(id: EmotionId, intensity: number, extra?: Partial<FaceParams>): FaceParams {

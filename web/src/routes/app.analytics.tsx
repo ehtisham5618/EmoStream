@@ -1,11 +1,29 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { Page, PageHeader } from "@/components/app/PageHeader";
 import { ChartCard, axis, grid, tooltipStyle } from "@/components/app/Charts";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { CURRENT, DISCLAIMER, HARDWARE, LATENCY_NOTE, MODEL_HISTORY, VALIDATION } from "@/lib/benchmarks";
+import {
+  CURRENT,
+  DISCLAIMER,
+  HARDWARE,
+  LATENCY_NOTE,
+  MODEL_HISTORY,
+  VALIDATION,
+} from "@/lib/benchmarks";
 import { duration } from "@/lib/format";
 import { useStudio, type SessionSummary } from "@/lib/studio-store";
 import { cn } from "@/lib/utils";
@@ -14,9 +32,16 @@ export const Route = createFileRoute("/app/analytics")({
   head: () => ({
     meta: [
       { title: "Analytics — EmoStream" },
-      { name: "description", content: "Performance and animation-quality results for EmoStream, with recorded experiments kept separate from live telemetry." },
+      {
+        name: "description",
+        content:
+          "Performance and animation-quality results for EmoStream, with recorded experiments kept separate from live telemetry.",
+      },
       { property: "og:title", content: "Analytics — EmoStream" },
-      { property: "og:description", content: "EmoStream performance and animation-quality analytics." },
+      {
+        property: "og:description",
+        content: "EmoStream performance and animation-quality analytics.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -34,8 +59,12 @@ function Analytics() {
       />
       <Tabs defaultValue="recorded" className="mt-6">
         <TabsList className="h-auto bg-sunk p-1">
-          <TabsTrigger value="recorded" className="px-4 py-1.5">Recorded experiments</TabsTrigger>
-          <TabsTrigger value="live" className="px-4 py-1.5">Live telemetry</TabsTrigger>
+          <TabsTrigger value="recorded" className="px-4 py-1.5">
+            Recorded experiments
+          </TabsTrigger>
+          <TabsTrigger value="live" className="px-4 py-1.5">
+            Live telemetry
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="recorded" className="mt-6 space-y-6">
           <Recorded />
@@ -48,7 +77,19 @@ function Analytics() {
   );
 }
 
-function MetricTile({ k, v, unit, note, missing }: { k: string; v?: string; unit?: string; note: string; missing?: boolean }) {
+function MetricTile({
+  k,
+  v,
+  unit,
+  note,
+  missing,
+}: {
+  k: string;
+  v?: string;
+  unit?: string;
+  note: string;
+  missing?: boolean;
+}) {
   return (
     <div className="bg-surface p-4">
       <dt className="eyebrow text-[9.5px] text-muted-foreground">{k}</dt>
@@ -75,7 +116,9 @@ function useMeasuredTakes() {
 function NoTake({ what }: { what: string }) {
   return (
     <div className="flex h-full min-h-40 flex-col items-center justify-center gap-3 rounded-md border border-dashed border-input p-6 text-center">
-      <p className="text-sm text-muted-foreground">Run a Studio session to see {what} here. Nothing is plotted without a measurement.</p>
+      <p className="text-sm text-muted-foreground">
+        Run a Studio session to see {what} here. Nothing is plotted without a measurement.
+      </p>
       <Button asChild variant="hairline" size="sm">
         <Link to="/app/studio">Open Studio</Link>
       </Button>
@@ -106,7 +149,13 @@ function Recorded() {
   const takes = useMeasuredTakes();
   const latest: SessionSummary | undefined = takes[0];
   const fps = latest ? latest.fpsPerSecond.map((v, t) => ({ t, fps: v })) : [];
-  const delivery = latest ? latest.deliveredPerSecond.map((d, t) => ({ t, delivered: d, dropped: latest.droppedPerSecond[t] ?? 0 })) : [];
+  const delivery = latest
+    ? latest.deliveredPerSecond.map((d, t) => ({
+        t,
+        delivered: d,
+        dropped: latest.droppedPerSecond[t] ?? 0,
+      }))
+    : [];
   const lat = latest?.latencyMs ?? [];
   const bins = latencyBins(lat);
   const p50 = lat.length ? quantile(lat, 0.5) : null;
@@ -120,7 +169,9 @@ function Recorded() {
     { band: "81–100", count: intensities.filter((v) => v > 80).length },
   ];
   const takeFoot = (rest: string) =>
-    latest ? `Your latest take this visit (${latest.avatarName}, ${duration(latest.durationMs)}). ${rest}` : rest;
+    latest
+      ? `Your latest take this visit (${latest.avatarName}, ${duration(latest.durationMs)}). ${rest}`
+      : rest;
 
   return (
     <>
@@ -129,31 +180,80 @@ function Recorded() {
           <p className="eyebrow mb-2 text-muted-foreground">Performance</p>
           <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
             <MetricTile k="FPS" v="≈25" note={`L40S · TensorRT · ${VALIDATION.date}`} />
-            <MetricTile k="p50 latency" v={String(VALIDATION.serverP50Ms)} unit="ms" note={`server-side · ${VALIDATION.date}`} />
-            <MetricTile k="p95 latency" v={String(VALIDATION.serverP95Ms)} unit="ms" note={`server-side · ${VALIDATION.date}`} />
-            <MetricTile k="GPU memory" v={String(VALIDATION.peakVramGiB)} unit="GiB" note={`peak · L40S · ${VALIDATION.date}`} />
-            <MetricTile k="Frame delivery" v={`${CURRENT.liveFramesSkipped}/${CURRENT.liveFramesTotal}`} note={`skipped · live ${CURRENT.model} · browser test`} />
+            <MetricTile
+              k="p50 latency"
+              v={String(VALIDATION.serverP50Ms)}
+              unit="ms"
+              note={`server-side · ${VALIDATION.date}`}
+            />
+            <MetricTile
+              k="p95 latency"
+              v={String(VALIDATION.serverP95Ms)}
+              unit="ms"
+              note={`server-side · ${VALIDATION.date}`}
+            />
+            <MetricTile
+              k="GPU memory"
+              v={String(VALIDATION.peakVramGiB)}
+              unit="GiB"
+              note={`peak · L40S · ${VALIDATION.date}`}
+            />
+            <MetricTile
+              k="Frame delivery"
+              v={`${CURRENT.liveFramesSkipped}/${CURRENT.liveFramesTotal}`}
+              note={`skipped · live ${CURRENT.model} · browser test`}
+            />
             <MetricTile k="Session stability" missing note="no long-run browser test yet" />
           </dl>
         </section>
         <section>
-          <p className="eyebrow mb-2 text-muted-foreground">Animation quality · live model {CURRENT.model}</p>
+          <p className="eyebrow mb-2 text-muted-foreground">
+            Animation quality · live model {CURRENT.model}
+          </p>
           <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
-            <MetricTile k="Emotion macro-F1" v={CURRENT.emotionMacroF1.toFixed(3)} note="5 classes · MEAD val" />
-            <MetricTile k="Identity similarity" v={CURRENT.arcface.toFixed(3)} note="ArcFace cosine" />
-            <MetricTile k="Lip synchronisation" v={CURRENT.lseC.toFixed(2)} note={`SyncNet LSE-C · real ${CURRENT.realLseC}`} />
-            <MetricTile k="Mouth opening" v={CURRENT.mouthOpenCorr.toFixed(3)} note="correlation with real" />
-            <MetricTile k="/p b m/ closure" v={CURRENT.bilabialPrecision.toFixed(2)} note="strict precision" />
+            <MetricTile
+              k="Emotion macro-F1"
+              v={CURRENT.emotionMacroF1.toFixed(3)}
+              note="5 classes · MEAD val"
+            />
+            <MetricTile
+              k="Identity similarity"
+              v={CURRENT.arcface.toFixed(3)}
+              note="ArcFace cosine"
+            />
+            <MetricTile
+              k="Lip synchronisation"
+              v={CURRENT.lseC.toFixed(2)}
+              note={`SyncNet LSE-C · real ${CURRENT.realLseC}`}
+            />
+            <MetricTile
+              k="Mouth opening"
+              v={CURRENT.mouthOpenCorr.toFixed(3)}
+              note="correlation with real"
+            />
+            <MetricTile
+              k="/p b m/ closure"
+              v={CURRENT.bilabialPrecision.toFixed(2)}
+              note="strict precision"
+            />
             <MetricTile k="Boundary jerk" missing note="not measured for this model" />
           </dl>
         </section>
       </div>
       <p className="border-l-2 border-ember pl-4 text-sm text-muted-foreground">
-        {DISCLAIMER} {LATENCY_NOTE} Engine figures: model {VALIDATION.model}, {VALIDATION.date}. Quality figures: model {CURRENT.model}, 80 MEAD validation clips, {CURRENT.date}.
+        {DISCLAIMER} {LATENCY_NOTE} Engine figures: model {VALIDATION.model}, {VALIDATION.date}.
+        Quality figures: model {CURRENT.model}, 80 MEAD validation clips, {CURRENT.date}.
       </p>
 
       <div className="grid gap-5 lg:grid-cols-2">
-        <ChartCard label="Performance over time" title="Pictures drawn per second" provenance={latest ? "live" : "measured"} foot={takeFoot("Counted in this browser: distinct frames shown on screen each second. The engine sends 25.")}>
+        <ChartCard
+          label="Performance over time"
+          title="Pictures drawn per second"
+          provenance={latest ? "live" : "measured"}
+          foot={takeFoot(
+            "Counted in this browser: distinct frames shown on screen each second. The engine sends 25.",
+          )}
+        >
           <div className="h-56">
             {fps.length ? (
               <ResponsiveContainer>
@@ -165,11 +265,27 @@ function Recorded() {
                     </linearGradient>
                   </defs>
                   <CartesianGrid {...grid} />
-                  <XAxis dataKey="t" {...axis} tickFormatter={(v) => `${v}s`} interval="preserveStartEnd" />
+                  <XAxis
+                    dataKey="t"
+                    {...axis}
+                    tickFormatter={(v) => `${v}s`}
+                    interval="preserveStartEnd"
+                  />
                   <YAxis {...axis} domain={[0, 30]} />
                   <ReferenceLine y={25} stroke="var(--ember)" strokeDasharray="3 3" />
-                  <Tooltip {...tooltipStyle} formatter={(v: number) => [`${v} fps`, "Drawn"]} labelFormatter={(l) => `t = ${l}s`} />
-                  <Area type="monotone" dataKey="fps" stroke="var(--chart-1)" strokeWidth={1.5} fill="url(#fpsFill)" isAnimationActive={false} />
+                  <Tooltip
+                    {...tooltipStyle}
+                    formatter={(v: number) => [`${v} fps`, "Drawn"]}
+                    labelFormatter={(l) => `t = ${l}s`}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="fps"
+                    stroke="var(--chart-1)"
+                    strokeWidth={1.5}
+                    fill="url(#fpsFill)"
+                    isAnimationActive={false}
+                  />
                 </AreaChart>
               </ResponsiveContainer>
             ) : (
@@ -182,7 +298,11 @@ function Recorded() {
           label="Latency distribution"
           title="Server-side latency per frame"
           provenance={latest ? "live" : "measured"}
-          foot={takeFoot(p50 !== null ? `From each frame's header: p50 ${Math.round(p50)} ms, p95 ${Math.round(p95 ?? 0)} ms over ${lat.length} frames. Server-side only — not what a viewer feels end to end.` : "From each frame's header. Server-side only — not what a viewer feels end to end.")}
+          foot={takeFoot(
+            p50 !== null
+              ? `From each frame's header: p50 ${Math.round(p50)} ms, p95 ${Math.round(p95 ?? 0)} ms over ${lat.length} frames. Server-side only — not what a viewer feels end to end.`
+              : "From each frame's header. Server-side only — not what a viewer feels end to end.",
+          )}
         >
           <div className="h-56">
             {bins.length ? (
@@ -191,8 +311,17 @@ function Recorded() {
                   <CartesianGrid {...grid} />
                   <XAxis dataKey="lo" {...axis} tickFormatter={(v) => `${v}`} />
                   <YAxis {...axis} allowDecimals={false} />
-                  <Tooltip {...tooltipStyle} formatter={(v: number) => [v, "frames"]} labelFormatter={(l) => `${l}–${Number(l) + 20} ms`} />
-                  <Bar dataKey="count" fill="var(--chart-3)" radius={[2, 2, 0, 0]} isAnimationActive={false} />
+                  <Tooltip
+                    {...tooltipStyle}
+                    formatter={(v: number) => [v, "frames"]}
+                    labelFormatter={(l) => `${l}–${Number(l) + 20} ms`}
+                  />
+                  <Bar
+                    dataKey="count"
+                    fill="var(--chart-3)"
+                    radius={[2, 2, 0, 0]}
+                    isAnimationActive={false}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -201,21 +330,48 @@ function Recorded() {
           </div>
         </ChartCard>
 
-        <ChartCard label="Model comparison" title="Validation history, same evaluation" provenance="measured" foot="80 MEAD validation clips rendered by the live engine; validation actors only. Empty cells were not measured for that model.">
+        <ChartCard
+          label="Model comparison"
+          title="Validation history, same evaluation"
+          provenance="measured"
+          foot="80 MEAD validation clips rendered by the live engine; validation actors only. Empty cells were not measured for that model."
+        >
           <ModelHistory />
         </ChartCard>
 
-        <ChartCard label="Frame delivery" title="Frames received per second" provenance={latest ? "live" : "measured"} foot={takeFoot("Expected 25 per second while you speak. Lost frames (skipped by the engine or the network, or late here) shown in terracotta.")}>
+        <ChartCard
+          label="Frame delivery"
+          title="Frames received per second"
+          provenance={latest ? "live" : "measured"}
+          foot={takeFoot(
+            "Expected 25 per second while you speak. Lost frames (skipped by the engine or the network, or late here) shown in terracotta.",
+          )}
+        >
           <div className="h-56">
             {delivery.length ? (
               <ResponsiveContainer>
                 <BarChart data={delivery} margin={{ left: -20, right: 8, top: 8 }}>
                   <CartesianGrid {...grid} />
-                  <XAxis dataKey="t" {...axis} interval="preserveStartEnd" tickFormatter={(v) => `${v}s`} />
+                  <XAxis
+                    dataKey="t"
+                    {...axis}
+                    interval="preserveStartEnd"
+                    tickFormatter={(v) => `${v}s`}
+                  />
                   <YAxis {...axis} domain={[0, 30]} />
                   <Tooltip {...tooltipStyle} />
-                  <Bar dataKey="delivered" stackId="a" fill="var(--chart-1)" isAnimationActive={false} />
-                  <Bar dataKey="dropped" stackId="a" fill="var(--ember)" isAnimationActive={false} />
+                  <Bar
+                    dataKey="delivered"
+                    stackId="a"
+                    fill="var(--chart-1)"
+                    isAnimationActive={false}
+                  />
+                  <Bar
+                    dataKey="dropped"
+                    stackId="a"
+                    fill="var(--ember)"
+                    isAnimationActive={false}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -224,7 +380,12 @@ function Recorded() {
           </div>
         </ChartCard>
 
-        <ChartCard label="Emotion intensity" title="Intensity chosen across your takes" provenance={takes.length ? "live" : "measured"} foot="Every emotion setting used in takes from this tab.">
+        <ChartCard
+          label="Emotion intensity"
+          title="Intensity chosen across your takes"
+          provenance={takes.length ? "live" : "measured"}
+          foot="Every emotion setting used in takes from this tab."
+        >
           <div className="h-48">
             {intensities.length ? (
               <ResponsiveContainer>
@@ -233,7 +394,12 @@ function Recorded() {
                   <XAxis dataKey="band" {...axis} />
                   <YAxis {...axis} allowDecimals={false} />
                   <Tooltip {...tooltipStyle} />
-                  <Bar dataKey="count" fill="var(--chart-4)" radius={[2, 2, 0, 0]} isAnimationActive={false} />
+                  <Bar
+                    dataKey="count"
+                    fill="var(--chart-4)"
+                    radius={[2, 2, 0, 0]}
+                    isAnimationActive={false}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -242,7 +408,12 @@ function Recorded() {
           </div>
         </ChartCard>
 
-        <ChartCard label="Hardware" title="Hardware coverage" provenance="measured" foot={`Only the L40S has engine figures (${VALIDATION.date} run). No GPU is claimed to reach 25 FPS unless it was measured.`}>
+        <ChartCard
+          label="Hardware"
+          title="Hardware coverage"
+          provenance="measured"
+          foot={`Only the L40S has engine figures (${VALIDATION.date} run). No GPU is claimed to reach 25 FPS unless it was measured.`}
+        >
           <ul className="divide-y divide-border text-sm">
             {HARDWARE.map((h) => (
               <li key={h.gpu} className="grid grid-cols-[1fr_auto] gap-2 py-3">
@@ -254,10 +425,17 @@ function Recorded() {
                   {h.fps ? (
                     <>
                       <p className="numeral text-lg font-medium">{h.fps} fps</p>
-                      <p className="timecode text-[10px] text-muted-foreground">p50 {h.p50} · {h.vram}</p>
+                      <p className="timecode text-[10px] text-muted-foreground">
+                        p50 {h.p50} · {h.vram}
+                      </p>
                     </>
                   ) : (
-                    <span className={cn("font-mono text-[10px] uppercase tracking-wider", h.status === "tested" ? "text-muted-foreground" : "text-soon")}>
+                    <span
+                      className={cn(
+                        "font-mono text-[10px] uppercase tracking-wider",
+                        h.status === "tested" ? "text-muted-foreground" : "text-soon",
+                      )}
+                    >
                       {h.status === "tested" ? "No live figures" : "Not yet verified"}
                     </span>
                   )}
@@ -272,7 +450,11 @@ function Recorded() {
 }
 
 function ModelHistory() {
-  const cell = (v: ReactNode) => <td className="timecode px-2 py-2.5 text-right">{v ?? <span className="text-muted-foreground/60">—</span>}</td>;
+  const cell = (v: ReactNode) => (
+    <td className="timecode px-2 py-2.5 text-right">
+      {v ?? <span className="text-muted-foreground/60">—</span>}
+    </td>
+  );
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
@@ -289,10 +471,16 @@ function ModelHistory() {
           {MODEL_HISTORY.map((m) => (
             <tr key={m.model}>
               <td className="py-2.5 pr-2">
-                <p className={cn("font-medium", m.model === CURRENT.model && "text-ember")}>{m.model}</p>
+                <p className={cn("font-medium", m.model === CURRENT.model && "text-ember")}>
+                  {m.model}
+                </p>
                 <p className="text-[11px] text-muted-foreground">{m.note}</p>
               </td>
-              {cell(m.lseC !== undefined && m.lseD !== undefined ? `${m.lseC.toFixed(2)} / ${m.lseD.toFixed(2)}` : null)}
+              {cell(
+                m.lseC !== undefined && m.lseD !== undefined
+                  ? `${m.lseC.toFixed(2)} / ${m.lseD.toFixed(2)}`
+                  : null,
+              )}
               {cell(m.mouthCorr.toFixed(3))}
               {cell(m.f1 !== undefined ? m.f1.toFixed(2) : null)}
               {cell(m.arcface !== undefined ? m.arcface.toFixed(3) : null)}
@@ -310,7 +498,9 @@ function ModelHistory() {
           </tr>
         </tbody>
       </table>
-      <p className="timecode mt-2 text-[10px] text-muted-foreground">higher LSE-C, lower LSE-D = better lip sync · reg mouth corr from block streaming</p>
+      <p className="timecode mt-2 text-[10px] text-muted-foreground">
+        higher LSE-C, lower LSE-D = better lip sync · reg mouth corr from block streaming
+      </p>
     </div>
   );
 }
@@ -323,7 +513,8 @@ function Live() {
       <div className="rounded-xl border border-dashed border-input p-10 text-center">
         <p className="display-md">No live telemetry yet.</p>
         <p className="mx-auto mt-3 max-w-md text-muted-foreground">
-          Live numbers come only from sessions you run in the Studio. Nothing is estimated or filled in.
+          Live numbers come only from sessions you run in the Studio. Nothing is estimated or filled
+          in.
         </p>
         <Button asChild variant="ink" className="mt-6">
           <Link to="/app/studio">Run a session</Link>
@@ -333,7 +524,9 @@ function Live() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">
-        {rendered.length} of {sessions.length} takes this visit were rendered by the engine. Detailed per-frame telemetry is shown in the Studio timeline while a session runs, and can be saved from there as a diagnostics file.
+        {rendered.length} of {sessions.length} takes this visit were rendered by the engine.
+        Detailed per-frame telemetry is shown in the Studio timeline while a session runs, and can
+        be saved from there as a diagnostics file.
       </p>
       <div className="overflow-hidden rounded-lg border border-border">
         <table className="w-full text-sm">
@@ -353,9 +546,19 @@ function Live() {
                 <td className="px-4 py-3">{s.avatarName}</td>
                 <td className="timecode px-3 py-3">{duration(s.durationMs)}</td>
                 <td className="timecode px-3 py-3">{s.framesReceived}</td>
-                <td className="timecode px-3 py-3">{s.fpsPerSecond.length ? quantile(s.fpsPerSecond, 0.5).toFixed(1) : "—"}</td>
-                <td className="timecode px-3 py-3">{s.latencyMs.length ? `${Math.round(quantile(s.latencyMs, 0.5))} ms` : "—"}</td>
-                <td className="px-3 py-3 text-muted-foreground">{s.outcome === "complete" ? "Completed" : s.outcome === "lost" ? "Connection lost" : "Error"}</td>
+                <td className="timecode px-3 py-3">
+                  {s.fpsPerSecond.length ? quantile(s.fpsPerSecond, 0.5).toFixed(1) : "—"}
+                </td>
+                <td className="timecode px-3 py-3">
+                  {s.latencyMs.length ? `${Math.round(quantile(s.latencyMs, 0.5))} ms` : "—"}
+                </td>
+                <td className="px-3 py-3 text-muted-foreground">
+                  {s.outcome === "complete"
+                    ? "Completed"
+                    : s.outcome === "lost"
+                      ? "Connection lost"
+                      : "Error"}
+                </td>
               </tr>
             ))}
           </tbody>

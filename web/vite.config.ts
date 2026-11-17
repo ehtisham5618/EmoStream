@@ -15,7 +15,8 @@ const backend = process.env["VITE_BACKEND"] ?? "http://127.0.0.1:8000";
 // Every build gets an identifier. The page carries it, the server reads it from build.json,
 // and a page whose identifier differs from the server's reloads itself once.
 // scripts/build_frontends.sh sets EMOSTREAM_BUILD so this app and the diagnostics client share one.
-const build = process.env["EMOSTREAM_BUILD"] ?? new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14);
+const build =
+  process.env["EMOSTREAM_BUILD"] ?? new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14);
 
 // The live engine client (protocol, session, player, audio) is shared with the diagnostics
 // client in ../frontend, so the wire protocol is defined in exactly one place.

@@ -8,9 +8,16 @@ export const Route = createFileRoute("/research")({
   head: () => ({
     meta: [
       { title: "Research & performance — EmoStream" },
-      { name: "description", content: "EmoStream measured results with conditions: ≈25 FPS on L40S with TensorRT, 269/319 ms server p50/p95 and 2.77 GiB peak memory (15 Nov engine run); 0.876 ArcFace, 0.777 emotion macro-F1 and SyncNet 5.08 for the live model." },
+      {
+        name: "description",
+        content:
+          "EmoStream measured results with conditions: ≈25 FPS on L40S with TensorRT, 269/319 ms server p50/p95 and 2.77 GiB peak memory (15 Nov engine run); 0.876 ArcFace, 0.777 emotion macro-F1 and SyncNet 5.08 for the live model.",
+      },
       { property: "og:title", content: "EmoStream research & performance" },
-      { property: "og:description", content: "Validated measurements, their conditions, and known limits." },
+      {
+        property: "og:description",
+        content: "Validated measurements, their conditions, and known limits.",
+      },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -21,12 +28,36 @@ export const Route = createFileRoute("/research")({
 const FIGS = [
   { v: VALIDATION.resolution, k: "Output resolution", c: "Fixed by the current model" },
   { v: "≈25 FPS", k: "Frame rate", c: `NVIDIA L40S · TensorRT · engine run ${VALIDATION.date}` },
-  { v: `${VALIDATION.peakVramGiB} GiB`, k: "Peak GPU memory", c: `L40S · engine run ${VALIDATION.date}` },
-  { v: `${VALIDATION.serverP50Ms} ms`, k: "Server-side p50 latency", c: `Excludes network and display · ${VALIDATION.date}, model ${VALIDATION.model}` },
-  { v: `${VALIDATION.serverP95Ms} ms`, k: "Server-side p95 latency", c: `Excludes network and display · ${VALIDATION.date}, model ${VALIDATION.model}` },
-  { v: CURRENT.arcface.toFixed(3), k: "Identity similarity", c: `ArcFace cosine, source vs output · live model ${CURRENT.model}` },
-  { v: CURRENT.emotionMacroF1.toFixed(3), k: "Emotion macro-F1", c: `Five emotion classes · ${CURRENT.model}` },
-  { v: `${CURRENT.lseC.toFixed(2)} / ${CURRENT.lseD.toFixed(2)}`, k: "SyncNet LSE-C / LSE-D", c: `Lip sync · ${CURRENT.model}; real video ${CURRENT.realLseC} / ${CURRENT.realLseD}` },
+  {
+    v: `${VALIDATION.peakVramGiB} GiB`,
+    k: "Peak GPU memory",
+    c: `L40S · engine run ${VALIDATION.date}`,
+  },
+  {
+    v: `${VALIDATION.serverP50Ms} ms`,
+    k: "Server-side p50 latency",
+    c: `Excludes network and display · ${VALIDATION.date}, model ${VALIDATION.model}`,
+  },
+  {
+    v: `${VALIDATION.serverP95Ms} ms`,
+    k: "Server-side p95 latency",
+    c: `Excludes network and display · ${VALIDATION.date}, model ${VALIDATION.model}`,
+  },
+  {
+    v: CURRENT.arcface.toFixed(3),
+    k: "Identity similarity",
+    c: `ArcFace cosine, source vs output · live model ${CURRENT.model}`,
+  },
+  {
+    v: CURRENT.emotionMacroF1.toFixed(3),
+    k: "Emotion macro-F1",
+    c: `Five emotion classes · ${CURRENT.model}`,
+  },
+  {
+    v: `${CURRENT.lseC.toFixed(2)} / ${CURRENT.lseD.toFixed(2)}`,
+    k: "SyncNet LSE-C / LSE-D",
+    c: `Lip sync · ${CURRENT.model}; real video ${CURRENT.realLseC} / ${CURRENT.realLseD}`,
+  },
 ];
 
 const LIMITS = [
@@ -40,8 +71,16 @@ const LIMITS = [
 function Research() {
   return (
     <SiteLayout>
-      <PageIntro label="Research & performance" title={<>What we measured, <em className="text-ember">and under what conditions.</em></>}>
-        EmoStream is an academic project investigating efficient, audio-driven, emotion-controllable portrait animation. These are the validated figures — nothing projected, nothing rounded up.
+      <PageIntro
+        label="Research & performance"
+        title={
+          <>
+            What we measured, <em className="text-ember">and under what conditions.</em>
+          </>
+        }
+      >
+        EmoStream is an academic project investigating efficient, audio-driven, emotion-controllable
+        portrait animation. These are the validated figures — nothing projected, nothing rounded up.
       </PageIntro>
 
       <div className="mx-auto max-w-[1320px] px-5 py-16 md:px-8">
@@ -53,9 +92,13 @@ function Research() {
               <p className="timecode mt-3 text-[11px] text-muted-foreground">{f.c}</p>
             </div>
           ))}
-          <div className="bg-sunk p-6 text-sm leading-relaxed text-muted-foreground">{LATENCY_NOTE}</div>
+          <div className="bg-sunk p-6 text-sm leading-relaxed text-muted-foreground">
+            {LATENCY_NOTE}
+          </div>
         </dl>
-        <p className="mt-5 max-w-3xl border-l-2 border-ember pl-4 text-[15px] text-muted-foreground">{DISCLAIMER}</p>
+        <p className="mt-5 max-w-3xl border-l-2 border-ember pl-4 text-[15px] text-muted-foreground">
+          {DISCLAIMER}
+        </p>
 
         <section className="mt-20 grid gap-10 lg:grid-cols-[1fr_1.6fr]">
           <div>
@@ -69,7 +112,13 @@ function Research() {
                   <p className="text-lg font-medium">{h.gpu}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{h.note}</p>
                 </div>
-                <p className="timecode self-center text-sm">{h.status === "measured" ? `${h.fps} fps · ${h.vram}` : h.status === "tested" ? "figures pending" : "not yet verified"}</p>
+                <p className="timecode self-center text-sm">
+                  {h.status === "measured"
+                    ? `${h.fps} fps · ${h.vram}`
+                    : h.status === "tested"
+                      ? "figures pending"
+                      : "not yet verified"}
+                </p>
               </li>
             ))}
           </ul>
@@ -81,8 +130,18 @@ function Research() {
             <h2 className="display-md mt-5">A small model, deliberately.</h2>
           </div>
           <div className="space-y-5 text-[15px] leading-relaxed text-muted-foreground">
-            <p>The research question is efficiency: how little needs to be trained to get controllable, real-time animation. {MODEL.name} has {MODEL.params} parameters and is causal, so it can stream. It has separate articulation and emotion branches and was trained on MEAD.</p>
-            <p>Rendering uses a frozen LivePortrait (Ditto-packaged); speech features come from {MODEL.audioEncoder}. Identity is measured as ArcFace cosine similarity between the source portrait and generated frames; emotion as macro-F1 of a classifier on the output.</p>
+            <p>
+              The research question is efficiency: how little needs to be trained to get
+              controllable, real-time animation. {MODEL.name} has {MODEL.params} parameters and is
+              causal, so it can stream. It has separate articulation and emotion branches and was
+              trained on MEAD.
+            </p>
+            <p>
+              Rendering uses a frozen LivePortrait (Ditto-packaged); speech features come from{" "}
+              {MODEL.audioEncoder}. Identity is measured as ArcFace cosine similarity between the
+              source portrait and generated frames; emotion as macro-F1 of a classifier on the
+              output.
+            </p>
             <PipelineDiagram />
           </div>
         </section>
@@ -94,14 +153,21 @@ function Research() {
           </div>
           <ul className="space-y-4">
             {LIMITS.map((l) => (
-              <li key={l} className="flex gap-4 text-[15px]"><span className="mt-2.5 h-px w-4 shrink-0 bg-ember" />{l}</li>
+              <li key={l} className="flex gap-4 text-[15px]">
+                <span className="mt-2.5 h-px w-4 shrink-0 bg-ember" />
+                {l}
+              </li>
             ))}
           </ul>
         </section>
 
         <div className="mt-20 flex flex-wrap gap-3">
-          <Button asChild variant="ink" size="lg"><Link to="/app/models">Open Models & Performance</Link></Button>
-          <Button asChild variant="hairline" size="lg"><Link to="/about">About the project</Link></Button>
+          <Button asChild variant="ink" size="lg">
+            <Link to="/app/models">Open Models & Performance</Link>
+          </Button>
+          <Button asChild variant="hairline" size="lg">
+            <Link to="/about">About the project</Link>
+          </Button>
         </div>
       </div>
     </SiteLayout>

@@ -67,7 +67,10 @@ export function PortraitPanel({
           addedAt: Date.now(),
         },
         consent: false,
-        avatarName: studioStore.get().avatarName === "Untitled avatar" ? file.name.replace(/\.[^.]+$/, "").slice(0, 40) : studioStore.get().avatarName,
+        avatarName:
+          studioStore.get().avatarName === "Untitled avatar"
+            ? file.name.replace(/\.[^.]+$/, "").slice(0, 40)
+            : studioStore.get().avatarName,
       });
       // Done: the portrait is read and checked locally. It is uploaded to the engine only when
       // a session starts, and the engine's own face check is reported then.
@@ -88,7 +91,11 @@ export function PortraitPanel({
   };
 
   return (
-    <PanelBlock index="01" title="Portrait" hint={portrait ? `${portrait.width}×${portrait.height}` : "Required"}>
+    <PanelBlock
+      index="01"
+      title="Portrait"
+      hint={portrait ? `${portrait.width}×${portrait.height}` : "Required"}
+    >
       <input
         ref={fileRef}
         type="file"
@@ -111,12 +118,22 @@ export function PortraitPanel({
         onDrop={onDrop}
         className={cn(
           "relative aspect-square overflow-hidden rounded-lg border transition-colors duration-200",
-          dragging ? "border-ember bg-ember/5" : portrait ? "border-border bg-stage" : "border-dashed border-input bg-sunk",
+          dragging
+            ? "border-ember bg-ember/5"
+            : portrait
+              ? "border-border bg-stage"
+              : "border-dashed border-input bg-sunk",
         )}
       >
         {portrait ? (
           <>
-            <img src={portrait.url} alt="Your portrait" style={cropStyle(portrait)} className="select-none" draggable={false} />
+            <img
+              src={portrait.url}
+              alt="Your portrait"
+              style={cropStyle(portrait)}
+              className="select-none"
+              draggable={false}
+            />
             {guides && <CropGuides className="inset-3" />}
             {preparing && <PreparingOverlay />}
           </>
@@ -136,7 +153,10 @@ export function PortraitPanel({
       </div>
 
       {error && (
-        <p role="alert" className="mt-3 flex gap-2 rounded-md border border-destructive/30 bg-destructive/8 p-2.5 text-xs text-destructive">
+        <p
+          role="alert"
+          className="mt-3 flex gap-2 rounded-md border border-destructive/30 bg-destructive/8 p-2.5 text-xs text-destructive"
+        >
           <AlertTriangle className="mt-px size-3.5 shrink-0" /> {error}
         </p>
       )}
@@ -144,10 +164,22 @@ export function PortraitPanel({
       {portrait ? (
         <>
           <div className="mt-3 flex gap-2">
-            <Button variant="hairline" size="sm" className="flex-1" onClick={() => fileRef.current?.click()} disabled={locked}>
+            <Button
+              variant="hairline"
+              size="sm"
+              className="flex-1"
+              onClick={() => fileRef.current?.click()}
+              disabled={locked}
+            >
               <RefreshCw /> Replace
             </Button>
-            <Button variant="hairline" size="sm" className="flex-1" onClick={() => setCropOpen(true)} disabled={locked}>
+            <Button
+              variant="hairline"
+              size="sm"
+              className="flex-1"
+              onClick={() => setCropOpen(true)}
+              disabled={locked}
+            >
               <Crop /> Crop & position
             </Button>
           </div>
@@ -161,7 +193,12 @@ export function PortraitPanel({
               className="mt-1.5 h-9 bg-surface"
             />
           </label>
-          <label className={cn("mt-4 flex cursor-pointer gap-3 rounded-md border p-3 transition-colors", consent ? "border-success/40 bg-success/6" : "border-warning/50 bg-warning/8")}>
+          <label
+            className={cn(
+              "mt-4 flex cursor-pointer gap-3 rounded-md border p-3 transition-colors",
+              consent ? "border-success/40 bg-success/6" : "border-warning/50 bg-warning/8",
+            )}
+          >
             <Checkbox
               checked={consent}
               disabled={locked}
@@ -170,14 +207,20 @@ export function PortraitPanel({
               aria-label="Confirm portrait consent"
             />
             <span className="text-xs leading-relaxed">
-              I have the right to use this portrait, and the person shown has agreed to it being animated.
+              I have the right to use this portrait, and the person shown has agreed to it being
+              animated.
             </span>
           </label>
           <CropDialog open={cropOpen} onOpenChange={setCropOpen} />
         </>
       ) : (
         <ul className="mt-4 space-y-1.5 text-xs text-muted-foreground">
-          {["One person, facing the camera", "Even light, eyes and mouth visible", "At least 512×512 px · JPG, PNG or WebP", "Up to 10 MB"].map((r) => (
+          {[
+            "One person, facing the camera",
+            "Even light, eyes and mouth visible",
+            "At least 512×512 px · JPG, PNG or WebP",
+            "Up to 10 MB",
+          ].map((r) => (
             <li key={r} className="flex items-center gap-2">
               <span className="h-px w-3 bg-ember" /> {r}
             </li>
@@ -191,9 +234,21 @@ export function PortraitPanel({
 function FaceStatus({ check }: { check: FaceCheck }) {
   const map: Record<FaceCheck, { icon: typeof Check; text: string; cls: string }> = {
     found: { icon: Check, text: "One face detected in your browser", cls: "text-success" },
-    "not-found": { icon: AlertTriangle, text: "No face detected — try a clearer, front-facing photo", cls: "text-destructive" },
-    multiple: { icon: AlertTriangle, text: "More than one face — use a portrait of one person", cls: "text-destructive" },
-    unsupported: { icon: ScanFace, text: "Face check runs on the engine when the session starts", cls: "text-muted-foreground" },
+    "not-found": {
+      icon: AlertTriangle,
+      text: "No face detected — try a clearer, front-facing photo",
+      cls: "text-destructive",
+    },
+    multiple: {
+      icon: AlertTriangle,
+      text: "More than one face — use a portrait of one person",
+      cls: "text-destructive",
+    },
+    unsupported: {
+      icon: ScanFace,
+      text: "Face check runs on the engine when the session starts",
+      cls: "text-muted-foreground",
+    },
     pending: { icon: Loader2, text: "Checking for a face…", cls: "text-muted-foreground" },
   };
   const m = map[check];
@@ -218,7 +273,15 @@ function PreparingOverlay() {
 function PortraitGuideIllustration() {
   return (
     <svg viewBox="0 0 120 120" className="h-24 w-24 text-muted-foreground" fill="none" aria-hidden>
-      <rect x="10" y="10" width="100" height="100" rx="4" className="stroke-current" strokeDasharray="3 4" />
+      <rect
+        x="10"
+        y="10"
+        width="100"
+        height="100"
+        rx="4"
+        className="stroke-current"
+        strokeDasharray="3 4"
+      />
       <ellipse cx="60" cy="54" rx="20" ry="25" className="stroke-current" />
       <path d="M28 110c4-18 16-26 32-26s28 8 32 26" className="stroke-current" />
       <path d="M52 50h0M68 50h0" className="stroke-current" strokeWidth="3" strokeLinecap="round" />

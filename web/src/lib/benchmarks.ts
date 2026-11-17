@@ -51,11 +51,43 @@ export const CURRENT = {
 } as const;
 
 /** Validation history, 80 MEAD validation clips rendered (same evaluation for every row). */
-export const MODEL_HISTORY: { model: string; note: string; lseC?: number; lseD?: number; mouthCorr: number; f1?: number; arcface?: number }[] = [
+export const MODEL_HISTORY: {
+  model: string;
+  note: string;
+  lseC?: number;
+  lseD?: number;
+  mouthCorr: number;
+  f1?: number;
+  arcface?: number;
+}[] = [
   { model: "reg", note: "HuBERT, block streaming · 15 Nov", mouthCorr: 0.52 },
-  { model: "it_ccc_la2", note: "HuBERT, concordance loss, look-ahead · 16 Nov", lseC: 4.89, lseD: 9.43, mouthCorr: 0.546, f1: 0.77, arcface: 0.882 },
-  { model: "wl_base", note: "WavLM layer 6 · 17 Nov", lseC: 4.74, lseD: 9.55, mouthCorr: 0.582, f1: 0.84, arcface: 0.882 },
-  { model: "ph_aug", note: "WavLM + degraded-audio training · live", lseC: 5.08, lseD: 9.15, mouthCorr: 0.6, f1: 0.78, arcface: 0.876 },
+  {
+    model: "it_ccc_la2",
+    note: "HuBERT, concordance loss, look-ahead · 16 Nov",
+    lseC: 4.89,
+    lseD: 9.43,
+    mouthCorr: 0.546,
+    f1: 0.77,
+    arcface: 0.882,
+  },
+  {
+    model: "wl_base",
+    note: "WavLM layer 6 · 17 Nov",
+    lseC: 4.74,
+    lseD: 9.55,
+    mouthCorr: 0.582,
+    f1: 0.84,
+    arcface: 0.882,
+  },
+  {
+    model: "ph_aug",
+    note: "WavLM + degraded-audio training · live",
+    lseC: 5.08,
+    lseD: 9.15,
+    mouthCorr: 0.6,
+    f1: 0.78,
+    arcface: 0.876,
+  },
 ];
 
 export const DISCLAIMER =

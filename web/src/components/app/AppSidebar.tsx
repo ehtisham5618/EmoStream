@@ -89,9 +89,19 @@ export function AppSidebar({
   const studioActive = path.startsWith("/app/studio");
 
   return (
-    <div className={cn("flex h-full flex-col bg-sidebar text-sidebar-foreground", !mobile && "border-r border-sidebar-border")}>
+    <div
+      className={cn(
+        "flex h-full flex-col bg-sidebar text-sidebar-foreground",
+        !mobile && "border-r border-sidebar-border",
+      )}
+    >
       <div className={cn("flex h-16 items-center gap-2 px-4", collapsed && "justify-center px-0")}>
-        <Link to="/" className="flex items-center gap-2" aria-label="EmoStream website" onClick={onNavigate}>
+        <Link
+          to="/"
+          className="flex items-center gap-2"
+          aria-label="EmoStream website"
+          onClick={onNavigate}
+        >
           <LogoMark className="size-7 text-foreground" />
           {!collapsed && (
             <span className="text-[1.05rem] font-semibold tracking-[-0.03em]">
@@ -110,14 +120,26 @@ export function AppSidebar({
             className={cn(
               "group relative flex items-center gap-3 overflow-hidden rounded-lg border transition-colors duration-200",
               collapsed ? "h-11 justify-center" : "px-3 py-3",
-              studioActive ? "stage-band border-transparent" : "border-sidebar-border bg-surface hover:border-foreground/25",
+              studioActive
+                ? "stage-band border-transparent"
+                : "border-sidebar-border bg-surface hover:border-foreground/25",
             )}
           >
-            <AudioLines className={cn("size-[18px] shrink-0", studioActive ? "text-ember" : "text-foreground")} />
+            <AudioLines
+              className={cn(
+                "size-[18px] shrink-0",
+                studioActive ? "text-ember" : "text-foreground",
+              )}
+            />
             {!collapsed && (
               <span className="min-w-0 flex-1">
                 <span className="block text-sm font-semibold">Studio</span>
-                <span className={cn("block truncate text-[11.5px]", studioActive ? "text-stage-muted" : "text-muted-foreground")}>
+                <span
+                  className={cn(
+                    "block truncate text-[11.5px]",
+                    studioActive ? "text-stage-muted" : "text-muted-foreground",
+                  )}
+                >
                   Portrait → voice → emotion
                 </span>
               </span>
@@ -132,14 +154,20 @@ export function AppSidebar({
             {collapsed ? (
               <div className="mx-auto my-2 h-px w-6 bg-sidebar-border" />
             ) : (
-              <p className="eyebrow mb-1.5 px-2.5 text-[10px] text-muted-foreground/80">{g.label}</p>
+              <p className="eyebrow mb-1.5 px-2.5 text-[10px] text-muted-foreground/80">
+                {g.label}
+              </p>
             )}
             <ul className="space-y-px">
               {g.items.map((it) => {
-                const active = it.to === "/app" ? path === "/app" || path === "/app/" : path.startsWith(it.to);
+                const active =
+                  it.to === "/app" ? path === "/app" || path === "/app/" : path.startsWith(it.to);
                 return (
                   <li key={it.to}>
-                    <NavTip label={it.soon ? `${it.label} · coming soon` : it.label} show={collapsed}>
+                    <NavTip
+                      label={it.soon ? `${it.label} · coming soon` : it.label}
+                      show={collapsed}
+                    >
                       <Link
                         to={it.to}
                         onClick={onNavigate}
@@ -147,7 +175,9 @@ export function AppSidebar({
                         className={cn(
                           "group relative flex h-9 items-center gap-3 rounded-md text-[13.5px] transition-colors duration-150",
                           collapsed ? "justify-center" : "px-2.5",
-                          active ? "bg-sidebar-accent font-medium text-foreground" : "text-muted-foreground hover:bg-sidebar-accent/60 hover:text-foreground",
+                          active
+                            ? "bg-sidebar-accent font-medium text-foreground"
+                            : "text-muted-foreground hover:bg-sidebar-accent/60 hover:text-foreground",
                         )}
                       >
                         <span
@@ -160,7 +190,9 @@ export function AppSidebar({
                         <it.icon className="size-[17px] shrink-0" strokeWidth={1.75} />
                         {!collapsed && <span className="flex-1 truncate">{it.label}</span>}
                         {!collapsed && it.soon && (
-                          <span className="rounded border border-dashed border-soon/60 px-1 font-mono text-[9px] uppercase tracking-wider text-soon">Soon</span>
+                          <span className="rounded border border-dashed border-soon/60 px-1 font-mono text-[9px] uppercase tracking-wider text-soon">
+                            Soon
+                          </span>
                         )}
                       </Link>
                     </NavTip>
@@ -178,12 +210,21 @@ export function AppSidebar({
             to="/app/settings"
             hash="performance"
             onClick={onNavigate}
-            className={cn("flex items-center gap-2.5 rounded-md px-2 py-2 text-xs hover:bg-sidebar-accent/60", collapsed && "justify-center px-0")}
+            className={cn(
+              "flex items-center gap-2.5 rounded-md px-2 py-2 text-xs hover:bg-sidebar-accent/60",
+              collapsed && "justify-center px-0",
+            )}
           >
             <span
               className={cn(
                 "size-2 shrink-0 rounded-full",
-                status === "online" ? "bg-success" : status === "offline" ? "bg-live" : status === "checking" ? "bg-warning animate-rec" : "bg-muted-foreground/40",
+                status === "online"
+                  ? "bg-success"
+                  : status === "offline"
+                    ? "bg-live"
+                    : status === "checking"
+                      ? "bg-warning animate-rec"
+                      : "bg-muted-foreground/40",
               )}
             />
             {!collapsed && (
@@ -203,7 +244,11 @@ export function AppSidebar({
             )}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            {collapsed ? <PanelLeftOpen className="size-4" /> : <PanelLeftClose className="size-4" />}
+            {collapsed ? (
+              <PanelLeftOpen className="size-4" />
+            ) : (
+              <PanelLeftClose className="size-4" />
+            )}
             {!collapsed && "Collapse"}
           </button>
         )}
@@ -213,10 +258,24 @@ export function AppSidebar({
 }
 
 function engineLabel(s: string) {
-  return s === "online" ? "Connected" : s === "offline" ? "Unreachable" : s === "checking" ? "Checking…" : "Not connected";
+  return s === "online"
+    ? "Connected"
+    : s === "offline"
+      ? "Unreachable"
+      : s === "checking"
+        ? "Checking…"
+        : "Not connected";
 }
 
-function NavTip({ label, show, children }: { label: string; show: boolean; children: React.ReactNode }) {
+function NavTip({
+  label,
+  show,
+  children,
+}: {
+  label: string;
+  show: boolean;
+  children: React.ReactNode;
+}) {
   if (!show) return <>{children}</>;
   return (
     <Tooltip>

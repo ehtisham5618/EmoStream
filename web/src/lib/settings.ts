@@ -34,7 +34,9 @@ function load(): Settings {
   if (typeof window === "undefined") return DEFAULT_SETTINGS;
   try {
     const raw = window.localStorage.getItem(KEY);
-    return raw ? { ...DEFAULT_SETTINGS, ...JSON.parse(raw), requireConsent: true } : DEFAULT_SETTINGS;
+    return raw
+      ? { ...DEFAULT_SETTINGS, ...JSON.parse(raw), requireConsent: true }
+      : DEFAULT_SETTINGS;
   } catch {
     return DEFAULT_SETTINGS;
   }

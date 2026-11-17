@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { CropGuides } from "@/components/brand/HeroStage";
@@ -7,7 +14,13 @@ import { cropStyle, studioStore, useStudio, type Crop } from "@/lib/studio-store
 
 const clamp = (n: number) => Math.max(-1, Math.min(1, n));
 
-export function CropDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
+export function CropDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (o: boolean) => void;
+}) {
   const portrait = useStudio((s) => s.portrait);
   const [crop, setCrop] = useState<Crop>({ x: 0, y: 0, zoom: 1 });
   const drag = useRef<{ x: number; y: number; c: Crop } | null>(null);
@@ -40,7 +53,8 @@ export function CropDialog({ open, onOpenChange }: { open: boolean; onOpenChange
         <DialogHeader>
           <DialogTitle className="font-display text-3xl font-normal">Crop & position</DialogTitle>
           <DialogDescription>
-            Drag to centre the face. Keep the chin and the top of the head inside the guides — EmoStream animates a 512×512 square.
+            Drag to centre the face. Keep the chin and the top of the head inside the guides —
+            EmoStream animates a 512×512 square.
           </DialogDescription>
         </DialogHeader>
         <div
@@ -59,20 +73,52 @@ export function CropDialog({ open, onOpenChange }: { open: boolean; onOpenChange
             const dx = (e.clientX - drag.current.x) / size;
             const dy = (e.clientY - drag.current.y) / size;
             const k = 2.2 / Math.max(1, crop.zoom * 0.9);
-            setCrop({ ...crop, x: clamp(drag.current.c.x - dx * k), y: clamp(drag.current.c.y - dy * k) });
+            setCrop({
+              ...crop,
+              x: clamp(drag.current.c.x - dx * k),
+              y: clamp(drag.current.c.y - dy * k),
+            });
           }}
           onPointerUp={() => (drag.current = null)}
         >
-          <img src={portrait.url} alt="" style={cropStyle(preview)} draggable={false} className="pointer-events-none select-none" />
+          <img
+            src={portrait.url}
+            alt=""
+            style={cropStyle(preview)}
+            draggable={false}
+            className="pointer-events-none select-none"
+          />
           <CropGuides className="inset-3" />
-          <svg viewBox="0 0 100 100" className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden>
-            <ellipse cx="50" cy="46" rx="21" ry="28" fill="none" className="stroke-stage-foreground/50" strokeDasharray="1.5 2" strokeWidth="0.4" />
+          <svg
+            viewBox="0 0 100 100"
+            className="pointer-events-none absolute inset-0 h-full w-full"
+            aria-hidden
+          >
+            <ellipse
+              cx="50"
+              cy="46"
+              rx="21"
+              ry="28"
+              fill="none"
+              className="stroke-stage-foreground/50"
+              strokeDasharray="1.5 2"
+              strokeWidth="0.4"
+            />
           </svg>
-          <span className="eyebrow absolute bottom-3 left-1/2 -translate-x-1/2 text-[9px] text-stage-muted">Face area</span>
+          <span className="eyebrow absolute bottom-3 left-1/2 -translate-x-1/2 text-[9px] text-stage-muted">
+            Face area
+          </span>
         </div>
         <div className="flex items-center gap-4">
           <span className="eyebrow w-12 text-muted-foreground">Zoom</span>
-          <Slider value={[crop.zoom]} min={1} max={3} step={0.01} onValueChange={([z]) => setCrop({ ...crop, zoom: z ?? 1 })} aria-label="Zoom" />
+          <Slider
+            value={[crop.zoom]}
+            min={1}
+            max={3}
+            step={0.01}
+            onValueChange={([z]) => setCrop({ ...crop, zoom: z ?? 1 })}
+            aria-label="Zoom"
+          />
           <span className="timecode w-12 text-right text-xs">{crop.zoom.toFixed(2)}×</span>
         </div>
         <DialogFooter className="gap-2 sm:justify-between">

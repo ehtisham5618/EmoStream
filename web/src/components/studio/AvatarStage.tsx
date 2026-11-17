@@ -1,4 +1,13 @@
-import { AlertTriangle, CheckCircle2, Expand, Loader2, Minimize, RefreshCw, Unplug, WifiOff } from "lucide-react";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  Expand,
+  Loader2,
+  Minimize,
+  RefreshCw,
+  Unplug,
+  WifiOff,
+} from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { CropGuides } from "@/components/brand/HeroStage";
@@ -33,15 +42,27 @@ export function AvatarStage({ s }: { s: StudioSession }) {
 
   const emo = emotionById(emotion);
   const st = s.stage;
-  const rendering = st === "active" || (s.engineMode && (st === "paused" || st === "complete") && s.stats.framesReceived > 0);
+  const rendering =
+    st === "active" ||
+    (s.engineMode && (st === "paused" || st === "complete") && s.stats.framesReceived > 0);
 
   return (
-    <div ref={wrap} className={cn("stage grain relative flex flex-col overflow-hidden rounded-xl", full && "rounded-none")}>
+    <div
+      ref={wrap}
+      className={cn(
+        "stage grain relative flex flex-col overflow-hidden rounded-xl",
+        full && "rounded-none",
+      )}
+    >
       {/* top bar */}
       <div className="relative z-[3] flex items-center gap-3 border-b border-stage-line px-4 py-2.5">
         <StateChip state={st} />
-        <span className="hidden truncate text-[12.5px] text-stage-muted sm:block">{portrait ? name : "No avatar yet"}</span>
-        <span className="ml-auto timecode text-[11px] text-stage-foreground/80">{timecode(s.mic.elapsed)}</span>
+        <span className="hidden truncate text-[12.5px] text-stage-muted sm:block">
+          {portrait ? name : "No avatar yet"}
+        </span>
+        <span className="ml-auto timecode text-[11px] text-stage-foreground/80">
+          {timecode(s.mic.elapsed)}
+        </span>
         <button
           onClick={toggleFull}
           className="inline-flex size-8 items-center justify-center rounded-md text-stage-foreground/80 hover:bg-stage-foreground/10"
@@ -51,16 +72,51 @@ export function AvatarStage({ s }: { s: StudioSession }) {
         </button>
       </div>
 
-      <div className={cn("relative z-[2] flex flex-1 items-center justify-center p-4 sm:p-6", full && "p-8")}>
-        <div className={cn("relative aspect-square w-full overflow-hidden rounded-[6px] bg-stage-raised ring-1 ring-stage-line", full ? "max-h-[calc(100vh-9rem)] max-w-[calc(100vh-9rem)]" : "max-w-[min(100%,62vh)]")}>
+      <div
+        className={cn(
+          "relative z-[2] flex flex-1 items-center justify-center p-4 sm:p-6",
+          full && "p-8",
+        )}
+      >
+        <div
+          className={cn(
+            "relative aspect-square w-full overflow-hidden rounded-[6px] bg-stage-raised ring-1 ring-stage-line",
+            full ? "max-h-[calc(100vh-9rem)] max-w-[calc(100vh-9rem)]" : "max-w-[min(100%,62vh)]",
+          )}
+        >
           {/* static portrait underneath — never animated by the frontend */}
-          {portrait && <img src={portrait.url} alt="" style={cropStyle(portrait)} className={cn("transition-opacity duration-500", rendering ? "opacity-0" : st === "ready" ? "opacity-90" : "opacity-45")} draggable={false} />}
+          {portrait && (
+            <img
+              src={portrait.url}
+              alt=""
+              style={cropStyle(portrait)}
+              className={cn(
+                "transition-opacity duration-500",
+                rendering ? "opacity-0" : st === "ready" ? "opacity-90" : "opacity-45",
+              )}
+              draggable={false}
+            />
+          )}
           {/* engine frames */}
-          <canvas ref={s.canvasRef} width={512} height={512} className={cn("absolute inset-0 h-full w-full", rendering ? "opacity-100" : "opacity-0")} />
+          <canvas
+            ref={s.canvasRef}
+            width={512}
+            height={512}
+            className={cn(
+              "absolute inset-0 h-full w-full",
+              rendering ? "opacity-100" : "opacity-0",
+            )}
+          />
 
           {!portrait && st !== "preparing" && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <FaceMesh params={NEUTRAL_FACE} className="h-[86%] w-[86%] text-stage-foreground/25" lineClass="stroke-stage-foreground/25" dotClass="fill-stage-foreground/25" accentClass="stroke-stage-foreground/30" />
+              <FaceMesh
+                params={NEUTRAL_FACE}
+                className="h-[86%] w-[86%] text-stage-foreground/25"
+                lineClass="stroke-stage-foreground/25"
+                dotClass="fill-stage-foreground/25"
+                accentClass="stroke-stage-foreground/30"
+              />
             </div>
           )}
           {showGuides && <CropGuides />}
@@ -69,7 +125,9 @@ export function AvatarStage({ s }: { s: StudioSession }) {
           {showInfo && (
             <div className="timecode absolute left-3 top-3 flex flex-col gap-0.5 rounded-[3px] bg-stage/70 px-2 py-1 text-[10px] text-stage-foreground/85 backdrop-blur-sm">
               <span>F {frameNo(s.stats.framesDisplayed)} · 512×512</span>
-              <span className="text-stage-muted">{s.stats.fps !== undefined ? `${s.stats.fps.toFixed(1)} fps` : "fps —"}</span>
+              <span className="text-stage-muted">
+                {s.stats.fps !== undefined ? `${s.stats.fps.toFixed(1)} fps` : "fps —"}
+              </span>
             </div>
           )}
 
@@ -85,10 +143,15 @@ export function AvatarStage({ s }: { s: StudioSession }) {
       {/* bottom strip */}
       <div className="relative z-[3] flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-stage-line px-4 py-2.5 text-[11.5px] text-stage-muted">
         <span className="flex items-center gap-1.5">
-          <span className={cn("size-1.5 rounded-full", emo.bgClass)} /> {emo.label} · <span className="timecode">{intensity}%</span>
+          <span className={cn("size-1.5 rounded-full", emo.bgClass)} /> {emo.label} ·{" "}
+          <span className="timecode">{intensity}%</span>
         </span>
-        <span className="timecode">{s.engineMode ? `RX ${s.stats.framesReceived}` : "Not streaming"}</span>
-        <span className="ml-auto hidden sm:block">Preview is the engine's output only — nothing is animated in the browser.</span>
+        <span className="timecode">
+          {s.engineMode ? `RX ${s.stats.framesReceived}` : "Not streaming"}
+        </span>
+        <span className="ml-auto hidden sm:block">
+          Preview is the engine's output only — nothing is animated in the browser.
+        </span>
       </div>
     </div>
   );
@@ -96,9 +159,20 @@ export function AvatarStage({ s }: { s: StudioSession }) {
 
 function StageOverlay({ s, hasPortrait }: { s: StudioSession; hasPortrait: boolean }) {
   const st = s.stage;
-  const box = (icon: ReactNode, title: string, body: ReactNode, action?: ReactNode, tone: "calm" | "alert" = "calm") => (
+  const box = (
+    icon: ReactNode,
+    title: string,
+    body: ReactNode,
+    action?: ReactNode,
+    tone: "calm" | "alert" = "calm",
+  ) => (
     <div className="absolute inset-x-4 bottom-12 flex justify-center sm:inset-x-8">
-      <div className={cn("max-w-sm rounded-lg border bg-stage/85 p-4 text-center backdrop-blur-md animate-rise", tone === "alert" ? "border-live/40" : "border-stage-line")}>
+      <div
+        className={cn(
+          "max-w-sm rounded-lg border bg-stage/85 p-4 text-center backdrop-blur-md animate-rise",
+          tone === "alert" ? "border-live/40" : "border-stage-line",
+        )}
+      >
         <div className="flex justify-center">{icon}</div>
         <p className="mt-2 text-sm font-semibold text-stage-foreground">{title}</p>
         <div className="mt-1 text-xs leading-relaxed text-stage-muted">{body}</div>
@@ -109,17 +183,41 @@ function StageOverlay({ s, hasPortrait }: { s: StudioSession; hasPortrait: boole
 
   switch (st) {
     case "empty":
-      return box(null, "Give your portrait a voice.", "Upload a portrait to create your avatar. It will appear here at 512×512.");
+      return box(
+        null,
+        "Give your portrait a voice.",
+        "Upload a portrait to create your avatar. It will appear here at 512×512.",
+      );
     case "preparing":
-      return box(<Loader2 className="size-5 animate-spin text-stage-foreground" />, "Preparing portrait", "Reading the image and checking it for a face.");
+      return box(
+        <Loader2 className="size-5 animate-spin text-stage-foreground" />,
+        "Preparing portrait",
+        "Reading the image and checking it for a face.",
+      );
     case "ready":
       return hasPortrait
-        ? box(null, "Start speaking to preview the animation.", s.canStart.ok ? "Press Start session, then talk. Your voice drives the movement; your selected emotion shapes the expression." : s.canStart.reason)
+        ? box(
+            null,
+            "Start speaking to preview the animation.",
+            s.canStart.ok
+              ? "Press Start session, then talk. Your voice drives the movement; your selected emotion shapes the expression."
+              : s.canStart.reason,
+          )
         : null;
     case "initializing":
-      return box(<Loader2 className="size-5 animate-spin text-stage-foreground" />, "Initialising engine", s.startupDetail ?? "Sending your portrait and building its appearance representation.");
+      return box(
+        <Loader2 className="size-5 animate-spin text-stage-foreground" />,
+        "Initialising engine",
+        s.startupDetail ?? "Sending your portrait and building its appearance representation.",
+      );
     case "waiting":
-      return box(<span className="size-2 rounded-full bg-live animate-rec" />, "Waiting for audio", s.phase === "finishing" ? "Finishing the last frames." : "Connected. The first frames arrive once the engine hears your voice.");
+      return box(
+        <span className="size-2 rounded-full bg-live animate-rec" />,
+        "Waiting for audio",
+        s.phase === "finishing"
+          ? "Finishing the last frames."
+          : "Connected. The first frames arrive once the engine hears your voice.",
+      );
     case "paused":
       return box(null, "Paused", "Audio isn't being sent. Resume when you're ready.");
     case "lost":
@@ -131,7 +229,14 @@ function StageOverlay({ s, hasPortrait }: { s: StudioSession; hasPortrait: boole
           <Button size="sm" variant="stage" onClick={s.reset}>
             <RefreshCw /> Reset
           </Button>
-          <Button size="sm" variant="live" onClick={() => { s.reset(); window.setTimeout(s.start, 50); }}>
+          <Button
+            size="sm"
+            variant="live"
+            onClick={() => {
+              s.reset();
+              window.setTimeout(s.start, 50);
+            }}
+          >
             Reconnect
           </Button>
         </>,
@@ -141,7 +246,9 @@ function StageOverlay({ s, hasPortrait }: { s: StudioSession; hasPortrait: boole
       return box(
         <CheckCircle2 className="size-5 text-success" />,
         "Session complete",
-        s.stats.framesReceived > 0 ? `${s.stats.framesReceived} frames received. Export the take or start a new one.` : "The session ended before the engine sent any frames.",
+        s.stats.framesReceived > 0
+          ? `${s.stats.framesReceived} frames received. Export the take or start a new one.`
+          : "The session ended before the engine sent any frames.",
       );
     case "error":
       return box(

@@ -11,8 +11,14 @@ export function EmotionPanel({ live }: { live: boolean }) {
   const current = emotionById(emotion);
 
   return (
-    <PanelBlock index="03" title="Expression" hint={live ? <span className="text-live">● live</span> : undefined}>
-      <p className="font-display text-[1.35rem] leading-tight">Choose how your avatar expresses itself.</p>
+    <PanelBlock
+      index="03"
+      title="Expression"
+      hint={live ? <span className="text-live">● live</span> : undefined}
+    >
+      <p className="font-display text-[1.35rem] leading-tight">
+        Choose how your avatar expresses itself.
+      </p>
 
       <div className="mt-4 grid grid-cols-5 gap-1.5" role="radiogroup" aria-label="Emotion">
         {EMOTIONS.map((e) => {
@@ -25,17 +31,32 @@ export function EmotionPanel({ live }: { live: boolean }) {
               onClick={() => studioStore.set({ emotion: e.id })}
               className={cn(
                 "group relative flex flex-col items-center rounded-md border px-0.5 pb-1.5 pt-2 transition-[border-color,background-color,transform] duration-200 ease-soft",
-                on ? cn("bg-surface shadow-sm", e.borderClass) : "border-transparent bg-sunk hover:border-border hover:bg-surface",
+                on
+                  ? cn("bg-surface shadow-sm", e.borderClass)
+                  : "border-transparent bg-sunk hover:border-border hover:bg-surface",
               )}
             >
               <ExpressionGlyph
                 emotion={e.id}
                 intensity={on ? Math.max(intensity, 35) : 85}
-                className={cn("h-10 w-full transition-opacity", on ? "text-foreground" : "text-foreground/45 group-hover:text-foreground/70")}
+                className={cn(
+                  "h-10 w-full transition-opacity",
+                  on ? "text-foreground" : "text-foreground/45 group-hover:text-foreground/70",
+                )}
                 accentClass={on ? "stroke-ember" : "stroke-current"}
               />
-              <span className={cn("mt-1 text-[10.5px]", on ? "font-semibold" : "text-muted-foreground")}>{e.label}</span>
-              <span className={cn("absolute inset-x-3 -bottom-px h-[2px] rounded-full transition-opacity", e.bgClass, on ? "opacity-100" : "opacity-0")} />
+              <span
+                className={cn("mt-1 text-[10.5px]", on ? "font-semibold" : "text-muted-foreground")}
+              >
+                {e.label}
+              </span>
+              <span
+                className={cn(
+                  "absolute inset-x-3 -bottom-px h-[2px] rounded-full transition-opacity",
+                  e.bgClass,
+                  on ? "opacity-100" : "opacity-0",
+                )}
+              />
             </button>
           );
         })}
@@ -44,7 +65,11 @@ export function EmotionPanel({ live }: { live: boolean }) {
       {/* blended preview */}
       <div className="mt-4 grid grid-cols-[96px_1fr] items-center gap-4 rounded-md border border-border bg-sunk p-3">
         <div className="stage aspect-square rounded-md p-2">
-          <ExpressionGlyph emotion={emotion} intensity={intensity} className="h-full w-full text-stage-foreground/85" />
+          <ExpressionGlyph
+            emotion={emotion}
+            intensity={intensity}
+            className="h-full w-full text-stage-foreground/85"
+          />
         </div>
         <div>
           <p className="eyebrow text-[10px] text-muted-foreground">Intensity</p>

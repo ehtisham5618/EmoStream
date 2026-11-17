@@ -30,7 +30,10 @@ export function BuildCheck() {
           window.location.reload();
           return;
         }
-        toast.error("This page is out of date", { description: "Reload it (Ctrl+Shift+R) before starting a session.", duration: Infinity });
+        toast.error("This page is out of date", {
+          description: "Reload it (Ctrl+Shift+R) before starting a session.",
+          duration: Infinity,
+        });
       })
       .catch(() => undefined);
     return () => {

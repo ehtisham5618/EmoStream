@@ -18,7 +18,11 @@ export function createStore<T>(initial: T) {
   };
 }
 
-export function useStore<T, S>(store: ReturnType<typeof createStore<T>>, selector: (s: T) => S, serverValue?: T): S {
+export function useStore<T, S>(
+  store: ReturnType<typeof createStore<T>>,
+  selector: (s: T) => S,
+  serverValue?: T,
+): S {
   return useSyncExternalStore(
     store.subscribe,
     () => selector(store.get()),

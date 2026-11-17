@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 import { CURRENT, VALIDATION, HARDWARE } from "@/lib/benchmarks";
 import { faceFor } from "@/lib/emotions";
 import { wsUrl } from "@/lib/engine/client";
-import { canStartSession, validatePortraitFile, validatePortraitSize, type Portrait } from "@/lib/studio-store";
+import {
+  canStartSession,
+  validatePortraitFile,
+  validatePortraitSize,
+  type Portrait,
+} from "@/lib/studio-store";
 
 const portrait = (over: Partial<Portrait> = {}): Portrait => ({
   url: "blob:x",
@@ -23,17 +28,25 @@ describe("session start rules", () => {
     expect(canStartSession({ portrait: null, ...both }).ok).toBe(false);
   });
   it("needs portrait consent even with a portrait", () => {
-    expect(canStartSession({ portrait: portrait(), consent: false, voiceConsent: true }).ok).toBe(false);
+    expect(canStartSession({ portrait: portrait(), consent: false, voiceConsent: true }).ok).toBe(
+      false,
+    );
   });
   it("needs voice consent before any audio is sent", () => {
-    expect(canStartSession({ portrait: portrait(), consent: true, voiceConsent: false }).ok).toBe(false);
+    expect(canStartSession({ portrait: portrait(), consent: true, voiceConsent: false }).ok).toBe(
+      false,
+    );
   });
   it("starts with a portrait and both consents", () => {
     expect(canStartSession({ portrait: portrait(), ...both }).ok).toBe(true);
   });
   it("refuses when no face or several faces were detected", () => {
-    expect(canStartSession({ portrait: portrait({ faceCheck: "not-found" }), ...both }).ok).toBe(false);
-    expect(canStartSession({ portrait: portrait({ faceCheck: "multiple" }), ...both }).ok).toBe(false);
+    expect(canStartSession({ portrait: portrait({ faceCheck: "not-found" }), ...both }).ok).toBe(
+      false,
+    );
+    expect(canStartSession({ portrait: portrait({ faceCheck: "multiple" }), ...both }).ok).toBe(
+      false,
+    );
   });
 });
 
@@ -51,7 +64,14 @@ describe("portrait requirements", () => {
 
 describe("validated figures", () => {
   it("match the validation report", () => {
-    expect(VALIDATION).toMatchObject({ fps: 25, peakVramGiB: 2.77, serverP50Ms: 269, serverP95Ms: 319, arcface: 0.93, emotionMacroF1: 0.651 });
+    expect(VALIDATION).toMatchObject({
+      fps: 25,
+      peakVramGiB: 2.77,
+      serverP50Ms: 269,
+      serverP95Ms: 319,
+      arcface: 0.93,
+      emotionMacroF1: 0.651,
+    });
   });
   it("only the L40S carries performance figures; RTX 4050 is unverified", () => {
     expect(HARDWARE.filter((h) => h.fps).map((h) => h.gpu)).toEqual(["NVIDIA L40S"]);
@@ -61,7 +81,13 @@ describe("validated figures", () => {
     expect(VALIDATION).toMatchObject({ model: "reg", date: "15 Nov 2026" });
   });
   it("live-model figures match the 17 Nov articulation report", () => {
-    expect(CURRENT).toMatchObject({ model: "ph_aug", lseC: 5.08, lseD: 9.15, emotionMacroF1: 0.777, arcface: 0.876 });
+    expect(CURRENT).toMatchObject({
+      model: "ph_aug",
+      lseC: 5.08,
+      lseD: 9.15,
+      emotionMacroF1: 0.777,
+      arcface: 0.876,
+    });
   });
 });
 
