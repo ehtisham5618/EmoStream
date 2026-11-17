@@ -180,7 +180,7 @@ function Avatars() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete “{name}”?</AlertDialogTitle>
-            <AlertDialogDescription>The portrait is removed from this tab. It was never uploaded to a server, so there's nothing else to delete.</AlertDialogDescription>
+            <AlertDialogDescription>The portrait is removed from this tab. It is only sent to the engine while a session runs and is not stored there, so there's nothing else to delete.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Keep it</AlertDialogCancel>

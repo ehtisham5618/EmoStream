@@ -12,7 +12,7 @@ export const Route = createFileRoute("/how-it-works")({
   head: () => ({
     meta: [
       { title: "How it works — EmoStream" },
-      { name: "description", content: "From one portrait and a live voice to a 512×512 talking avatar: HuBERT, BehaviourNet and LivePortrait, step by step." },
+      { name: "description", content: "From one portrait and a live voice to a 512×512 talking avatar: WavLM, BehaviourNet and LivePortrait, step by step." },
       { property: "og:title", content: "How EmoStream works" },
       { property: "og:description", content: "Portrait → voice → emotion → animated avatar, explained step by step." },
       { property: "og:type", content: "article" },
@@ -40,7 +40,7 @@ function HowItWorks() {
             <span className="eyebrow absolute bottom-4 left-4 text-[9px] text-stage-muted">Crop guide · 512×512</span>
           </div>
         </Step>
-        <Step n="02" title="Supply your voice." body="Speak into your microphone. Audio is sent in small chunks at 16 kHz; HuBERT turns it into speech features, and BehaviourNet — causal by design — predicts motion from what it has heard so far." flip>
+        <Step n="02" title="Supply your voice." body="Speak into your microphone. Audio is sent in small chunks at 16 kHz; WavLM turns it into speech features, and BehaviourNet — causal by design — predicts motion from what it has heard so far." flip>
           <div className="panel p-6">
             <WaveformMotif bars={90} seed={13} className="h-16 w-full text-foreground/70" />
             <div className="mt-3 flex justify-between">

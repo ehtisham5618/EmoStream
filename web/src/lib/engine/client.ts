@@ -1,22 +1,25 @@
 /**
- * EmoStream engine adapter.
+ * EmoStream engine adapter: addresses, engine info, and the live-statistics shape the UI shows.
  *
- * Backend contracts named by the project: /ws/session, /api/export, /api/info.
- * The wire protocol below is the adapter's ASSUMPTION until checked against the engine source:
- *   client → server  JSON {type:"start", emotion, intensity, portrait: <base64 JPEG 512×512>, sample_rate: 16000}
- *                    JSON {type:"emotion", emotion, intensity}
- *                    JSON {type:"ping", t}
- *                    JSON {type:"stop"}
- *                    binary  Int16 little-endian PCM, mono, 16 kHz
- *   server → client  binary  one encoded video frame (JPEG/WebP)
- *                    JSON {type:"ready"} | {type:"stats", fps?, server_latency_ms?, peak_vram_gib?}
- *                    JSON {type:"pong", t} | {type:"error", message} | {type:"done"}
- * Keep every protocol detail in this file so the UI never depends on it directly.
+ * The wire protocol itself is NOT defined here. The Studio uses the reference client shared with
+ * the diagnostics client (`@engine/*` = frontend/src/lib: protocol.ts, session.ts, player.ts,
+ * audio.ts), which implements docs/integration/frontend_backend_contract.md:
+ *   start (JSON, consent + options) → 0x10 portrait → status → ready → 0x01 PCM16 audio …
+ *   ← 0x03 H.264 video frames (0x02 JPEG fallback), stats, emotion_ack, pong, done, error
+ *
+ * Engine address: empty (the default) means the engine that serves this page, i.e. the same
+ * origin. A build can point elsewhere with VITE_ENGINE_URL, and Settings can override both.
  */
-import type { EmotionId } from "../emotions";
 
 export function normaliseBase(url: string) {
   return url.trim().replace(/\/+$/, "");
+}
+
+/** Base URL of the engine: settings override, then build-time VITE_ENGINE_URL, then this origin. */
+export function engineBase(settingsUrl = ""): string {
+  const configured = normaliseBase(settingsUrl) || normaliseBase((import.meta.env["VITE_ENGINE_URL"] as string | undefined) ?? "");
+  if (configured) return configured;
+  return typeof window === "undefined" ? "" : window.location.origin;
 }
 
 export function wsUrl(base: string, path = "/ws/session") {
@@ -37,7 +40,7 @@ export async function fetchEngineInfo(base: string, signal?: AbortSignal): Promi
   if (!b) return { ok: false, error: "No engine address set" };
   const t0 = performance.now();
   try {
-    const res = await fetch(`${b}/api/info`, signal ? { signal } : {});
+    const res = await fetch(`${b}/api/info`, { cache: "no-store", ...(signal ? { signal } : {}) });
     const latencyMs = Math.round(performance.now() - t0);
     if (!res.ok) return { ok: false, error: `Engine answered ${res.status}`, latencyMs };
     const raw = (await res.json()) as Record<string, unknown>;
@@ -48,125 +51,49 @@ export async function fetchEngineInfo(base: string, signal?: AbortSignal): Promi
   }
 }
 
-export async function exportSession(base: string, sessionId?: string): Promise<Blob> {
-  const res = await fetch(`${normaliseBase(base)}/api/export`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ session_id: sessionId }),
-  });
-  if (!res.ok) throw new Error(`Export failed (${res.status})`);
-  return res.blob();
-}
-
+/** What the Studio shows while a session runs. Every field is measured; undefined = not measured. */
 export interface LiveStats {
+  /** Distinct frames drawn on screen per second (last 2 s), measured in this browser. */
   fps?: number;
+  /** Server-side audio-to-frame latency, median over the session (engine `stats`). */
   serverLatencyMs?: number;
+  /** Round trip of a small message over the session's WebSocket (ping/pong median). */
   clientRttMs?: number;
+  /** Not reported per session by the engine (TensorRT memory is not included in its GPU field). */
   peakVramGiB?: number;
   framesReceived: number;
   framesDisplayed: number;
+  /** Frames never shown: skipped by the engine to bound delay, held back for the network, or late/overflowing here. */
   framesDropped: number;
 }
 
 export type ConnState = "idle" | "connecting" | "open" | "lost" | "closed" | "error";
 
-export interface SessionCallbacks {
-  onState: (s: ConnState, detail?: string) => void;
-  onReady: () => void;
-  onFrame: (bitmap: ImageBitmap | HTMLImageElement) => void;
-  onStats: (s: Partial<LiveStats>) => void;
-  onDone: () => void;
-}
-
-export class EngineSession {
-  private ws: WebSocket | null = null;
-  private pingTimer = 0;
-  private closedByUser = false;
-  sessionId?: string;
-
-  constructor(private base: string, private cb: SessionCallbacks) {}
-
-  connect(start: { emotion: EmotionId; intensity: number; portrait: string }) {
-    const url = wsUrl(this.base);
-    if (!url) {
-      this.cb.onState("error", "No engine address set");
-      return;
-    }
-    this.cb.onState("connecting");
-    let ws: WebSocket;
-    try {
-      ws = new WebSocket(url);
-    } catch {
-      this.cb.onState("error", "Engine address is not valid");
-      return;
-    }
-    ws.binaryType = "blob";
-    this.ws = ws;
-    ws.onopen = () => {
-      this.cb.onState("open");
-      this.send({ type: "start", emotion: start.emotion, intensity: start.intensity / 100, portrait: start.portrait, sample_rate: 16000 });
-      this.pingTimer = window.setInterval(() => this.send({ type: "ping", t: performance.now() }), 2000);
-    };
-    ws.onmessage = async (ev) => {
-      if (typeof ev.data !== "string") {
-        try {
-          const bmp = await createImageBitmap(ev.data as Blob);
-          this.cb.onFrame(bmp);
-        } catch {
-          this.cb.onStats({});
-        }
-        return;
-      }
-      try {
-        const msg = JSON.parse(ev.data);
-        if (msg.type === "ready") {
-          this.sessionId = msg.session_id;
-          this.cb.onReady();
-        } else if (msg.type === "stats") {
-          const p: Partial<LiveStats> = {};
-          const fps = num(msg.fps);
-          const lat = num(msg.server_latency_ms);
-          const vram = num(msg.peak_vram_gib);
-          if (fps !== undefined) p.fps = fps;
-          if (lat !== undefined) p.serverLatencyMs = lat;
-          if (vram !== undefined) p.peakVramGiB = vram;
-          this.cb.onStats(p);
-        } else if (msg.type === "pong" && typeof msg.t === "number") {
-          this.cb.onStats({ clientRttMs: Math.round(performance.now() - msg.t) });
-        } else if (msg.type === "error") {
-          this.cb.onState("error", String(msg.message ?? "Engine error"));
-        } else if (msg.type === "done") {
-          this.cb.onDone();
-        }
-      } catch {
-        /* ignore malformed */
-      }
-    };
-    ws.onerror = () => this.cb.onState("error", "Could not reach the engine");
-    ws.onclose = () => {
-      window.clearInterval(this.pingTimer);
-      this.cb.onState(this.closedByUser ? "closed" : "lost");
-    };
-  }
-
-  setEmotion(emotion: EmotionId, intensity: number) {
-    this.send({ type: "emotion", emotion, intensity: intensity / 100 });
-  }
-
-  sendAudio(pcm: Int16Array) {
-    if (this.ws?.readyState === WebSocket.OPEN) this.ws.send(pcm.buffer as ArrayBuffer);
-  }
-
-  stop() {
-    this.closedByUser = true;
-    this.send({ type: "stop" });
-    window.clearInterval(this.pingTimer);
-    window.setTimeout(() => this.ws?.close(), 300);
-  }
-
-  private send(obj: unknown) {
-    if (this.ws?.readyState === WebSocket.OPEN) this.ws.send(JSON.stringify(obj));
+/** Plain-language messages for the engine's error codes (contract §3.4). */
+export function engineErrorMessage(message: string, code?: string): string {
+  switch (code) {
+    case "busy":
+      return "Another session is using the avatar engine. Try again in a few seconds.";
+    case "no_face":
+      return "No face was found in this portrait. Choose a clear, front-facing photo.";
+    case "consent_required":
+      return "Both consents are needed before the engine can start.";
+    case "client_outdated":
+      return "This page is out of date. Reload it (Ctrl+Shift+R) and start again.";
+    case "bad_portrait":
+    case "portrait_too_large":
+      return "The engine couldn't read this portrait. Try a JPG or PNG under 10 MB.";
+    case "session_too_long":
+      return "Sessions are limited to 15 minutes of audio. Start a new take.";
+    case "overloaded":
+      return "The engine fell too far behind. Start a new take.";
+    case "model_unavailable":
+      return "The EmoStream model isn't loaded on this engine.";
+    case "connection":
+      return message;
+    case "internal_error":
+      return `${message}. The session was stopped; you can start again.`;
+    default:
+      return message || "The engine returned an error.";
   }
 }
-
-const num = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? v : undefined);

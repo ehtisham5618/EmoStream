@@ -11,7 +11,7 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { LiveBars } from "@/components/brand/Waveform";
 import { useMicrophone } from "@/lib/audio/useMicrophone";
-import { fetchEngineInfo } from "@/lib/engine/client";
+import { engineBase, fetchEngineInfo } from "@/lib/engine/client";
 import { EMOTIONS, type EmotionId } from "@/lib/emotions";
 import { resetSettings, updateSettings, useSettings, type ThemePref } from "@/lib/settings";
 import { cn } from "@/lib/utils";
@@ -228,7 +228,7 @@ function EngineField() {
   };
 
   return (
-    <Field label="Engine address" hint="Base URL of a running EmoStream engine. Studio connects to /ws/session there; leave empty to use the interface without rendering.">
+    <Field label="Engine address" hint={`Leave empty to use the engine that serves this page (now ${engineBase("") || "this site"}). Set a base URL only to use another EmoStream engine; Studio connects to /ws/session there.`}>
       <form
         className="max-w-md space-y-2"
         onSubmit={async (e) => {
@@ -240,7 +240,8 @@ function EngineField() {
           }
           updateSettings({ engineUrl: v });
           if (!v) {
-            toast("Engine disconnected");
+            const ok = await test(engineBase(""));
+            toast[ok ? "success" : "error"](ok ? "Using this site's engine" : "This site's engine didn't answer");
             return;
           }
           const ok = await test(v);
@@ -248,7 +249,7 @@ function EngineField() {
         }}
       >
         <div className="flex gap-2">
-          <Input value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="http://localhost:8000" className="timecode text-[13px]" aria-label="Engine address" />
+          <Input value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="Same as this site" className="timecode text-[13px]" aria-label="Engine address" />
           <Button type="submit" variant="ink" disabled={testing}>{testing ? <Loader2 className="animate-spin" /> : null} Save & test</Button>
         </div>
         {result && <p className="text-xs text-muted-foreground" role="status">{result}</p>}

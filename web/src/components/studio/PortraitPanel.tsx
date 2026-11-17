@@ -69,8 +69,9 @@ export function PortraitPanel({
         consent: false,
         avatarName: studioStore.get().avatarName === "Untitled avatar" ? file.name.replace(/\.[^.]+$/, "").slice(0, 40) : studioStore.get().avatarName,
       });
-      // brief preparation state so the change of portrait is legible
-      window.setTimeout(() => setPreparing(false), 450);
+      // Done: the portrait is read and checked locally. It is uploaded to the engine only when
+      // a session starts, and the engine's own face check is reported then.
+      setPreparing(false);
     } catch {
       URL.revokeObjectURL(url);
       setPreparing(false);

@@ -31,7 +31,7 @@ interface Integration {
 }
 
 const LIST: Integration[] = [
-  { name: "Engine session API", mono: "WS", group: "Engine", status: "available", summary: "WebSocket /ws/session, plus /api/info and /api/export.", how: "This is what Studio uses today. Point Settings → Performance at a running engine and Studio streams microphone audio in and receives rendered frames back." },
+  { name: "Engine session API", mono: "WS", group: "Engine", status: "available", summary: "WebSocket /ws/session, plus /api/info and /api/export.", how: "This is what Studio uses today: microphone audio streams in, H.264 video frames stream back. By default Studio uses the engine that serves this page; Settings → Performance can point it at another one. The contract is documented in docs/integration/frontend_backend_contract.md." },
   { name: "Custom API", mono: "{ }", group: "Developers", status: "planned", summary: "Documented REST + WebSocket contract for your own apps.", how: "A stable, versioned description of the session protocol so other software can drive an avatar without the Studio UI." },
   { name: "JavaScript SDK", mono: "JS", group: "Developers", status: "planned", summary: "Drop-in client for browsers: mic capture, streaming, frame display.", how: "Would package the Studio's audio capture and frame rendering into a small library you can import into any web page." },
   { name: "WebRTC", mono: "RTC", group: "Real-time media", status: "planned", summary: "Low-latency media transport instead of WebSocket frames.", how: "Would carry audio and video over a peer connection, reducing delay and handling poor networks better than per-frame images." },

@@ -60,7 +60,7 @@ export function audioMessage(samples: Float32Array): Uint8Array {
   out[0] = TAG_AUDIO;
   const view = new DataView(out.buffer);
   for (let i = 0; i < samples.length; i++) {
-    const s = Math.max(-1, Math.min(1, samples[i]));
+    const s = Math.max(-1, Math.min(1, samples[i]!));
     view.setInt16(1 + i * 2, Math.round(s < 0 ? s * 32768 : s * 32767), true);
   }
   return out;

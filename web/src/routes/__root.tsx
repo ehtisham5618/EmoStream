@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeSync, themeBootScript } from "@/lib/theme";
+import { BuildCheck } from "@/lib/engine/BuildCheck";
 import { LogoMark } from "@/components/brand/Logo";
 
 function NotFoundComponent() {
@@ -142,6 +143,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider delayDuration={250}>
         <ThemeSync />
+        <BuildCheck />
         <Outlet />
         <Toaster position="bottom-right" />
       </TooltipProvider>

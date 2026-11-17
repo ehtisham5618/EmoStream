@@ -71,7 +71,7 @@ interface Pending {
 function quantile(xs: number[], q: number): number | null {
   if (!xs.length) return null;
   const s = [...xs].sort((a, b) => a - b);
-  return s[Math.min(s.length - 1, Math.floor(q * s.length))];
+  return s[Math.min(s.length - 1, Math.floor(q * s.length))]!;
 }
 
 export const MAX_BUFFERED_FRAMES = 40;
@@ -385,7 +385,7 @@ export class FramePlayer {
     this.arrivalTimes = this.arrivalTimes.filter((t) => now - t < win);
     const recent = this.presentTimes.filter((t) => now - t < win);
     const intervals: number[] = [];
-    for (let i = 1; i < this.presentTimes.length; i++) intervals.push(this.presentTimes[i] - this.presentTimes[i - 1]);
+    for (let i = 1; i < this.presentTimes.length; i++) intervals.push(this.presentTimes[i]! - this.presentTimes[i - 1]!);
     return {
       ...this.counters,
       presentedFps: recent.length / (win / 1000),

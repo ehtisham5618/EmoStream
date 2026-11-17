@@ -87,7 +87,7 @@ export function AvatarStage({ s }: { s: StudioSession }) {
         <span className="flex items-center gap-1.5">
           <span className={cn("size-1.5 rounded-full", emo.bgClass)} /> {emo.label} · <span className="timecode">{intensity}%</span>
         </span>
-        <span className="timecode">{s.engineMode ? `RX ${s.stats.framesReceived}` : "Engine off"}</span>
+        <span className="timecode">{s.engineMode ? `RX ${s.stats.framesReceived}` : "Not streaming"}</span>
         <span className="ml-auto hidden sm:block">Preview is the engine's output only — nothing is animated in the browser.</span>
       </div>
     </div>
@@ -117,15 +117,9 @@ function StageOverlay({ s, hasPortrait }: { s: StudioSession; hasPortrait: boole
         ? box(null, "Start speaking to preview the animation.", s.canStart.ok ? "Press Start session, then talk. Your voice drives the movement; your selected emotion shapes the expression." : s.canStart.reason)
         : null;
     case "initializing":
-      return box(<Loader2 className="size-5 animate-spin text-stage-foreground" />, "Initialising engine", "Sending your portrait and building its appearance representation.");
+      return box(<Loader2 className="size-5 animate-spin text-stage-foreground" />, "Initialising engine", s.startupDetail ?? "Sending your portrait and building its appearance representation.");
     case "waiting":
-      return box(<span className="size-2 rounded-full bg-live animate-rec" />, "Waiting for audio", "Connected. The first frames arrive once the engine hears your voice.");
-    case "preview":
-      return box(
-        <Unplug className="size-5 text-stage-foreground" />,
-        "Engine not connected",
-        "Your microphone is live and the timeline is recording, but no frames are being rendered. Connect an EmoStream engine in Settings to see the animation.",
-      );
+      return box(<span className="size-2 rounded-full bg-live animate-rec" />, "Waiting for audio", s.phase === "finishing" ? "Finishing the last frames." : "Connected. The first frames arrive once the engine hears your voice.");
     case "paused":
       return box(null, "Paused", "Audio isn't being sent. Resume when you're ready.");
     case "lost":
@@ -147,7 +141,7 @@ function StageOverlay({ s, hasPortrait }: { s: StudioSession; hasPortrait: boole
       return box(
         <CheckCircle2 className="size-5 text-success" />,
         "Session complete",
-        s.engineMode ? `${s.stats.framesReceived} frames received. Export the take or start a new one.` : "Timeline captured. No frames were rendered because no engine was connected.",
+        s.stats.framesReceived > 0 ? `${s.stats.framesReceived} frames received. Export the take or start a new one.` : "The session ended before the engine sent any frames.",
       );
     case "error":
       return box(

@@ -336,3 +336,34 @@ def test_outdated_page_is_told_to_reload():
         P.check_live_client(old)
     assert e.value.code == "client_outdated" and "Ctrl+Shift+R" in e.value.message
     P.check_live_client(START)
+
+
+def test_product_ui_and_diagnostics_client_are_served(tmp_path):
+    """web/ at "/" as a single-page app; frontend/ at "/diagnostics/"; pages never cached."""
+    web = tmp_path / "web"
+    (web / "assets").mkdir(parents=True)
+    (web / "index.html").write_text("<html>product</html>")
+    (web / "build.json").write_text('{"build": "b1"}')
+    (web / "assets" / "app-123.js").write_text("console.log(1)")
+    diag = tmp_path / "diag"
+    diag.mkdir()
+    (diag / "index.html").write_text("<html>diagnostics</html>")
+    (diag / "pcm-worklet.js").write_text("// worklet")
+    c = TestClient(create_app(FakeProvider(), static_dir=str(web), diagnostics_dir=str(diag)))
+
+    for path in ("/", "/app/studio", "/research", "/app/settings"):
+        r = c.get(path)
+        assert r.status_code == 200 and "product" in r.text, path
+        assert "no-store" in r.headers["cache-control"], path
+    assert c.get("/assets/app-123.js").status_code == 200
+    assert "no-store" not in c.get("/assets/app-123.js").headers.get("cache-control", "")
+    assert c.get("/assets/missing.js").status_code == 404      # no page for a missing file
+    assert c.get("/build.json").json() == {"build": "b1"}
+    assert c.get("/api/info").json()["frontend_build"] == "b1"
+    assert c.get("/api/nothing").status_code == 404             # API paths never fall back to the page
+    assert c.get("/api/health").json() == {"status": "ok"}
+
+    r = c.get("/diagnostics/")
+    assert "diagnostics" in r.text and "no-store" in r.headers["cache-control"]
+    assert c.get("/diagnostics/pcm-worklet.js").status_code == 200
+    assert c.get("/diagnostics", follow_redirects=False).headers["location"] == "/diagnostics/"

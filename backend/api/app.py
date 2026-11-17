@@ -37,7 +37,9 @@ def frontend_build(static_dir: str | None) -> str | None:
 MAX_EXPORT_AUDIO_BYTES = 30 * 1024 * 1024
 
 
-def create_app(provider, static_dir: str | None = None) -> FastAPI:
+def create_app(provider, static_dir: str | None = None, diagnostics_dir: str | None = None) -> FastAPI:
+    """``static_dir``: the product UI (web/, a single-page app) served at "/".
+    ``diagnostics_dir``: optional test and diagnostics client (frontend/) served at "/diagnostics/"."""
     app = FastAPI(title="EmoStream", version="0.3.0", docs_url="/api/docs", openapi_url="/api/openapi.json")
     build = frontend_build(static_dir)
 
@@ -281,23 +283,49 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
             except Exception:  # noqa: BLE001
                 pass
 
+    # The page itself must never come from a cache: its script names change with every
+    # build, and a cached page keeps running an old client against a new server
+    # (that happened in the user's session of 16 Nov 2026, 21:49).
+    no_store = {"Cache-Control": "no-store, max-age=0"}
+
+    if diagnostics_dir and Path(diagnostics_dir).is_dir():
+        diag_index = Path(diagnostics_dir) / "index.html"
+
+        @app.get("/diagnostics", include_in_schema=False)
+        def diagnostics_redirect():
+            return Response(status_code=307, headers={"Location": "/diagnostics/"})
+
+        @app.get("/diagnostics/", include_in_schema=False)
+        def diagnostics_root():
+            return FileResponse(diag_index, headers=no_store)
+
+        @app.get("/diagnostics/index.html", include_in_schema=False)
+        def diagnostics_index():
+            return FileResponse(diag_index, headers=no_store)
+
+        app.mount("/diagnostics", StaticFiles(directory=diagnostics_dir, html=True), name="diagnostics")
+
     if static_dir and Path(static_dir).is_dir():
-        index = Path(static_dir) / "index.html"
+        root_dir = Path(static_dir).resolve()
+        index = root_dir / "index.html"
 
-        # The page itself must never come from a cache: its script names change with every
-        # build, and a cached page keeps running an old client against a new server
-        # (that happened in the user's session of 16 Nov 2026, 21:49).
-        no_store = {"Cache-Control": "no-store, max-age=0"}
-
-        @app.get("/")
+        @app.get("/", include_in_schema=False)
         def root():
             return FileResponse(index, headers=no_store)
 
-        @app.get("/index.html")
-        def root_index():
+        # Single-page app: a file that exists is served as is; any other path without a file
+        # extension (/app/studio, /research, …) gets the page, whose router shows the route.
+        @app.get("/{path:path}", include_in_schema=False)
+        def static_or_page(path: str):
+            if path.startswith(("api/", "ws/")):
+                raise HTTPException(404)
+            target = (root_dir / path).resolve()
+            if root_dir in target.parents and target.is_file():
+                fresh = target.name in ("index.html", "build.json")
+                return FileResponse(target, headers=no_store if fresh else None)
+            if Path(path).suffix:
+                raise HTTPException(404)
             return FileResponse(index, headers=no_store)
-
-        app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
     else:
         @app.get("/")
         def root_missing():

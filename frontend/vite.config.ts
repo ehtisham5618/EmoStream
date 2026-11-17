@@ -6,9 +6,13 @@ const backend = process.env.VITE_BACKEND ?? "http://127.0.0.1:8000";
 
 // Every build gets an identifier. The page carries it, the server reads it from
 // dist/build.json, and a page whose identifier differs from the server's reloads itself.
-const build = new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14);
+// scripts/build_frontends.sh sets EMOSTREAM_BUILD so this client and the product UI (web/) share one.
+const build = process.env.EMOSTREAM_BUILD ?? new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14);
 
 export default defineConfig({
+  // The deployed worker serves the product UI (web/) at "/" and this diagnostics client at
+  // "/diagnostics/" (EMOSTREAM_BASE=/diagnostics/). Standalone builds keep "/".
+  base: process.env.EMOSTREAM_BASE ?? "/",
   define: { __BUILD__: JSON.stringify(build) },
   plugins: [react(), {
     name: "emostream-build-id",

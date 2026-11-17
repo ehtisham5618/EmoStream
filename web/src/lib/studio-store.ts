@@ -33,12 +33,27 @@ export interface SessionSummary {
   finalIntensity: number;
   engine: boolean;
   framesReceived: number;
+  /** How the take ended. */
+  outcome: "complete" | "lost" | "error";
+  exported: boolean;
+  /** Measured in this browser, one value per second: pictures drawn per second (on screen). */
+  fpsPerSecond: number[];
+  /** Frames received per second, and frames lost per second (skipped by the engine or the network, or late here). */
+  deliveredPerSecond: number[];
+  droppedPerSecond: number[];
+  /** Server-side audio-to-frame latency of each received frame (from the video frame header), ms. */
+  latencyMs: number[];
+  /** Intensity (0–100) of each emotion setting used in the take. */
+  intensities: number[];
 }
 
 export interface StudioState {
   portrait: Portrait | null;
   avatarName: string;
+  /** Portrait consent: the user may use this portrait and the person shown agreed to animation. */
   consent: boolean;
+  /** Voice consent: the user agrees to their microphone audio being sent to the engine. */
+  voiceConsent: boolean;
   emotion: EmotionId;
   intensity: number;
   /** Sessions run in this browser tab. The engine does not persist history. */
@@ -51,6 +66,7 @@ const INITIAL: StudioState = {
   portrait: null,
   avatarName: "Untitled avatar",
   consent: false,
+  voiceConsent: false,
   emotion: s.defaultEmotion,
   intensity: s.defaultIntensity,
   sessions: [],
@@ -81,29 +97,38 @@ export function validatePortraitSize(w: number, h: number): string | null {
   return null;
 }
 
-/** Can a session start? Portrait present, consent given, face not rejected. */
-export function canStartSession(st: Pick<StudioState, "portrait" | "consent">) {
+/** Can a session start? Portrait present, both consents given, face not rejected. */
+export function canStartSession(st: Pick<StudioState, "portrait" | "consent" | "voiceConsent">) {
   if (!st.portrait) return { ok: false, reason: "Upload a portrait to create your avatar." };
   if (!st.consent) return { ok: false, reason: "Confirm consent for this portrait first." };
+  if (!st.voiceConsent) return { ok: false, reason: "Confirm consent for sending your voice to the engine." };
   if (st.portrait.faceCheck === "not-found") return { ok: false, reason: "No face was found. Try a clearer, front-facing photo." };
   if (st.portrait.faceCheck === "multiple") return { ok: false, reason: "More than one face found. Use a portrait of one person." };
   return { ok: true as const, reason: "" };
 }
 
-/** Render the cropped square at 512×512 as a base64 JPEG for the engine. */
-export async function renderCrop(p: Portrait, size = 512): Promise<string> {
+/**
+ * The cropped square as JPEG bytes, sent to the engine as the portrait (binary 0x10 message).
+ * Rendered at the source's own resolution up to `maxSize` (never upscaled), so the engine's face
+ * detection sees as much detail as the upload has. The engine output frames show this square.
+ */
+export async function renderCropJpeg(p: Portrait, maxSize = 1024): Promise<ArrayBuffer> {
   const img = await loadImage(p.url);
+  const side = Math.min(img.width, img.height) / p.crop.zoom;
+  const size = Math.max(PORTRAIT_RULES.minSide, Math.min(maxSize, Math.round(side)));
   const c = document.createElement("canvas");
   c.width = size;
   c.height = size;
   const ctx = c.getContext("2d")!;
-  const side = Math.min(img.width, img.height) / p.crop.zoom;
   const maxX = (img.width - side) / 2;
   const maxY = (img.height - side) / 2;
   const sx = maxX + p.crop.x * maxX;
   const sy = maxY + p.crop.y * maxY;
+  ctx.imageSmoothingQuality = "high";
   ctx.drawImage(img, sx, sy, side, side, 0, 0, size, size);
-  return c.toDataURL("image/jpeg", 0.92).split(",")[1] ?? "";
+  const blob = await new Promise<Blob | null>((res) => c.toBlob(res, "image/jpeg", 0.95));
+  if (!blob) throw new Error("The portrait couldn't be prepared.");
+  return blob.arrayBuffer();
 }
 
 export function loadImage(url: string) {

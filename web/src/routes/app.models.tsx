@@ -4,7 +4,7 @@ import { Page, PageHeader, SectionTitle } from "@/components/app/PageHeader";
 import { StatusPill } from "@/components/app/Status";
 import { PipelineDiagram } from "@/components/brand/PipelineDiagram";
 import { Button } from "@/components/ui/button";
-import { DISCLAIMER, HARDWARE, LATENCY_NOTE, MODEL, VALIDATION } from "@/lib/benchmarks";
+import { CURRENT, DISCLAIMER, HARDWARE, LATENCY_NOTE, MODEL, VALIDATION } from "@/lib/benchmarks";
 import { useEngineStatus } from "@/lib/engine/useEngineStatus";
 
 export const Route = createFileRoute("/app/models")({
@@ -120,14 +120,14 @@ function Models() {
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border">
             <div className="bg-surface p-4"><dt className="eyebrow text-[9.5px] text-muted-foreground">Output</dt><dd className="numeral mt-1.5 text-2xl font-medium">{VALIDATION.resolution}</dd></div>
-            <div className="bg-surface p-4"><dt className="eyebrow text-[9.5px] text-muted-foreground">Identity (ArcFace)</dt><dd className="numeral mt-1.5 text-2xl font-medium">{VALIDATION.arcface.toFixed(3)}</dd></div>
-            <div className="bg-surface p-4"><dt className="eyebrow text-[9.5px] text-muted-foreground">Emotion macro-F1</dt><dd className="numeral mt-1.5 text-2xl font-medium">{VALIDATION.emotionMacroF1.toFixed(3)}</dd></div>
-            <div className="bg-surface p-4"><dt className="eyebrow text-[9.5px] text-muted-foreground">Engine</dt><dd className="mt-1.5 text-sm font-medium">TensorRT on L40S</dd></div>
+            <div className="bg-surface p-4"><dt className="eyebrow text-[9.5px] text-muted-foreground">Identity (ArcFace) · {CURRENT.model}</dt><dd className="numeral mt-1.5 text-2xl font-medium">{CURRENT.arcface.toFixed(3)}</dd></div>
+            <div className="bg-surface p-4"><dt className="eyebrow text-[9.5px] text-muted-foreground">Emotion macro-F1 · {CURRENT.model}</dt><dd className="numeral mt-1.5 text-2xl font-medium">{CURRENT.emotionMacroF1.toFixed(3)}</dd></div>
+            <div className="bg-surface p-4"><dt className="eyebrow text-[9.5px] text-muted-foreground">SyncNet LSE-C / D · {CURRENT.model}</dt><dd className="numeral mt-1.5 text-2xl font-medium">{CURRENT.lseC.toFixed(2)} / {CURRENT.lseD.toFixed(2)}</dd></div>
           </dl>
           <div className="space-y-3 text-sm text-muted-foreground">
             <p className="border-l-2 border-ember pl-4">{DISCLAIMER}</p>
             <p className="border-l-2 border-border pl-4">{LATENCY_NOTE}</p>
-            <p className="border-l-2 border-border pl-4">The model is not advertised as running at 25 FPS on all hardware. Only measured GPUs carry figures.</p>
+            <p className="border-l-2 border-border pl-4">The model is not advertised as running at 25 FPS on all hardware. Only measured GPUs carry figures. Engine figures in the table are from the {VALIDATION.date} run (earlier model {VALIDATION.model}); quality figures are for the live model {CURRENT.model} on 80 MEAD validation clips ({CURRENT.date}).</p>
           </div>
         </div>
       </section>

@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSettings } from "../settings";
-import { fetchEngineInfo } from "./client";
+import { engineBase, fetchEngineInfo } from "./client";
 
+/** Engine reachability from GET /api/info. The engine is the page's own origin unless configured. */
 export function useEngineStatus() {
-  const engineUrl = useSettings((s) => s.engineUrl);
+  const configured = useSettings((s) => s.engineUrl);
+  const engineUrl = engineBase(configured);
   const q = useQuery({
     queryKey: ["engine-info", engineUrl],
     queryFn: ({ signal }) => fetchEngineInfo(engineUrl, signal),
@@ -18,5 +20,5 @@ export function useEngineStatus() {
       : q.data?.ok
         ? "online"
         : "offline";
-  return { engineUrl, status, info: q.data, refetch: q.refetch };
+  return { engineUrl, configured, status, info: q.data, refetch: q.refetch };
 }

@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { VALIDATION, HARDWARE } from "@/lib/benchmarks";
-import { ILLUSTRATIVE_CONFUSION, macroF1 } from "@/lib/demo-data";
+import { CURRENT, VALIDATION, HARDWARE } from "@/lib/benchmarks";
 import { faceFor } from "@/lib/emotions";
 import { wsUrl } from "@/lib/engine/client";
 import { canStartSession, validatePortraitFile, validatePortraitSize, type Portrait } from "@/lib/studio-store";
@@ -19,18 +18,22 @@ const portrait = (over: Partial<Portrait> = {}): Portrait => ({
 });
 
 describe("session start rules", () => {
+  const both = { consent: true, voiceConsent: true };
   it("needs a portrait", () => {
-    expect(canStartSession({ portrait: null, consent: true }).ok).toBe(false);
+    expect(canStartSession({ portrait: null, ...both }).ok).toBe(false);
   });
-  it("needs consent even with a portrait", () => {
-    expect(canStartSession({ portrait: portrait(), consent: false }).ok).toBe(false);
+  it("needs portrait consent even with a portrait", () => {
+    expect(canStartSession({ portrait: portrait(), consent: false, voiceConsent: true }).ok).toBe(false);
   });
-  it("starts with portrait and consent", () => {
-    expect(canStartSession({ portrait: portrait(), consent: true }).ok).toBe(true);
+  it("needs voice consent before any audio is sent", () => {
+    expect(canStartSession({ portrait: portrait(), consent: true, voiceConsent: false }).ok).toBe(false);
+  });
+  it("starts with a portrait and both consents", () => {
+    expect(canStartSession({ portrait: portrait(), ...both }).ok).toBe(true);
   });
   it("refuses when no face or several faces were detected", () => {
-    expect(canStartSession({ portrait: portrait({ faceCheck: "not-found" }), consent: true }).ok).toBe(false);
-    expect(canStartSession({ portrait: portrait({ faceCheck: "multiple" }), consent: true }).ok).toBe(false);
+    expect(canStartSession({ portrait: portrait({ faceCheck: "not-found" }), ...both }).ok).toBe(false);
+    expect(canStartSession({ portrait: portrait({ faceCheck: "multiple" }), ...both }).ok).toBe(false);
   });
 });
 
@@ -54,8 +57,11 @@ describe("validated figures", () => {
     expect(HARDWARE.filter((h) => h.fps).map((h) => h.gpu)).toEqual(["NVIDIA L40S"]);
     expect(HARDWARE.find((h) => h.gpu.includes("4050"))?.status).toBe("unverified");
   });
-  it("illustrative confusion matrix stays consistent with reported macro-F1", () => {
-    expect(Math.abs(macroF1(ILLUSTRATIVE_CONFUSION) - 0.651)).toBeLessThan(0.01);
+  it("historical engine figures name the model and date they come from", () => {
+    expect(VALIDATION).toMatchObject({ model: "reg", date: "15 Nov 2026" });
+  });
+  it("live-model figures match the 17 Nov articulation report", () => {
+    expect(CURRENT).toMatchObject({ model: "ph_aug", lseC: 5.08, lseD: 9.15, emotionMacroF1: 0.777, arcface: 0.876 });
   });
 });
 

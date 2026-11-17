@@ -35,7 +35,7 @@ export interface SessionEvents {
 }
 
 export function sessionUrl(): string {
-  const base = (import.meta.env.VITE_API_BASE as string | undefined) ?? "";
+  const base = (import.meta.env["VITE_API_BASE"] as string | undefined) ?? "";
   if (base) return base.replace(/^http/, "ws") + "/ws/session";
   const scheme = location.protocol === "https:" ? "wss" : "ws";
   return `${scheme}://${location.host}/ws/session`;
@@ -58,8 +58,9 @@ export class LiveSession {
 
   constructor(private readonly events: SessionEvents) {}
 
-  open(portrait: ArrayBuffer, options: StartOptions): void {
-    const ws = new WebSocket(sessionUrl());
+  /** `url` defaults to /ws/session on this page's origin (or VITE_API_BASE). */
+  open(portrait: ArrayBuffer, options: StartOptions, url: string = sessionUrl()): void {
+    const ws = new WebSocket(url);
     ws.binaryType = "arraybuffer";
     this.ws = ws;
     this.events.onStage("connecting");
@@ -107,21 +108,22 @@ export class LiveSession {
         this.ws.send(JSON.stringify({ type: "ack", frames: this.framesReceived }));
         if (n++ % 5 === 0) this.ws.send(JSON.stringify({ type: "ping", t: performance.now() }));
       }, 200);
-      this.events.onReady((msg.session ?? {}) as ReadyInfo);
+      this.events.onReady((msg["session"] ?? {}) as ReadyInfo);
     } else if (msg.type === "status") {
-      if (msg.stage === "initializing_portrait") this.events.onStage("initializing_portrait");
+      if (msg["stage"] === "initializing_portrait") this.events.onStage("initializing_portrait");
     } else if (msg.type === "pong") {
-      if (typeof msg.t === "number") {
-        this.pings.push(performance.now() - msg.t);
+      const t = msg["t"];
+      if (typeof t === "number") {
+        this.pings.push(performance.now() - t);
         if (this.pings.length > 5) this.pings.shift();
-        this.pingMs = [...this.pings].sort((a, b) => a - b)[Math.floor(this.pings.length / 2)];
+        this.pingMs = [...this.pings].sort((a, b) => a - b)[Math.floor(this.pings.length / 2)]!;
       }
     } else if (msg.type === "stats") {
       this.events.onStats(msg as unknown as ServerStats);
     } else if (msg.type === "done") {
-      this.events.onDone(msg.stats as ServerStats);
+      this.events.onDone(msg["stats"] as ServerStats);
     } else if (msg.type === "error") {
-      this.events.onError(String(msg.message ?? "The server reported an error."), String(msg.code ?? ""));
+      this.events.onError(String(msg["message"] ?? "The server reported an error."), String(msg["code"] ?? ""));
     }
   }
 

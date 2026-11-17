@@ -2,13 +2,13 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PipelineDiagram } from "@/components/brand/PipelineDiagram";
 import { PageIntro, SectionLabel, SiteLayout } from "@/components/site/SiteLayout";
 import { Button } from "@/components/ui/button";
-import { DISCLAIMER, HARDWARE, LATENCY_NOTE, MODEL, VALIDATION } from "@/lib/benchmarks";
+import { CURRENT, DISCLAIMER, HARDWARE, LATENCY_NOTE, MODEL, VALIDATION } from "@/lib/benchmarks";
 
 export const Route = createFileRoute("/research")({
   head: () => ({
     meta: [
       { title: "Research & performance — EmoStream" },
-      { name: "description", content: "EmoStream validation results: ≈25 FPS on L40S with TensorRT, 269/319 ms server p50/p95, 2.77 GiB peak memory, 0.930 ArcFace, 0.651 emotion macro-F1 — with conditions." },
+      { name: "description", content: "EmoStream measured results with conditions: ≈25 FPS on L40S with TensorRT, 269/319 ms server p50/p95 and 2.77 GiB peak memory (15 Nov engine run); 0.876 ArcFace, 0.777 emotion macro-F1 and SyncNet 5.08 for the live model." },
       { property: "og:title", content: "EmoStream research & performance" },
       { property: "og:description", content: "Validated measurements, their conditions, and known limits." },
       { property: "og:type", content: "article" },
@@ -20,12 +20,13 @@ export const Route = createFileRoute("/research")({
 
 const FIGS = [
   { v: VALIDATION.resolution, k: "Output resolution", c: "Fixed by the current model" },
-  { v: "≈25 FPS", k: "Frame rate", c: "NVIDIA L40S · TensorRT" },
-  { v: `${VALIDATION.peakVramGiB} GiB`, k: "Peak GPU memory", c: "On tested hardware" },
-  { v: `${VALIDATION.serverP50Ms} ms`, k: "Server-side p50 latency", c: "Excludes network and display" },
-  { v: `${VALIDATION.serverP95Ms} ms`, k: "Server-side p95 latency", c: "Excludes network and display" },
-  { v: VALIDATION.arcface.toFixed(3), k: "Identity similarity", c: "ArcFace cosine, source vs output" },
-  { v: VALIDATION.emotionMacroF1.toFixed(3), k: "Emotion macro-F1", c: "Five emotion classes" },
+  { v: "≈25 FPS", k: "Frame rate", c: `NVIDIA L40S · TensorRT · engine run ${VALIDATION.date}` },
+  { v: `${VALIDATION.peakVramGiB} GiB`, k: "Peak GPU memory", c: `L40S · engine run ${VALIDATION.date}` },
+  { v: `${VALIDATION.serverP50Ms} ms`, k: "Server-side p50 latency", c: `Excludes network and display · ${VALIDATION.date}, model ${VALIDATION.model}` },
+  { v: `${VALIDATION.serverP95Ms} ms`, k: "Server-side p95 latency", c: `Excludes network and display · ${VALIDATION.date}, model ${VALIDATION.model}` },
+  { v: CURRENT.arcface.toFixed(3), k: "Identity similarity", c: `ArcFace cosine, source vs output · live model ${CURRENT.model}` },
+  { v: CURRENT.emotionMacroF1.toFixed(3), k: "Emotion macro-F1", c: `Five emotion classes · ${CURRENT.model}` },
+  { v: `${CURRENT.lseC.toFixed(2)} / ${CURRENT.lseD.toFixed(2)}`, k: "SyncNet LSE-C / LSE-D", c: `Lip sync · ${CURRENT.model}; real video ${CURRENT.realLseC} / ${CURRENT.realLseD}` },
 ];
 
 const LIMITS = [

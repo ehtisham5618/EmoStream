@@ -1,6 +1,6 @@
-"""EmoStream live application on Modal: FastAPI backend + built frontend on one GPU worker.
+"""EmoStream live application on Modal: FastAPI backend + built browser clients on one GPU worker.
 
-    cd frontend && npm run build && cd ..
+    bash scripts/build_frontends.sh      # web/ (product UI, at /) + frontend/ (diagnostics, at /diagnostics/)
     modal serve  modal/apps/serve.py     # temporary URL, live reload
     modal deploy modal/apps/serve.py     # persistent URL
 
@@ -46,6 +46,7 @@ image = C.engine_image(
          "EMOSTREAM_RUN": RUN, "EMOSTREAM_TENSORRT": "1" if TENSORRT else "0",
          "EMOSTREAM_EMOTION_GAIN": EMOTION_GAIN, "EMOSTREAM_HOP": HOP, "EMOSTREAM_SLOT": SLOT},
     local_dirs=((str(C.ROOT / "backend"), "/root/backend"),
+                (str(C.ROOT / "web" / "dist" / "client"), "/root/web_dist"),
                 (str(C.ROOT / "frontend" / "dist"), "/root/frontend_dist")),
 )
 
@@ -79,4 +80,4 @@ def web():
     # 6 s rather than 2 s: the first real session after a cold start still skipped 36 of 710 frames
     # with a 2 s warm-up (17 Nov 2026); later sessions on the same worker skipped none.
     print("warm-up:", provider.warm_up(examples[0], seconds=6.0) if examples else "no example portrait found", flush=True)
-    return create_app(provider, static_dir="/root/frontend_dist")
+    return create_app(provider, static_dir="/root/web_dist", diagnostics_dir="/root/frontend_dist")

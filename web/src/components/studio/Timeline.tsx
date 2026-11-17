@@ -1,4 +1,5 @@
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, FileDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useMemo, useState } from "react";
 import { emotionById } from "@/lib/emotions";
 import { duration, timecode } from "@/lib/format";
@@ -128,7 +129,7 @@ export function Timeline({ s }: { s: StudioSession }) {
         >
           <span className="eyebrow text-[10px] text-muted-foreground">Technical telemetry</span>
           <span className={cn("rounded-full px-2 py-px font-mono text-[9.5px] uppercase tracking-wider", s.engineMode ? "bg-success/12 text-success" : "bg-muted text-muted-foreground")}>
-            {s.engineMode ? "Live from engine" : "Nothing measured · no engine"}
+            {s.engineMode ? "Measured this session" : "Nothing measured yet"}
           </span>
           <ChevronDown className={cn("ml-auto size-4 text-muted-foreground transition-transform duration-200", telemetryOpen && "rotate-180")} />
         </button>
@@ -144,6 +145,25 @@ export function Timeline({ s }: { s: StudioSession }) {
               <Metric k="Dropped" v={s.engineMode ? String(s.stats.framesDropped) : "—"} />
               <Metric k="Connection" v={connLabel(s)} />
             </dl>
+            <dl className="grid grid-cols-2 gap-px border-t border-border bg-border sm:grid-cols-4 xl:grid-cols-8">
+              <Metric k="Voice ↔ lips" v={s.diag.voiceOffsetP50Ms === null ? "—" : `${Math.round(s.diag.voiceOffsetP50Ms)} ms`} />
+              <Metric k="Within 80 ms" v={s.diag.voiceWithin80 === null ? "—" : `${Math.round(s.diag.voiceWithin80 * 100)} %`} />
+              <Metric k="Avatar delay" v={fmt(s.diag.playoutDelayMs ?? undefined, 0, "ms")} />
+              <Metric k="Server p95" v={fmt(s.diag.serverP95Ms ?? undefined, 0, "ms")} />
+              <Metric k="Video" v={s.diag.bitrateKbps === null || !s.engineMode ? "—" : `${s.diag.bitrateKbps} kb/s ${s.diag.codec === "h264" ? "H.264" : (s.diag.codec ?? "").toUpperCase()}`} />
+              <Metric k="Startup" v={s.diag.startupFirstFrameMs !== null ? `${(s.diag.startupFirstFrameMs / 1000).toFixed(1)} s` : s.diag.startupReadyMs !== null ? `ready ${(s.diag.startupReadyMs / 1000).toFixed(1)} s` : "—"} />
+              <Metric k="Skipped srv / net" v={s.engineMode ? `${s.diag.serverSkipped} / ${s.diag.networkSkipped}` : "—"} />
+              <Metric k="Uplink lag p95" v={fmt(s.diag.uplinkLagP95Ms ?? undefined, 0, "ms")} />
+            </dl>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border px-4 py-2.5">
+              <p className="min-w-0 flex-1 text-[11.5px] leading-snug text-muted-foreground">
+                FPS counts pictures drawn on this screen. Server latency is the engine's own audio-to-frame time; the avatar delay adds network and buffering. {s.diag.gpu ? `Engine GPU: ${s.diag.gpu}.` : ""}
+                {s.errorMsg ? ` Last error: ${s.errorMsg}` : ""}
+              </p>
+              <Button variant="hairline" size="sm" onClick={s.saveDiagnostics} disabled={!s.engineMode}>
+                <FileDown /> Save diagnostics file
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -174,7 +194,7 @@ function Metric({ k, v }: { k: string; v: string }) {
 const fmt = (n: number | undefined, d: number, unit = "") => (n === undefined ? "—" : `${n.toFixed(d)}${unit ? ` ${unit}` : ""}`);
 
 function connLabel(s: StudioSession) {
-  if (!s.engineMode) return "Offline";
+  if (!s.engineMode) return "Idle";
   return { idle: "Idle", connecting: "Connecting", open: "Open", lost: "Lost", closed: "Closed", error: "Error" }[s.conn];
 }
 
@@ -186,8 +206,6 @@ function processingLabel(s: StudioSession) {
       return "Initialising";
     case "waiting":
       return "Waiting for audio";
-    case "preview":
-      return "Recording voice · not rendering";
     case "paused":
       return "Paused";
     case "complete":

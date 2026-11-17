@@ -3,7 +3,7 @@ import { Page, PageHeader, SectionTitle } from "@/components/app/PageHeader";
 import { ExpressionGlyph } from "@/components/brand/ExpressionGlyph";
 import { PipelineDiagram } from "@/components/brand/PipelineDiagram";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { DISCLAIMER, MODEL } from "@/lib/benchmarks";
+import { CURRENT, DISCLAIMER, MODEL } from "@/lib/benchmarks";
 import { EMOTIONS } from "@/lib/emotions";
 
 export const Route = createFileRoute("/app/help")({
@@ -39,7 +39,7 @@ const FAQ: [string, string][] = [
   ["What makes a good portrait?", "One person, facing the camera, evenly lit, with eyes and mouth visible. At least 512×512 pixels. Avoid heavy filters, sunglasses and hands near the face."],
   ["Is my portrait uploaded?", "Only when you start a session with an engine connected: a 512×512 crop is sent to that engine. Otherwise it stays in this browser tab and is discarded when you close it."],
   ["How fast is it on my computer?", "We don't know yet. The ≈25 FPS figure was measured on an NVIDIA L40S with TensorRT. RTX 4050 performance hasn't been verified, and other GPUs may be slower."],
-  ["Is the 269 ms latency what I'll feel?", "No. It's measured on the server. Network transit, decoding and display all add to it."],
+  ["Is the 269 ms server latency what I'll feel?", "No. It's measured on the server (15 Nov engine run). Network transit, buffering, decoding and display all add to it; the Studio timeline shows the avatar's actual delay in your session."],
   ["Can I export a video?", "After a rendered take, Export asks the engine's /api/export for the file. Export isn't available without an engine."],
   ["Can I remove the AI-generated watermark?", "No. Every output is labelled so viewers know it isn't a real recording."],
 ];
@@ -74,7 +74,7 @@ function Help() {
           </S>
           <S id="architecture" title="Technical architecture">
             <PipelineDiagram />
-            <p>The portrait is turned into an appearance representation once. Audio passes through HuBERT for speech features, then BehaviourNet predicts motion in two branches: articulation (driven by audio) and emotion (driven by your selection). Motion fusion combines them, and the frozen LivePortrait renderer produces each frame.</p>
+            <p>The portrait is turned into an appearance representation once. Audio passes through WavLM for speech features, then BehaviourNet predicts motion in two branches: articulation (driven by audio) and emotion (driven by your selection). Motion fusion combines them, and the frozen LivePortrait renderer produces each frame.</p>
           </S>
           <S id="model" title="Current model">
             <p><strong>{MODEL.name}</strong> — {MODEL.params} parameters. {MODEL.facts.join(" ")}</p>
@@ -94,7 +94,7 @@ function Help() {
           </S>
           <S id="research" title="Research objectives">
             <ul className="list-none space-y-2">
-              {["Run in real time with a small trained model (1.36M parameters) on a single GPU.", "Keep the person recognisable while they speak (identity similarity, ArcFace 0.930).", "Make emotion controllable and measurable (macro-F1 0.651 across five classes).", "Stay causal, so the animation can stream without waiting for the end of a sentence."].map((t) => (
+              {[`Run in real time with a small trained model (${MODEL.params} parameters) on a single GPU.`, `Keep the person recognisable while they speak (identity similarity, ArcFace ${CURRENT.arcface.toFixed(3)} for the live model).`, `Make emotion controllable and measurable (macro-F1 ${CURRENT.emotionMacroF1.toFixed(3)} across five classes, live model).`, "Stay causal, so the animation can stream without waiting for the end of a sentence."].map((t) => (
                 <li key={t} className="flex gap-3"><span className="mt-2.5 h-px w-3 shrink-0 bg-ember" />{t}</li>
               ))}
             </ul>
@@ -105,7 +105,7 @@ function Help() {
             <p>Read the full <Link to="/responsible-ai" className="underline underline-offset-2">Responsible AI</Link> and <Link to="/privacy" className="underline underline-offset-2">Privacy</Link> notes.</p>
           </S>
           <S id="licensing" title="Licensing">
-            <p>EmoStream builds on third-party work — HuBERT, LivePortrait and the Ditto packaging, and the MEAD dataset for training — each under its own licence and terms. Some of these restrict commercial use. Check each component's licence before using EmoStream output beyond research.</p>
+            <p>EmoStream builds on third-party work — WavLM, LivePortrait and the Ditto packaging, and the MEAD dataset for training — each under its own licence and terms. Some of these restrict commercial use. Check each component's licence before using EmoStream output beyond research.</p>
           </S>
           <S id="docs" title="Documentation">
             <p>The interface talks to an engine through three endpoints:</p>

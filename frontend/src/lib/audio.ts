@@ -15,9 +15,13 @@ export interface MicCapture {
 export async function startMicrophone(
   onSamples: (samples: Float32Array) => void,
   onLevel: (rms: number) => void,
+  options: { deviceId?: string } = {},
 ): Promise<MicCapture> {
   const stream = await navigator.mediaDevices.getUserMedia({
-    audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+    audio: {
+      channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true,
+      ...(options.deviceId ? { deviceId: { exact: options.deviceId } } : {}),
+    },
   });
   let ctx: AudioContext;
   try {
@@ -31,7 +35,7 @@ export async function startMicrophone(
   node.port.onmessage = (ev: MessageEvent<Float32Array>) => {
     const block = ev.data;
     let sum = 0;
-    for (let i = 0; i < block.length; i++) sum += block[i] * block[i];
+    for (let i = 0; i < block.length; i++) sum += block[i]! * block[i]!;
     onLevel(Math.sqrt(sum / block.length));
     onSamples(ctx.sampleRate === SAMPLE_RATE ? block : resampleLinear(block, ctx.sampleRate, SAMPLE_RATE));
   };
@@ -58,7 +62,7 @@ export function resampleLinear(input: Float32Array, from: number, to: number): F
     const x = i * ratio;
     const a = Math.floor(x);
     const b = Math.min(a + 1, input.length - 1);
-    out[i] = input[a] + (input[b] - input[a]) * (x - a);
+    out[i] = input[a]! + (input[b]! - input[a]!) * (x - a);
   }
   return out;
 }
@@ -142,7 +146,7 @@ export class SyncedVoice {
     if (base === null) return;
     const now = performance.now();
     while (this.queue.length) {
-      const c = this.queue[0];
+      const c = this.queue[0]!;
       const at = base + (c.first / SAMPLE_RATE) * 1000;
       if (at - now > 200) break; // scheduled close to its time, so timeline moves are followed
       this.queue.shift();

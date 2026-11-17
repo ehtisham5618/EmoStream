@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Check, Download, Loader2, RotateCcw, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useEngineStatus } from "@/lib/engine/useEngineStatus";
 import { useStudio } from "@/lib/studio-store";
 import { cn } from "@/lib/utils";
 import type { StudioSession } from "./useStudioSession";
@@ -10,14 +11,23 @@ import { PanelBlock } from "./PanelBlock";
 export function SessionPanel({ s }: { s: StudioSession }) {
   const portrait = useStudio((x) => x.portrait);
   const consent = useStudio((x) => x.consent);
+  const voiceConsent = useStudio((x) => x.voiceConsent);
+  const engine = useEngineStatus();
   const count = useStudio((x) => x.sessions.length);
-  const canExport = s.engineMode && s.phase === "complete" && s.stats.framesReceived > 0;
+  // Export = this browser's recording of the take (engine frames + the avatar's voice).
+  // The engine's /api/export renders uploaded recordings only, not live sessions.
+  const canExport = s.phase === "complete" && s.stats.framesReceived > 0 && !!s.recordingUrl;
 
   const checks = [
     { ok: !!portrait, label: "Portrait uploaded" },
-    { ok: consent, label: "Consent confirmed" },
+    { ok: consent, label: "Portrait consent confirmed" },
+    { ok: voiceConsent, label: "Voice consent confirmed" },
     { ok: s.mic.permission === "granted", label: "Microphone allowed", soft: true },
-    { ok: !!s.engineUrl, label: s.engineUrl ? "Engine address set" : "Engine not connected", soft: true },
+    {
+      ok: engine.status === "online",
+      label: engine.status === "online" ? "Engine online" : engine.status === "checking" ? "Checking engine…" : "Engine not reachable",
+      soft: true,
+    },
   ];
 
   return (
@@ -48,7 +58,7 @@ export function SessionPanel({ s }: { s: StudioSession }) {
             </span>
           </TooltipTrigger>
           {!canExport && (
-            <TooltipContent>{s.engineMode ? "Available when a rendered session is complete" : "Export needs a connected engine"}</TooltipContent>
+            <TooltipContent>Downloads this take as recorded in your browser, once a rendered session is complete</TooltipContent>
           )}
         </Tooltip>
         <Button variant="ghost" size="sm" onClick={s.reset} disabled={s.phase === "idle"}>

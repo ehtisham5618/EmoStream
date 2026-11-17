@@ -14,8 +14,8 @@ const ROWS: [[Node, Node], [Node, Node, Node]] = [
   ],
   [
     { id: "voice", title: "Voice", sub: "16 kHz stream", tone: "input" },
-    { id: "hubert", title: "HuBERT", sub: "speech features", tone: "frozen" },
-    { id: "bnet", title: "BehaviourNet", sub: "1.36M · causal", tone: "model" },
+    { id: "hubert", title: "WavLM", sub: "speech features", tone: "frozen" },
+    { id: "bnet", title: "BehaviourNet", sub: "≈1.30M · causal", tone: "model" },
   ],
 ];
 
@@ -41,10 +41,10 @@ const Arrow = ({ className }: { className?: string }) => (
   </span>
 );
 
-/** Portrait → appearance; Voice → HuBERT → BehaviourNet → articulation + emotion; fusion → LivePortrait → stream. */
+/** Portrait → appearance; Voice → WavLM → BehaviourNet → articulation + emotion; fusion → LivePortrait → stream. */
 export function PipelineDiagram({ className }: { className?: string }) {
   return (
-    <div className={cn("rounded-xl border border-border bg-surface p-5 md:p-7", className)} role="img" aria-label="EmoStream architecture: portrait to appearance representation; voice to HuBERT to BehaviourNet, which outputs articulation and emotion; motion fusion feeds the LivePortrait renderer, which outputs a video stream.">
+    <div className={cn("rounded-xl border border-border bg-surface p-5 md:p-7", className)} role="img" aria-label="EmoStream architecture: portrait to appearance representation; voice to WavLM to BehaviourNet, which outputs articulation and emotion; motion fusion feeds the LivePortrait renderer, which outputs a video stream.">
       <div className="grid gap-4 md:grid-cols-[minmax(0,1.7fr)_auto_minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center">
         <div className="space-y-4">
           <div className="flex flex-col gap-2 md:flex-row md:items-center">

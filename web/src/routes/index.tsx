@@ -8,7 +8,7 @@ import { MotionLine } from "@/components/brand/MotionLine";
 import { SectionLabel, SiteLayout } from "@/components/site/SiteLayout";
 import { Button } from "@/components/ui/button";
 import { EMOTIONS } from "@/lib/emotions";
-import { DISCLAIMER, VALIDATION } from "@/lib/benchmarks";
+import { CURRENT, DISCLAIMER, VALIDATION } from "@/lib/benchmarks";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -34,7 +34,7 @@ export const Route = createFileRoute("/")({
 
 const STEPS = [
   { n: "01", title: "Start with a portrait.", body: "One clear, front-facing photo. EmoStream builds an appearance representation from it once, then reuses it for every frame." },
-  { n: "02", title: "Supply your voice.", body: "Speak into your microphone. HuBERT reads the audio as it arrives; nothing waits for the sentence to finish." },
+  { n: "02", title: "Supply your voice.", body: "Speak into your microphone. WavLM reads the audio as it arrives; nothing waits for the sentence to finish." },
   { n: "03", title: "Shape the expression.", body: "Pick one of five emotions and set its intensity. Change it mid-sentence — the expression branch follows." },
   { n: "04", title: "Watch the portrait come alive.", body: "Motion is fused and rendered by LivePortrait into a 512×512 stream, labelled as AI-generated." },
 ];
@@ -160,7 +160,7 @@ function Landing() {
             <SectionLabel index="ES—05">Measured, with conditions</SectionLabel>
             <h2 className="display-lg mt-6">What we have actually measured.</h2>
             <p className="mt-5 max-w-sm text-muted-foreground">
-              Headline figures come from validation runs on an NVIDIA L40S with TensorRT. Nothing here is a projection.
+              Engine figures come from a validation run on an NVIDIA L40S with TensorRT (15 Nov 2026, earlier model). Quality figures are for the live model, measured on MEAD validation clips (17 Nov 2026). Nothing here is a projection.
             </p>
             <Button asChild variant="hairline" className="mt-8">
               <Link to="/research">
@@ -170,12 +170,12 @@ function Landing() {
           </div>
           <div>
             <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-3">
-              <Stat v="≈25" unit="FPS" k="Frame rate" c="L40S · TensorRT" />
-              <Stat v="269" unit="ms" k="Server p50" c="Server-side only" />
-              <Stat v="319" unit="ms" k="Server p95" c="Server-side only" />
-              <Stat v="2.77" unit="GiB" k="Peak GPU memory" c="Tested hardware" />
-              <Stat v="0.930" k="Identity similarity" c="ArcFace cosine" />
-              <Stat v="0.651" k="Emotion macro-F1" c="5 classes" />
+              <Stat v="≈25" unit="FPS" k="Frame rate" c={`L40S · TensorRT · ${VALIDATION.date}`} />
+              <Stat v={String(VALIDATION.serverP50Ms)} unit="ms" k="Server p50" c={`Server-side · ${VALIDATION.date}`} />
+              <Stat v={String(VALIDATION.serverP95Ms)} unit="ms" k="Server p95" c={`Server-side · ${VALIDATION.date}`} />
+              <Stat v={String(VALIDATION.peakVramGiB)} unit="GiB" k="Peak GPU memory" c={`L40S · ${VALIDATION.date}`} />
+              <Stat v={CURRENT.arcface.toFixed(3)} k="Identity similarity" c={`ArcFace · live model ${CURRENT.model}`} />
+              <Stat v={CURRENT.emotionMacroF1.toFixed(3)} k="Emotion macro-F1" c={`5 classes · ${CURRENT.model}`} />
             </dl>
             <p className="mt-4 border-l-2 border-ember pl-4 text-sm leading-relaxed text-muted-foreground">{DISCLAIMER}</p>
           </div>

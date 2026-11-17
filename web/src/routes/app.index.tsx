@@ -4,7 +4,7 @@ import { FrameStrip } from "@/components/brand/FrameStrip";
 import { Page, SectionTitle } from "@/components/app/PageHeader";
 import { StatusPill } from "@/components/app/Status";
 import { Button } from "@/components/ui/button";
-import { DISCLAIMER, VALIDATION } from "@/lib/benchmarks";
+import { CURRENT, DISCLAIMER, VALIDATION } from "@/lib/benchmarks";
 import { emotionById } from "@/lib/emotions";
 import { useEngineStatus } from "@/lib/engine/useEngineStatus";
 import { duration } from "@/lib/format";
@@ -91,7 +91,7 @@ function Overview() {
           />
           <p className="text-sm text-muted-foreground">
             {status === "unset"
-              ? "The interface works without an engine, but nothing is rendered. Add your engine's address to stream real frames."
+              ? "No engine address is available."
               : status === "online"
                 ? `/api/info answered in ${info?.latencyMs ?? "—"} ms.`
                 : info?.error ?? "Waiting for /api/info."}
@@ -100,7 +100,7 @@ function Overview() {
             <Row k="Default emotion" v={`${emo.label} · ${settings.defaultIntensity}%`} />
             <Row k="Output" v={`${VALIDATION.resolution} · watermark on`} />
             <Row k="Microphone" v={settings.micDeviceId ? "Selected device" : "System default"} />
-            <Row k="Engine address" v={settings.engineUrl || "—"} mono />
+            <Row k="Engine address" v={settings.engineUrl || "This site"} mono />
           </dl>
           <div className="mt-auto flex gap-2 pt-5">
             <Button asChild variant="hairline" size="sm">
@@ -150,7 +150,7 @@ function Overview() {
           <section className="panel p-6">
             <SectionTitle
               label="Benchmark snapshot"
-              title="Latest validation run"
+              title={`Live model ${CURRENT.model} · engine run ${VALIDATION.date}`}
               aside={
                 <Link to="/app/models" className="text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline">
                   Conditions & hardware
@@ -160,11 +160,11 @@ function Overview() {
             <dl className="grid grid-cols-3 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-6">
               {[
                 ["FPS", "≈25"],
-                ["p50", "269ms"],
-                ["p95", "319ms"],
-                ["VRAM", "2.77GiB"],
-                ["ArcFace", "0.930"],
-                ["Emo F1", "0.651"],
+                ["p50", `${VALIDATION.serverP50Ms}ms`],
+                ["p95", `${VALIDATION.serverP95Ms}ms`],
+                ["VRAM", `${VALIDATION.peakVramGiB}GiB`],
+                ["ArcFace", CURRENT.arcface.toFixed(3)],
+                ["SyncNet", CURRENT.lseC.toFixed(2)],
               ].map(([k, v]) => (
                 <div key={k} className="bg-surface p-3">
                   <dt className="eyebrow text-[9px] text-muted-foreground">{k}</dt>
@@ -173,7 +173,7 @@ function Overview() {
               ))}
             </dl>
             <p className="mt-3 flex gap-2 text-xs leading-relaxed text-muted-foreground">
-              <Info className="mt-0.5 size-3.5 shrink-0" /> {DISCLAIMER} Latency is server-side only.
+              <Info className="mt-0.5 size-3.5 shrink-0" /> {DISCLAIMER} FPS, latency and memory: engine run on an L40S, {VALIDATION.date} (earlier model {VALIDATION.model}); latency is server-side only. ArcFace and SyncNet confidence (LSE-C): live model {CURRENT.model}, 80 MEAD validation clips, {CURRENT.date}.
             </p>
           </section>
 

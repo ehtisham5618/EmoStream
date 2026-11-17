@@ -7,6 +7,7 @@ imitate network jitter. Every frame shows its own index, so a recording can be c
 for skipped or repeated frames.
 
     python -m evaluation.benchmarks.fake_server --dist frontend/dist --port 8765
+    python -m evaluation.benchmarks.fake_server --dist web/dist/client --diagnostics frontend/dist --port 8765
 """
 from __future__ import annotations
 
@@ -138,7 +139,8 @@ def main():
     import uvicorn
 
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dist", default="frontend/dist")
+    ap.add_argument("--dist", default="frontend/dist", help="page served at / (web/dist/client for the product UI)")
+    ap.add_argument("--diagnostics", default="", help="diagnostics client served at /diagnostics/ (frontend/dist built with EMOSTREAM_BASE=/diagnostics/)")
     ap.add_argument("--port", type=int, default=8765)
     ap.add_argument("--block", type=int, default=5)
     ap.add_argument("--lookahead-frames", type=int, default=3)
@@ -146,7 +148,8 @@ def main():
     ap.add_argument("--jitter-ms", type=float, default=0.0)
     ap.add_argument("--video", default="", help="a generated clip to use as frames (realistic bitrate)")
     a = ap.parse_args()
-    app = create_app(BurstProvider(a.block, a.lookahead_frames, a.render_ms, a.jitter_ms, a.video), static_dir=a.dist)
+    app = create_app(BurstProvider(a.block, a.lookahead_frames, a.render_ms, a.jitter_ms, a.video), static_dir=a.dist,
+                     diagnostics_dir=a.diagnostics or None)
     uvicorn.run(app, host="127.0.0.1", port=a.port, log_level="warning")
 
 

@@ -1,13 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { startMicrophone, type MicCapture } from "@engine/audio";
 
 export type MicState = "idle" | "requesting" | "denied" | "recording" | "paused" | "stopped" | "error" | "unsupported";
 export type MicPermission = "unknown" | "prompt" | "granted" | "denied";
 
 const HISTORY = 240;
-const TARGET_RATE = 16000;
 
-/** Real microphone capture: device list, permission, level meter, waveform history and 16 kHz PCM chunks. */
-export function useMicrophone(opts: { deviceId?: string | undefined; onPcm?: ((pcm: Int16Array) => void) | undefined } = {}) {
+/**
+ * Real microphone capture: device list, permission, level meter, waveform history, and 16 kHz
+ * mono float blocks from the engine's reference capture path (AudioWorklet, `@engine/audio`).
+ * Blocks are delivered only while recording; nothing is buffered while paused.
+ */
+export function useMicrophone(opts: { deviceId?: string | undefined; onSamples?: ((samples: Float32Array) => void) | undefined } = {}) {
   const [state, setState] = useState<MicState>("idle");
   const [permission, setPermission] = useState<MicPermission>("unknown");
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
@@ -18,16 +22,14 @@ export function useMicrophone(opts: { deviceId?: string | undefined; onPcm?: ((p
   const [elapsed, setElapsed] = useState(0);
   const [error, setError] = useState<string>();
 
-  const streamRef = useRef<MediaStream | null>(null);
-  const ctxRef = useRef<AudioContext | null>(null);
-  const procRef = useRef<ScriptProcessorNode | null>(null);
-  const analyserRef = useRef<AnalyserNode | null>(null);
+  const capRef = useRef<MicCapture | null>(null);
+  const rmsRef = useRef(0);
   const timerRef = useRef(0);
   const startedRef = useRef(0);
   const accRef = useRef(0);
   const pausedRef = useRef(false);
-  const onPcmRef = useRef(opts.onPcm);
-  onPcmRef.current = opts.onPcm;
+  const onSamplesRef = useRef(opts.onSamples);
+  onSamplesRef.current = opts.onSamples;
 
   const refreshDevices = useCallback(async () => {
     if (!navigator.mediaDevices?.enumerateDevices) return;
@@ -59,53 +61,70 @@ export function useMicrophone(opts: { deviceId?: string | undefined; onPcm?: ((p
 
   const teardown = useCallback(() => {
     window.clearInterval(timerRef.current);
-    procRef.current?.disconnect();
-    analyserRef.current?.disconnect();
-    streamRef.current?.getTracks().forEach((t) => t.stop());
-    ctxRef.current?.close().catch(() => {});
-    procRef.current = null;
-    analyserRef.current = null;
-    streamRef.current = null;
-    ctxRef.current = null;
+    const cap = capRef.current;
+    capRef.current = null;
+    void cap?.stop().catch(() => undefined);
   }, []);
 
   useEffect(() => teardown, [teardown]);
 
-  const start = useCallback(async () => {
+  const fail = useCallback((e: unknown) => {
+    const name = (e as DOMException)?.name;
+    if (name === "NotAllowedError" || name === "SecurityError") {
+      setPermission("denied");
+      setState("denied");
+      setError("Microphone access was blocked. Allow it in your browser's site settings, then try again.");
+    } else if (name === "NotFoundError" || name === "OverconstrainedError") {
+      setState("error");
+      setError("That microphone isn't available. Pick another input.");
+    } else {
+      setState("error");
+      setError("The microphone couldn't start.");
+    }
+  }, []);
+
+  /**
+   * Asks for microphone permission without capturing anything, so a refusal is known before an
+   * engine session is opened. Resolves true when access is allowed.
+   */
+  const probe = useCallback(async (): Promise<boolean> => {
+    setError(undefined);
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setState("unsupported");
+      return false;
+    }
+    setState("requesting");
+    try {
+      const s = await navigator.mediaDevices.getUserMedia({
+        audio: opts.deviceId ? { deviceId: { exact: opts.deviceId } } : true,
+      });
+      s.getTracks().forEach((t) => t.stop());
+      setPermission("granted");
+      setState("idle");
+      refreshDevices();
+      return true;
+    } catch (e) {
+      fail(e);
+      return false;
+    }
+  }, [opts.deviceId, refreshDevices, fail]);
+
+  const start = useCallback(async (): Promise<boolean> => {
     setError(undefined);
     setState("requesting");
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: { ...(opts.deviceId ? { deviceId: { exact: opts.deviceId } } : {}), echoCancellation: true, noiseSuppression: true },
-      });
+      const cap = await startMicrophone(
+        (block) => {
+          if (!pausedRef.current) onSamplesRef.current?.(block);
+        },
+        (rms) => {
+          rmsRef.current = rms;
+        },
+        opts.deviceId ? { deviceId: opts.deviceId } : {},
+      );
+      capRef.current = cap;
       setPermission("granted");
       refreshDevices();
-      streamRef.current = stream;
-      const ctx = new AudioContext();
-      ctxRef.current = ctx;
-      const src = ctx.createMediaStreamSource(stream);
-      const analyser = ctx.createAnalyser();
-      analyser.fftSize = 1024;
-      analyserRef.current = analyser;
-      const proc = ctx.createScriptProcessor(4096, 1, 1);
-      procRef.current = proc;
-      const ratio = ctx.sampleRate / TARGET_RATE;
-      proc.onaudioprocess = (e) => {
-        if (pausedRef.current || !onPcmRef.current) return;
-        const input = e.inputBuffer.getChannelData(0);
-        const outLen = Math.floor(input.length / ratio);
-        const out = new Int16Array(outLen);
-        for (let i = 0; i < outLen; i++) {
-          const s = Math.max(-1, Math.min(1, input[Math.floor(i * ratio)] ?? 0));
-          out[i] = s < 0 ? s * 0x8000 : s * 0x7fff;
-        }
-        onPcmRef.current(out);
-      };
-      src.connect(analyser);
-      src.connect(proc);
-      proc.connect(ctx.destination);
-
-      const buf = new Float32Array(analyser.fftSize);
       accRef.current = 0;
       startedRef.current = performance.now();
       pausedRef.current = false;
@@ -114,61 +133,48 @@ export function useMicrophone(opts: { deviceId?: string | undefined; onPcm?: ((p
       setElapsed(0);
       timerRef.current = window.setInterval(() => {
         if (pausedRef.current) return;
-        analyser.getFloatTimeDomainData(buf);
-        let sum = 0;
-        for (const x of buf) sum += x * x;
-        const rms = Math.sqrt(sum / buf.length);
-        const v = Math.min(1, Math.pow(rms * 4, 0.7));
+        const v = Math.min(1, Math.pow(rmsRef.current * 4, 0.7));
         setLevel(v);
         logRef.current.push(v);
         setHistory((h) => (h.length >= HISTORY ? [...h.slice(1), v] : [...h, v]));
         setElapsed(accRef.current + performance.now() - startedRef.current);
       }, 50);
       setState("recording");
+      return true;
     } catch (e) {
       teardown();
-      const name = (e as DOMException).name;
-      if (name === "NotAllowedError" || name === "SecurityError") {
-        setPermission("denied");
-        setState("denied");
-        setError("Microphone access was blocked. Allow it in your browser's site settings, then try again.");
-      } else if (name === "NotFoundError" || name === "OverconstrainedError") {
-        setState("error");
-        setError("That microphone isn't available. Pick another input.");
-      } else {
-        setState("error");
-        setError("The microphone couldn't start.");
-      }
+      fail(e);
+      return false;
     }
-  }, [opts.deviceId, refreshDevices, teardown]);
+  }, [opts.deviceId, refreshDevices, teardown, fail]);
 
   const pause = useCallback(() => {
-    if (!ctxRef.current) return;
+    if (!capRef.current || pausedRef.current) return;
     pausedRef.current = true;
     accRef.current += performance.now() - startedRef.current;
-    ctxRef.current.suspend();
     setLevel(0);
     setState("paused");
   }, []);
 
   const resume = useCallback(() => {
-    if (!ctxRef.current) return;
+    if (!capRef.current || !pausedRef.current) return;
     pausedRef.current = false;
     startedRef.current = performance.now();
-    ctxRef.current.resume();
     setState("recording");
   }, []);
 
   const stop = useCallback(() => {
-    if (pausedRef.current === false && ctxRef.current) accRef.current += performance.now() - startedRef.current;
+    if (capRef.current && !pausedRef.current) accRef.current += performance.now() - startedRef.current;
+    pausedRef.current = false;
     setElapsed(accRef.current);
     teardown();
     setLevel(0);
     setState("stopped");
   }, [teardown]);
 
-    const reset = useCallback(() => {
+  const reset = useCallback(() => {
     teardown();
+    pausedRef.current = false;
     logRef.current = [];
     setHistory([]);
     setElapsed(0);
@@ -176,5 +182,5 @@ export function useMicrophone(opts: { deviceId?: string | undefined; onPcm?: ((p
     setState("idle");
   }, [teardown]);
 
-  return { state, permission, devices, level, history, log: logRef.current, elapsed, error, start, pause, resume, stop, reset, refreshDevices };
+  return { state, permission, devices, level, history, log: logRef.current, elapsed, error, probe, start, pause, resume, stop, reset, refreshDevices };
 }

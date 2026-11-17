@@ -30,7 +30,7 @@ function About() {
             <h2 className="display-md mt-5">Most talking-head systems are heavy. This one tries not to be.</h2>
           </div>
           <div className="space-y-4 text-[15px] leading-relaxed text-muted-foreground">
-            <p>High-quality portrait animation usually means large models and offline rendering. EmoStream asks whether a 1.36M-parameter causal model, sitting between a pretrained audio encoder and a frozen renderer, can drive a believable, controllable face in real time.</p>
+            <p>High-quality portrait animation usually means large models and offline rendering. EmoStream asks whether a 1.3M-parameter causal model, sitting between a pretrained audio encoder and a frozen renderer, can drive a believable, controllable face in real time.</p>
             <p>The answer so far: about 25 frames per second on an L40S, with strong identity preservation and measurable emotion control — and clear limits we publish alongside.</p>
           </div>
         </section>

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDownUp, Download, Search, Trash2, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Page, PageHeader, SectionTitle } from "@/components/app/PageHeader";
-import { DemoNote, StatusPill } from "@/components/app/Status";
+import { StatusPill } from "@/components/app/Status";
 import { useComingSoon } from "@/components/app/ComingSoon";
 import { FrameStrip } from "@/components/brand/FrameStrip";
 import { Button } from "@/components/ui/button";
@@ -19,10 +19,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { DEMO_SESSIONS, type DemoSession } from "@/lib/demo-data";
 import { EMOTIONS, emotionById, type EmotionId } from "@/lib/emotions";
 import { duration } from "@/lib/format";
-import { useStudio } from "@/lib/studio-store";
+import { studioStore, useStudio, type SessionSummary } from "@/lib/studio-store";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/sessions")({
@@ -41,18 +40,49 @@ export const Route = createFileRoute("/app/sessions")({
 
 type Sort = "newest" | "oldest" | "longest" | "name";
 
+/** A take from this tab, in the library's shape. */
+interface TakeRow {
+  id: string;
+  name: string;
+  avatar: string;
+  input: "Microphone";
+  emotion: EmotionId;
+  intensity: number;
+  durationS: number;
+  createdAt: string; // ISO date
+  startedAt: number;
+  framesReceived: number;
+  status: "Complete" | "Exported" | "Interrupted";
+}
+
+function toRow(s: SessionSummary, n: number): TakeRow {
+  return {
+    id: s.id,
+    name: `${s.avatarName} · take ${n}`,
+    avatar: s.avatarName,
+    input: "Microphone",
+    emotion: s.finalEmotion,
+    intensity: s.finalIntensity,
+    durationS: Math.round(s.durationMs / 1000),
+    createdAt: new Date(s.startedAt).toISOString().slice(0, 10),
+    startedAt: s.startedAt,
+    framesReceived: s.framesReceived,
+    status: s.outcome !== "complete" ? "Interrupted" : s.exported ? "Exported" : "Complete",
+  };
+}
+
 function Sessions() {
   const visit = useStudio((s) => s.sessions);
   const soon = useComingSoon();
-  const [rows, setRows] = useState<DemoSession[]>(DEMO_SESSIONS);
+  const rows = useMemo(() => visit.map((s, i) => toRow(s, visit.length - i)), [visit]);
   const [q, setQ] = useState("");
   const [emotion, setEmotion] = useState<EmotionId | "all">("all");
   const [status, setStatus] = useState<string>("all");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [sort, setSort] = useState<Sort>("newest");
-  const [detail, setDetail] = useState<DemoSession | null>(null);
-  const [confirm, setConfirm] = useState<DemoSession | null>(null);
+  const [detail, setDetail] = useState<TakeRow | null>(null);
+  const [confirm, setConfirm] = useState<TakeRow | null>(null);
 
   const filtered = useMemo(() => {
     let r = rows.filter((s) => {
@@ -64,7 +94,7 @@ function Sessions() {
       return true;
     });
     r = [...r].sort((a, b) =>
-      sort === "newest" ? b.createdAt.localeCompare(a.createdAt) : sort === "oldest" ? a.createdAt.localeCompare(b.createdAt) : sort === "longest" ? b.durationS - a.durationS : a.name.localeCompare(b.name),
+      sort === "newest" ? b.startedAt - a.startedAt : sort === "oldest" ? a.startedAt - b.startedAt : sort === "longest" ? b.durationS - a.durationS : a.name.localeCompare(b.name),
     );
     return r;
   }, [rows, q, emotion, status, from, to, sort]);
@@ -73,7 +103,7 @@ function Sessions() {
   const exportSoon = () =>
     soon({
       title: "Export from history",
-      body: "Exporting an old take needs the engine to keep finished sessions. It doesn't yet, so export is only available in Studio right after a rendered take.",
+      body: "Takes aren't stored, by design: the recording of a take lives in the Studio until you start a new one, and export is available there right after a rendered take. Saved history is planned.",
     });
 
   return (
@@ -81,7 +111,7 @@ function Sessions() {
       <PageHeader
         label="Workspace · Sessions"
         title="Sessions"
-        description="A library of takes. The current engine doesn't store history, so the records below the line are demonstration data that show how the library will work."
+        description="A library of takes from this tab. Nothing is stored on the engine or in your browser, so the list is cleared when you close the tab. Saved history is planned."
       />
 
       {/* Real takes from this visit */}
@@ -118,7 +148,7 @@ function Sessions() {
 
       {/* Demo library */}
       <section className="mt-12">
-        <SectionTitle label="Library preview" title="How saved sessions will look" aside={<DemoNote>Demonstration data · not real sessions</DemoNote>} />
+        <SectionTitle label="Library" title="Search and review takes" aside={<StatusPill tone="success" dot>Real records · this tab</StatusPill>} />
 
         <div className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-surface p-2">
           <div className="relative min-w-[200px] flex-1">
@@ -205,13 +235,13 @@ function Sessions() {
               })}
               {filtered.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-4 py-10 text-center text-sm text-muted-foreground">No sessions match these filters.</td>
+                  <td colSpan={7} className="px-4 py-10 text-center text-sm text-muted-foreground">{rows.length === 0 ? "No takes yet. Sessions you run in Studio appear here." : "No sessions match these filters."}</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-        <p className="mt-2 text-xs text-muted-foreground">{filtered.length} of {rows.length} demonstration records · deleting here only changes this preview.</p>
+        <p className="mt-2 text-xs text-muted-foreground">{filtered.length} of {rows.length} takes from this tab · deleting removes the record from this tab.</p>
       </section>
 
       <Sheet open={!!detail} onOpenChange={(o) => !o && setDetail(null)}>
@@ -219,13 +249,12 @@ function Sessions() {
           {detail && (
             <>
               <SheetHeader>
-                <DemoNote />
                 <SheetTitle className="font-display text-3xl font-normal">{detail.name}</SheetTitle>
                 <SheetDescription>{detail.avatar} · {detail.createdAt}</SheetDescription>
               </SheetHeader>
               <div className="stage mt-6 rounded-lg p-3">
                 <FrameStrip frames={4} start={60} emotion={detail.emotion} intensity={detail.intensity} />
-                <p className="eyebrow mt-3 text-[9px] text-stage-muted">Video preview unavailable · demonstration record</p>
+                <p className="eyebrow mt-3 text-[9px] text-stage-muted">Expression diagram, not model output · the recording stays in Studio until the next take</p>
               </div>
               <dl className="mt-6 divide-y divide-border border-y border-border text-sm">
                 {([
@@ -233,6 +262,7 @@ function Sessions() {
                   ["Emotion", `${emotionById(detail.emotion).label} · ${detail.intensity}%`],
                   ["Duration", duration(detail.durationS * 1000)],
                   ["Status", detail.status],
+                  ["Frames received", String(detail.framesReceived)],
                   ["Output", "512×512 · AI watermark"],
                 ] as [string, string][]).map(([k, v]) => (
                   <div key={k} className="flex justify-between py-2.5">
@@ -254,14 +284,14 @@ function Sessions() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete “{confirm?.name}”?</AlertDialogTitle>
-            <AlertDialogDescription>This is a demonstration record, so it's only removed from this preview.</AlertDialogDescription>
+            <AlertDialogDescription>This removes the record from this tab. Nothing about the take is stored anywhere else.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={() => {
-                setRows((r) => r.filter((x) => x.id !== confirm?.id));
+                studioStore.set((s) => ({ sessions: s.sessions.filter((x) => x.id !== confirm?.id) }));
                 if (detail?.id === confirm?.id) setDetail(null);
               }}
             >
