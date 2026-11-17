@@ -28,7 +28,7 @@ REPO = "microsoft/wavlm-base-plus"
 
 class WavLMFeatures:
     def __init__(self, layer: int = 6, past_s: float = 1.0, future_frames: int = 2, device: str = "cpu",
-                 repo: str = REPO, model=None, extractor=None):
+                 repo: str = REPO, model=None, extractor=None, tf32: bool = True):
         import torch
         from transformers import AutoFeatureExtractor, WavLMModel
 
@@ -39,6 +39,12 @@ class WavLMFeatures:
         self.fe = extractor or AutoFeatureExtractor.from_pretrained(repo)
         self.model = (model or WavLMModel.from_pretrained(repo)).to(device).eval()
         self.dim = self.model.config.hidden_size
+        if str(device).startswith("cuda") and tf32:
+            # FP32 maths on an A100 runs at about a fifth of an L40S's rate; TF32 tensor cores
+            # close that gap. Feature difference: see tests/test_wavlm_features.py and
+            # docs/iterations/current_iteration/audio_feature_alignment.md.
+            torch.backends.cuda.matmul.allow_tf32 = True
+            torch.backends.cudnn.allow_tf32 = True
 
     @property
     def config(self) -> dict:
@@ -57,7 +63,7 @@ class WavLMFeatures:
     def _encode(self, segs: list[np.ndarray]) -> np.ndarray:
         torch = self.torch
         inp = self.fe(segs, sampling_rate=SR, return_tensors="pt", padding=False)
-        with torch.no_grad():
+        with torch.inference_mode():
             h = self.model(inp.input_values.to(self.device), output_hidden_states=True).hidden_states[self.layer]
         return h.float().cpu().numpy()
 
@@ -130,15 +136,36 @@ class WavLMStream:
             self.buf = self.buf[keep_from - self.offset:]
             self.offset = keep_from
 
+    def _segment(self, k: int) -> tuple[np.ndarray, int]:
+        start = max(0, (k + 1) * FRAME - self.x.past)
+        end = (k + 1 + self.x.future) * FRAME
+        seg = self.buf[start - self.offset:end - self.offset]
+        if len(seg) < end - start:
+            seg = np.concatenate([seg, np.zeros(end - start - len(seg), np.float32)])
+        return seg, start // FRAME
+
+    def _compute_many(self, ks: list[int]) -> np.ndarray:
+        """All ready frames in one encoder call when their segments have equal length
+        (always, once a full history exists); otherwise one call per frame. The result is
+        the same as frame by frame (tested), only faster."""
+        segs = [self._segment(k) for k in ks]
+        if len({len(s) for s, _ in segs}) == 1 and len(segs) > 1:
+            h = self.x._encode([s for s, _ in segs])
+            return np.stack([h[j, 2 * (k - st):2 * (k - st) + 2].mean(0) for j, (k, (_, st)) in enumerate(zip(ks, segs))])
+        return np.stack([self.x._frame_from(s, st, k) for k, (s, st) in zip(ks, segs)])
+
     def push(self, audio: np.ndarray) -> np.ndarray:
         self.buf = np.concatenate([self.buf, np.asarray(audio, np.float32)])
         total = self.offset + len(self.buf)
-        out = []
-        while self._ready(self.next, total):
-            out.append(self._compute(self.next))
-            self.next += 1
-            self._trim()
-        return np.stack(out) if out else np.zeros((0, self.x.dim), np.float32)
+        ks = []
+        while self._ready(self.next + len(ks), total):
+            ks.append(self.next + len(ks))
+        if not ks:
+            return np.zeros((0, self.x.dim), np.float32)
+        out = self._compute_many(ks)
+        self.next += len(ks)
+        self._trim()
+        return out
 
     def flush(self, total_frames: int) -> np.ndarray:
         out = []

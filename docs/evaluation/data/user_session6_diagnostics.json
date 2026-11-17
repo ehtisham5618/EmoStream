@@ -1,0 +1,6671 @@
+{
+ "source": "mic",
+ "model": "emostream",
+ "emotion": "neutral",
+ "intensity": 0.7,
+ "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+ "rows": [
+  {
+   "t": 37789,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "jitterP95Ms": null,
+    "codec": "–",
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "network": {
+    "pingMs": null,
+    "kbps": 0
+   },
+   "voice": {
+    "scheduled": 0,
+    "missed": 0
+   },
+   "server": null
+  },
+  {
+   "t": 38294,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "jitterP95Ms": null,
+    "codec": "–",
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "network": {
+    "pingMs": null,
+    "kbps": 0
+   },
+   "voice": {
+    "scheduled": 0,
+    "missed": 0
+   },
+   "server": null
+  },
+  {
+   "t": 38790,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "jitterP95Ms": null,
+    "codec": "–",
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "network": {
+    "pingMs": null,
+    "kbps": 0
+   },
+   "voice": {
+    "scheduled": 0,
+    "missed": 0
+   },
+   "server": null
+  },
+  {
+   "t": 39293,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "jitterP95Ms": null,
+    "codec": "–",
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "network": {
+    "pingMs": null,
+    "kbps": 0
+   },
+   "voice": {
+    "scheduled": 0,
+    "missed": 0
+   },
+   "server": null
+  },
+  {
+   "t": 39788,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "jitterP95Ms": null,
+    "codec": "–",
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "network": {
+    "pingMs": null,
+    "kbps": 0
+   },
+   "voice": {
+    "scheduled": 0,
+    "missed": 0
+   },
+   "server": null
+  },
+  {
+   "t": 40350,
+   "client": {
+    "presented": 0,
+    "received": 0,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 0,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 0,
+    "receivedFps": 0,
+    "intervalP50Ms": null,
+    "intervalP95Ms": null,
+    "intervalMaxMs": null,
+    "ageP50Ms": null,
+    "ageP95Ms": null,
+    "bufferDepth": 0,
+    "playoutDelayMs": 0,
+    "jitterP95Ms": null,
+    "codec": "–",
+    "timelineShifts": 0,
+    "decodeP50Ms": null,
+    "avOffsetMs": null
+   },
+   "roundTripMs": null,
+   "network": {
+    "pingMs": 240.89999997615814,
+    "kbps": 0
+   },
+   "voice": {
+    "scheduled": 0,
+    "missed": 0
+   },
+   "server": null
+  },
+  {
+   "t": 40853,
+   "client": {
+    "presented": 6,
+    "received": 8,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 2,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 3,
+    "receivedFps": 4,
+    "intervalP50Ms": 50,
+    "intervalP95Ms": 150,
+    "intervalMaxMs": 150,
+    "ageP50Ms": 110.90000003576279,
+    "ageP95Ms": 165.40000000000146,
+    "bufferDepth": 2,
+    "playoutDelayMs": 65.39999997615814,
+    "jitterP95Ms": 197,
+    "codec": "h264",
+    "timelineShifts": 1,
+    "decodeP50Ms": 3.900000035762787,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 627.1000000238419,
+   "network": {
+    "pingMs": 240.89999997615814,
+    "kbps": 114
+   },
+   "voice": {
+    "scheduled": 6,
+    "missed": 0
+   },
+   "server": null
+  },
+  {
+   "t": 41352,
+   "client": {
+    "presented": 15,
+    "received": 16,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 5,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 7.5,
+    "receivedFps": 8,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 166.6999999999971,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 88.10000002384186,
+    "ageP95Ms": 165.40000000000146,
+    "bufferDepth": 1,
+    "playoutDelayMs": 87.30000001192093,
+    "jitterP95Ms": 302.5,
+    "codec": "h264",
+    "timelineShifts": 2,
+    "decodeP50Ms": 2.200000047683716,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 715.8000000119209,
+   "network": {
+    "pingMs": 240.89999997615814,
+    "kbps": 224
+   },
+   "voice": {
+    "scheduled": 10,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 10,
+    "frames_dropped": 0,
+    "audio_s": 0.56,
+    "latency": {
+     "n": 10,
+     "p50_ms": 356.1,
+     "p95_ms": 430.1,
+     "max_ms": 441.4,
+     "mean_ms": 352.3,
+     "output_fps": 17.8,
+     "max_frame_gap_ms": 99.7
+    },
+    "compute_fps": 16.89,
+    "stages_ms": {
+     "behaviour": 29.412,
+     "stitch": 0.835,
+     "render": 28.802,
+     "post": 0.169
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 3,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 564.4,
+     "frames_sent": 10,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 11.6,
+     "lag_max_ms": 11.6
+    }
+   }
+  },
+  {
+   "t": 41853,
+   "client": {
+    "presented": 26,
+    "received": 28,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 7,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 13,
+    "receivedFps": 14,
+    "intervalP50Ms": 33.5,
+    "intervalP95Ms": 150,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 80.19999999999709,
+    "ageP95Ms": 149.50000001191802,
+    "bufferDepth": 2,
+    "playoutDelayMs": 50.19999998807907,
+    "jitterP95Ms": 395.2000000476837,
+    "codec": "h264",
+    "timelineShifts": 3,
+    "decodeP50Ms": 1.100000023841858,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 820.5,
+   "network": {
+    "pingMs": 240.89999997615814,
+    "kbps": 406
+   },
+   "voice": {
+    "scheduled": 16,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 10,
+    "frames_dropped": 0,
+    "audio_s": 0.56,
+    "latency": {
+     "n": 10,
+     "p50_ms": 356.1,
+     "p95_ms": 430.1,
+     "max_ms": 441.4,
+     "mean_ms": 352.3,
+     "output_fps": 17.8,
+     "max_frame_gap_ms": 99.7
+    },
+    "compute_fps": 16.89,
+    "stages_ms": {
+     "behaviour": 29.412,
+     "stitch": 0.835,
+     "render": 28.802,
+     "post": 0.169
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 3,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 564.4,
+     "frames_sent": 10,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 11.6,
+     "lag_max_ms": 11.6
+    }
+   }
+  },
+  {
+   "t": 42360,
+   "client": {
+    "presented": 35,
+    "received": 37,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 12,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 17.5,
+    "receivedFps": 18.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 150,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 63.60000001192384,
+    "ageP95Ms": 149.50000001191802,
+    "bufferDepth": 2,
+    "playoutDelayMs": 79.80000001192093,
+    "jitterP95Ms": 459.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 5,
+    "decodeP50Ms": 1,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 839,
+   "network": {
+    "pingMs": 240.89999997615814,
+    "kbps": 549
+   },
+   "voice": {
+    "scheduled": 21,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 30,
+    "frames_dropped": 0,
+    "audio_s": 1.36,
+    "latency": {
+     "n": 30,
+     "p50_ms": 521.1,
+     "p95_ms": 674.1,
+     "max_ms": 687.2,
+     "mean_ms": 507.4,
+     "output_fps": 18.71,
+     "max_frame_gap_ms": 99.7
+    },
+    "compute_fps": 19.73,
+    "stages_ms": {
+     "behaviour": 23.122,
+     "stitch": 0.894,
+     "render": 26.471,
+     "post": 0.208
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 568,
+     "frames_sent": 30,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 11,
+     "lag_max_ms": 12.6
+    }
+   }
+  },
+  {
+   "t": 42852,
+   "client": {
+    "presented": 46,
+    "received": 47,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 15,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20,
+    "receivedFps": 19.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 133.3000000000029,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 81.09999999999854,
+    "ageP95Ms": 149.50000001191802,
+    "bufferDepth": 1,
+    "playoutDelayMs": 89.39999997615814,
+    "jitterP95Ms": 459.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 5,
+    "decodeP50Ms": 1,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 902.8999999761581,
+   "network": {
+    "pingMs": 240.89999997615814,
+    "kbps": 611
+   },
+   "voice": {
+    "scheduled": 27,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 30,
+    "frames_dropped": 0,
+    "audio_s": 1.36,
+    "latency": {
+     "n": 30,
+     "p50_ms": 521.1,
+     "p95_ms": 674.1,
+     "max_ms": 687.2,
+     "mean_ms": 507.4,
+     "output_fps": 18.71,
+     "max_frame_gap_ms": 99.7
+    },
+    "compute_fps": 19.73,
+    "stages_ms": {
+     "behaviour": 23.122,
+     "stitch": 0.894,
+     "render": 26.471,
+     "post": 0.208
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 568,
+     "frames_sent": 30,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 11,
+     "lag_max_ms": 12.6
+    }
+   }
+  },
+  {
+   "t": 43352,
+   "client": {
+    "presented": 55,
+    "received": 59,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 23,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 133.3000000000029,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 88.10000001192384,
+    "ageP95Ms": 149.50000001191802,
+    "bufferDepth": 4,
+    "playoutDelayMs": 119.39999997615814,
+    "jitterP95Ms": 486.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 5,
+    "decodeP50Ms": 1,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 957.8000000119209,
+   "network": {
+    "pingMs": 243.19999998807907,
+    "kbps": 761
+   },
+   "voice": {
+    "scheduled": 33,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 56,
+    "frames_dropped": 3,
+    "audio_s": 2.4,
+    "latency": {
+     "n": 53,
+     "p50_ms": 653.3,
+     "p95_ms": 713.1,
+     "max_ms": 721.5,
+     "mean_ms": 586,
+     "output_fps": 19.88,
+     "max_frame_gap_ms": 99.7
+    },
+    "compute_fps": 22.79,
+    "stages_ms": {
+     "behaviour": 19.397,
+     "stitch": 0.776,
+     "render": 23.537,
+     "post": 0.169
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 745,
+     "frames_sent": 53,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 35.8,
+     "lag_max_ms": 104.8
+    }
+   }
+  },
+  {
+   "t": 43853,
+   "client": {
+    "presented": 66,
+    "received": 69,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 28,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 116.69999999999709,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 91.60000003575988,
+    "ageP95Ms": 147.50000001191802,
+    "bufferDepth": 3,
+    "playoutDelayMs": 129.80000001192093,
+    "jitterP95Ms": 472,
+    "codec": "h264",
+    "timelineShifts": 5,
+    "decodeP50Ms": 1,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.3000000119209,
+   "network": {
+    "pingMs": 243.19999998807907,
+    "kbps": 746
+   },
+   "voice": {
+    "scheduled": 39,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 56,
+    "frames_dropped": 3,
+    "audio_s": 2.4,
+    "latency": {
+     "n": 53,
+     "p50_ms": 653.3,
+     "p95_ms": 713.1,
+     "max_ms": 721.5,
+     "mean_ms": 586,
+     "output_fps": 19.88,
+     "max_frame_gap_ms": 99.7
+    },
+    "compute_fps": 22.79,
+    "stages_ms": {
+     "behaviour": 19.397,
+     "stitch": 0.776,
+     "render": 23.537,
+     "post": 0.169
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 745,
+     "frames_sent": 53,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 35.8,
+     "lag_max_ms": 104.8
+    }
+   }
+  },
+  {
+   "t": 44351,
+   "client": {
+    "presented": 77,
+    "received": 79,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 30,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 21,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 116.69999999999709,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 91.80000001192093,
+    "ageP95Ms": 147.50000001191802,
+    "bufferDepth": 2,
+    "playoutDelayMs": 115.80000001192093,
+    "jitterP95Ms": 486.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 5,
+    "decodeP50Ms": 1,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 971.0999999642372,
+   "network": {
+    "pingMs": 243.19999998807907,
+    "kbps": 766
+   },
+   "voice": {
+    "scheduled": 45,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 82,
+    "frames_dropped": 8,
+    "audio_s": 3.44,
+    "latency": {
+     "n": 74,
+     "p50_ms": 679.2,
+     "p95_ms": 714.6,
+     "max_ms": 721.5,
+     "mean_ms": 617.4,
+     "output_fps": 19.93,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 24.44,
+    "stages_ms": {
+     "behaviour": 18.133,
+     "stitch": 0.717,
+     "render": 21.914,
+     "post": 0.161
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 787.8,
+     "frames_sent": 74,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 30.3,
+     "lag_max_ms": 104.8
+    }
+   }
+  },
+  {
+   "t": 44852,
+   "client": {
+    "presented": 88,
+    "received": 91,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 35,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 22,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 100.09999999999854,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 94.7000000238404,
+    "ageP95Ms": 144.00000001191802,
+    "bufferDepth": 3,
+    "playoutDelayMs": 109.89999997615814,
+    "jitterP95Ms": 472.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 5,
+    "decodeP50Ms": 0.9000000357627869,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 969.1999999880791,
+   "network": {
+    "pingMs": 243.19999998807907,
+    "kbps": 812
+   },
+   "voice": {
+    "scheduled": 52,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 82,
+    "frames_dropped": 8,
+    "audio_s": 3.44,
+    "latency": {
+     "n": 74,
+     "p50_ms": 679.2,
+     "p95_ms": 714.6,
+     "max_ms": 721.5,
+     "mean_ms": 617.4,
+     "output_fps": 19.93,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 24.44,
+    "stages_ms": {
+     "behaviour": 18.133,
+     "stitch": 0.717,
+     "render": 21.914,
+     "post": 0.161
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 787.8,
+     "frames_sent": 74,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 30.3,
+     "lag_max_ms": 104.8
+    }
+   }
+  },
+  {
+   "t": 45350,
+   "client": {
+    "presented": 97,
+    "received": 100,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 43,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 100.09999999999854,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 98.30000002383895,
+    "ageP95Ms": 149.50000001191802,
+    "bufferDepth": 3,
+    "playoutDelayMs": 113.60000002384186,
+    "jitterP95Ms": 472.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 5,
+    "decodeP50Ms": 0.9000000357627869,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.3000000119209,
+   "network": {
+    "pingMs": 252.80000001192093,
+    "kbps": 724
+   },
+   "voice": {
+    "scheduled": 58,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 108,
+    "frames_dropped": 12,
+    "audio_s": 4.48,
+    "latency": {
+     "n": 96,
+     "p50_ms": 689.9,
+     "p95_ms": 718.2,
+     "max_ms": 721.5,
+     "mean_ms": 637,
+     "output_fps": 20.23,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 25.42,
+    "stages_ms": {
+     "behaviour": 17.169,
+     "stitch": 0.688,
+     "render": 21.324,
+     "post": 0.154
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 763.8,
+     "frames_sent": 96,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 12.9,
+     "lag_max_ms": 104.8
+    }
+   }
+  },
+  {
+   "t": 45850,
+   "client": {
+    "presented": 107,
+    "received": 110,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 48,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 100,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 102.50000002384331,
+    "ageP95Ms": 149.50000001191802,
+    "bufferDepth": 3,
+    "playoutDelayMs": 86,
+    "jitterP95Ms": 264.19999998807907,
+    "codec": "h264",
+    "timelineShifts": 5,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.3000000119209,
+   "network": {
+    "pingMs": 252.80000001192093,
+    "kbps": 743
+   },
+   "voice": {
+    "scheduled": 64,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 108,
+    "frames_dropped": 12,
+    "audio_s": 4.48,
+    "latency": {
+     "n": 96,
+     "p50_ms": 689.9,
+     "p95_ms": 718.2,
+     "max_ms": 721.5,
+     "mean_ms": 637,
+     "output_fps": 20.23,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 25.42,
+    "stages_ms": {
+     "behaviour": 17.169,
+     "stitch": 0.688,
+     "render": 21.324,
+     "post": 0.154
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 763.8,
+     "frames_sent": 96,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 12.9,
+     "lag_max_ms": 104.8
+    }
+   }
+  },
+  {
+   "t": 46350,
+   "client": {
+    "presented": 119,
+    "received": 120,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 50,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 100,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 102.50000002384331,
+    "ageP95Ms": 149.50000001191802,
+    "bufferDepth": 1,
+    "playoutDelayMs": 99.19999998807907,
+    "jitterP95Ms": 142.5,
+    "codec": "h264",
+    "timelineShifts": 5,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 966.8000000119209,
+   "network": {
+    "pingMs": 255.30000001192093,
+    "kbps": 722
+   },
+   "voice": {
+    "scheduled": 70,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 134,
+    "frames_dropped": 16,
+    "audio_s": 5.52,
+    "latency": {
+     "n": 118,
+     "p50_ms": 692.4,
+     "p95_ms": 718.8,
+     "max_ms": 722.3,
+     "mean_ms": 648.6,
+     "output_fps": 20.34,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 25.91,
+    "stages_ms": {
+     "behaviour": 16.662,
+     "stitch": 0.672,
+     "render": 21.1,
+     "post": 0.155
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 763.7,
+     "frames_sent": 118,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 22.1,
+     "lag_max_ms": 104.8
+    }
+   }
+  },
+  {
+   "t": 46853,
+   "client": {
+    "presented": 129,
+    "received": 132,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 56,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 103.30000001192093,
+    "ageP95Ms": 147.50000001191802,
+    "bufferDepth": 3,
+    "playoutDelayMs": 97.30000001192093,
+    "jitterP95Ms": 84.5,
+    "codec": "h264",
+    "timelineShifts": 5,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 964.0999999642372,
+   "network": {
+    "pingMs": 255.30000001192093,
+    "kbps": 712
+   },
+   "voice": {
+    "scheduled": 77,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 134,
+    "frames_dropped": 16,
+    "audio_s": 5.52,
+    "latency": {
+     "n": 118,
+     "p50_ms": 692.4,
+     "p95_ms": 718.8,
+     "max_ms": 722.3,
+     "mean_ms": 648.6,
+     "output_fps": 20.34,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 25.91,
+    "stages_ms": {
+     "behaviour": 16.662,
+     "stitch": 0.672,
+     "render": 21.1,
+     "post": 0.155
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 763.7,
+     "frames_sent": 118,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 22.1,
+     "lag_max_ms": 104.8
+    }
+   }
+  },
+  {
+   "t": 47350,
+   "client": {
+    "presented": 140,
+    "received": 143,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 58,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 103.70000001192238,
+    "ageP95Ms": 149.50000001191802,
+    "bufferDepth": 3,
+    "playoutDelayMs": 140.30000001192093,
+    "jitterP95Ms": 84.5,
+    "codec": "h264",
+    "timelineShifts": 5,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 964.0999999642372,
+   "network": {
+    "pingMs": 255.30000001192093,
+    "kbps": 764
+   },
+   "voice": {
+    "scheduled": 83,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 160,
+    "frames_dropped": 20,
+    "audio_s": 6.56,
+    "latency": {
+     "n": 140,
+     "p50_ms": 694.7,
+     "p95_ms": 719.6,
+     "max_ms": 724.2,
+     "mean_ms": 656.7,
+     "output_fps": 20.49,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 26.4,
+    "stages_ms": {
+     "behaviour": 16.298,
+     "stitch": 0.664,
+     "render": 20.759,
+     "post": 0.158
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 786.5,
+     "frames_sent": 140,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 35.9,
+     "lag_max_ms": 104.9
+    }
+   }
+  },
+  {
+   "t": 47853,
+   "client": {
+    "presented": 149,
+    "received": 151,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 69,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 103.40000001191947,
+    "ageP95Ms": 149.10000003575988,
+    "bufferDepth": 2,
+    "playoutDelayMs": 137.69999998807907,
+    "jitterP95Ms": 93.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 6,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 973.0999999642372,
+   "network": {
+    "pingMs": 255.30000001192093,
+    "kbps": 792
+   },
+   "voice": {
+    "scheduled": 89,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 160,
+    "frames_dropped": 20,
+    "audio_s": 6.56,
+    "latency": {
+     "n": 140,
+     "p50_ms": 694.7,
+     "p95_ms": 719.6,
+     "max_ms": 724.2,
+     "mean_ms": 656.7,
+     "output_fps": 20.49,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 26.4,
+    "stages_ms": {
+     "behaviour": 16.298,
+     "stitch": 0.664,
+     "render": 20.759,
+     "post": 0.158
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 786.5,
+     "frames_sent": 140,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 35.9,
+     "lag_max_ms": 104.9
+    }
+   }
+  },
+  {
+   "t": 48351,
+   "client": {
+    "presented": 160,
+    "received": 163,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 71,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 104.7000000357657,
+    "ageP95Ms": 150.40000000000146,
+    "bufferDepth": 3,
+    "playoutDelayMs": 122.29999995231628,
+    "jitterP95Ms": 93.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 6,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 981.1000000238419,
+   "network": {
+    "pingMs": 255.30000001192093,
+    "kbps": 843
+   },
+   "voice": {
+    "scheduled": 95,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 186,
+    "frames_dropped": 25,
+    "audio_s": 7.6,
+    "latency": {
+     "n": 161,
+     "p50_ms": 694,
+     "p95_ms": 719.8,
+     "max_ms": 724.2,
+     "mean_ms": 659.8,
+     "output_fps": 20.44,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 26.67,
+    "stages_ms": {
+     "behaviour": 16.071,
+     "stitch": 0.651,
+     "render": 20.603,
+     "post": 0.165
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 846.6,
+     "frames_sent": 161,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 72.8,
+     "lag_max_ms": 121.8
+    }
+   }
+  },
+  {
+   "t": 48853,
+   "client": {
+    "presented": 170,
+    "received": 175,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 77,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.799999999995634,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 107.80000002383895,
+    "ageP95Ms": 153.99999998808198,
+    "bufferDepth": 5,
+    "playoutDelayMs": 183.0999999642372,
+    "jitterP95Ms": 89.29999995231628,
+    "codec": "h264",
+    "timelineShifts": 6,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 977.6000000238419,
+   "network": {
+    "pingMs": 255.30000001192093,
+    "kbps": 844
+   },
+   "voice": {
+    "scheduled": 101,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 186,
+    "frames_dropped": 25,
+    "audio_s": 7.6,
+    "latency": {
+     "n": 161,
+     "p50_ms": 694,
+     "p95_ms": 719.8,
+     "max_ms": 724.2,
+     "mean_ms": 659.8,
+     "output_fps": 20.44,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 26.67,
+    "stages_ms": {
+     "behaviour": 16.071,
+     "stitch": 0.651,
+     "render": 20.603,
+     "post": 0.165
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 846.6,
+     "frames_sent": 161,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 72.8,
+     "lag_max_ms": 121.8
+    }
+   }
+  },
+  {
+   "t": 49353,
+   "client": {
+    "presented": 180,
+    "received": 186,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 83,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 19.5,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.799999999995634,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 108.29999998807762,
+    "ageP95Ms": 164.69999998807907,
+    "bufferDepth": 6,
+    "playoutDelayMs": 211.10000002384186,
+    "jitterP95Ms": 119.09999996423721,
+    "codec": "h264",
+    "timelineShifts": 8,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 984.0999999642372,
+   "network": {
+    "pingMs": 268.19999998807907,
+    "kbps": 807
+   },
+   "voice": {
+    "scheduled": 107,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 212,
+    "frames_dropped": 28,
+    "audio_s": 8.64,
+    "latency": {
+     "n": 184,
+     "p50_ms": 692,
+     "p95_ms": 719.4,
+     "max_ms": 724.2,
+     "mean_ms": 661.1,
+     "output_fps": 20.68,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 26.96,
+    "stages_ms": {
+     "behaviour": 15.836,
+     "stitch": 0.651,
+     "render": 20.438,
+     "post": 0.16
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 5,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 839.5,
+     "frames_sent": 184,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 73,
+     "lag_max_ms": 122
+    }
+   }
+  },
+  {
+   "t": 49853,
+   "client": {
+    "presented": 192,
+    "received": 196,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 86,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 22.5,
+    "intervalP50Ms": 49.69999999999709,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 111.30000002383895,
+    "ageP95Ms": 205.69999998807907,
+    "bufferDepth": 4,
+    "playoutDelayMs": 235.5,
+    "jitterP95Ms": 119.09999996423721,
+    "codec": "h264",
+    "timelineShifts": 8,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 979.8000000119209,
+   "network": {
+    "pingMs": 268.19999998807907,
+    "kbps": 764
+   },
+   "voice": {
+    "scheduled": 113,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 212,
+    "frames_dropped": 28,
+    "audio_s": 8.64,
+    "latency": {
+     "n": 184,
+     "p50_ms": 692,
+     "p95_ms": 719.4,
+     "max_ms": 724.2,
+     "mean_ms": 661.1,
+     "output_fps": 20.68,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 26.96,
+    "stages_ms": {
+     "behaviour": 15.836,
+     "stitch": 0.651,
+     "render": 20.438,
+     "post": 0.16
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 5,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 839.5,
+     "frames_sent": 184,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 73,
+     "lag_max_ms": 122
+    }
+   }
+  },
+  {
+   "t": 50351,
+   "client": {
+    "presented": 202,
+    "received": 206,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 90,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.69999999999709,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 112.40000002384477,
+    "ageP95Ms": 209.80000001192093,
+    "bufferDepth": 4,
+    "playoutDelayMs": 193,
+    "jitterP95Ms": 119.09999996423721,
+    "codec": "h264",
+    "timelineShifts": 8,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 968.1999999880791,
+   "network": {
+    "pingMs": 268.19999998807907,
+    "kbps": 776
+   },
+   "voice": {
+    "scheduled": 119,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 238,
+    "frames_dropped": 32,
+    "audio_s": 9.68,
+    "latency": {
+     "n": 206,
+     "p50_ms": 692.4,
+     "p95_ms": 719.3,
+     "max_ms": 724.2,
+     "mean_ms": 663,
+     "output_fps": 20.73,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 27.19,
+    "stages_ms": {
+     "behaviour": 15.658,
+     "stitch": 0.643,
+     "render": 20.322,
+     "post": 0.157
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 821.9,
+     "frames_sent": 206,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 78,
+     "lag_max_ms": 151.6
+    }
+   }
+  },
+  {
+   "t": 50850,
+   "client": {
+    "presented": 213,
+    "received": 218,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 95,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.69999999999709,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 116.2000000238404,
+    "ageP95Ms": 216.90000001191947,
+    "bufferDepth": 5,
+    "playoutDelayMs": 185.19999998807907,
+    "jitterP95Ms": 119.09999996423721,
+    "codec": "h264",
+    "timelineShifts": 8,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 962.3999999761581,
+   "network": {
+    "pingMs": 268.19999998807907,
+    "kbps": 754
+   },
+   "voice": {
+    "scheduled": 126,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 238,
+    "frames_dropped": 32,
+    "audio_s": 9.68,
+    "latency": {
+     "n": 206,
+     "p50_ms": 692.4,
+     "p95_ms": 719.3,
+     "max_ms": 724.2,
+     "mean_ms": 663,
+     "output_fps": 20.73,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 27.19,
+    "stages_ms": {
+     "behaviour": 15.658,
+     "stitch": 0.643,
+     "render": 20.322,
+     "post": 0.157
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 821.9,
+     "frames_sent": 206,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 78,
+     "lag_max_ms": 151.6
+    }
+   }
+  },
+  {
+   "t": 51352,
+   "client": {
+    "presented": 224,
+    "received": 229,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 97,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.69999999999709,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 120.59999998808053,
+    "ageP95Ms": 222.59999999999854,
+    "bufferDepth": 5,
+    "playoutDelayMs": 209.69999998807907,
+    "jitterP95Ms": 119.09999996423721,
+    "codec": "h264",
+    "timelineShifts": 8,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 964,
+   "network": {
+    "pingMs": 242.0999999642372,
+    "kbps": 729
+   },
+   "voice": {
+    "scheduled": 132,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 264,
+    "frames_dropped": 35,
+    "audio_s": 10.72,
+    "latency": {
+     "n": 229,
+     "p50_ms": 694.1,
+     "p95_ms": 719.7,
+     "max_ms": 724.2,
+     "mean_ms": 666.8,
+     "output_fps": 20.83,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 27.32,
+    "stages_ms": {
+     "behaviour": 15.549,
+     "stitch": 0.638,
+     "render": 20.265,
+     "post": 0.155
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 754.8,
+     "frames_sent": 229,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 78.3,
+     "lag_max_ms": 152
+    }
+   }
+  },
+  {
+   "t": 51850,
+   "client": {
+    "presented": 234,
+    "received": 239,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 102,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.69999999999709,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 121.69999999999709,
+    "ageP95Ms": 223.49999998808198,
+    "bufferDepth": 5,
+    "playoutDelayMs": 206.60000002384186,
+    "jitterP95Ms": 119.09999996423721,
+    "codec": "h264",
+    "timelineShifts": 8,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 964.9000000357628,
+   "network": {
+    "pingMs": 242.0999999642372,
+    "kbps": 729
+   },
+   "voice": {
+    "scheduled": 138,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 264,
+    "frames_dropped": 35,
+    "audio_s": 10.72,
+    "latency": {
+     "n": 229,
+     "p50_ms": 694.1,
+     "p95_ms": 719.7,
+     "max_ms": 724.2,
+     "mean_ms": 666.8,
+     "output_fps": 20.83,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 27.32,
+    "stages_ms": {
+     "behaviour": 15.549,
+     "stitch": 0.638,
+     "render": 20.265,
+     "post": 0.155
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 754.8,
+     "frames_sent": 229,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 78.3,
+     "lag_max_ms": 152
+    }
+   }
+  },
+  {
+   "t": 52352,
+   "client": {
+    "presented": 245,
+    "received": 249,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 0,
+    "holds": 106,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.69999999999709,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 124.10000003575988,
+    "ageP95Ms": 223.80000001192093,
+    "bufferDepth": 4,
+    "playoutDelayMs": 194.9000000357628,
+    "jitterP95Ms": 108.69999998807907,
+    "codec": "h264",
+    "timelineShifts": 8,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 966.5,
+   "network": {
+    "pingMs": 239.69999998807907,
+    "kbps": 694
+   },
+   "voice": {
+    "scheduled": 144,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 264,
+    "frames_dropped": 35,
+    "audio_s": 10.72,
+    "latency": {
+     "n": 229,
+     "p50_ms": 694.1,
+     "p95_ms": 719.7,
+     "max_ms": 724.2,
+     "mean_ms": 666.8,
+     "output_fps": 20.83,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 27.32,
+    "stages_ms": {
+     "behaviour": 15.549,
+     "stitch": 0.638,
+     "render": 20.265,
+     "post": 0.155
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 754.8,
+     "frames_sent": 229,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 78.3,
+     "lag_max_ms": 152
+    }
+   }
+  },
+  {
+   "t": 52853,
+   "client": {
+    "presented": 255,
+    "received": 259,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 114,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.69999999999709,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 127.90000003576279,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 3,
+    "playoutDelayMs": 157.5,
+    "jitterP95Ms": 88.79999995231628,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 966.1000000238419,
+   "network": {
+    "pingMs": 239.69999998807907,
+    "kbps": 767
+   },
+   "voice": {
+    "scheduled": 151,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 290,
+    "frames_dropped": 40,
+    "audio_s": 11.76,
+    "latency": {
+     "n": 250,
+     "p50_ms": 695,
+     "p95_ms": 720.3,
+     "max_ms": 747.7,
+     "mean_ms": 670.2,
+     "output_fps": 20.76,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 27.42,
+    "stages_ms": {
+     "behaviour": 15.45,
+     "stitch": 0.631,
+     "render": 20.244,
+     "post": 0.151
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 686.6,
+     "frames_sent": 250,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 74.4,
+     "lag_max_ms": 152
+    }
+   }
+  },
+  {
+   "t": 53351,
+   "client": {
+    "presented": 264,
+    "received": 268,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 120,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20,
+    "receivedFps": 19.5,
+    "intervalP50Ms": 33.60000000000582,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 130.90000001191947,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 3,
+    "playoutDelayMs": 175.4000000357628,
+    "jitterP95Ms": 106.79999995231628,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 970.1999999880791,
+   "network": {
+    "pingMs": 239.69999998807907,
+    "kbps": 760
+   },
+   "voice": {
+    "scheduled": 157,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 290,
+    "frames_dropped": 40,
+    "audio_s": 11.76,
+    "latency": {
+     "n": 250,
+     "p50_ms": 695,
+     "p95_ms": 720.3,
+     "max_ms": 747.7,
+     "mean_ms": 670.2,
+     "output_fps": 20.76,
+     "max_frame_gap_ms": 117.8
+    },
+    "compute_fps": 27.42,
+    "stages_ms": {
+     "behaviour": 15.45,
+     "stitch": 0.631,
+     "render": 20.244,
+     "post": 0.151
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 686.6,
+     "frames_sent": 250,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 74.4,
+     "lag_max_ms": 152
+    }
+   }
+  },
+  {
+   "t": 53852,
+   "client": {
+    "presented": 274,
+    "received": 278,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 128,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 19.5,
+    "receivedFps": 19.5,
+    "intervalP50Ms": 33.60000000000582,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 135.2000000357657,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 3,
+    "playoutDelayMs": 155.9000000357628,
+    "jitterP95Ms": 104.09999996423721,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 974.9000000357628,
+   "network": {
+    "pingMs": 239.69999998807907,
+    "kbps": 735
+   },
+   "voice": {
+    "scheduled": 164,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 316,
+    "frames_dropped": 46,
+    "audio_s": 12.8,
+    "latency": {
+     "n": 270,
+     "p50_ms": 695.6,
+     "p95_ms": 721.1,
+     "max_ms": 776.1,
+     "mean_ms": 672.5,
+     "output_fps": 20.67,
+     "max_frame_gap_ms": 128.8
+    },
+    "compute_fps": 27.53,
+    "stages_ms": {
+     "behaviour": 15.355,
+     "stitch": 0.624,
+     "render": 20.193,
+     "post": 0.149
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 803.7,
+     "frames_sent": 270,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 6,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 32.7,
+     "lag_max_ms": 152
+    }
+   }
+  },
+  {
+   "t": 54350,
+   "client": {
+    "presented": 284,
+    "received": 287,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 132,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 19.5,
+    "receivedFps": 19,
+    "intervalP50Ms": 49.799999999995634,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 138.2000000238404,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 2,
+    "playoutDelayMs": 175,
+    "jitterP95Ms": 83.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 975.1999999880791,
+   "network": {
+    "pingMs": 236.89999997615814,
+    "kbps": 698
+   },
+   "voice": {
+    "scheduled": 170,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 316,
+    "frames_dropped": 46,
+    "audio_s": 12.8,
+    "latency": {
+     "n": 270,
+     "p50_ms": 695.6,
+     "p95_ms": 721.1,
+     "max_ms": 776.1,
+     "mean_ms": 672.5,
+     "output_fps": 20.67,
+     "max_frame_gap_ms": 128.8
+    },
+    "compute_fps": 27.53,
+    "stages_ms": {
+     "behaviour": 15.355,
+     "stitch": 0.624,
+     "render": 20.193,
+     "post": 0.149
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 803.7,
+     "frames_sent": 270,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 6,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 32.7,
+     "lag_max_ms": 152
+    }
+   }
+  },
+  {
+   "t": 54851,
+   "client": {
+    "presented": 291,
+    "received": 296,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 145,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 18,
+    "receivedFps": 18.5,
+    "intervalP50Ms": 49.799999999995634,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 142.10000002384186,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 4,
+    "playoutDelayMs": 195.9000000357628,
+    "jitterP95Ms": 107,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 975.1999999880791,
+   "network": {
+    "pingMs": 236.89999997615814,
+    "kbps": 612
+   },
+   "voice": {
+    "scheduled": 176,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 340,
+    "frames_dropped": 51,
+    "audio_s": 13.76,
+    "latency": {
+     "n": 289,
+     "p50_ms": 696.2,
+     "p95_ms": 721.7,
+     "max_ms": 798,
+     "mean_ms": 674.9,
+     "output_fps": 20.51,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.48,
+    "stages_ms": {
+     "behaviour": 15.277,
+     "stitch": 0.619,
+     "render": 20.344,
+     "post": 0.149
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 718.5,
+     "frames_sent": 289,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 6,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.3,
+     "lag_max_ms": 38.8
+    }
+   }
+  },
+  {
+   "t": 55350,
+   "client": {
+    "presented": 303,
+    "received": 309,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 147,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 19.5,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.69999999999709,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 147,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 5,
+    "playoutDelayMs": 176.4000000357628,
+    "jitterP95Ms": 107,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 976.8999999761581,
+   "network": {
+    "pingMs": 236.89999997615814,
+    "kbps": 766
+   },
+   "voice": {
+    "scheduled": 182,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 340,
+    "frames_dropped": 51,
+    "audio_s": 13.76,
+    "latency": {
+     "n": 289,
+     "p50_ms": 696.2,
+     "p95_ms": 721.7,
+     "max_ms": 798,
+     "mean_ms": 674.9,
+     "output_fps": 20.51,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.48,
+    "stages_ms": {
+     "behaviour": 15.277,
+     "stitch": 0.619,
+     "render": 20.344,
+     "post": 0.149
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 718.5,
+     "frames_sent": 289,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 6,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.3,
+     "lag_max_ms": 38.8
+    }
+   }
+  },
+  {
+   "t": 55850,
+   "client": {
+    "presented": 313,
+    "received": 319,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 151,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 19.5,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.799999999995634,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 153.50000003576133,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 5,
+    "playoutDelayMs": 180.10000002384186,
+    "jitterP95Ms": 107,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 976,
+   "network": {
+    "pingMs": 236.89999997615814,
+    "kbps": 812
+   },
+   "voice": {
+    "scheduled": 189,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 368,
+    "frames_dropped": 56,
+    "audio_s": 14.88,
+    "latency": {
+     "n": 312,
+     "p50_ms": 696.6,
+     "p95_ms": 721.4,
+     "max_ms": 798,
+     "mean_ms": 676.8,
+     "output_fps": 20.6,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.7,
+    "stages_ms": {
+     "behaviour": 15.173,
+     "stitch": 0.616,
+     "render": 20.17,
+     "post": 0.147
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 789.5,
+     "frames_sent": 312,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.3,
+     "lag_max_ms": 38.8
+    }
+   }
+  },
+  {
+   "t": 56351,
+   "client": {
+    "presented": 325,
+    "received": 330,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 153,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.799999999995634,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 157.29999998807762,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 4,
+    "playoutDelayMs": 162.5,
+    "jitterP95Ms": 107.60000002384186,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 970.8000000119209,
+   "network": {
+    "pingMs": 237.5999999642372,
+    "kbps": 874
+   },
+   "voice": {
+    "scheduled": 195,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 368,
+    "frames_dropped": 56,
+    "audio_s": 14.88,
+    "latency": {
+     "n": 312,
+     "p50_ms": 696.6,
+     "p95_ms": 721.4,
+     "max_ms": 798,
+     "mean_ms": 676.8,
+     "output_fps": 20.6,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.7,
+    "stages_ms": {
+     "behaviour": 15.173,
+     "stitch": 0.616,
+     "render": 20.17,
+     "post": 0.147
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 789.5,
+     "frames_sent": 312,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.3,
+     "lag_max_ms": 38.8
+    }
+   }
+  },
+  {
+   "t": 56854,
+   "client": {
+    "presented": 336,
+    "received": 340,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 158,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22,
+    "receivedFps": 22,
+    "intervalP50Ms": 49.799999999995634,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 161,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 3,
+    "playoutDelayMs": 145.69999998807907,
+    "jitterP95Ms": 107.60000002384186,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 974.1999999880791,
+   "network": {
+    "pingMs": 237.5999999642372,
+    "kbps": 867
+   },
+   "voice": {
+    "scheduled": 201,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 394,
+    "frames_dropped": 59,
+    "audio_s": 15.92,
+    "latency": {
+     "n": 335,
+     "p50_ms": 697.2,
+     "p95_ms": 721.5,
+     "max_ms": 798,
+     "mean_ms": 678.6,
+     "output_fps": 20.68,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.75,
+    "stages_ms": {
+     "behaviour": 15.121,
+     "stitch": 0.621,
+     "render": 20.147,
+     "post": 0.151
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 897.7,
+     "frames_sent": 335,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 20.8,
+     "lag_max_ms": 38.8
+    }
+   }
+  },
+  {
+   "t": 57351,
+   "client": {
+    "presented": 347,
+    "received": 352,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 161,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.69999999999709,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 166.6999999999971,
+    "ageP50Ms": 163.5000000238433,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 4,
+    "playoutDelayMs": 189.9000000357628,
+    "jitterP95Ms": 107.60000002384186,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 970.8000000119209,
+   "network": {
+    "pingMs": 237.5999999642372,
+    "kbps": 805
+   },
+   "voice": {
+    "scheduled": 207,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 394,
+    "frames_dropped": 59,
+    "audio_s": 15.92,
+    "latency": {
+     "n": 335,
+     "p50_ms": 697.2,
+     "p95_ms": 721.5,
+     "max_ms": 798,
+     "mean_ms": 678.6,
+     "output_fps": 20.68,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.75,
+    "stages_ms": {
+     "behaviour": 15.121,
+     "stitch": 0.621,
+     "render": 20.147,
+     "post": 0.151
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 897.7,
+     "frames_sent": 335,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 20.8,
+     "lag_max_ms": 38.8
+    }
+   }
+  },
+  {
+   "t": 57850,
+   "client": {
+    "presented": 357,
+    "received": 362,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 165,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.799999999995634,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 166.5000000238433,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 4,
+    "playoutDelayMs": 188.5,
+    "jitterP95Ms": 107.60000002384186,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 971,
+   "network": {
+    "pingMs": 237.5999999642372,
+    "kbps": 773
+   },
+   "voice": {
+    "scheduled": 214,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 420,
+    "frames_dropped": 63,
+    "audio_s": 16.96,
+    "latency": {
+     "n": 357,
+     "p50_ms": 697.5,
+     "p95_ms": 721.5,
+     "max_ms": 798,
+     "mean_ms": 680,
+     "output_fps": 20.73,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.81,
+    "stages_ms": {
+     "behaviour": 15.096,
+     "stitch": 0.62,
+     "render": 20.087,
+     "post": 0.149
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 838,
+     "frames_sent": 357,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 19.8,
+     "lag_max_ms": 32.7
+    }
+   }
+  },
+  {
+   "t": 58350,
+   "client": {
+    "presented": 368,
+    "received": 372,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 170,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 21,
+    "intervalP50Ms": 49.799999999995634,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 168.40000002384477,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 3,
+    "playoutDelayMs": 132.30000001192093,
+    "jitterP95Ms": 102.40000003576279,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 971.9000000357628,
+   "network": {
+    "pingMs": 239.5999999642372,
+    "kbps": 745
+   },
+   "voice": {
+    "scheduled": 220,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 420,
+    "frames_dropped": 63,
+    "audio_s": 16.96,
+    "latency": {
+     "n": 357,
+     "p50_ms": 697.5,
+     "p95_ms": 721.5,
+     "max_ms": 798,
+     "mean_ms": 680,
+     "output_fps": 20.73,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.81,
+    "stages_ms": {
+     "behaviour": 15.096,
+     "stitch": 0.62,
+     "render": 20.087,
+     "post": 0.149
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 838,
+     "frames_sent": 357,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 19.8,
+     "lag_max_ms": 32.7
+    }
+   }
+  },
+  {
+   "t": 58851,
+   "client": {
+    "presented": 379,
+    "received": 383,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 172,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 169.59999998808053,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 3,
+    "playoutDelayMs": 189.60000002384186,
+    "jitterP95Ms": 88.30000001192093,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 969.5,
+   "network": {
+    "pingMs": 239.5999999642372,
+    "kbps": 752
+   },
+   "voice": {
+    "scheduled": 226,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 446,
+    "frames_dropped": 66,
+    "audio_s": 18,
+    "latency": {
+     "n": 380,
+     "p50_ms": 697.9,
+     "p95_ms": 721.5,
+     "max_ms": 798,
+     "mean_ms": 681.4,
+     "output_fps": 20.79,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.85,
+    "stages_ms": {
+     "behaviour": 15.071,
+     "stitch": 0.621,
+     "render": 20.06,
+     "post": 0.15
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 791.6,
+     "frames_sent": 380,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 18.8,
+     "lag_max_ms": 22.3
+    }
+   }
+  },
+  {
+   "t": 59351,
+   "client": {
+    "presented": 389,
+    "received": 395,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 180,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 169.80000002383895,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 5,
+    "playoutDelayMs": 181.60000002384186,
+    "jitterP95Ms": 87.39999997615814,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 965.6000000238419,
+   "network": {
+    "pingMs": 240.80000001192093,
+    "kbps": 725
+   },
+   "voice": {
+    "scheduled": 232,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 446,
+    "frames_dropped": 66,
+    "audio_s": 18,
+    "latency": {
+     "n": 380,
+     "p50_ms": 697.9,
+     "p95_ms": 721.5,
+     "max_ms": 798,
+     "mean_ms": 681.4,
+     "output_fps": 20.79,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.85,
+    "stages_ms": {
+     "behaviour": 15.071,
+     "stitch": 0.621,
+     "render": 20.06,
+     "post": 0.15
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 791.6,
+     "frames_sent": 380,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 18.8,
+     "lag_max_ms": 22.3
+    }
+   }
+  },
+  {
+   "t": 59851,
+   "client": {
+    "presented": 400,
+    "received": 405,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 183,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 172.40000002384477,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 4,
+    "playoutDelayMs": 178.69999998807907,
+    "jitterP95Ms": 81.89999997615814,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 970.1999999880791,
+   "network": {
+    "pingMs": 240.80000001192093,
+    "kbps": 775
+   },
+   "voice": {
+    "scheduled": 239,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 472,
+    "frames_dropped": 71,
+    "audio_s": 19.04,
+    "latency": {
+     "n": 401,
+     "p50_ms": 698.2,
+     "p95_ms": 721.5,
+     "max_ms": 798,
+     "mean_ms": 682.3,
+     "output_fps": 20.77,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.94,
+    "stages_ms": {
+     "behaviour": 15.029,
+     "stitch": 0.616,
+     "render": 20.003,
+     "post": 0.149
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 813.2,
+     "frames_sent": 401,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 20.8,
+     "lag_max_ms": 24.2
+    }
+   }
+  },
+  {
+   "t": 60352,
+   "client": {
+    "presented": 411,
+    "received": 414,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 187,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 21,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 175.0000000238433,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 2,
+    "playoutDelayMs": 156.9000000357628,
+    "jitterP95Ms": 81.89999997615814,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 969.0999999642372,
+   "network": {
+    "pingMs": 244.20000004768372,
+    "kbps": 765
+   },
+   "voice": {
+    "scheduled": 245,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 472,
+    "frames_dropped": 71,
+    "audio_s": 19.04,
+    "latency": {
+     "n": 401,
+     "p50_ms": 698.2,
+     "p95_ms": 721.5,
+     "max_ms": 798,
+     "mean_ms": 682.3,
+     "output_fps": 20.77,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.94,
+    "stages_ms": {
+     "behaviour": 15.029,
+     "stitch": 0.616,
+     "render": 20.003,
+     "post": 0.149
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 813.2,
+     "frames_sent": 401,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 20.8,
+     "lag_max_ms": 24.2
+    }
+   }
+  },
+  {
+   "t": 60852,
+   "client": {
+    "presented": 421,
+    "received": 425,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 194,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 21,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 175.00000003576133,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 3,
+    "playoutDelayMs": 157.4000000357628,
+    "jitterP95Ms": 83.69999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 969.0999999642372,
+   "network": {
+    "pingMs": 244.20000004768372,
+    "kbps": 777
+   },
+   "voice": {
+    "scheduled": 251,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 498,
+    "frames_dropped": 75,
+    "audio_s": 20.08,
+    "latency": {
+     "n": 423,
+     "p50_ms": 698.6,
+     "p95_ms": 721.9,
+     "max_ms": 798,
+     "mean_ms": 683.5,
+     "output_fps": 20.79,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.97,
+    "stages_ms": {
+     "behaviour": 15.006,
+     "stitch": 0.613,
+     "render": 19.982,
+     "post": 0.147
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 806.5,
+     "frames_sent": 423,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 18.8,
+     "lag_max_ms": 24.2
+    }
+   }
+  },
+  {
+   "t": 61351,
+   "client": {
+    "presented": 432,
+    "received": 437,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 197,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 21,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 175.00000003576133,
+    "ageP95Ms": 225.10000002384186,
+    "bufferDepth": 4,
+    "playoutDelayMs": 151.5,
+    "jitterP95Ms": 86.39999997615814,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 969.0999999642372,
+   "network": {
+    "pingMs": 252.60000002384186,
+    "kbps": 776
+   },
+   "voice": {
+    "scheduled": 257,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 498,
+    "frames_dropped": 75,
+    "audio_s": 20.08,
+    "latency": {
+     "n": 423,
+     "p50_ms": 698.6,
+     "p95_ms": 721.9,
+     "max_ms": 798,
+     "mean_ms": 683.5,
+     "output_fps": 20.79,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 27.97,
+    "stages_ms": {
+     "behaviour": 15.006,
+     "stitch": 0.613,
+     "render": 19.982,
+     "post": 0.147
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 806.5,
+     "frames_sent": 423,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 18.8,
+     "lag_max_ms": 24.2
+    }
+   }
+  },
+  {
+   "t": 61851,
+   "client": {
+    "presented": 443,
+    "received": 447,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 200,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 21,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 172.09999998808053,
+    "ageP95Ms": 223.49999998808198,
+    "bufferDepth": 3,
+    "playoutDelayMs": 147.4000000357628,
+    "jitterP95Ms": 86.39999997615814,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 971.1000000238419,
+   "network": {
+    "pingMs": 252.60000002384186,
+    "kbps": 770
+   },
+   "voice": {
+    "scheduled": 264,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 524,
+    "frames_dropped": 78,
+    "audio_s": 21.12,
+    "latency": {
+     "n": 446,
+     "p50_ms": 698.7,
+     "p95_ms": 721.9,
+     "max_ms": 798,
+     "mean_ms": 684.3,
+     "output_fps": 20.85,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.02,
+    "stages_ms": {
+     "behaviour": 14.976,
+     "stitch": 0.614,
+     "render": 19.956,
+     "post": 0.146
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 822.6,
+     "frames_sent": 446,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 13.9,
+     "lag_max_ms": 24.2
+    }
+   }
+  },
+  {
+   "t": 62361,
+   "client": {
+    "presented": 453,
+    "received": 458,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 207,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 22,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 169.9000000357628,
+    "ageP95Ms": 222.59999999999854,
+    "bufferDepth": 4,
+    "playoutDelayMs": 168.60000002384186,
+    "jitterP95Ms": 86.39999997615814,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 968.7999999523163,
+   "network": {
+    "pingMs": 250.80000001192093,
+    "kbps": 809
+   },
+   "voice": {
+    "scheduled": 270,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 524,
+    "frames_dropped": 78,
+    "audio_s": 21.12,
+    "latency": {
+     "n": 446,
+     "p50_ms": 698.7,
+     "p95_ms": 721.9,
+     "max_ms": 798,
+     "mean_ms": 684.3,
+     "output_fps": 20.85,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.02,
+    "stages_ms": {
+     "behaviour": 14.976,
+     "stitch": 0.614,
+     "render": 19.956,
+     "post": 0.146
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 822.6,
+     "frames_sent": 446,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 13.9,
+     "lag_max_ms": 24.2
+    }
+   }
+  },
+  {
+   "t": 62852,
+   "client": {
+    "presented": 463,
+    "received": 467,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 214,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 21,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 169.5000000238433,
+    "ageP95Ms": 213.7000000357657,
+    "bufferDepth": 3,
+    "playoutDelayMs": 184.9000000357628,
+    "jitterP95Ms": 90.40000003576279,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 965.8999999761581,
+   "network": {
+    "pingMs": 250.80000001192093,
+    "kbps": 785
+   },
+   "voice": {
+    "scheduled": 276,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 550,
+    "frames_dropped": 83,
+    "audio_s": 22.16,
+    "latency": {
+     "n": 467,
+     "p50_ms": 698.7,
+     "p95_ms": 721.7,
+     "max_ms": 798,
+     "mean_ms": 685.1,
+     "output_fps": 20.83,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.05,
+    "stages_ms": {
+     "behaviour": 14.939,
+     "stitch": 0.612,
+     "render": 19.948,
+     "post": 0.146
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 815.7,
+     "frames_sent": 467,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 18.8,
+     "lag_max_ms": 45.5
+    }
+   }
+  },
+  {
+   "t": 63350,
+   "client": {
+    "presented": 472,
+    "received": 475,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 221,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20,
+    "receivedFps": 19,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 167.39999998807616,
+    "ageP95Ms": 208.30000003576424,
+    "bufferDepth": 2,
+    "playoutDelayMs": 129.60000002384186,
+    "jitterP95Ms": 90.40000003576279,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.6999999880791,
+   "network": {
+    "pingMs": 244.89999997615814,
+    "kbps": 707
+   },
+   "voice": {
+    "scheduled": 282,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 550,
+    "frames_dropped": 83,
+    "audio_s": 22.16,
+    "latency": {
+     "n": 467,
+     "p50_ms": 698.7,
+     "p95_ms": 721.7,
+     "max_ms": 798,
+     "mean_ms": 685.1,
+     "output_fps": 20.83,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.05,
+    "stages_ms": {
+     "behaviour": 14.939,
+     "stitch": 0.612,
+     "render": 19.948,
+     "post": 0.146
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 815.7,
+     "frames_sent": 467,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 18.8,
+     "lag_max_ms": 45.5
+    }
+   }
+  },
+  {
+   "t": 63851,
+   "client": {
+    "presented": 479,
+    "received": 483,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 234,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 18,
+    "receivedFps": 18,
+    "intervalP50Ms": 49.900000000001455,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 166.5000000238433,
+    "ageP95Ms": 206.2000000357657,
+    "bufferDepth": 3,
+    "playoutDelayMs": 161.60000002384186,
+    "jitterP95Ms": 90.90000003576279,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.9000000357627869,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 973.3000000119209,
+   "network": {
+    "pingMs": 244.89999997615814,
+    "kbps": 643
+   },
+   "voice": {
+    "scheduled": 289,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 576,
+    "frames_dropped": 93,
+    "audio_s": 23.2,
+    "latency": {
+     "n": 483,
+     "p50_ms": 699,
+     "p95_ms": 722.5,
+     "max_ms": 798,
+     "mean_ms": 686,
+     "output_fps": 20.58,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.02,
+    "stages_ms": {
+     "behaviour": 14.918,
+     "stitch": 0.604,
+     "render": 20.025,
+     "post": 0.143
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 664.5,
+     "frames_sent": 483,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 6,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 12.3,
+     "lag_max_ms": 45.5
+    }
+   }
+  },
+  {
+   "t": 64351,
+   "client": {
+    "presented": 487,
+    "received": 491,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 245,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 17,
+    "receivedFps": 16.5,
+    "intervalP50Ms": 49.900000000001455,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 133.40000000000146,
+    "ageP50Ms": 164.09999999999854,
+    "ageP95Ms": 204.60000001192384,
+    "bufferDepth": 3,
+    "playoutDelayMs": 157,
+    "jitterP95Ms": 90.90000003576279,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 971.1000000238419,
+   "network": {
+    "pingMs": 250.80000001192093,
+    "kbps": 583
+   },
+   "voice": {
+    "scheduled": 295,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 576,
+    "frames_dropped": 93,
+    "audio_s": 23.2,
+    "latency": {
+     "n": 483,
+     "p50_ms": 699,
+     "p95_ms": 722.5,
+     "max_ms": 798,
+     "mean_ms": 686,
+     "output_fps": 20.58,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.02,
+    "stages_ms": {
+     "behaviour": 14.918,
+     "stitch": 0.604,
+     "render": 20.025,
+     "post": 0.143
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 664.5,
+     "frames_sent": 483,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 6,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 12.3,
+     "lag_max_ms": 45.5
+    }
+   }
+  },
+  {
+   "t": 64852,
+   "client": {
+    "presented": 498,
+    "received": 502,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 249,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 17.5,
+    "receivedFps": 17.5,
+    "intervalP50Ms": 49.900000000001455,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 163.89999998807616,
+    "ageP95Ms": 202.50000003576133,
+    "bufferDepth": 3,
+    "playoutDelayMs": 189.5,
+    "jitterP95Ms": 90.90000003576279,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 970.2999999523163,
+   "network": {
+    "pingMs": 250.80000001192093,
+    "kbps": 644
+   },
+   "voice": {
+    "scheduled": 301,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 576,
+    "frames_dropped": 93,
+    "audio_s": 23.2,
+    "latency": {
+     "n": 483,
+     "p50_ms": 699,
+     "p95_ms": 722.5,
+     "max_ms": 798,
+     "mean_ms": 686,
+     "output_fps": 20.58,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.02,
+    "stages_ms": {
+     "behaviour": 14.918,
+     "stitch": 0.604,
+     "render": 20.025,
+     "post": 0.143
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 664.5,
+     "frames_sent": 483,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 6,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 12.3,
+     "lag_max_ms": 45.5
+    }
+   }
+  },
+  {
+   "t": 65359,
+   "client": {
+    "presented": 509,
+    "received": 512,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 252,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 18.5,
+    "receivedFps": 17.5,
+    "intervalP50Ms": 49.900000000001455,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 163.89999998807616,
+    "ageP95Ms": 202.60000003575988,
+    "bufferDepth": 2,
+    "playoutDelayMs": 161.9000000357628,
+    "jitterP95Ms": 93.60000002384186,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 971.7000000476837,
+   "network": {
+    "pingMs": 250.80000001192093,
+    "kbps": 619
+   },
+   "voice": {
+    "scheduled": 308,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 602,
+    "frames_dropped": 98,
+    "audio_s": 24.24,
+    "latency": {
+     "n": 504,
+     "p50_ms": 699.1,
+     "p95_ms": 722.5,
+     "max_ms": 798,
+     "mean_ms": 686.6,
+     "output_fps": 20.56,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.04,
+    "stages_ms": {
+     "behaviour": 14.881,
+     "stitch": 0.601,
+     "render": 20.036,
+     "post": 0.142
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 647,
+     "frames_sent": 504,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.6,
+     "lag_max_ms": 45.5
+    }
+   }
+  },
+  {
+   "t": 65853,
+   "client": {
+    "presented": 520,
+    "received": 525,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 256,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 21,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 163.9000000357628,
+    "ageP95Ms": 202.60000003575988,
+    "bufferDepth": 4,
+    "playoutDelayMs": 182.60000002384186,
+    "jitterP95Ms": 96.10000002384186,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 971.6000000238419,
+   "network": {
+    "pingMs": 250.80000001192093,
+    "kbps": 740
+   },
+   "voice": {
+    "scheduled": 314,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 602,
+    "frames_dropped": 98,
+    "audio_s": 24.24,
+    "latency": {
+     "n": 504,
+     "p50_ms": 699.1,
+     "p95_ms": 722.5,
+     "max_ms": 798,
+     "mean_ms": 686.6,
+     "output_fps": 20.56,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.04,
+    "stages_ms": {
+     "behaviour": 14.881,
+     "stitch": 0.601,
+     "render": 20.036,
+     "post": 0.142
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 647,
+     "frames_sent": 504,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.6,
+     "lag_max_ms": 45.5
+    }
+   }
+  },
+  {
+   "t": 66359,
+   "client": {
+    "presented": 531,
+    "received": 534,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 258,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.900000000001455,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 165.2000000357657,
+    "ageP95Ms": 202.7000000238404,
+    "bufferDepth": 2,
+    "playoutDelayMs": 164.9000000357628,
+    "jitterP95Ms": 93.60000002384186,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.6999999880791,
+   "network": {
+    "pingMs": 244.89999997615814,
+    "kbps": 748
+   },
+   "voice": {
+    "scheduled": 320,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 628,
+    "frames_dropped": 102,
+    "audio_s": 25.28,
+    "latency": {
+     "n": 526,
+     "p50_ms": 699.1,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 687,
+     "output_fps": 20.6,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.1,
+    "stages_ms": {
+     "behaviour": 14.875,
+     "stitch": 0.602,
+     "render": 19.973,
+     "post": 0.142
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 762.8,
+     "frames_sent": 526,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.6,
+     "lag_max_ms": 45.5
+    }
+   }
+  },
+  {
+   "t": 66851,
+   "client": {
+    "presented": 542,
+    "received": 546,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 263,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22,
+    "receivedFps": 22,
+    "intervalP50Ms": 49.900000000001455,
+    "intervalP95Ms": 83.39999999999418,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 164.09999999999854,
+    "ageP95Ms": 202.7000000238404,
+    "bufferDepth": 3,
+    "playoutDelayMs": 161.80000001192093,
+    "jitterP95Ms": 93.60000002384186,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.8000000119209,
+   "network": {
+    "pingMs": 244.89999997615814,
+    "kbps": 694
+   },
+   "voice": {
+    "scheduled": 326,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 628,
+    "frames_dropped": 102,
+    "audio_s": 25.28,
+    "latency": {
+     "n": 526,
+     "p50_ms": 699.1,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 687,
+     "output_fps": 20.6,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.1,
+    "stages_ms": {
+     "behaviour": 14.875,
+     "stitch": 0.602,
+     "render": 19.973,
+     "post": 0.142
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 762.8,
+     "frames_sent": 526,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.6,
+     "lag_max_ms": 45.5
+    }
+   }
+  },
+  {
+   "t": 67360,
+   "client": {
+    "presented": 553,
+    "received": 558,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 265,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22,
+    "receivedFps": 23,
+    "intervalP50Ms": 49.900000000001455,
+    "intervalP95Ms": 83.39999999999418,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 165.30000002383895,
+    "ageP95Ms": 202.60000003575988,
+    "bufferDepth": 4,
+    "playoutDelayMs": 179.4000000357628,
+    "jitterP95Ms": 93.60000002384186,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 968.0999999642372,
+   "network": {
+    "pingMs": 238.69999998807907,
+    "kbps": 772
+   },
+   "voice": {
+    "scheduled": 333,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 654,
+    "frames_dropped": 105,
+    "audio_s": 26.32,
+    "latency": {
+     "n": 549,
+     "p50_ms": 699.1,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 687.5,
+     "output_fps": 20.65,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.1,
+    "stages_ms": {
+     "behaviour": 14.866,
+     "stitch": 0.603,
+     "render": 19.976,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 727.1,
+     "frames_sent": 549,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.6,
+     "lag_max_ms": 45.5
+    }
+   }
+  },
+  {
+   "t": 67851,
+   "client": {
+    "presented": 564,
+    "received": 568,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 270,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.900000000001455,
+    "intervalP95Ms": 83.39999999999418,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 165.30000002383895,
+    "ageP95Ms": 202.5000000238433,
+    "bufferDepth": 3,
+    "playoutDelayMs": 126.19999998807907,
+    "jitterP95Ms": 95.60000002384186,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.8999999761581,
+   "network": {
+    "pingMs": 238.69999998807907,
+    "kbps": 717
+   },
+   "voice": {
+    "scheduled": 339,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 654,
+    "frames_dropped": 105,
+    "audio_s": 26.32,
+    "latency": {
+     "n": 549,
+     "p50_ms": 699.1,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 687.5,
+     "output_fps": 20.65,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.1,
+    "stages_ms": {
+     "behaviour": 14.866,
+     "stitch": 0.603,
+     "render": 19.976,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 727.1,
+     "frames_sent": 549,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.6,
+     "lag_max_ms": 45.5
+    }
+   }
+  },
+  {
+   "t": 68350,
+   "client": {
+    "presented": 574,
+    "received": 578,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 275,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 22,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.39999999999418,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 164.09999999999854,
+    "ageP95Ms": 202.2000000119151,
+    "bufferDepth": 3,
+    "playoutDelayMs": 194.9000000357628,
+    "jitterP95Ms": 94.5,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.7000000476837,
+   "network": {
+    "pingMs": 238.69999998807907,
+    "kbps": 762
+   },
+   "voice": {
+    "scheduled": 345,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 680,
+    "frames_dropped": 109,
+    "audio_s": 27.36,
+    "latency": {
+     "n": 571,
+     "p50_ms": 699.3,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 688.2,
+     "output_fps": 20.68,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.14,
+    "stages_ms": {
+     "behaviour": 14.848,
+     "stitch": 0.603,
+     "render": 19.948,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 753.8,
+     "frames_sent": 571,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.6,
+     "lag_max_ms": 43.4
+    }
+   }
+  },
+  {
+   "t": 68851,
+   "client": {
+    "presented": 585,
+    "received": 589,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 280,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.39999999999418,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 165.4000000357628,
+    "ageP95Ms": 202.40000002384477,
+    "bufferDepth": 3,
+    "playoutDelayMs": 170.10000002384186,
+    "jitterP95Ms": 94.5,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.7000000476837,
+   "network": {
+    "pingMs": 238.69999998807907,
+    "kbps": 816
+   },
+   "voice": {
+    "scheduled": 351,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 680,
+    "frames_dropped": 109,
+    "audio_s": 27.36,
+    "latency": {
+     "n": 571,
+     "p50_ms": 699.3,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 688.2,
+     "output_fps": 20.68,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.14,
+    "stages_ms": {
+     "behaviour": 14.848,
+     "stitch": 0.603,
+     "render": 19.948,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 753.8,
+     "frames_sent": 571,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.6,
+     "lag_max_ms": 43.4
+    }
+   }
+  },
+  {
+   "t": 69350,
+   "client": {
+    "presented": 594,
+    "received": 599,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 287,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 165.4000000357628,
+    "ageP95Ms": 202.40000002384477,
+    "bufferDepth": 4,
+    "playoutDelayMs": 191.4000000357628,
+    "jitterP95Ms": 95.30000001192093,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 968.8999999761581,
+   "network": {
+    "pingMs": 238.69999998807907,
+    "kbps": 767
+   },
+   "voice": {
+    "scheduled": 357,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 706,
+    "frames_dropped": 112,
+    "audio_s": 28.4,
+    "latency": {
+     "n": 594,
+     "p50_ms": 699.3,
+     "p95_ms": 722.2,
+     "max_ms": 798,
+     "mean_ms": 688.5,
+     "output_fps": 20.72,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.14,
+    "stages_ms": {
+     "behaviour": 14.848,
+     "stitch": 0.606,
+     "render": 19.938,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 780,
+     "frames_sent": 594,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.6,
+     "lag_max_ms": 52.9
+    }
+   }
+  },
+  {
+   "t": 69851,
+   "client": {
+    "presented": 604,
+    "received": 609,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 294,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 165.30000002383895,
+    "ageP95Ms": 202.5000000238433,
+    "bufferDepth": 4,
+    "playoutDelayMs": 178.80000001192093,
+    "jitterP95Ms": 95.30000001192093,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.7000000476837,
+   "network": {
+    "pingMs": 238.69999998807907,
+    "kbps": 791
+   },
+   "voice": {
+    "scheduled": 364,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 706,
+    "frames_dropped": 112,
+    "audio_s": 28.4,
+    "latency": {
+     "n": 594,
+     "p50_ms": 699.3,
+     "p95_ms": 722.2,
+     "max_ms": 798,
+     "mean_ms": 688.5,
+     "output_fps": 20.72,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.14,
+    "stages_ms": {
+     "behaviour": 14.848,
+     "stitch": 0.606,
+     "render": 19.938,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 780,
+     "frames_sent": 594,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.6,
+     "lag_max_ms": 52.9
+    }
+   }
+  },
+  {
+   "t": 70353,
+   "client": {
+    "presented": 615,
+    "received": 618,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 296,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 20,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 163.89999998807616,
+    "ageP95Ms": 202.5000000238433,
+    "bufferDepth": 2,
+    "playoutDelayMs": 99.30000001192093,
+    "jitterP95Ms": 125.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 971.5999999642372,
+   "network": {
+    "pingMs": 238.80000001192093,
+    "kbps": 744
+   },
+   "voice": {
+    "scheduled": 370,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 732,
+    "frames_dropped": 118,
+    "audio_s": 29.44,
+    "latency": {
+     "n": 614,
+     "p50_ms": 699.3,
+     "p95_ms": 722.2,
+     "max_ms": 798,
+     "mean_ms": 688.9,
+     "output_fps": 20.67,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.19,
+    "stages_ms": {
+     "behaviour": 14.828,
+     "stitch": 0.604,
+     "render": 19.906,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 811.3,
+     "frames_sent": 614,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.3,
+     "lag_max_ms": 52.9
+    }
+   }
+  },
+  {
+   "t": 70851,
+   "client": {
+    "presented": 624,
+    "received": 628,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 306,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 19.5,
+    "receivedFps": 19.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000146,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 163.89999998807616,
+    "ageP95Ms": 202.5000000238433,
+    "bufferDepth": 3,
+    "playoutDelayMs": 197.60000002384186,
+    "jitterP95Ms": 125.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967,
+   "network": {
+    "pingMs": 238.80000001192093,
+    "kbps": 718
+   },
+   "voice": {
+    "scheduled": 376,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 732,
+    "frames_dropped": 118,
+    "audio_s": 29.44,
+    "latency": {
+     "n": 614,
+     "p50_ms": 699.3,
+     "p95_ms": 722.2,
+     "max_ms": 798,
+     "mean_ms": 688.9,
+     "output_fps": 20.67,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.19,
+    "stages_ms": {
+     "behaviour": 14.828,
+     "stitch": 0.604,
+     "render": 19.906,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 811.3,
+     "frames_sent": 614,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 15.3,
+     "lag_max_ms": 52.9
+    }
+   }
+  },
+  {
+   "t": 71354,
+   "client": {
+    "presented": 635,
+    "received": 640,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 309,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.39999999999418,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 164.60000003575988,
+    "ageP95Ms": 202.39999999999418,
+    "bufferDepth": 4,
+    "playoutDelayMs": 191.5,
+    "jitterP95Ms": 125.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 964.8999999761581,
+   "network": {
+    "pingMs": 238.80000001192093,
+    "kbps": 774
+   },
+   "voice": {
+    "scheduled": 382,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 758,
+    "frames_dropped": 123,
+    "audio_s": 30.48,
+    "latency": {
+     "n": 635,
+     "p50_ms": 699.6,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 689.4,
+     "output_fps": 20.66,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.2,
+    "stages_ms": {
+     "behaviour": 14.823,
+     "stitch": 0.606,
+     "render": 19.886,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 801.8,
+     "frames_sent": 635,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.7,
+     "lag_max_ms": 52.9
+    }
+   }
+  },
+  {
+   "t": 71851,
+   "client": {
+    "presented": 646,
+    "received": 650,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 313,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.39999999999418,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 163.89999998807616,
+    "ageP95Ms": 202.39999999999418,
+    "bufferDepth": 3,
+    "playoutDelayMs": 192.9000000357628,
+    "jitterP95Ms": 125.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 968.1999999880791,
+   "network": {
+    "pingMs": 238.80000001192093,
+    "kbps": 769
+   },
+   "voice": {
+    "scheduled": 389,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 758,
+    "frames_dropped": 123,
+    "audio_s": 30.48,
+    "latency": {
+     "n": 635,
+     "p50_ms": 699.6,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 689.4,
+     "output_fps": 20.66,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.2,
+    "stages_ms": {
+     "behaviour": 14.823,
+     "stitch": 0.606,
+     "render": 19.886,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 801.8,
+     "frames_sent": 635,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.7,
+     "lag_max_ms": 52.9
+    }
+   }
+  },
+  {
+   "t": 72350,
+   "client": {
+    "presented": 656,
+    "received": 660,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 318,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 21,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.39999999999418,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 165.4000000357628,
+    "ageP95Ms": 202.39999999999418,
+    "bufferDepth": 3,
+    "playoutDelayMs": 136.10000002384186,
+    "jitterP95Ms": 125.80000001192093,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 965.5,
+   "network": {
+    "pingMs": 238.80000001192093,
+    "kbps": 803
+   },
+   "voice": {
+    "scheduled": 395,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 784,
+    "frames_dropped": 127,
+    "audio_s": 31.52,
+    "latency": {
+     "n": 657,
+     "p50_ms": 699.6,
+     "p95_ms": 722.2,
+     "max_ms": 798,
+     "mean_ms": 689.6,
+     "output_fps": 20.67,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.21,
+    "stages_ms": {
+     "behaviour": 14.826,
+     "stitch": 0.606,
+     "render": 19.87,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 818.2,
+     "frames_sent": 657,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.7,
+     "lag_max_ms": 52.9
+    }
+   }
+  },
+  {
+   "t": 72851,
+   "client": {
+    "presented": 666,
+    "received": 669,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 324,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.39999999999418,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 164.60000003575988,
+    "ageP95Ms": 202.2000000119151,
+    "bufferDepth": 2,
+    "playoutDelayMs": 151.10000002384186,
+    "jitterP95Ms": 124.69999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 964.8000000119209,
+   "network": {
+    "pingMs": 238.80000001192093,
+    "kbps": 759
+   },
+   "voice": {
+    "scheduled": 401,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 784,
+    "frames_dropped": 127,
+    "audio_s": 31.52,
+    "latency": {
+     "n": 657,
+     "p50_ms": 699.6,
+     "p95_ms": 722.2,
+     "max_ms": 798,
+     "mean_ms": 689.6,
+     "output_fps": 20.67,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.21,
+    "stages_ms": {
+     "behaviour": 14.826,
+     "stitch": 0.606,
+     "render": 19.87,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 818.2,
+     "frames_sent": 657,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.7,
+     "lag_max_ms": 52.9
+    }
+   }
+  },
+  {
+   "t": 73361,
+   "client": {
+    "presented": 676,
+    "received": 681,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 329,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.39999999999418,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 164.60000003575988,
+    "ageP95Ms": 202.2000000119151,
+    "bufferDepth": 4,
+    "playoutDelayMs": 172.10000002384186,
+    "jitterP95Ms": 124.69999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 968.6999999880791,
+   "network": {
+    "pingMs": 238.39999997615814,
+    "kbps": 708
+   },
+   "voice": {
+    "scheduled": 408,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 810,
+    "frames_dropped": 132,
+    "audio_s": 32.56,
+    "latency": {
+     "n": 678,
+     "p50_ms": 699.7,
+     "p95_ms": 722.2,
+     "max_ms": 798,
+     "mean_ms": 690,
+     "output_fps": 20.65,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.23,
+    "stages_ms": {
+     "behaviour": 14.818,
+     "stitch": 0.604,
+     "render": 19.859,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 751.8,
+     "frames_sent": 678,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.7,
+     "lag_max_ms": 43.4
+    }
+   }
+  },
+  {
+   "t": 73851,
+   "client": {
+    "presented": 686,
+    "received": 689,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 335,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20,
+    "receivedFps": 19.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.39999999999418,
+    "intervalMaxMs": 116.60000000000582,
+    "ageP50Ms": 163.89999998807616,
+    "ageP95Ms": 201.40000002384477,
+    "bufferDepth": 2,
+    "playoutDelayMs": 152.4000000357628,
+    "jitterP95Ms": 116.19999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 970.8000000119209,
+   "network": {
+    "pingMs": 238.39999997615814,
+    "kbps": 646
+   },
+   "voice": {
+    "scheduled": 414,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 810,
+    "frames_dropped": 132,
+    "audio_s": 32.56,
+    "latency": {
+     "n": 678,
+     "p50_ms": 699.7,
+     "p95_ms": 722.2,
+     "max_ms": 798,
+     "mean_ms": 690,
+     "output_fps": 20.65,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.23,
+    "stages_ms": {
+     "behaviour": 14.818,
+     "stitch": 0.604,
+     "render": 19.859,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 751.8,
+     "frames_sent": 678,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.7,
+     "lag_max_ms": 43.4
+    }
+   }
+  },
+  {
+   "t": 74350,
+   "client": {
+    "presented": 694,
+    "received": 697,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 346,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 19,
+    "receivedFps": 18.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.39999999999418,
+    "intervalMaxMs": 116.69999999999709,
+    "ageP50Ms": 163.89999998807616,
+    "ageP95Ms": 201.40000002384477,
+    "bufferDepth": 2,
+    "playoutDelayMs": 108.10000002384186,
+    "jitterP95Ms": 113.69999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 972.0999999642372,
+   "network": {
+    "pingMs": 238.19999998807907,
+    "kbps": 594
+   },
+   "voice": {
+    "scheduled": 420,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 836,
+    "frames_dropped": 139,
+    "audio_s": 33.6,
+    "latency": {
+     "n": 697,
+     "p50_ms": 699.8,
+     "p95_ms": 722.4,
+     "max_ms": 798,
+     "mean_ms": 690.6,
+     "output_fps": 20.54,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.18,
+    "stages_ms": {
+     "behaviour": 14.801,
+     "stitch": 0.601,
+     "render": 19.941,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 611.4,
+     "frames_sent": 697,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 31.5,
+     "lag_max_ms": 43.4
+    }
+   }
+  },
+  {
+   "t": 74851,
+   "client": {
+    "presented": 703,
+    "received": 708,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 354,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 18.5,
+    "receivedFps": 19.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000873,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 162.9000000357628,
+    "ageP95Ms": 201.40000002384477,
+    "bufferDepth": 4,
+    "playoutDelayMs": 153.4000000357628,
+    "jitterP95Ms": 113.69999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 976,
+   "network": {
+    "pingMs": 238.19999998807907,
+    "kbps": 665
+   },
+   "voice": {
+    "scheduled": 426,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 836,
+    "frames_dropped": 139,
+    "audio_s": 33.6,
+    "latency": {
+     "n": 697,
+     "p50_ms": 699.8,
+     "p95_ms": 722.4,
+     "max_ms": 798,
+     "mean_ms": 690.6,
+     "output_fps": 20.54,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.18,
+    "stages_ms": {
+     "behaviour": 14.801,
+     "stitch": 0.601,
+     "render": 19.941,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 611.4,
+     "frames_sent": 697,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 8,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 31.5,
+     "lag_max_ms": 43.4
+    }
+   }
+  },
+  {
+   "t": 75351,
+   "client": {
+    "presented": 714,
+    "received": 719,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 356,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 19,
+    "receivedFps": 19,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000873,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 162.10000000000582,
+    "ageP95Ms": 201.09999998808053,
+    "bufferDepth": 4,
+    "playoutDelayMs": 183,
+    "jitterP95Ms": 98.19999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 975.5,
+   "network": {
+    "pingMs": 238.19999998807907,
+    "kbps": 661
+   },
+   "voice": {
+    "scheduled": 432,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 864,
+    "frames_dropped": 145,
+    "audio_s": 34.72,
+    "latency": {
+     "n": 719,
+     "p50_ms": 699.9,
+     "p95_ms": 722.5,
+     "max_ms": 798,
+     "mean_ms": 690.9,
+     "output_fps": 20.55,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.25,
+    "stages_ms": {
+     "behaviour": 14.783,
+     "stitch": 0.598,
+     "render": 19.877,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 679.4,
+     "frames_sent": 719,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.7,
+     "lag_max_ms": 39.7
+    }
+   }
+  },
+  {
+   "t": 75850,
+   "client": {
+    "presented": 724,
+    "received": 729,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 362,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 19,
+    "receivedFps": 20,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000873,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 162.70000002384768,
+    "ageP95Ms": 201.40000002384477,
+    "bufferDepth": 4,
+    "playoutDelayMs": 182,
+    "jitterP95Ms": 87.30000001192093,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 971,
+   "network": {
+    "pingMs": 238.19999998807907,
+    "kbps": 714
+   },
+   "voice": {
+    "scheduled": 439,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 864,
+    "frames_dropped": 145,
+    "audio_s": 34.72,
+    "latency": {
+     "n": 719,
+     "p50_ms": 699.9,
+     "p95_ms": 722.5,
+     "max_ms": 798,
+     "mean_ms": 690.9,
+     "output_fps": 20.55,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.25,
+    "stages_ms": {
+     "behaviour": 14.783,
+     "stitch": 0.598,
+     "render": 19.877,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 679.4,
+     "frames_sent": 719,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.7,
+     "lag_max_ms": 39.7
+    }
+   }
+  },
+  {
+   "t": 76359,
+   "client": {
+    "presented": 735,
+    "received": 739,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 365,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 20.5,
+    "receivedFps": 21,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000873,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 163.60000003575988,
+    "ageP95Ms": 201.5,
+    "bufferDepth": 3,
+    "playoutDelayMs": 183.5,
+    "jitterP95Ms": 90.69999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 970,
+   "network": {
+    "pingMs": 238.19999998807907,
+    "kbps": 778
+   },
+   "voice": {
+    "scheduled": 445,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 864,
+    "frames_dropped": 145,
+    "audio_s": 34.72,
+    "latency": {
+     "n": 719,
+     "p50_ms": 699.9,
+     "p95_ms": 722.5,
+     "max_ms": 798,
+     "mean_ms": 690.9,
+     "output_fps": 20.55,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.25,
+    "stages_ms": {
+     "behaviour": 14.783,
+     "stitch": 0.598,
+     "render": 19.877,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 679.4,
+     "frames_sent": 719,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 23.7,
+     "lag_max_ms": 39.7
+    }
+   }
+  },
+  {
+   "t": 76850,
+   "client": {
+    "presented": 745,
+    "received": 749,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 371,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 20.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000873,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 162.70000002384768,
+    "ageP95Ms": 201.40000002384477,
+    "bufferDepth": 3,
+    "playoutDelayMs": 193.80000001192093,
+    "jitterP95Ms": 97.29999995231628,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 970,
+   "network": {
+    "pingMs": 238.39999997615814,
+    "kbps": 746
+   },
+   "voice": {
+    "scheduled": 451,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 890,
+    "frames_dropped": 149,
+    "audio_s": 35.76,
+    "latency": {
+     "n": 741,
+     "p50_ms": 699.9,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 691.2,
+     "output_fps": 20.56,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.26,
+    "stages_ms": {
+     "behaviour": 14.781,
+     "stitch": 0.597,
+     "render": 19.873,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 816.6,
+     "frames_sent": 741,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 25.2,
+     "lag_max_ms": 34.6
+    }
+   }
+  },
+  {
+   "t": 77360,
+   "client": {
+    "presented": 757,
+    "received": 763,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 373,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 22,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.5,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 162.4000000357628,
+    "ageP95Ms": 200.69999998807907,
+    "bufferDepth": 5,
+    "playoutDelayMs": 160.9000000357628,
+    "jitterP95Ms": 99.79999995231628,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 971,
+   "network": {
+    "pingMs": 238.39999997615814,
+    "kbps": 771
+   },
+   "voice": {
+    "scheduled": 458,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 890,
+    "frames_dropped": 149,
+    "audio_s": 35.76,
+    "latency": {
+     "n": 741,
+     "p50_ms": 699.9,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 691.2,
+     "output_fps": 20.56,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.26,
+    "stages_ms": {
+     "behaviour": 14.781,
+     "stitch": 0.597,
+     "render": 19.873,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 816.6,
+     "frames_sent": 741,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 9,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 25.2,
+     "lag_max_ms": 34.6
+    }
+   }
+  },
+  {
+   "t": 77854,
+   "client": {
+    "presented": 767,
+    "received": 772,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 379,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.5,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 161.9000000357628,
+    "ageP95Ms": 200.69999998807907,
+    "bufferDepth": 4,
+    "playoutDelayMs": 208.5,
+    "jitterP95Ms": 123.19999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 975.2000000476837,
+   "network": {
+    "pingMs": 238.39999997615814,
+    "kbps": 707
+   },
+   "voice": {
+    "scheduled": 464,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 916,
+    "frames_dropped": 151,
+    "audio_s": 36.8,
+    "latency": {
+     "n": 765,
+     "p50_ms": 699.8,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 691.3,
+     "output_fps": 20.62,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.27,
+    "stages_ms": {
+     "behaviour": 14.763,
+     "stitch": 0.597,
+     "render": 19.875,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 786.8,
+     "frames_sent": 765,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 32.9,
+     "lag_max_ms": 52.2
+    }
+   }
+  },
+  {
+   "t": 78359,
+   "client": {
+    "presented": 779,
+    "received": 782,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 380,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.5,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 162.10000000000582,
+    "ageP95Ms": 200.69999998807907,
+    "bufferDepth": 2,
+    "playoutDelayMs": 135.4000000357628,
+    "jitterP95Ms": 123.19999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 984.1000000238419,
+   "network": {
+    "pingMs": 238.5,
+    "kbps": 667
+   },
+   "voice": {
+    "scheduled": 470,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 916,
+    "frames_dropped": 151,
+    "audio_s": 36.8,
+    "latency": {
+     "n": 765,
+     "p50_ms": 699.8,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 691.3,
+     "output_fps": 20.62,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.27,
+    "stages_ms": {
+     "behaviour": 14.763,
+     "stitch": 0.597,
+     "render": 19.875,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 786.8,
+     "frames_sent": 765,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 32.9,
+     "lag_max_ms": 52.2
+    }
+   }
+  },
+  {
+   "t": 78854,
+   "client": {
+    "presented": 788,
+    "received": 794,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 388,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21,
+    "receivedFps": 22.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.5,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 162.10000000000582,
+    "ageP95Ms": 200.69999998807907,
+    "bufferDepth": 5,
+    "playoutDelayMs": 168.4000000357628,
+    "jitterP95Ms": 111.59999996423721,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 983.9000000357628,
+   "network": {
+    "pingMs": 238.5,
+    "kbps": 643
+   },
+   "voice": {
+    "scheduled": 476,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 942,
+    "frames_dropped": 156,
+    "audio_s": 37.84,
+    "latency": {
+     "n": 786,
+     "p50_ms": 699.6,
+     "p95_ms": 722.5,
+     "max_ms": 798,
+     "mean_ms": 691.4,
+     "output_fps": 20.62,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.28,
+    "stages_ms": {
+     "behaviour": 14.746,
+     "stitch": 0.596,
+     "render": 19.876,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 669.9,
+     "frames_sent": 786,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 33.1,
+     "lag_max_ms": 52.2
+    }
+   }
+  },
+  {
+   "t": 79360,
+   "client": {
+    "presented": 800,
+    "received": 806,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 390,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000873,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 162.10000000000582,
+    "ageP95Ms": 202.39999999999418,
+    "bufferDepth": 5,
+    "playoutDelayMs": 183.80000001192093,
+    "jitterP95Ms": 102.69999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 971.3000000119209,
+   "network": {
+    "pingMs": 238.5,
+    "kbps": 688
+   },
+   "voice": {
+    "scheduled": 483,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 942,
+    "frames_dropped": 156,
+    "audio_s": 37.84,
+    "latency": {
+     "n": 786,
+     "p50_ms": 699.6,
+     "p95_ms": 722.5,
+     "max_ms": 798,
+     "mean_ms": 691.4,
+     "output_fps": 20.62,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.28,
+    "stages_ms": {
+     "behaviour": 14.746,
+     "stitch": 0.596,
+     "render": 19.876,
+     "post": 0.141
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 669.9,
+     "frames_sent": 786,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 10,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 33.1,
+     "lag_max_ms": 52.2
+    }
+   }
+  },
+  {
+   "t": 79852,
+   "client": {
+    "presented": 811,
+    "received": 816,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 393,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22,
+    "receivedFps": 22,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000873,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 162.10000000000582,
+    "ageP95Ms": 202.39999999999418,
+    "bufferDepth": 4,
+    "playoutDelayMs": 175.4000000357628,
+    "jitterP95Ms": 102.69999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.5,
+   "network": {
+    "pingMs": 238.5,
+    "kbps": 762
+   },
+   "voice": {
+    "scheduled": 489,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 968,
+    "frames_dropped": 159,
+    "audio_s": 38.88,
+    "latency": {
+     "n": 809,
+     "p50_ms": 699.6,
+     "p95_ms": 722.4,
+     "max_ms": 798,
+     "mean_ms": 691.6,
+     "output_fps": 20.67,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.31,
+    "stages_ms": {
+     "behaviour": 14.732,
+     "stitch": 0.595,
+     "render": 19.859,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 721.5,
+     "frames_sent": 809,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 33.1,
+     "lag_max_ms": 52.2
+    }
+   }
+  },
+  {
+   "t": 80360,
+   "client": {
+    "presented": 822,
+    "received": 827,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 396,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 21.5,
+    "receivedFps": 22.5,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000873,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 162.10000000000582,
+    "ageP95Ms": 202.39999999999418,
+    "bufferDepth": 4,
+    "playoutDelayMs": 160.19999998807907,
+    "jitterP95Ms": 102.69999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.5,
+   "network": {
+    "pingMs": 242.69999998807907,
+    "kbps": 857
+   },
+   "voice": {
+    "scheduled": 495,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 968,
+    "frames_dropped": 159,
+    "audio_s": 38.88,
+    "latency": {
+     "n": 809,
+     "p50_ms": 699.6,
+     "p95_ms": 722.4,
+     "max_ms": 798,
+     "mean_ms": 691.6,
+     "output_fps": 20.67,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.31,
+    "stages_ms": {
+     "behaviour": 14.732,
+     "stitch": 0.595,
+     "render": 19.859,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 721.5,
+     "frames_sent": 809,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 11,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 33.1,
+     "lag_max_ms": 52.2
+    }
+   }
+  },
+  {
+   "t": 80850,
+   "client": {
+    "presented": 834,
+    "received": 838,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 398,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22.5,
+    "receivedFps": 22,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000873,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 162.2999999880849,
+    "ageP95Ms": 203.5000000357686,
+    "bufferDepth": 3,
+    "playoutDelayMs": 164.19999998807907,
+    "jitterP95Ms": 102.69999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 964.5,
+   "network": {
+    "pingMs": 242.69999998807907,
+    "kbps": 867
+   },
+   "voice": {
+    "scheduled": 501,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 994,
+    "frames_dropped": 162,
+    "audio_s": 39.92,
+    "latency": {
+     "n": 832,
+     "p50_ms": 699.8,
+     "p95_ms": 722.4,
+     "max_ms": 798,
+     "mean_ms": 691.9,
+     "output_fps": 20.71,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.31,
+    "stages_ms": {
+     "behaviour": 14.721,
+     "stitch": 0.595,
+     "render": 19.868,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 909.9,
+     "frames_sent": 832,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 33.1,
+     "lag_max_ms": 52.2
+    }
+   }
+  },
+  {
+   "t": 81350,
+   "client": {
+    "presented": 845,
+    "received": 848,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 400,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22.5,
+    "receivedFps": 21,
+    "intervalP50Ms": 49.89999999999418,
+    "intervalP95Ms": 83.40000000000873,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 162.10000000000582,
+    "ageP95Ms": 202.39999999999418,
+    "bufferDepth": 2,
+    "playoutDelayMs": 163.80000001192093,
+    "jitterP95Ms": 98.39999997615814,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.800000011920929,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 967.5,
+   "network": {
+    "pingMs": 242.69999998807907,
+    "kbps": 764
+   },
+   "voice": {
+    "scheduled": 507,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 994,
+    "frames_dropped": 162,
+    "audio_s": 39.92,
+    "latency": {
+     "n": 832,
+     "p50_ms": 699.8,
+     "p95_ms": 722.4,
+     "max_ms": 798,
+     "mean_ms": 691.9,
+     "output_fps": 20.71,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.31,
+    "stages_ms": {
+     "behaviour": 14.721,
+     "stitch": 0.595,
+     "render": 19.868,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 6,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 909.9,
+     "frames_sent": 832,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 33.1,
+     "lag_max_ms": 52.2
+    }
+   }
+  },
+  {
+   "t": 82046,
+   "client": {
+    "presented": 859,
+    "received": 864,
+    "droppedLate": 0,
+    "droppedOverflow": 0,
+    "skipped": 1,
+    "holds": 406,
+    "outOfOrder": 0,
+    "duplicates": 0,
+    "decodeErrors": 0,
+    "presentedFps": 22,
+    "receivedFps": 21.5,
+    "intervalP50Ms": 49.80000000000291,
+    "intervalP95Ms": 83.40000000000873,
+    "intervalMaxMs": 116.80000000000291,
+    "ageP50Ms": 161.30000003575697,
+    "ageP95Ms": 200.69999998807907,
+    "bufferDepth": 4,
+    "playoutDelayMs": 143.10000002384186,
+    "jitterP95Ms": 103.19999998807907,
+    "codec": "h264",
+    "timelineShifts": 9,
+    "decodeP50Ms": 0.8999999761581421,
+    "avOffsetMs": null
+   },
+   "roundTripMs": 973.5,
+   "network": {
+    "pingMs": 242.69999998807907,
+    "kbps": 782
+   },
+   "voice": {
+    "scheduled": 516,
+    "missed": 0
+   },
+   "server": {
+    "type": "stats",
+    "frames": 1018,
+    "frames_dropped": 164,
+    "audio_s": 40.88,
+    "latency": {
+     "n": 854,
+     "p50_ms": 699.6,
+     "p95_ms": 722.3,
+     "max_ms": 798,
+     "mean_ms": 691.4,
+     "output_fps": 20.73,
+     "max_frame_gap_ms": 152.3
+    },
+    "compute_fps": 28.3,
+    "stages_ms": {
+     "behaviour": 14.708,
+     "stitch": 0.597,
+     "render": 19.885,
+     "post": 0.14
+    },
+    "gpu": {
+     "torch_alloc_gib": 0.733,
+     "torch_reserved_gib": 0.766
+    },
+    "queued_chunks": 7,
+    "video": {
+     "codec": "h264",
+     "target_kbps": 900,
+     "sent_kbps": 882.1,
+     "frames_sent": 854,
+     "frames_skipped_for_network": 0,
+     "in_flight_frames": 7,
+     "backlog_ms": 0,
+     "congestion_events": 0
+    },
+    "uplink": {
+     "lag_p95_ms": 84.2,
+     "lag_max_ms": 151.8
+    }
+   }
+  }
+ ]
+}

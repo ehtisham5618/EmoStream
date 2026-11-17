@@ -13,9 +13,9 @@ Environment:
     EMOSTREAM_EMOTION_GAIN  scale of the emotion branch (default 1.5; 1.0 = as trained)
     EMOSTREAM_HOP       1 (default) per-frame streaming, lowest delay, needs an L40S-class GPU;
                         5 block streaming, for an A10G
-    EMOSTREAM_GPU       Modal GPU types in order of preference (default "L40S,A100-40GB": the L40S
-                        gives 25 FPS measured; the A100 is used only when no L40S is free; an A10G
-                        is too slow for per-frame streaming)
+    EMOSTREAM_GPU       Modal GPU types in order of preference (default "L40S"; measured too slow
+                        for live sessions with the WavLM model: A100-40GB (render 27 ms per frame),
+                        A10G, L4, T4)
     EMOSTREAM_TENSORRT  "1" (default) for the TensorRT renderer, "0" for PyTorch (required on a T4)
 """
 from __future__ import annotations
@@ -30,9 +30,11 @@ RUN = os.environ.get("EMOSTREAM_RUN", "wl_base")
 EMOTION_GAIN = os.environ.get("EMOSTREAM_EMOTION_GAIN", "1.5")
 SLOT = os.environ.get("EMOSTREAM_SLOT", "4")    # per-frame read-out slot, 0 (more look-ahead) .. 4
 HOP = os.environ.get("EMOSTREAM_HOP", "1")   # 1 = per-frame streaming (L40S); 5 = block streaming (A10G)
-# Comma-separated preference list. With only "L40S", a start waits whenever Modal has no L40S
-# free (seen on 17 Nov 2026: 151 s before the first response); the fallback is used then.
-GPU = [g.strip() for g in os.environ.get("EMOSTREAM_GPU", "L40S,A100-40GB").split(",") if g.strip()]
+# Comma-separated preference list. L40S only by default: an A100 fallback (tried 17 Nov 2026)
+# renders a frame in 27 ms instead of 17.5 ms and, with encoding on top, fell behind in the
+# user's session 6 (server latency 700 ms, 16 % of frames skipped). A start that waits for an
+# L40S is better than a session that silently drops frames.
+GPU = [g.strip() for g in os.environ.get("EMOSTREAM_GPU", "L40S").split(",") if g.strip()]
 TENSORRT = os.environ.get("EMOSTREAM_TENSORRT", "1") == "1"   # needs an Ampere-or-newer GPU (not T4)
 
 app = modal.App("emostream-v2-live")

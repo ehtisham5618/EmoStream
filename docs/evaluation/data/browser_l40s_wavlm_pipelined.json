@@ -1,0 +1,33 @@
+{
+ "draws": 462,
+ "seconds_measured": 39.12,
+ "presented_fps": 11.79,
+ "interval_ms": {
+  "p5": 32.4,
+  "p50": 34.0,
+  "p95": 51.8,
+  "p99": 823.7,
+  "max": 6700.1
+ },
+ "intervals_within_30_to_50_ms": 0.785,
+ "intervals_under_20_ms": 0.015,
+ "intervals_over_80_ms": 0.041,
+ "interval_std_ms": 420.3,
+ "display_refresh_hz": 60.0,
+ "picture_minus_sound_ms": {
+  "p5": -24.0,
+  "p50": 9.6,
+  "p95": 905.4,
+  "n": 485,
+  "within_80_ms": 0.874
+ },
+ "voice_chunks": {
+  "scheduled": 358,
+  "missed": 0
+ },
+ "startup_error": null,
+ "seconds_to_first_frames": 5.3,
+ "app_diagnostics": "Received / shown per second\n3.0 / 0.5\nTime between shown frames, median / 95% / longest\n50 / 3333 / 3333 ms\nFrame age when shown, median / 95%\n245 / 345 ms\nBuffer\n0 frames, 80 ms delay, moved 19\u00d7\nArrival jitter (95%)\n\u2013 ms\nVoice to frame arrival\n12664 ms\nServer: sent / target bitrate\n0 / 552 kbit/s\nServer: frames held back for the network\n106, backlog 8248 ms, 3 slow-downs\nYour audio reaching the server late (95% / worst)\n7125 / 7275 ms\nDecoder errors\n0\nLate / skipped / overflow / held\n25 / 4 / 0 / 1259\nOut of order / duplicate\n0 / 0\nDecode time, median\n4.7 ms\nPicture ahead of sound\n\u2013 ms\nServer queue\n39 chunks",
+ "app_numbers": "Frames shown\n0.5 per second, on screen\nAvatar behind you\n12744 ms; its voice and lips stay together\nNetwork round trip\n10601 ms\nVideo stream\n54 kbit/s H.264\nServer delay\n214 ms median\nSlowest 5%\n867 ms\nFrames skipped\n82 of 702\nGPU memory\n0.78 GiB reserved",
+ "console_errors": []
+}

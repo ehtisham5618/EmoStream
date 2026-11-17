@@ -166,12 +166,28 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
                                   "congestion_events": pacer.congestion_events},
                         "uplink": uplink.summary()})
 
+            # Encoding and sending run in their own task, so the GPU computes the next frames
+            # while the previous ones are encoded (on an A100 the two in series exceeded
+            # 40 ms per frame: 16 % of frames were skipped in the user's session 6).
+            out_q: asyncio.Queue = asyncio.Queue(maxsize=50)
+
+            async def sender():
+                while True:
+                    frames = await out_q.get()
+                    if frames is None:
+                        return
+                    await emit(frames)
+
+            send_task = asyncio.create_task(sender())
+
             async def run():
                 while True:
                     item = await queue.get()
                     if item is None:
                         sent["final"] = True
-                        await emit(await asyncio.to_thread(session.end))
+                        await out_q.put(await asyncio.to_thread(session.end))
+                        await out_q.put(None)
+                        await send_task
                         await send_text({"type": "done", "stats": session.stats()})
                         return
                     if item[0] == "emotion":
@@ -183,7 +199,11 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
                                          "emotion": emotion, "intensity": intensity})
                         continue
                     _, pcm, captured = item
-                    await emit(await asyncio.to_thread(session.push_pcm, pcm, captured))
+                    frames = await asyncio.to_thread(session.push_pcm, pcm, captured)
+                    if frames:
+                        await out_q.put(frames)
+                    if send_task.done():
+                        send_task.result()      # re-raise a sending error
 
             worker = asyncio.create_task(run())
             while True:
@@ -251,6 +271,9 @@ def create_app(provider, static_dir: str | None = None) -> FastAPI:
         finally:
             if worker is not None and not worker.done():
                 worker.cancel()
+            st = locals().get("send_task")
+            if st is not None and not st.done():
+                st.cancel()
             if session is not None:
                 session.close()
             try:
