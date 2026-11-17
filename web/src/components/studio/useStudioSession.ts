@@ -1,8 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { SyncedVoice } from "@engine/audio";
+import { decodeAudioFile, SyncedVoice } from "@engine/audio";
 import { FramePlayer, h264Supported, type PlayerStats } from "@engine/player";
-import { Chunker, FPS, SAMPLE_RATE, SAMPLES_PER_FRAME, type ServerStats } from "@engine/protocol";
+import {
+  CHUNK_SAMPLES,
+  Chunker,
+  FPS,
+  SAMPLE_RATE,
+  SAMPLES_PER_FRAME,
+  type ServerStats,
+} from "@engine/protocol";
 import { LiveSession, type ReadyInfo, type StartupStage } from "@engine/session";
 import { useMicrophone } from "@/lib/audio/useMicrophone";
 import {
@@ -125,6 +132,8 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
   const portrait = useStudio((s) => s.portrait);
   const consent = useStudio((s) => s.consent);
   const voiceConsent = useStudio((s) => s.voiceConsent);
+  const voiceSource = useStudio((s) => s.voiceSource);
+  const audioFile = useStudio((s) => s.audioFile);
   const emotion = useStudio((s) => s.emotion);
   const intensity = useStudio((s) => s.intensity);
 
@@ -170,6 +179,20 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
   const eventsRef = useRef<EmotionEvent[]>([]);
   const timers = useRef<number[]>([]);
   const hearRef = useRef(false);
+  /** Audio-file sessions: the decoded clip, local playback (locked to the picture) and the feed. */
+  const fileRef = useRef<{
+    samples: Float32Array;
+    buffer: AudioBuffer;
+    ctx: AudioContext;
+    dest: MediaStreamAudioDestinationNode;
+    pos: number;
+    began: number;
+    pausedAt: number | null;
+    pausedTotal: number;
+    timer: number | null;
+  } | null>(null);
+  const sourceRef = useRef<"mic" | "file">("mic");
+  const [exportingMp4, setExportingMp4] = useState(false);
   /** Per-take measured series for Sessions and Analytics (this tab only). */
   const seriesRef = useRef({
     fps: [] as number[],
@@ -201,6 +224,12 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     timers.current.forEach((t) => window.clearTimeout(t));
     timers.current = [];
     micRef.current.stop();
+    const f = fileRef.current;
+    if (f) {
+      if (f.timer !== null) window.clearInterval(f.timer);
+      f.timer = null;
+      void f.ctx.close().catch(() => undefined);
+    }
     const rec = recorderRef.current;
     recorderRef.current = null;
     if (rec && rec.state !== "inactive") rec.stop();
@@ -221,6 +250,9 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
       player && voice
         ? pictureMinusSound(player.shownLog.slice(-125), voice.playedLog.slice(-400))
         : [];
+    // Audio-file sessions: the picture is locked to the playback clock; the player measures
+    // the offset of the drawn frame against it.
+    const fileOffset = sourceRef.current === "file" ? (p?.avOffsetMs ?? null) : null;
     const serverSkipped = srv?.frames_dropped ?? 0;
     const networkSkipped = srv?.video?.frames_skipped_for_network ?? 0;
     const clientDropped = p ? p.droppedLate + p.droppedOverflow : 0;
@@ -238,10 +270,13 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
       bitrateKbps: session ? Math.round(session.receivedKbps()) : null,
       playoutDelayMs: p && p.presented > 0 ? Math.round(p.playoutDelayMs) : null,
       jitterP95Ms: p?.jitterP95Ms ?? null,
-      voiceOffsetP50Ms: median(diffs),
-      voiceWithin80: diffs.length
-        ? diffs.filter((x) => Math.abs(x) <= 80).length / diffs.length
-        : null,
+      voiceOffsetP50Ms: sourceRef.current === "file" ? fileOffset : median(diffs),
+      voiceWithin80:
+        sourceRef.current === "file"
+          ? null
+          : diffs.length
+            ? diffs.filter((x) => Math.abs(x) <= 80).length / diffs.length
+            : null,
       serverP95Ms: srv?.latency.p95_ms ?? null,
       serverSkipped,
       networkSkipped,
@@ -289,6 +324,7 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
             droppedPerSecond: seriesRef.current.dropped,
             latencyMs: seriesRef.current.latency,
             intensities: eventsRef.current.map((e) => e.intensity),
+            source: sourceRef.current,
           },
           ...s.sessions,
         ],
@@ -355,11 +391,11 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     return () => window.clearInterval(id);
   }, [conn]);
 
-  const startRecording = useCallback((voice: SyncedVoice) => {
+  const startRecording = useCallback((audio: MediaStream) => {
     const canvas = canvasRef.current;
     if (!canvas || typeof MediaRecorder === "undefined" || !canvas.captureStream) return;
     const stream = canvas.captureStream(FPS);
-    voice.recordStream.getAudioTracks().forEach((t) => stream.addTrack(t));
+    audio.getAudioTracks().forEach((t) => stream.addTrack(t));
     const chunks: Blob[] = [];
     const rec = new MediaRecorder(stream);
     rec.ondataavailable = (e) => {
@@ -384,11 +420,15 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // The avatar's voice: the sent audio, played and recorded on the picture's timeline. Created
-    // here, inside the click, so the browser allows its audio output.
-    const voice = new SyncedVoice(() => playerRef.current?.timelineBase ?? null);
-    voice.setMonitor(hearRef.current);
+    const fromFile = st.voiceSource === "file";
+    sourceRef.current = fromFile ? "file" : "mic";
+    // Audio output is created here, inside the click, so the browser allows it.
+    // Microphone: the avatar's voice is the sent audio, played and recorded on the picture's
+    // timeline. Audio file: the clip itself is played, and the picture is locked to its clock.
+    const voice = fromFile ? null : new SyncedVoice(() => playerRef.current?.timelineBase ?? null);
+    voice?.setMonitor(hearRef.current);
     voiceRef.current = voice;
+    const fileCtx = fromFile ? new AudioContext() : null;
 
     const now = performance.now();
     timesRef.current = { click: now, stageAt: now, ready: null, firstFrame: null };
@@ -401,7 +441,14 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     errorRef.current = null;
     finalizedRef.current = false;
     chunkerRef.current = new Chunker(MIC_CHUNK);
-    seriesRef.current = { fps: [], delivered: [], dropped: [], latency: [], lastDropped: 0, lastReceived: 0 };
+    seriesRef.current = {
+      fps: [],
+      delivered: [],
+      dropped: [],
+      latency: [],
+      lastDropped: 0,
+      lastReceived: 0,
+    };
     startedAt.current = Date.now();
     eventsRef.current = [{ t: 0, emotion: st.emotion, intensity: st.intensity }];
     setEvents(eventsRef.current);
@@ -421,14 +468,37 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     const fail = (message: string) => {
       errorRef.current = message;
       setErrorMsg(message);
-      void voice.close();
+      void voice?.close();
+      void fileCtx?.close().catch(() => undefined);
       voiceRef.current = null;
+      fileRef.current = null;
       setPhase("error");
       setConn("error");
     };
 
+    // Audio file: decoded to 16 kHz before the engine session (and its GPU time) is opened.
+    if (fromFile && fileCtx) {
+      try {
+        const decoded = await decodeAudioFile(st.audioFile!.file);
+        fileRef.current = {
+          samples: decoded.samples,
+          buffer: decoded.buffer,
+          ctx: fileCtx,
+          dest: fileCtx.createMediaStreamDestination(),
+          pos: 0,
+          began: 0,
+          pausedAt: null,
+          pausedTotal: 0,
+          timer: null,
+        };
+      } catch {
+        fail("This audio file couldn't be decoded. Try WAV or MP3.");
+        return;
+      }
+    }
+
     // Microphone permission is settled before an engine session (and its GPU time) is opened.
-    if (mic.permission !== "granted") {
+    if (!fromFile && mic.permission !== "granted") {
       const ok = await mic.probe();
       if (!ok) {
         fail(
@@ -448,10 +518,24 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
 
     // Frames are presented on a 40 ms timeline from a small adaptive buffer, not on arrival.
     const player = new FramePlayer(canvas, {
-      targetDelayMs: 80,
-      maxDelayMs: 1200,
-      synced: false,
+      // Audio file: a little more buffer, and the picture follows the playback clock.
+      targetDelayMs: fromFile ? 350 : 80,
+      maxDelayMs: fromFile ? 600 : 1200,
+      synced: fromFile,
       onNeedKeyFrame: () => sessionRef.current?.requestKeyFrame(),
+      onTimeline: (frameZeroTime) => {
+        const f = fileRef.current;
+        if (!fromFile || !f) return;
+        // Start the clip exactly when frame 0 is shown; lock the picture to the audio clock.
+        const src = f.ctx.createBufferSource();
+        src.buffer = f.buffer;
+        src.connect(f.ctx.destination);
+        src.connect(f.dest);
+        const startAt = f.ctx.currentTime + Math.max(0, frameZeroTime - performance.now()) / 1000;
+        src.start(startAt);
+        player.audioClockMs = () => (f.ctx.currentTime - startAt) * 1000;
+        startRecording(f.dest.stream);
+      },
     });
     playerRef.current = player;
     player.start();
@@ -477,6 +561,43 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
             description:
               "The engine closes it before animating. A photo with a closed mouth and a relaxed face gives the most natural result.",
           });
+        if (fromFile) {
+          // Deliver the clip at the pace a microphone would, from now on.
+          const f = fileRef.current;
+          if (!f) return;
+          micRef.current.startExternal();
+          f.began = performance.now();
+          f.timer = window.setInterval(() => {
+            const s = sessionRef.current;
+            if (!s || f.pausedAt !== null || endingRef.current) return;
+            const n = f.samples.length;
+            const due = Math.min(
+              n,
+              Math.floor(((performance.now() - f.began - f.pausedTotal) / 1000) * SAMPLE_RATE),
+            );
+            while (f.pos + CHUNK_SAMPLES <= due) {
+              const chunk = f.samples.subarray(f.pos, f.pos + CHUNK_SAMPLES);
+              s.sendAudio(chunk);
+              let sum = 0;
+              for (let i = 0; i < chunk.length; i++) sum += chunk[i]! * chunk[i]!;
+              micRef.current.setExternalLevel(Math.sqrt(sum / chunk.length));
+              f.pos += CHUNK_SAMPLES;
+            }
+            if (due >= n) {
+              if (f.pos < n) s.sendAudio(f.samples.subarray(f.pos));
+              f.pos = n;
+              if (f.timer !== null) window.clearInterval(f.timer);
+              f.timer = null;
+              // The whole clip was sent: the engine renders the rest and answers "done".
+              endingRef.current = true;
+              micRef.current.stop();
+              setPhase("finishing");
+              s.end();
+              timers.current.push(window.setTimeout(() => sessionRef.current?.stop(), 15000));
+            }
+          }, 50);
+          return;
+        }
         // Microphone opens now: audio flows only once the engine and portrait are ready.
         void micRef.current.start().then((ok) => {
           if (!ok) {
@@ -491,7 +612,7 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
             sessionRef.current?.stop();
             return;
           }
-          if (voiceRef.current) startRecording(voiceRef.current);
+          if (voiceRef.current) startRecording(voiceRef.current.recordStream);
         });
       },
       onFrame: (frame) => {
@@ -559,13 +680,24 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
   const pause = useCallback(() => {
     if (phase !== "running") return;
     mic.pause();
-    flushRest(); // the last partial chunk before the pause is still rendered
+    const f = fileRef.current;
+    if (sourceRef.current === "file" && f) {
+      // Feeding stops and the playback clock (which drives the picture) is suspended.
+      f.pausedAt = performance.now();
+      void f.ctx.suspend();
+    } else flushRest(); // the last partial chunk before the pause is still rendered
     setPhase("paused");
   }, [mic, phase, flushRest]);
 
   const resume = useCallback(() => {
     if (phase !== "paused") return;
     mic.resume();
+    const f = fileRef.current;
+    if (sourceRef.current === "file" && f && f.pausedAt !== null) {
+      f.pausedTotal += performance.now() - f.pausedAt;
+      f.pausedAt = null;
+      void f.ctx.resume();
+    }
     setPhase("running");
   }, [mic, phase]);
 
@@ -579,8 +711,14 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
       return;
     }
     // Send what is left, then let the engine finish the last frames ("done").
+    // An audio file stopped early is cut where it is; the rest is not sent.
     mic.stop();
-    flushRest();
+    const f = fileRef.current;
+    if (sourceRef.current === "file" && f) {
+      if (f.timer !== null) window.clearInterval(f.timer);
+      f.timer = null;
+      if (f.pausedAt !== null) void f.ctx.resume();
+    } else flushRest();
     setPhase("finishing");
     session.end();
     // If "done" never comes, close anyway.
@@ -694,11 +832,69 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     }
   }, [recordingUrl]);
 
+  /**
+   * Audio-file takes: the engine renders the same portrait crop and recording to a watermarked
+   * MP4 (POST /api/export). It uses one emotion setting, the one the take started with; changes
+   * made during the live take are not in the MP4. Only the first 180 s are rendered.
+   */
+  const doExportMp4 = useCallback(async () => {
+    const st = studioStore.get();
+    if (!st.portrait || !st.audioFile) {
+      toast.error("The MP4 needs the portrait and the audio file of this take.");
+      return;
+    }
+    const first = eventsRef.current[0] ?? { emotion: st.emotion, intensity: st.intensity };
+    setExportingMp4(true);
+    const t0 = performance.now();
+    try {
+      const portraitBytes = await renderCropJpeg(st.portrait);
+      const form = new FormData();
+      form.append("portrait", new Blob([portraitBytes], { type: "image/jpeg" }), "portrait.jpg");
+      form.append("audio", st.audioFile.file, st.audioFile.name);
+      form.append("emotion", first.emotion);
+      form.append("intensity", String(first.intensity / 100));
+      form.append("model", "emostream");
+      form.append("size", "512");
+      form.append("portrait_consent", "true");
+      form.append("audio_consent", "true");
+      const r = await fetch(`${engineUrl}/api/export`, { method: "POST", body: form });
+      if (!r.ok) {
+        const body = (await r.json().catch(() => null)) as {
+          detail?: { code?: string; message?: string };
+        } | null;
+        throw new Error(
+          engineErrorMessage(
+            body?.detail?.message ?? `Export failed (${r.status}).`,
+            body?.detail?.code,
+          ),
+        );
+      }
+      const url = URL.createObjectURL(await r.blob());
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `emostream-${startedAt.current || Date.now()}.mp4`;
+      a.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 2000);
+      const id = `s-${startedAt.current}`;
+      studioStore.set((s) => ({
+        sessions: s.sessions.map((x) => (x.id === id ? { ...x, exported: true } : x)),
+      }));
+      toast.success("MP4 downloaded", {
+        description: `Rendered by the engine in ${((performance.now() - t0) / 1000).toFixed(1)} s.`,
+      });
+    } catch (e) {
+      toast.error((e as Error).message || "MP4 export failed.");
+    } finally {
+      setExportingMp4(false);
+    }
+  }, [engineUrl]);
+
   const saveDiagnostics = useCallback(() => {
     const st = studioStore.get();
     const t = timesRef.current;
     const body = {
       client: "web-studio",
+      source: sourceRef.current,
       build: typeof __BUILD__ === "string" ? __BUILD__ : null,
       savedAt: new Date().toISOString(),
       userAgent: navigator.userAgent,
@@ -750,7 +946,7 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
           ? "Waiting for microphone permission…"
           : `Connecting to the engine… ${startup.waitedS} s${startup.waitedS >= 8 ? ". After an idle period the GPU worker needs up to a minute to start." : ""}`;
 
-  const baseCheck = canStartSession({ portrait, consent, voiceConsent });
+  const baseCheck = canStartSession({ portrait, consent, voiceConsent, voiceSource, audioFile });
   const canStart = live
     ? {
         ok: false as const,
@@ -774,6 +970,10 @@ export function useStudioSession({ preparing }: { preparing: boolean }) {
     canStart,
     exporting,
     recordingUrl,
+    exportingMp4,
+    doExportMp4,
+    takeSource: sourceRef.current,
+    voiceSource,
     startupDetail,
     hearVoice,
     setHearVoice,

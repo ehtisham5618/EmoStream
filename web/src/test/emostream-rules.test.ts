@@ -4,6 +4,7 @@ import { faceFor } from "@/lib/emotions";
 import { wsUrl } from "@/lib/engine/client";
 import {
   canStartSession,
+  validateAudioFile,
   validatePortraitFile,
   validatePortraitSize,
   type Portrait,
@@ -39,6 +40,11 @@ describe("session start rules", () => {
   });
   it("starts with a portrait and both consents", () => {
     expect(canStartSession({ portrait: portrait(), ...both }).ok).toBe(true);
+  });
+  it("an audio-file take needs a chosen file", () => {
+    expect(
+      canStartSession({ portrait: portrait(), ...both, voiceSource: "file", audioFile: null }).ok,
+    ).toBe(false);
   });
   it("refuses when no face or several faces were detected", () => {
     expect(canStartSession({ portrait: portrait({ faceCheck: "not-found" }), ...both }).ok).toBe(
@@ -104,5 +110,16 @@ describe("emotion intensity", () => {
     expect(faceFor("happy", 0).mouthCurve).toBe(0);
     expect(faceFor("happy", 100).mouthCurve).toBe(1);
     expect(faceFor("happy", 50).mouthCurve).toBeCloseTo(0.5);
+  });
+});
+
+describe("audio file rules", () => {
+  it("accepts common audio formats up to the engine's 30 MB export limit", () => {
+    expect(validateAudioFile({ type: "audio/wav", size: 1000, name: "a.wav" })).toBeNull();
+    expect(validateAudioFile({ type: "", size: 1000, name: "voice.mpeg" })).toBeNull();
+    expect(validateAudioFile({ type: "image/png", size: 1000, name: "a.png" })).not.toBeNull();
+    expect(
+      validateAudioFile({ type: "audio/mpeg", size: 31 * 1024 * 1024, name: "a.mp3" }),
+    ).not.toBeNull();
   });
 });

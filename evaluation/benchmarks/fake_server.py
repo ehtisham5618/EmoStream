@@ -132,7 +132,22 @@ class BurstProvider:
         return BurstSession(req, self.lock.release, clip=self.clip, **self.kw)
 
     def render_file(self, portrait, audio, req):
-        raise P.ProtocolError("model_unavailable", "the timing stand-in cannot export")
+        """Stand-in for the MP4 export: a solid 512x512 picture with the uploaded audio (first
+        180 s), so the client's download path can be tested without a GPU. Not a render."""
+        import subprocess
+        import tempfile
+        from pathlib import Path
+
+        with tempfile.TemporaryDirectory() as d:
+            src, out = Path(d) / "audio.bin", Path(d) / "out.mp4"
+            src.write_bytes(audio)
+            r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", "color=c=0x8c7a6a:s=512x512:r=25",
+                                "-i", str(src), "-t", "180", "-shortest", "-c:v", "libx264", "-pix_fmt", "yuv420p",
+                                "-c:a", "aac", str(out)], capture_output=True)
+            if r.returncode != 0 or not out.exists():
+                raise P.ProtocolError("bad_audio", "audio could not be decoded")
+            data = out.read_bytes()
+        return data, {"frames": None, "audio_s": None, "compute_fps": None}
 
 
 def main():

@@ -198,10 +198,14 @@ function StageOverlay({ s, hasPortrait }: { s: StudioSession; hasPortrait: boole
       return hasPortrait
         ? box(
             null,
-            "Start speaking to preview the animation.",
-            s.canStart.ok
-              ? "Press Start session, then talk. Your voice drives the movement; your selected emotion shapes the expression."
-              : s.canStart.reason,
+            s.voiceSource === "file"
+              ? "Play your recording through the avatar."
+              : "Start speaking to preview the animation.",
+            !s.canStart.ok
+              ? s.canStart.reason
+              : s.voiceSource === "file"
+                ? "Press Start session. The recording plays at its own pace and drives the movement; your selected emotion shapes the expression."
+                : "Press Start session, then talk. Your voice drives the movement; your selected emotion shapes the expression.",
           )
         : null;
     case "initializing":

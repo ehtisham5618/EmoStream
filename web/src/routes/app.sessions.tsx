@@ -60,7 +60,7 @@ interface TakeRow {
   id: string;
   name: string;
   avatar: string;
-  input: "Microphone";
+  input: "Microphone" | "Audio file";
   emotion: EmotionId;
   intensity: number;
   durationS: number;
@@ -75,7 +75,7 @@ function toRow(s: SessionSummary, n: number): TakeRow {
     id: s.id,
     name: `${s.avatarName} · take ${n}`,
     avatar: s.avatarName,
-    input: "Microphone",
+    input: s.source === "file" ? "Audio file" : "Microphone",
     emotion: s.finalEmotion,
     intensity: s.finalIntensity,
     durationS: Math.round(s.durationMs / 1000),
@@ -167,7 +167,8 @@ function Sessions() {
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    {new Date(s.startedAt).toLocaleTimeString()} · Microphone · {e.label}{" "}
+                    {new Date(s.startedAt).toLocaleTimeString()} ·{" "}
+                    {s.source === "file" ? "Audio file" : "Microphone"} · {e.label}{" "}
                     {s.finalIntensity}% · {s.emotionChanges} change(s)
                   </p>
                   <p className="mt-2 text-xs">

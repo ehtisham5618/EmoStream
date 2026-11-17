@@ -114,10 +114,10 @@ GPU jobs cost money. Preprocessing is the expensive one; training a model takes 
 Open the worker's URL: the product UI. **Studio** (`/app/studio`):
 
 1. Upload a photo of one face looking at the camera, and confirm portrait consent.
-2. Confirm voice consent, choose the microphone, and optionally switch on "Hear the avatar's voice" (headphones).
+2. Choose the voice: **Microphone** (optionally "Hear the avatar's voice", with headphones) or **Audio file** (a recording streamed at speaking pace and played in step with the avatar; useful on an unreliable network). Confirm voice consent.
 3. Start session. The engine prepares the portrait (the stage shows each step); the microphone opens only when it is ready.
 4. Speak. Change emotion and intensity at any time; pause and resume.
-5. Stop. Export downloads the take as recorded in the browser; the telemetry drawer saves a diagnostics file.
+5. Stop (an audio-file take stops by itself). Export downloads the take as recorded in the browser; for an audio-file take, **Export MP4** has the engine render the portrait and the recording to a watermarked MP4. The telemetry drawer saves a diagnostics file.
 
 The test and diagnostics client (microphone or audio file, MP4 export of an uploaded recording) is at `/diagnostics/`.
 

@@ -14,15 +14,22 @@ export function SessionPanel({ s }: { s: StudioSession }) {
   const voiceConsent = useStudio((x) => x.voiceConsent);
   const engine = useEngineStatus();
   const count = useStudio((x) => x.sessions.length);
-  // Export = this browser's recording of the take (engine frames + the avatar's voice).
-  // The engine's /api/export renders uploaded recordings only, not live sessions.
-  const canExport = s.phase === "complete" && s.stats.framesReceived > 0 && !!s.recordingUrl;
+  const audioFile = useStudio((x) => x.audioFile);
+  // Microphone takes: Export = this browser's recording (engine frames + the avatar's voice).
+  // Audio-file takes: Export = an MP4 rendered by the engine from the portrait and the recording
+  // (POST /api/export); the browser recording stays available as WebM.
+  const done = s.phase === "complete" && s.stats.framesReceived > 0;
+  const fileTake = s.takeSource === "file";
+  const canExport = done && (fileTake ? !!audioFile : !!s.recordingUrl);
+  const busy = s.exporting || s.exportingMp4;
 
   const checks = [
     { ok: !!portrait, label: "Portrait uploaded" },
     { ok: consent, label: "Portrait consent confirmed" },
     { ok: voiceConsent, label: "Voice consent confirmed" },
-    { ok: s.mic.permission === "granted", label: "Microphone allowed", soft: true },
+    s.voiceSource === "file"
+      ? { ok: !!audioFile, label: audioFile ? "Audio file chosen" : "No audio file yet" }
+      : { ok: s.mic.permission === "granted", label: "Microphone allowed", soft: true },
     {
       ok: engine.status === "online",
       label:
@@ -69,23 +76,34 @@ export function SessionPanel({ s }: { s: StudioSession }) {
                 variant="hairline"
                 size="sm"
                 className="w-full"
-                disabled={!canExport || s.exporting}
-                onClick={s.doExport}
+                disabled={!canExport || busy}
+                onClick={fileTake ? s.doExportMp4 : s.doExport}
               >
-                {s.exporting ? <Loader2 className="animate-spin" /> : <Download />} Export
+                {busy ? <Loader2 className="animate-spin" /> : <Download />}{" "}
+                {s.exportingMp4 ? "Rendering MP4…" : fileTake ? "Export MP4" : "Export"}
               </Button>
             </span>
           </TooltipTrigger>
-          {!canExport && (
-            <TooltipContent>
-              Downloads this take as recorded in your browser, once a rendered session is complete
-            </TooltipContent>
-          )}
+          <TooltipContent>
+            {fileTake
+              ? "The engine renders the portrait and your recording to a watermarked MP4, with the emotion the take started with"
+              : "Downloads this take as recorded in your browser, once a rendered session is complete"}
+          </TooltipContent>
         </Tooltip>
         <Button variant="ghost" size="sm" onClick={s.reset} disabled={s.phase === "idle"}>
           <RotateCcw /> New take
         </Button>
       </div>
+      {done && fileTake && s.recordingUrl && (
+        <button
+          type="button"
+          onClick={s.doExport}
+          disabled={busy}
+          className="mt-2 text-[11.5px] text-muted-foreground underline underline-offset-2 hover:text-foreground"
+        >
+          Download the browser recording (WebM) instead
+        </button>
+      )}
       <p className="mt-3 text-[11.5px] leading-relaxed text-muted-foreground">
         The current engine doesn't keep session history. Takes from this visit are listed in{" "}
         <Link to="/app/sessions" className="text-foreground underline underline-offset-2">

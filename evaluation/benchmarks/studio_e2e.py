@@ -219,10 +219,17 @@ def run(url: str, portrait: str | None, mic_wav: str | None, speak_s: float, hea
 
         # 16. Sessions and Analytics show the real take (client-side navigation keeps the tab state)
         page.get_by_role("link", name="Sessions").first.click()
-        page.wait_for_timeout(800)
+        try:  # the page is a separately loaded chunk; over the network it can take a moment
+            page.get_by_text("take 1").first.wait_for(timeout=15000)
+        except Exception:  # noqa: BLE001 - reported by the check below
+            pass
         sessions_ok = page.get_by_text("take 1").count() > 0 and page.get_by_text("Real records · this tab").count() > 0
         page.get_by_role("link", name="Analytics").first.click()
-        page.wait_for_timeout(1200)
+        try:
+            page.get_by_text("Your latest take this visit").first.wait_for(timeout=15000)
+        except Exception:  # noqa: BLE001 - reported by the check below
+            pass
+        page.wait_for_timeout(800)
         analytics_ok = page.get_by_text("Your latest take this visit").count() > 0 and page.locator(".recharts-surface").count() >= 3
         check("16 Sessions and Analytics use the real take", sessions_ok and analytics_ok,
               {"sessions": sessions_ok, "analytics": analytics_ok})
@@ -232,7 +239,7 @@ def run(url: str, portrait: str | None, mic_wav: str | None, speak_s: float, hea
         # per-second counts recorded for the take must be plausible (25 per second expected; a
         # counter restarting at pause/resume would show the cumulative total instead)
         delivered = page.evaluate("() => window.__emostream.series().delivered")
-        check("16b per-second frame counts plausible across pause/resume", delivered and max(delivered) <= 32,
+        check("16b per-second frame counts plausible across pause/resume", delivered and max(delivered) <= 60,  # catch-up after resume reaches ~35; the reset bug showed ~350
               {"max_per_second": max(delivered) if delivered else None, "seconds": len(delivered)})
 
         # 17. no console errors during the session
@@ -272,6 +279,112 @@ def run(url: str, portrait: str | None, mic_wav: str | None, speak_s: float, hea
     return out
 
 
+def run_file(url: str, portrait: str | None, audio: str, headed: bool, downloads: str) -> dict:
+    """Audio-file take: the clip is streamed at speaking pace, played in step with the picture,
+    the take ends by itself, and Export renders an MP4 through the engine (/api/export)."""
+    from PIL import Image
+    from playwright.sync_api import sync_playwright
+
+    if portrait is None:
+        buf = io.BytesIO()
+        Image.new("RGB", (512, 512), (150, 120, 100)).save(buf, "PNG")
+        portrait = {"name": "portrait.png", "mimeType": "image/png", "buffer": buf.getvalue()}
+    os.makedirs(downloads, exist_ok=True)
+    checks: dict[str, dict] = {}
+
+    def check(name, ok, detail=None):
+        checks[name] = {"ok": bool(ok), "detail": detail}
+        print(("PASS " if ok else "FAIL ") + name + ("" if detail is None else f"  {detail}"), flush=True)
+
+    log: list[tuple[float, str, str, object]] = []
+
+    def on_ws(ws):
+        if not ws.url.endswith("/ws/session"):
+            return
+
+        def entry(direction):
+            def f(payload):
+                if isinstance(payload, (bytes, bytearray)):
+                    log.append((time.time(), direction, f"bin{payload[0]:#04x}", len(payload)))
+                else:
+                    try:
+                        m = json.loads(payload)
+                    except ValueError:
+                        m = {"type": "?"}
+                    log.append((time.time(), direction, m.get("type", "?"), m))
+            return f
+
+        ws.on("framesent", entry("out"))
+        ws.on("framereceived", entry("in"))
+
+    with sync_playwright() as p:
+        # no fake microphone: an audio-file take must not need one
+        browser = p.chromium.launch(headless=not headed)
+        ctx = browser.new_context(accept_downloads=True, viewport={"width": 1440, "height": 1000})
+        page = ctx.new_page()
+        page.add_init_script(HOOK)
+        page.add_init_script("""(() => { window.__gum = 0; const o = navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+          if (o) navigator.mediaDevices.getUserMedia = function (...a) { window.__gum++; return o.apply(this, a); }; })();""")
+        console = []
+        page.on("console", lambda m: console.append(f"{m.type}: {m.text}") if m.type == "error" else None)
+        page.on("websocket", on_ws)
+        page.goto(url.rstrip("/") + "/app/studio", wait_until="networkidle", timeout=180000)
+        page.set_input_files('input[aria-label="Upload portrait"]', portrait)
+        page.get_by_role("checkbox", name="Confirm portrait consent").click()
+
+        page.get_by_role("tab", name="Audio file").click()
+        start_btn = page.get_by_role("button", name="Start session")
+        no_file = start_btn.is_disabled()
+        page.set_input_files('input[aria-label="Upload audio file"]', audio)
+        page.get_by_text(os.path.basename(audio)).wait_for(timeout=20000)
+        page.get_by_role("checkbox", name="Confirm voice consent").click()
+        page.wait_for_timeout(200)
+        check("F1 audio-file tab: start needs a file, then is enabled", no_file and start_btn.is_enabled())
+
+        clicked = time.time()
+        start_btn.click()
+        page.get_by_text("Session complete").first.wait_for(timeout=300000)
+        ready = next((e for e in log if e[1] == "in" and e[2] == "ready"), None)
+        audio_msgs = [e for e in log if e[1] == "out" and e[2] == "bin0x01"]
+        before = [e for e in audio_msgs if ready and e[0] < ready[0]]
+        first_s = [e for e in audio_msgs if audio_msgs and e[0] - audio_msgs[0][0] < 1.0]
+        check("F2 no audio before ready; sent at speaking pace (200 ms chunks)",
+              ready and not before and audio_msgs and len(first_s) <= 7,
+              {"messages": len(audio_msgs), "first_second": len(first_s), "chunk_bytes": audio_msgs[0][3] if audio_msgs else None})
+        frames = [e for e in log if e[1] == "in" and e[2] == "bin0x03"]
+        check("F3 live H.264 frames drawn; take ended by itself with end/done",
+              len(frames) > 50 and page.evaluate("() => window.__draws.length") > 50
+              and any(e[2] == "end" for e in log if e[1] == "out") and any(e[2] == "done" for e in log if e[1] == "in"),
+              {"frames": len(frames), "seconds": round(time.time() - clicked, 1)})
+        check("F4 microphone never requested", page.evaluate("() => window.__gum") == 0)
+        off = page.evaluate("() => window.__emostream.player.stats().avOffsetMs")
+        check("F5 picture locked to the playback clock", off is not None and abs(off) < 80, {"av_offset_ms": off})
+
+        with page.expect_download(timeout=300000) as dl:
+            page.get_by_role("button", name="Export MP4").click()
+        mp4 = os.path.join(downloads, dl.value.suggested_filename)
+        dl.value.save_as(mp4)
+        head = open(mp4, "rb").read(12)
+        check("F6 Export MP4 rendered by the engine and downloaded",
+              mp4.endswith(".mp4") and os.path.getsize(mp4) > 10000 and head[4:8] == b"ftyp",
+              {"file": os.path.basename(mp4), "bytes": os.path.getsize(mp4)})
+        with page.expect_download(timeout=20000) as dl:
+            page.get_by_role("button", name="Download the browser recording (WebM) instead").click()
+        webm = os.path.join(downloads, dl.value.suggested_filename)
+        dl.value.save_as(webm)
+        check("F7 browser recording (WebM) also available", os.path.getsize(webm) > 10000, {"bytes": os.path.getsize(webm)})
+
+        page.get_by_role("link", name="Sessions").first.click()
+        try:
+            page.get_by_text("take 1").first.wait_for(timeout=15000)
+        except Exception:  # noqa: BLE001 - reported by the check below
+            pass
+        check("F8 Sessions lists the take as an audio-file take", page.get_by_text("Audio file").count() > 0)
+        check("F9 no console errors", not console, console[:5])
+        browser.close()
+    return {"file_checks": checks, "file_passed": sum(c["ok"] for c in checks.values()), "file_total": len(checks)}
+
+
 def route_checks(url: str) -> dict:
     """Pages and files as served by the backend, without a browser."""
     res = {}
@@ -301,12 +414,17 @@ def main():
     ap.add_argument("--seconds", type=float, default=20, help="speaking time before pause/stop checks")
     ap.add_argument("--headed", action="store_true")
     ap.add_argument("--downloads", default="outputs/studio_e2e")
+    ap.add_argument("--audio-file", default="", help="also run an audio-file take with this clip (MP4 export)")
     ap.add_argument("--out", default="")
     a = ap.parse_args()
     res = {"routes": route_checks(a.url)}
     res.update(run(a.url, a.portrait, a.mic_wav, a.seconds, a.headed, a.downloads))
+    if a.audio_file:
+        res.update(run_file(a.url, a.portrait, a.audio_file, a.headed, a.downloads))
     print(json.dumps({k: v for k, v in res.items() if k != "checks"}, indent=1)[:4000])
     print(f"{res['passed']}/{res['total']} checks passed")
+    if "file_total" in res:
+        print(f"{res['file_passed']}/{res['file_total']} audio-file checks passed")
     if a.out:
         with open(a.out, "w", encoding="utf-8") as f:
             json.dump(res, f, indent=1)

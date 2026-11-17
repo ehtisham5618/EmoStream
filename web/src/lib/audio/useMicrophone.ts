@@ -65,8 +65,12 @@ export function useMicrophone(
     };
   }, [refreshDevices]);
 
+  /** Capturing, or driven by an audio file (external levels). */
+  const activeRef = useRef(false);
+
   const teardown = useCallback(() => {
     window.clearInterval(timerRef.current);
+    activeRef.current = false;
     const cap = capRef.current;
     capRef.current = null;
     void cap?.stop().catch(() => undefined);
@@ -117,6 +121,41 @@ export function useMicrophone(
     }
   }, [opts.deviceId, refreshDevices, fail]);
 
+  /** Level meter, waveform history and elapsed time, from rmsRef every 50 ms. */
+  const beginMetering = useCallback(() => {
+    window.clearInterval(timerRef.current);
+    activeRef.current = true;
+    accRef.current = 0;
+    startedRef.current = performance.now();
+    pausedRef.current = false;
+    rmsRef.current = 0;
+    setHistory([]);
+    logRef.current = [];
+    setElapsed(0);
+    timerRef.current = window.setInterval(() => {
+      if (pausedRef.current) return;
+      const v = Math.min(1, Math.pow(rmsRef.current * 4, 0.7));
+      setLevel(v);
+      logRef.current.push(v);
+      setHistory((h) => (h.length >= HISTORY ? [...h.slice(1), v] : [...h, v]));
+      setElapsed(accRef.current + performance.now() - startedRef.current);
+    }, 50);
+    setState("recording");
+  }, []);
+
+  /**
+   * Audio-file sessions: no capture, the caller reports the level of what it sends
+   * (`setExternalLevel`), so the meter, waveform and timeline work the same way.
+   */
+  const startExternal = useCallback(() => {
+    setError(undefined);
+    beginMetering();
+  }, [beginMetering]);
+
+  const setExternalLevel = useCallback((rms: number) => {
+    rmsRef.current = rms;
+  }, []);
+
   const start = useCallback(async (): Promise<boolean> => {
     setError(undefined);
     setState("requesting");
@@ -133,31 +172,17 @@ export function useMicrophone(
       capRef.current = cap;
       setPermission("granted");
       refreshDevices();
-      accRef.current = 0;
-      startedRef.current = performance.now();
-      pausedRef.current = false;
-      setHistory([]);
-      logRef.current = [];
-      setElapsed(0);
-      timerRef.current = window.setInterval(() => {
-        if (pausedRef.current) return;
-        const v = Math.min(1, Math.pow(rmsRef.current * 4, 0.7));
-        setLevel(v);
-        logRef.current.push(v);
-        setHistory((h) => (h.length >= HISTORY ? [...h.slice(1), v] : [...h, v]));
-        setElapsed(accRef.current + performance.now() - startedRef.current);
-      }, 50);
-      setState("recording");
+      beginMetering();
       return true;
     } catch (e) {
       teardown();
       fail(e);
       return false;
     }
-  }, [opts.deviceId, refreshDevices, teardown, fail]);
+  }, [opts.deviceId, refreshDevices, teardown, fail, beginMetering]);
 
   const pause = useCallback(() => {
-    if (!capRef.current || pausedRef.current) return;
+    if (!activeRef.current || pausedRef.current) return;
     pausedRef.current = true;
     accRef.current += performance.now() - startedRef.current;
     setLevel(0);
@@ -165,14 +190,14 @@ export function useMicrophone(
   }, []);
 
   const resume = useCallback(() => {
-    if (!capRef.current || !pausedRef.current) return;
+    if (!activeRef.current || !pausedRef.current) return;
     pausedRef.current = false;
     startedRef.current = performance.now();
     setState("recording");
   }, []);
 
   const stop = useCallback(() => {
-    if (capRef.current && !pausedRef.current)
+    if (activeRef.current && !pausedRef.current)
       accRef.current += performance.now() - startedRef.current;
     pausedRef.current = false;
     setElapsed(accRef.current);
@@ -202,6 +227,8 @@ export function useMicrophone(
     error,
     probe,
     start,
+    startExternal,
+    setExternalLevel,
     pause,
     resume,
     stop,

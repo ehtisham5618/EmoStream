@@ -45,6 +45,40 @@ export interface SessionSummary {
   latencyMs: number[];
   /** Intensity (0–100) of each emotion setting used in the take. */
   intensities: number[];
+  /** What drove the take. */
+  source: VoiceSource;
+}
+
+export type VoiceSource = "mic" | "file";
+
+/** A recorded clip chosen as the voice. Kept in this tab's memory only, never stored. */
+export interface AudioClip {
+  file: File;
+  name: string;
+  sizeBytes: number;
+  durationS: number;
+}
+
+export const AUDIO_RULES = {
+  /** The engine's /api/export accepts up to 30 MB and renders the first 180 s. */
+  maxBytes: 30 * 1024 * 1024,
+  exportSeconds: 180,
+  /** A live session is limited to 15 minutes of audio. */
+  liveSeconds: 900,
+};
+
+export function validateAudioFile(file: {
+  type: string;
+  size: number;
+  name: string;
+}): string | null {
+  const looksAudio =
+    file.type.startsWith("audio/") ||
+    /\.(wav|mp3|m4a|aac|ogg|oga|opus|flac|webm|mpeg)$/i.test(file.name);
+  if (!looksAudio) return "Use an audio file: WAV, MP3, M4A, OGG, FLAC or WebM.";
+  if (file.size > AUDIO_RULES.maxBytes)
+    return "That recording is over 30 MB. Use a shorter or compressed copy.";
+  return null;
 }
 
 export interface StudioState {
@@ -54,6 +88,9 @@ export interface StudioState {
   consent: boolean;
   /** Voice consent: the user agrees to their microphone audio being sent to the engine. */
   voiceConsent: boolean;
+  /** Microphone (live) or a recorded audio file streamed at speaking pace. */
+  voiceSource: VoiceSource;
+  audioFile: AudioClip | null;
   emotion: EmotionId;
   intensity: number;
   /** Sessions run in this browser tab. The engine does not persist history. */
@@ -67,6 +104,8 @@ const INITIAL: StudioState = {
   avatarName: "Untitled avatar",
   consent: false,
   voiceConsent: false,
+  voiceSource: "mic",
+  audioFile: null,
   emotion: s.defaultEmotion,
   intensity: s.defaultIntensity,
   sessions: [],
@@ -99,11 +138,16 @@ export function validatePortraitSize(w: number, h: number): string | null {
 }
 
 /** Can a session start? Portrait present, both consents given, face not rejected. */
-export function canStartSession(st: Pick<StudioState, "portrait" | "consent" | "voiceConsent">) {
+export function canStartSession(
+  st: Pick<StudioState, "portrait" | "consent" | "voiceConsent"> &
+    Partial<Pick<StudioState, "voiceSource" | "audioFile">>,
+) {
   if (!st.portrait) return { ok: false, reason: "Upload a portrait to create your avatar." };
   if (!st.consent) return { ok: false, reason: "Confirm consent for this portrait first." };
+  if (st.voiceSource === "file" && !st.audioFile)
+    return { ok: false, reason: "Choose an audio file to drive the avatar." };
   if (!st.voiceConsent)
-    return { ok: false, reason: "Confirm consent for sending your voice to the engine." };
+    return { ok: false, reason: "Confirm consent for sending the voice to the engine." };
   if (st.portrait.faceCheck === "not-found")
     return { ok: false, reason: "No face was found. Try a clearer, front-facing photo." };
   if (st.portrait.faceCheck === "multiple")

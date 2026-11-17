@@ -10,7 +10,7 @@ Deployed: `https://abdulmat40--emostream-v2-live-web.us-east.modal.run` (Modal p
 
 ## 2. Source
 
-`C:\Users\ehtis\Downloads\EmoStream_UI\task-finish-companion-main` (folder). Copied unchanged into `web/` and committed as delivered (`67ed6ce`), so every later change is a reviewable diff. The original folder was not modified.
+`C:\Users\ehtis\Downloads\EmoStream_UI\task-finish-companion-main` (folder). Copied unchanged into `web/` and committed as delivered, so every later change is a reviewable diff. The original folder was not modified.
 
 ## 3. What the delivered UI was
 
@@ -64,7 +64,8 @@ There is one implementation of the wire protocol. The shared files received type
 | Hear the avatar's voice | `SyncedVoice` monitor gain: the sent audio, played at the picture's timeline; headphone advice next to the switch. The context is created inside the Start click (autoplay rules); the microphone is never routed to the speakers (no double playback) |
 | Pause / Resume | No audio sent while paused (the last partial chunk is flushed first); the picture holds |
 | Stop | Remaining audio, `end`, wait for `done`, play out the buffer, close |
-| Export | Downloads the browser's recording of the take (canvas + synced voice, WebM). The engine's `/api/export` renders uploaded recordings only, so it is not used for live takes |
+| Audio file (Voice → "Audio file") | The clip is decoded to 16 kHz before the session opens (the microphone is never requested), then sent from `ready` at speaking pace in 200 ms chunks, played locally from the moment frame 0 is shown, and the picture is locked to the playback clock (`FramePlayer` synced mode). The take ends by itself (`end` → `done`). Pause stops the feed and suspends playback |
+| Export | Microphone takes: the browser's recording (canvas + synced voice, WebM). Audio-file takes: **Export MP4**, rendered by the engine from the same portrait crop and the file (`POST /api/export`, multipart, both consents, the emotion the take started with, first 180 s); the WebM stays available as a second download |
 | Errors | Engine codes mapped to plain messages (`busy`, `no_face`, `client_outdated`, `session_too_long`, …); connection loss → "Connection lost" with Reconnect |
 
 Engine address: empty by default, which means the page's own origin. `VITE_ENGINE_URL` can set it at build time, and Settings can override it. The production URL is not written in any component. No secrets or tokens exist on the client side.
@@ -81,6 +82,7 @@ Each change below uses the delivered components and styles:
   - Peak VRAM shows "—": the engine does not report TensorRT memory per session.
 
   A second row was added: voice ↔ lips offset, share within 80 ms, avatar delay, server p95, video bitrate and codec, startup time, frames skipped by server and network, and uplink lag. Also added: **Save diagnostics file**.
+- **Audio file** tab (added 17 Nov, at the user's request; it was a coming-soon dialog in the delivered design): file picker in the style of the portrait drop area, file name, duration and size, replace; consent text worded for a recording; level meter, waveform and timeline driven by the audio being sent; "Export MP4" plus a WebM link after the take. Sessions shows the take's input source.
 - Removed: the 450 ms artificial "preparing" delay after upload, and the "preview" mode (microphone running with no engine).
 - Stage overlays show the real startup stage; the bottom strip says "Not streaming" instead of "Engine off".
 
@@ -126,7 +128,7 @@ Portrait and voice consent are required: in the UI, and also by the engine (unch
 | `eslint` web | 0 errors, 10 warnings (react-refresh notes in delivered UI files) |
 | Production builds | both succeed; shared build id verified |
 
-Prettier was applied to `web/` as a separate whitespace-only commit (`8694b9a`); the delivered files already failed it.
+Prettier was applied to `web/` as a separate whitespace-only commit; the delivered files already failed it.
 
 ## 12. Browser end-to-end (`evaluation/benchmarks/studio_e2e.py`)
 
@@ -170,6 +172,10 @@ Deployed measurements (3 runs, about 24 s each including a 2.5 s pause):
 
 In the third run the out-of-tolerance frames were spread across the take, not concentrated at pause/resume. The worse second run is not explained; network variation on this connection is the likely cause, but that is not verified.
 
+**Audio-file take** (`--audio-file`, 9 checks: tab and file gating; no audio before `ready` and 200 ms chunks at speaking pace; frames drawn and the take ending by itself with `end`/`done`; microphone never requested; picture within 80 ms of the playback clock; Export MP4 is a real MP4; WebM also available; Sessions shows "Audio file"; no console errors). Local stand-in: 9/9 (its MP4 is an ffmpeg stand-in: solid picture + the audio). Deployed L40S, 10 s of your recording: 9/9 in two runs; picture offset to the playback clock −32 and −2 ms; the MP4 is 512×512 H.264 + AAC, 10.0 s, your portrait with the "AI-generated" label (checked by eye on a frame), 1.2 MB.
+
+The first run after a fresh deployment failed checks 08 and 11: first frame 9.8 s after the click, 27 frames, no emotion acknowledgement; the first session on a new container was slow. The next runs on the same container passed. The two later microphone runs: voice and lips within 80 ms for 85.3 % and 94.8 % of frames, 553 and 550 frames with 3 skipped each.
+
 Regression: the diagnostics client at `/diagnostics/` on the deployed worker gave 24.6 pictures per second, 94.7 % within 80 ms, no errors.
 
 Not tested: a cold start through the new UI (the worker was warm), Firefox and Safari, a real person with a real microphone, mobile devices (only phone-width rendering, section 13), long sessions.
@@ -190,7 +196,7 @@ The delivered commit was run with `vite dev` and the integrated build on the loc
 ## 15. Known limitations
 
 - Export downloads the browser's WebM recording, not an MP4 rendered by the engine.
-- Audio-file input is not offered in the Studio; it is available in `/diagnostics/`. In the Studio it is marked as planned.
+- The MP4 export uses one emotion setting (the one the take started with); emotion changes made during the live take are only in the WebM recording. It renders the first 180 s.
 - Peak GPU memory per session is not reported.
 - Sessions and Analytics reset when the tab closes, because nothing is stored.
 - A configured engine on another origin works for the WebSocket, but `/api/info` from the page would need CORS, which the backend does not send.
@@ -202,4 +208,4 @@ TTS/LLM input, product features beyond this UI (saved history, accounts), RTX 40
 
 ## 17. Commits
 
-`67ed6ce` UI as delivered · `f1c2868` engine connection, serving, honest content · `8694b9a` formatting · `625937c` browser test, visual comparison, HEAD routes, per-second counter fix, docs · the final commit adds the build-script fix and this report.
+On branch `iteration/lovable-ui-integration`, in order: the UI as delivered; engine connection, serving and honest content; Prettier formatting (whitespace only); browser test, visual comparison, HEAD routes and the per-second counter fix; the diagnostics base-path fix and this report; audio-file input with MP4 export.

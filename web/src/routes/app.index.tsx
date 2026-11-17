@@ -48,8 +48,16 @@ const FEATURES: {
     note: "Five emotions, 0–100%, adjustable mid-session",
   },
   { name: "Rendered avatar stream", status: "engine", note: "Needs a running EmoStream engine" },
-  { name: "Export of a take", status: "engine", note: "Through the engine's /api/export" },
-  { name: "Audio file input", status: "planned", note: "Not confirmed on the current engine" },
+  {
+    name: "Export of a take",
+    status: "engine",
+    note: "Browser recording (WebM); MP4 rendered by the engine for audio-file takes",
+  },
+  {
+    name: "Audio file input",
+    status: "engine",
+    note: "A recording streamed at speaking pace, played in step with the picture",
+  },
   {
     name: "Saved avatars & session history",
     status: "planned",
